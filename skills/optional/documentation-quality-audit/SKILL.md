@@ -1,6 +1,6 @@
 ---
 name: documentation-quality-audit
-description: Audits docs for semantic debt: stale, misleading, duplicated, over-routed, too historical, or no longer useful to agents and humans. Use when checking whether documentation still helps current work or is misleading agents.
+description: "Audits docs for semantic debt: stale, misleading, duplicated, over-routed, too historical, or no longer useful to agents and humans. Use when checking whether documentation still helps current work or is misleading agents."
 maturity: level-4
 install_when: Docs route agents, docs are drifting, agents are misled by prose, or maintainability reviews repeatedly find documentation debt.
 repo_specific_adaptation: Active doc paths, historical/provenance paths, source-of-truth code areas, doc routing maps, and approval rules for removal.
