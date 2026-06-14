@@ -1,0 +1,10 @@
+.DS_Store
+.harness-bootstrap/
+.agent/
+.env*
+secrets/
+*.key
+*.pem
+*.p12
+*.pfx
+*.tmp

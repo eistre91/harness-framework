@@ -1,0 +1,59 @@
+name: optional-assets
+description: Optional harness assets. Install only when repo evidence or human preference justifies them.
+assets:
+  - id: claude-entrypoint
+    asset_type: installable
+    source: templates/core/CLAUDE.md
+    default_target: CLAUDE.md
+    maturity: level-0
+    category: platform-pointer
+    install_when: The target repo uses Claude Code or the human wants Claude Code support.
+    adapt:
+      - keep content as "@AGENTS.md"; put shared behavior in AGENTS.md
+  - id: component-brief
+    asset_type: installable
+    source: templates/optional/docs/harness/component-brief.md
+    default_target: docs/harness/component-brief.md
+    maturity: level-1
+    category: harness-governance
+    install_when: The team expects to add or modify harness components over time.
+  - id: maintainability-signals
+    asset_type: installable
+    source: templates/optional/docs/harness/maintainability.md
+    default_target: docs/harness/maintainability.md
+    maturity: level-4
+    install_when: The repo has repeated maintainability, harness, cognitive, or semantic debt signals.
+  - id: diagnose-skill
+    asset_type: installable
+    source: skills/optional/diagnose/SKILL.md
+    default_target: .agents/skills/diagnose/SKILL.md
+    maturity: level-1
+    install_when: Agents will debug bugs, failing tests, flaky behavior, or regressions.
+  - id: documentation-quality-audit-skill
+    asset_type: installable
+    source: skills/optional/documentation-quality-audit/SKILL.md
+    default_target: .agents/skills/documentation-quality-audit/SKILL.md
+    maturity: level-4
+    install_when: Docs route agents, docs are drifting, or agents are misled by documentation.
+adapters:
+  - id: codex
+    asset_type: adapter
+    source: adapters/codex
+    install_when: The target repo uses Codex hooks or Codex-specific local config.
+    read_before_install:
+      - docs/platform-support.md
+      - docs/platforms/codex.md
+  - id: claude
+    asset_type: adapter
+    source: adapters/claude
+    install_when: The target repo uses Claude Code settings or hooks beyond the core CLAUDE.md pointer.
+    read_before_install:
+      - docs/platform-support.md
+      - docs/platforms/claude-code.md
+  - id: pre-commit
+    asset_type: adapter
+    source: adapters/pre-commit
+    install_when: The target repo uses pre-commit or wants local deterministic checks before commit.
+    read_before_install:
+      - docs/platform-support.md
+      - adapters/pre-commit/README.md

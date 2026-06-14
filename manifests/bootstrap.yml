@@ -1,0 +1,47 @@
+name: bootstrap
+description: Assets used while fitting this framework to a target repo. These usually should not remain installed in the target repo.
+assets:
+  - id: framework-doc
+    asset_type: bootstrap
+    source: docs/framework.md
+    use_when: Understanding the framework principles and maturity model.
+  - id: implementation-guide
+    asset_type: bootstrap
+    source: docs/implementation-guide.md
+    use_when: Applying the harness to a target repo.
+  - id: maturity-model
+    asset_type: bootstrap
+    source: docs/maturity-model.md
+    use_when: Choosing current and target harness maturity.
+  - id: portable-assets
+    asset_type: bootstrap
+    source: docs/portable-assets.md
+    use_when: Distinguishing bootstrap, installable, optional, and adapter assets.
+  - id: platform-support
+    asset_type: bootstrap
+    source: docs/platform-support.md
+    use_when: Adding platform-specific support such as hooks, settings, skill adapters, or cross-tool behavior.
+  - id: codex-platform-support
+    asset_type: bootstrap
+    source: docs/platforms/codex.md
+    use_when: Adding Codex-specific hooks, config, or skill loading support.
+  - id: claude-code-platform-support
+    asset_type: bootstrap
+    source: docs/platforms/claude-code.md
+    use_when: Adding Claude Code-specific hooks, settings, native skills, or instruction loading support.
+  - id: harness-fit-skill
+    asset_type: bootstrap
+    source: skills/core/harness-fit/SKILL.md
+    use_when: Guiding an agent through the collaborative Harness Fit Proposal process.
+  - id: level-0-manifest
+    asset_type: bootstrap
+    source: manifests/level-0.yml
+    use_when: Selecting default installable starter assets.
+  - id: level-1-manifest
+    asset_type: bootstrap
+    source: manifests/level-1.yml
+    use_when: Selecting additive assets and behaviors for bounded work execution.
+  - id: optional-assets-manifest
+    asset_type: bootstrap
+    source: manifests/optional-assets.yml
+    use_when: Selecting optional pull-ins justified by repo evidence.

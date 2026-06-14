@@ -1,0 +1,39 @@
+name: level-1
+description: Additive asset and behavior set for bounded agent work execution.
+base: manifests/level-0.yml
+install_policy: Install after Level 0 when repo evidence shows work needs stronger executable scope, acceptance evidence, or implementation guidance.
+definition:
+  - use Agent Work Brief tiers intentionally
+  - require explicit non-goals when scope could sprawl
+  - require ambiguity and decision notes when product or interface choices affect implementation
+  - require boundary/interface sections for public APIs, CLIs, integrations, modules, jobs, file formats, or other consumed surfaces
+  - require acceptance evidence for externally visible or boundary-changing behavior
+  - keep progress/divergence state in the canonical brief location when work spans sessions or departs from the original plan
+assets:
+  - id: implement-skill
+    asset_type: installable
+    source: skills/core/implement/SKILL.md
+    default_target: .agents/skills/implement/SKILL.md
+    required: true
+    adapt:
+      - repo verification command
+      - project context paths
+      - test conventions
+      - project-specific implementation risks
+  - id: work-brief-skill
+    asset_type: installable
+    source: skills/core/work-brief/SKILL.md
+    default_target: .agents/skills/work-brief/SKILL.md
+    required_when: Agents will help transform tracker items, issues, planning notes, or chat requests into executable Agent Work Briefs.
+    adapt:
+      - canonical brief location
+      - tracker conventions
+      - required acceptance evidence
+      - project context paths
+not_part_of_level_definition:
+  - diagnose skill
+  - hooks or automatic verification
+  - SPEC-MAP.md
+  - CONTEXT.md
+  - .harness.yml
+  - maintainability sensors
