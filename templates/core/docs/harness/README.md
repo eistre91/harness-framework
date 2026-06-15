@@ -12,10 +12,15 @@ implementation unless the task is about the harness itself.
 
 ## Provenance
 
-Source framework:
+Source framework: harness-framework
+Source version or commit, if known:
 Installed on:
 Installed by:
-Harness Fit Proposal plan:
+Temporary Harness Fit Proposal path, if any:
+Durable Harness Fit Proposal or decision log:
+
+Use portable source names in committed docs. Keep local paths such as
+`../harness-framework` in temporary proposals or transcripts only.
 
 For significant harness changes, consult the source framework docs or run a
 fresh harness-fit pass before adding process.
@@ -23,61 +28,75 @@ fresh harness-fit pass before adding process.
 ## Current Harness Maturity
 
 Target level:
+Installation mode: canonical / starter / overlay
+Installation completeness:
+Behavioral completeness:
 
 Why:
 
 Intentionally deferred:
 
+Use precise maturity wording. If this is a partial starter install, do not
+describe the repo as simply "Level 1." Prefer:
+
+```text
+Target maturity: Level 1 bounded work execution.
+Installation mode: starter.
+Installation completeness: partial, not full canonical Level 1.
+```
+
+## Existing Harness Components
+
+Record overlapping pre-existing components and the decision made during
+installation.
+
+| Component | Appears to do | Harness principle satisfied | Handling | Revisit signal |
+| --- | --- | --- | --- | --- |
+|  |  |  | thread through / adapt / supersede / leave alone / defer |  |
+
+## Skill And Command Conflict Decisions
+
+Harness-provided skills use the `harness-` prefix by default so their
+provenance is visible and they do not collide with generic platform or team
+skills.
+
+| Platform or path | Skill or command | Overlap | Decision |
+| --- | --- | --- | --- |
+|  |  | review / implement / work brief / diagnose-debug / run-verify / other |  |
+
+For Claude Code, record whether bundled skills such as `/code-review`,
+`/debug`, `/run`, and `/verify` should remain enabled, be documented as
+secondary to repo-specific guidance, or be disabled by the human's Claude Code
+settings.
+
 ## Installed Harness Pieces
 
 Update this section during installation so it records the target repo's actual
 installed harness. It is a local inventory, not the source framework's
-canonical asset list.
+canonical asset list. For the canonical source asset list, consult the source
+framework manifests:
 
-- `AGENTS.md`: repo entrypoint for agents. Keep it short and focused on where
-  work comes from, how verification runs, where context lives, and what safety
-  rules apply.
-- `scripts/verify.sh`: canonical local verification command. Keep it aligned
-  with existing repo checks and CI where practical.
-- `docs/harness/README.md`: this local owner’s manual for the harness.
-- `docs/harness/work-brief.md`: template for turning work into an executable
-  agent brief with goal, value target, scope, context, verification, and
-  acceptance evidence.
-- `.agents/skills/review/SKILL.md`: findings-led review lens for checking
-  requested value, scope, bugs, tests, maintainability, evidence, and review
-  independence.
+- `manifests/level-0.yml`
+- `manifests/level-1.yml`
+- `manifests/optional-assets.yml`
+
+| Piece | Status | Purpose | Notes |
+| --- | --- | --- | --- |
+|  | installed / already satisfied / adapted / deferred / excluded |  |  |
 
 ## Conditional Platform Pointers
 
 - `CLAUDE.md`: install only when Claude Code support is desired. Keep it as
   `@AGENTS.md` so shared behavior stays in one entrypoint.
 
-## Level 1 Additive Components
+## Deferred Or Excluded Components
 
-Install these when the target maturity is Level 1.
+Use the final Harness Fit Proposal or source framework manifests to populate
+this table. Do not copy the canonical manifest here.
 
-- `.agents/skills/implement/SKILL.md`: implementation guidance for working
-  from briefs.
-- `.agents/skills/work-brief/SKILL.md`: guidance for turning tracker items,
-  issues, or chat requests into Agent Work Briefs when agents will shape work.
-
-## Optional Components
-
-Before installation, use the source framework manifests to decide which
-optional components are justified. After installation, keep only the optional
-components that matter to this repo.
-
-- `docs/harness/component-brief.md`: use before adding a harness component.
-  Record value, add signal, cost, and remove/simplify signal.
-- `docs/harness/maintainability.md`: lightweight periodic sensor for repeated
-  technical, harness, cognitive, or semantic debt.
-- `.agents/skills/diagnose/SKILL.md`: disciplined debugging loop.
-- `.agents/skills/documentation-quality-audit/SKILL.md`: audit active docs for
-  stale or misleading guidance.
-- `SPEC-MAP.md`: optional implementation task router. Add only when project
-  docs are numerous enough that agents need routing help.
-- `CONTEXT.md`: optional short glossary. Add only when domain vocabulary causes
-  repeated confusion.
+| Component | Status | Reason | Revisit signal |
+| --- | --- | --- | --- |
+|  | deferred / excluded |  |  |
 
 ## Maintenance Rules
 
@@ -88,6 +107,18 @@ components that matter to this repo.
 - Keep shared behavior in `AGENTS.md`, `scripts/verify.sh`, work brief
   templates, and shared skills. Keep tool-specific adapters thin.
 - Prefer executable checks and concrete acceptance evidence over prose.
+- For secrets management changes, verify declarations, aliases, permissions,
+  redaction, and runtime wiring without printing, revealing, inspecting, or
+  directly handling secret values.
 - If project docs are added later, give active docs a short audience and use
   trigger so future agents can tell quickly whether they are reading the right
   file.
+
+## Communication Audit
+
+Update after installation and after significant harness changes.
+
+- A fresh agent can now understand:
+- A fresh agent may still misunderstand:
+- Terms that need clearer wording:
+- Deferred decisions that must not be mistaken for completed maturity:

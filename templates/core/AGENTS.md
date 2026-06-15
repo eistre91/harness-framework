@@ -14,6 +14,13 @@ description / chat for tiny work>.
 
 Allowed temporary draft location: <none / .agent/work / docs/work / other>.
 
+Commit policy for work brief instances: <commit / gitignore / explicit approval
+required>.
+
+If the canonical brief location is external and unavailable, use the local
+fallback only as temporary state. Copy durable progress, evidence, blockers,
+and plan changes back to the canonical location before handoff.
+
 Lifecycle/status updates: <where Draft -> Ready For Implementation ->
 Implemented -> Verified -> Reviewed is recorded>.
 
@@ -41,6 +48,19 @@ If the command fails, report the failure and do not claim the work is done.
 
 Report both mechanical verification and acceptance evidence. If behavior did
 not change, say acceptance evidence is not applicable.
+
+Also report manual evidence when behavior changes externally visible output,
+runtime boundaries, secrets management, schedules, deployment behavior, or
+integrations. For secrets management changes, verify declarations, aliases,
+permissions, redaction, and runtime wiring without printing, revealing,
+inspecting, or directly handling secret values.
+
+## Skills
+
+Harness-provided skills, if installed, use the `harness-` prefix, such as
+`harness-review`, `harness-implement`, `harness-work-brief`, or
+`harness-diagnose`. Existing platform-native skills or commands may also be
+available; use the repo-specific decision recorded during installation.
 
 ## Review Independence
 

@@ -17,6 +17,10 @@ Default guidance:
   Claude Code support,
 - keep `CLAUDE.md` as `@AGENTS.md`,
 - do not duplicate the whole harness in multiple agent entrypoints,
+- audit bundled Claude Code skills such as `/code-review`, `/debug`, `/run`,
+  and `/verify` before adding overlapping project or harness skills,
+- tell the human that bundled skills can be disabled with
+  `disableBundledSkills` or `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS` if desired,
 - use this adapter only for Claude-specific settings or hooks beyond that
   pointer file,
 - keep Claude-specific behavior aligned with Codex, pre-commit, and CI where

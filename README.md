@@ -44,9 +44,10 @@ Then ask an agent:
 
 ```text
 Use ../harness-framework/docs/implementation-guide.md to fit a minimal harness
-to this repo. Inspect this repo first, present a Harness Fit Proposal before
-editing, persist that proposal as an installation plan under /tmp by default,
-and install only the assets justified by the proposal.
+to this repo. Inspect this repo first, write and persist a Harness Fit Proposal
+under /tmp by default, present the exact proposal text before editing, ask for
+explicit approval or corrections, install only the approved assets, and record
+the final proposal or equivalent decision log under docs/harness/.
 ```
 
 ### Option B: Temporary Bootstrap Directory
@@ -56,10 +57,11 @@ an agent:
 
 ```text
 Use .harness-bootstrap/docs/implementation-guide.md to fit a minimal harness to
-this repo. Inspect this repo first, present a Harness Fit Proposal before
-editing, persist that proposal as an installation plan under /tmp by default,
-install only the justified assets, and remove .harness-bootstrap/ after
-installation.
+this repo. Inspect this repo first, write and persist a Harness Fit Proposal
+under /tmp by default, present the exact proposal text before editing, ask for
+explicit approval or corrections, install only the approved assets, record the
+final proposal or equivalent decision log under docs/harness/, and remove
+.harness-bootstrap/ after installation.
 ```
 
 ### Expected First Install
@@ -67,6 +69,10 @@ installation.
 Most first trials should install only the Level 0 assets from
 `manifests/level-0.yml`. The agent should adapt those files to the target repo
 and explicitly defer anything else.
+
+If a first trial targets Level 1 behavior without installing every canonical
+Level 1 manifest asset, describe it as a partial starter fit, not simply a
+"Level 1 harness."
 
 ## Asset Types
 

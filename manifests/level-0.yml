@@ -13,6 +13,7 @@ assets:
       - temporary draft location
       - lifecycle/status update location
       - project context path
+      - installed harness skill names and platform-specific skill conflicts
   - id: verification-script
     asset_type: installable
     source: templates/core/scripts/verify.sh
@@ -30,8 +31,20 @@ assets:
     adapt:
       - source framework provenance
       - target maturity
+      - installation mode and completeness
       - installed files
       - intentional deferrals
+      - existing harness component decisions
+      - post-install communication audit
+  - id: harness-fit-proposal-record
+    asset_type: installable
+    source: templates/core/docs/harness/fit-proposal.md
+    default_target: docs/harness/fit-proposal.md
+    required_when: The team chooses a separate durable fit proposal file instead of embedding the final decision log in docs/harness/README.md.
+    adapt:
+      - final approved proposal
+      - decisions changed after human review
+      - temporary proposal path if useful, labeled temporary
   - id: work-brief-template
     asset_type: installable
     source: templates/core/docs/harness/work-brief.md
@@ -40,13 +53,23 @@ assets:
     adapt:
       - required acceptance evidence for the repo's work types
       - tracker references if useful
+  - id: work-brief-fallback-gitignore
+    asset_type: behavior
+    required_when: A local work brief fallback directory is introduced and brief instances are not explicitly approved for commit.
+    satisfy_by:
+      - Add the fallback directory, such as .agent/work/, to .gitignore.
+      - Or record explicit human approval that work brief instances may be committed.
+    adapt:
+      - local fallback path
+      - commit policy for work brief instances
   - id: review-guidance
     asset_type: installable
-    source: skills/core/review/SKILL.md
-    default_target: .agents/skills/review/SKILL.md
+    source: skills/core/harness-review/SKILL.md
+    default_target: .agents/skills/harness-review/SKILL.md
     required: true
     adapt:
       - project-specific review risks
+      - existing review skills or platform review commands
 defer_by_default:
   - hooks
   - platform pointer files for unused tools

@@ -43,6 +43,13 @@ For repo-scoped skills, Codex scans `.agents/skills` from the working directory
 up to the repository root. Keep shared harness skills there unless the target
 repo has a stronger local convention.
 
+Use self-explaining harness skill names such as `harness-review`,
+`harness-implement`, `harness-work-brief`, and `harness-diagnose` by default.
+Before installing them, audit existing `.agents/skills` entries for generic or
+overlapping names such as `review`, `implement`, `debug`, `diagnose`, `run`,
+or `verify`, and record whether the harness skill is merged, adapted,
+supersedes the existing skill, or is deferred.
+
 ## Project Config
 
 Codex project config lives under `.codex/`:

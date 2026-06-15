@@ -56,10 +56,14 @@ Every installation should adapt:
 
 - work source,
 - canonical Agent Work Brief location,
+- local work brief fallback and commit policy,
 - verification commands,
 - project context paths,
 - sensitive file patterns,
-- project-specific skill guidance under `.agents/skills`,
+- project-specific skill guidance under `.agents/skills`, using
+  self-explaining harness names such as `harness-review` unless adapting to an
+  existing convention,
+- existing platform skill or command conflicts,
 - adapter choice,
 - acceptance evidence standards.
 

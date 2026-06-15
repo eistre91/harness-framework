@@ -106,6 +106,17 @@ Keep reusable workflow content in one source location. If a platform requires a
 different discovery path, add a mirror, wrapper, symlink, generator, or install
 step rather than manually maintaining two skill bodies.
 
+Harness-provided skills should use self-explaining names such as
+`harness-review`, `harness-implement`, `harness-work-brief`, and
+`harness-diagnose` unless the target repo has a stronger naming convention.
+Avoid generic names such as `review` when they could collide with platform,
+plugin, personal, or team skills.
+
+During installation, audit existing platform skills and commands for overlap
+with review, implementation, work-brief, diagnose/debug, run, and verify
+workflows. Record whether each overlapping item is merged, adapted,
+superseded, left alone, or deferred.
+
 Skill descriptions are part of the runtime contract. Keep them concise and
 front-load the trigger condition so platforms can select the right skill from
 frontmatter or metadata without always loading the full instructions.

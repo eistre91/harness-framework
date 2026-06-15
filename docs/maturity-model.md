@@ -3,6 +3,37 @@
 Use this model diagnostically. Higher maturity is not automatically better. A
 small repo may be healthiest at Level 0 or Level 1 for a long time.
 
+Maturity level is not the same as installation completeness. A target repo can
+be aimed at Level 1 behavior without installing every canonical Level 1 asset.
+Every install should state three separate claims:
+
+- target maturity: the behavior the repo is being fitted toward,
+- asset completeness: whether the canonical manifest assets for that level are
+  fully installed, partially installed, already satisfied, adapted, deferred, or
+  excluded,
+- behavioral completeness: whether humans and agents can actually follow the
+  intended workflow with the installed surfaces.
+
+Use these installation modes:
+
+- `canonical`: install or adapt every required manifest asset and behavior for
+  the target level unless the proposal proves an existing component already
+  satisfies it.
+- `starter`: install a deliberately partial subset that closes the highest
+  value gaps, with explicit deferrals and revisit signals.
+- `overlay`: apply harness principles through existing repo conventions with
+  little or no new asset creation.
+
+When an install is partial, do not describe the repo as simply "Level 1" or
+"Level 2." Prefer:
+
+```text
+Target maturity: Level 1 bounded work execution.
+Installation mode: starter.
+Installation completeness: partial, not full canonical Level 1.
+Deferred manifest assets are listed with reasons and revisit signals.
+```
+
 This document is the shared prose definition of the levels. File-level starter
 assets are defined in manifests:
 
@@ -55,13 +86,14 @@ Definition:
 
 Asset boundary:
 
-- `review` is Level 0 because every harness-managed change needs a reusable
-  review lens.
-- `implement` is Level 1 because it guides bounded execution from a brief.
-- `work-brief` is Level 1 when agents will help transform tickets, issues, or
-  chat requests into executable briefs.
-- `diagnose` is an optional Level 1 pull-in for debugging work, not part of the
-  Level 1 definition.
+- `harness-review` is Level 0 because every harness-managed change needs a
+  reusable review lens.
+- `harness-implement` is Level 1 because it guides bounded execution from a
+  brief.
+- `harness-work-brief` is Level 1 when agents will help transform tickets,
+  issues, or chat requests into executable briefs.
+- `harness-diagnose` is an optional Level 1 pull-in for debugging work, not
+  part of the Level 1 definition.
 
 Add when:
 

@@ -10,10 +10,11 @@ behavior to work across multiple platforms.
 
 ## Current Public Docs Checked
 
-Checked on 2026-06-14 against Anthropic Claude Code docs:
+Checked on 2026-06-15 against Anthropic Claude Code docs:
 
 - `https://code.claude.com/docs/en/memory`
 - `https://code.claude.com/docs/en/skills`
+- `https://code.claude.com/docs/en/commands`
 - `https://code.claude.com/docs/en/settings`
 - `https://code.claude.com/docs/en/hooks`
 
@@ -54,6 +55,30 @@ source to Claude Code with the smallest adapter the target repo can maintain:
 
 Do not manually maintain separate Claude and Codex skill bodies unless a real
 platform limitation requires it.
+
+### Bundled Skills
+
+Claude Code ships bundled skills and workflows such as `/code-review`,
+`/debug`, `/run`, `/verify`, `/batch`, `/loop`, and `/claude-api`. These may
+overlap with harness-provided review, diagnose, run, or verification guidance.
+
+During a harness install, tell the human when a bundled skill overlaps with a
+repo-specific or harness-specific skill. Record one of these decisions:
+
+- leave bundled skills enabled and document which command is preferred,
+- leave bundled skills enabled but treat them as secondary to repo-specific
+  guidance,
+- disable bundled Claude Code skills or workflows through Claude Code settings
+  when the team wants project guidance to be the only available path.
+
+Claude Code supports `disableBundledSkills: true` in settings, or the
+equivalent `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS=1` environment variable. This
+removes bundled skills and workflows. It does not disable project skills in
+`.claude/skills/` or legacy project commands in `.claude/commands/`.
+
+Do not change a user's personal Claude Code settings during harness
+installation unless the human explicitly asks for that. Project settings affect
+the whole team and should be proposed as a deliberate adapter decision.
 
 ## Settings
 

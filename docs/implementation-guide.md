@@ -31,6 +31,35 @@ Do not use this guide as permission to install every harness component. The
 default posture is to keep the harness small, useful, and easy for the team to
 understand.
 
+## Installation Modes
+
+Every Harness Fit Proposal must state the installation mode. The mode controls
+what a maturity claim means.
+
+- `canonical`: install or adapt every required manifest asset and behavior for
+  the target level unless the proposal proves an existing component already
+  satisfies it.
+- `starter`: install a deliberately partial subset that closes the highest
+  value gaps, with explicit deferrals and revisit signals.
+- `overlay`: apply harness principles through existing repo conventions with
+  little or no new asset creation.
+
+Also state:
+
+- target maturity: the behavior the repo is being fitted toward,
+- asset completeness: full / partial / mostly existing,
+- behavioral completeness: whether the resulting workflow is actually usable,
+- deferred manifest assets and why they are not installed now.
+
+When the install is partial, use precise wording:
+
+```text
+Target maturity: Level 1 bounded work execution.
+Installation mode: starter.
+Installation completeness: partial, not full canonical Level 1.
+Deferred manifest assets are listed below with reasons and revisit signals.
+```
+
 ## Implementation Principles
 
 ### Collaborate Before Editing
@@ -48,6 +77,12 @@ The proposal should explain:
 - what gaps were found,
 - what is intentionally deferred,
 - what questions need human judgment.
+
+After writing the proposal file, present the exact proposal text to the human.
+Then present a short "Decisions I need from you" list. Do not edit the repo
+until the human explicitly approves the harness shape or corrects the proposal.
+If unresolved trade-offs remain in the proposal, do not treat silence, branch
+creation, or a broad "carry it out" as approval of those decisions.
 
 The agent should not ask questions whose answers can be discovered from the
 repo. It should inspect first, infer defaults, and ask only questions that
@@ -82,6 +117,10 @@ Harness implementation may reveal missing engineering hygiene. For example:
 The agent should surface these gaps, but should not automatically turn harness
 installation into a broad modernization project.
 
+Tests, linting, and type checking are especially important for agent
+performance. The proposal should actively look for them and either include
+existing commands or explicitly opt out of missing ones for this install.
+
 Separate gaps into:
 
 ```text
@@ -99,9 +138,10 @@ Observed gap:
   No lint command found.
 
 Recommendation:
-  Do not add linting during harness installation unless the team explicitly
-  wants that. Use the existing test command in scripts/verify.sh and record
-  linting as a future improvement.
+  Opt out of adding linting during this install unless the team explicitly
+  wants it. Use the existing test command in scripts/verify.sh, name a
+  reasonable future default such as ruff for Python when appropriate, and
+  record the opt-out in the proposal.
 ```
 
 ### Argue For Complexity
@@ -149,6 +189,9 @@ Suggested inspection targets:
 - repo root listing,
 - `README*`,
 - existing `AGENTS.md`, `CLAUDE.md`, `.cursor/`, `.codex/`, `.agents/`,
+- platform skills or commands such as `.claude/skills/`,
+  `.claude/commands/`, `.agents/skills/`, Cursor rules, or local team
+  command directories,
 - CI workflows such as `.github/workflows/*`,
 - package or project config:
   - Python: `pyproject.toml`, `setup.cfg`, `setup.py`, `tox.ini`,
@@ -187,8 +230,34 @@ Sensitive files:
 Agent tools:
   Codex / Claude / Cursor / mixed / unknown
 
+Existing harness components:
+  none / agent entrypoint / skills / verification scripts / hooks / work docs / other
+
+Skill or command conflicts:
+  none / review-like / implement-like / work-brief-like / diagnose-debug-like / run-verify-like / unknown
+
 CI:
   present / absent / not inspected
+```
+
+Existing components should be treated as evidence first, not as obstacles. For
+each one that overlaps with the harness, record:
+
+```text
+Component:
+  <path or platform feature>
+
+Appears to do:
+  <summary>
+
+Harness principle it already satisfies:
+  <entrypoint / verification / brief / review / context routing / safety / other>
+
+Recommended handling:
+  thread through / adapt / supersede / leave alone / defer
+
+Human decision needed:
+  <none or concrete decision>
 ```
 
 ### 3. Decide Current And Target Maturity
@@ -208,6 +277,9 @@ Current observed maturity:
 
 Recommended target for this installation:
 - Target level:
+- Installation mode: canonical / starter / overlay
+- Asset completeness claim:
+- Behavioral completeness claim:
 - Selected pull-ins from higher levels:
 - Components intentionally not added:
 
@@ -230,7 +302,11 @@ Current observed maturity:
 - Gaps: no canonical verification script; no acceptance evidence standard.
 
 Recommended target for this installation:
-- Target level: Level 1
+- Target level: Level 1 bounded work execution
+- Installation mode: starter
+- Asset completeness claim: partial, not full canonical Level 1
+- Behavioral completeness claim: intended to support bounded work briefs,
+  verification, acceptance evidence, and review with the installed surfaces
 - Selected pull-ins from higher levels: none
 - Components intentionally not added: SPEC-MAP.md, .harness.yml, hooks
 
@@ -246,56 +322,22 @@ Signal to expand later:
 
 ### 4. Prepare A Harness Fit Proposal
 
-Before editing, present this proposal.
+Before editing, prepare a Harness Fit Proposal using the canonical schema in
+`templates/core/docs/harness/fit-proposal.md`. Do not maintain a second full
+proposal schema in this guide.
 
-```md
-# Harness Fit Proposal
+The proposal must include decisions for:
 
-## Repo Signals
--
-
-## Current Maturity
--
-
-## Target Maturity
--
-
-## Recommended Starter
--
-
-## Defaults Inferred From Repo
--
-
-## Gaps Surfaced
-Affects harness now:
--
-
-Future improvement:
--
-
-## Trade-Offs
--
-
-## Human Decisions Needed
--
-
-## Persisted Plan
-- Path:
-- Update rule:
-
-## Intentionally Deferred
--
-
-## Files Proposed
-Create:
--
-
-Edit:
--
-
-## Acceptance Criteria
--
-```
+- repo signals and existing harness components,
+- skill and command conflicts,
+- current and target maturity,
+- installation mode and completeness,
+- manifest inclusion or deferral,
+- work brief storage, local fallback, commit policy, and sync rule,
+- verification, focused validation, CI-only checks, and manual evidence,
+- tests, lint/format, and type checking,
+- gaps, trade-offs, human decisions, deferred items, proposed files,
+  acceptance criteria, and communication audit.
 
 Persist the Harness Fit Proposal to disk as the installation plan before
 editing. Ask for a preferred path only if the target repo already has a clear
@@ -306,8 +348,18 @@ as:
 /tmp/<target-repo-name>-harness-fit-proposal.md
 ```
 
-The plan should survive a session handoff. If the proposal changes after human
-questions are answered, update the persisted plan before editing files.
+After writing the temporary proposal, present the exact proposal text to the
+human before editing. A short summary is fine, but it must not substitute for
+the full proposal.
+
+The temporary plan should survive a session handoff during installation, but
+`/tmp` is not durable repo documentation. After installation, record the final
+proposal or an equivalent decision log under `docs/harness/`, either by
+creating a file such as `docs/harness/fit-proposal.md` or by embedding the
+final decisions in `docs/harness/README.md`.
+
+If the proposal changes after human questions are answered, update the
+persisted plan before editing files.
 
 Use recommendations instead of open-ended questions where possible.
 
@@ -329,13 +381,30 @@ linting added now despite it not already existing?
 
 Ask only questions that affect the implementation.
 
+For harness installation, ask this minimum decision set unless the answer is
+both obvious from repo evidence and low-risk:
+
+- Should this install mode be `canonical`, `starter`, or `overlay`?
+- Where should canonical Agent Work Briefs live?
+- What local fallback should agents use when the canonical brief store is
+  unavailable?
+- Should work brief instances be committed or gitignored?
+- Should missing test, lint/format, or type-check tools be added now or
+  explicitly deferred?
+- How should existing platform skills, commands, or review flows be merged,
+  namespaced, documented, or deferred?
+- Should the final fit proposal be committed under `docs/harness/`, or should
+  equivalent decisions be embedded in `docs/harness/README.md`?
+
 Useful questions:
 
 - Where should Agent Work Briefs live for the first trial?
 - Which work tracker is authoritative?
 - Which agent tools will the team actually use?
 - Which agent platforms need first-class support now, if any?
-- Do you want the Harness Fit Proposal plan somewhere other than `/tmp`?
+- Do you want the temporary Harness Fit Proposal somewhere other than `/tmp`,
+  and should the final proposal be copied to `docs/harness/fit-proposal.md` or
+  embedded in `docs/harness/README.md`?
 - Should verification run automatically, or only be documented for now?
 - Are any files, directories, services, or data sources off limits to agents?
 - What acceptance evidence matters most for this repo?
@@ -356,6 +425,24 @@ Trade-off:
 When to revisit:
 ```
 
+Before editing, use a final checkpoint shaped like this:
+
+```md
+I have written the fit proposal and will not edit the repo until you confirm
+the harness shape. Please review:
+
+- target maturity and installation mode,
+- included and excluded assets,
+- work brief storage and fallback,
+- verification commands,
+- existing component merge/defer decisions,
+- skill or command conflict decisions,
+- durable location for the final fit proposal.
+
+Reply with corrections, or say "approved to install" and I will make only the
+listed changes.
+```
+
 ### 6. Implement The Agreed Starter
 
 Create or edit only the agreed files.
@@ -368,14 +455,18 @@ effective without making the repo feel process-heavy.
 After implementation, check that a fresh agent could:
 
 - find the repo entrypoint,
-- find the persisted Harness Fit Proposal plan or its recorded path,
+- find the durable Harness Fit Proposal or equivalent decision log under
+  `docs/harness/`,
 - understand where work comes from,
 - create or read an Agent Work Brief,
 - find relevant context or know that no context router exists yet,
 - run `scripts/verify.sh`,
 - produce mechanical and acceptance evidence,
 - know what review should check,
-- know what was intentionally deferred.
+- know what was intentionally deferred,
+- understand whether the repo has a canonical install, starter install, or
+  overlay,
+- avoid mistaking deferred manifest assets for completed maturity.
 
 ## Starter Acceptance Checklist
 
@@ -388,12 +479,23 @@ A Level 0 or Level 1 starter harness is acceptable when:
   fails with an honest placeholder,
 - verification commands are derived from repo evidence or clearly marked as
   placeholders,
-- `docs/harness/README.md` records harness provenance, target maturity,
-  installed files, and intentional deferrals,
+- `docs/harness/README.md` records portable harness provenance, target
+  maturity, installation mode, completeness, installed files, and intentional
+  deferrals,
+- the final proposal or equivalent decision log is durable under
+  `docs/harness/`,
 - acceptance evidence is required for externally visible or boundary-changing
   behavior,
+- side-effect evidence uses "secrets management" wording and does not imply
+  agents should print, reveal, inspect, or directly handle secret values,
 - review guidance checks bugs, scope, tests, maintainability, and
   over-engineering,
+- existing platform skills or commands that could overlap with the harness are
+  recorded with a merge, adapt, leave-alone, or defer decision,
+- tests, linting, and type checking are either included or explicitly opted out
+  with a future default where useful,
+- a post-install communication audit records what fresh agents can understand
+  and what they may still misunderstand,
 - optional components are explicitly deferred with signals for later adoption,
 - the human can explain why the chosen maturity target fits the repo.
 
@@ -424,7 +526,8 @@ Recommended default for Jira-centered teams:
 
 ```text
 Keep the canonical brief in Jira as a ticket section or comment.
-Agents may create a temporary local draft, but the durable brief lives in Jira.
+Agents may create a temporary local draft in a gitignored location such as
+.agent/work/, but the durable brief lives in Jira.
 If the temporary draft gains progress, evidence, blockers, or plan changes,
 post those updates back to Jira before removing the local draft.
 ```
@@ -456,6 +559,23 @@ Recommended default:
 Use repo files only when the team wants durable in-repo planning artifacts or
 does not have a reliable tracker workflow.
 ```
+
+### Local Fallback
+
+When the canonical brief location is external, choose a local fallback for
+agents that cannot access the external store.
+
+Recommended default:
+
+```text
+Canonical work brief location: <tracker>.
+Local fallback: .agent/work/ or another gitignored directory.
+Commit policy: do not commit work brief instances unless explicitly approved.
+Sync rule: if local fallback state changes, copy the durable summary back to
+the tracker before considering the work handed off.
+```
+
+Add the fallback directory to `.gitignore` when it is introduced.
 
 #### PR Description
 
@@ -535,6 +655,19 @@ the implementation introduces unacceptable risk or debt.
 `scripts/verify.sh` should encode the repo's current verification contract.
 The agent should derive that contract from evidence.
 
+The proposal should distinguish:
+
+- canonical full-repo verification,
+- focused validation for a subsystem, package, agent, or component,
+- CI-only verification that is not practical locally,
+- manual acceptance evidence for behavior, external systems, schedules,
+  integrations, runtime boundaries, or secrets management.
+
+Prefer reusing or wrapping existing commands over replacing them. A new
+`scripts/verify.sh` can be valuable when it gives agents one stable command,
+but it should call the repo's existing test, lint, type-check, or validation
+entrypoints where practical.
+
 ### Discovery Order
 
 1. Inspect CI workflows.
@@ -546,6 +679,8 @@ The agent should derive that contract from evidence.
 6. Prefer commands the repo already uses over commands the agent happens to
    prefer.
 7. If commands conflict, surface the conflict in the Harness Fit Proposal.
+8. If tests, linting, or type checking are missing, record an explicit opt-out
+   or human-approved addition rather than silently deferring it.
 
 ### Python Signals
 
@@ -776,10 +911,15 @@ through their native discovery path.
 Default:
 
 ```text
-Install skill source files to .agents/skills/<skill-name>/SKILL.md.
+Install harness-provided skill source files to
+.agents/skills/harness-<skill-name>/SKILL.md unless adapting to an existing
+repo convention.
 
 Keep shared skill guidance portable. Use adapters only for tool-specific
-loading behavior or limitations.
+loading behavior or limitations. If the target repo already has review,
+implementation, work-brief, run, verify, debug, or diagnose skills or
+commands, record whether the harness skill is added, adapted, merged,
+supersedes the existing skill, or is deferred.
 ```
 
 ### Hooks
@@ -888,6 +1028,12 @@ Why:
 
 Target level:
 
+Installation mode:
+
+Installation completeness:
+
+Behavioral completeness:
+
 Selective pull-ins from higher levels:
 
 Intentionally deferred:
@@ -903,7 +1049,8 @@ Smallest useful installation:
 Recommended target:
 
 ```text
-Level 0
+Target maturity: Level 0 table stakes
+Installation mode: canonical or starter depending on existing repo surfaces
 ```
 
 Create:
@@ -923,7 +1070,10 @@ Defer:
 Recommended target:
 
 ```text
-Level 1
+Target maturity: Level 1 bounded work execution
+Installation mode: canonical when all Level 0 and Level 1 manifest assets are
+installed or already satisfied; starter when only selected Level 1 behavior is
+installed.
 ```
 
 Create:
@@ -934,6 +1084,9 @@ Create:
 Decision:
 
 - canonical work brief lives in Jira ticket/comment or repo file.
+- local fallback and commit policy are explicit.
+- missing lint, format, and type-check commands are included or explicitly
+  opted out.
 
 Add:
 
@@ -952,7 +1105,9 @@ Defer:
 Recommended target:
 
 ```text
-Level 1 plus selected Level 2
+Target maturity: Level 1 plus selected Level 2 context routing
+Installation mode: starter unless the proposal includes all required assets
+and behaviors for the claimed levels.
 ```
 
 Add:
@@ -969,7 +1124,9 @@ Defer:
 Recommended target:
 
 ```text
-Level 1 plus selected Level 3
+Target maturity: Level 1 plus selected Level 3 deterministic controls
+Installation mode: starter unless the proposal includes all required assets
+and behaviors for the claimed levels.
 ```
 
 Add:
@@ -988,14 +1145,26 @@ The implementation is done when:
 
 - the chosen maturity target, provenance, and deferrals are recorded in
   `docs/harness/README.md`,
-- the Harness Fit Proposal plan was persisted to disk and the path is recorded,
+- the chosen installation mode, installation completeness, and behavioral
+  completeness claims are recorded,
+- the final Harness Fit Proposal or equivalent decision log is durable under
+  `docs/harness/`,
+- temporary proposal paths are labeled temporary and not described as durable,
 - the human has agreed to the starter shape or explicitly delegated the choice,
 - all agreed starter files exist,
 - `scripts/verify.sh` either runs real repo commands or clearly fails with an
   honest placeholder,
 - the Agent Work Brief has a chosen placement and lifecycle,
+- any local work-brief fallback is gitignored or explicitly approved for commit,
 - the final report separates mechanical verification from acceptance evidence,
+- side-effect evidence covers external systems, secrets management, schedules,
+  deployment behavior, integrations, and runtime boundaries when relevant,
+  without exposing sensitive values,
+- existing harness-like components and platform skills have recorded handling
+  decisions,
+- tests, linting, and type checking are either included or explicitly opted out,
 - optional components are deferred with reasons and future signals,
+- the post-install communication audit is recorded,
 - a fresh agent can read `AGENTS.md` and know how to proceed,
 - the final report lists files changed, commands run, acceptance evidence,
   gaps surfaced, and deferred work.
@@ -1009,8 +1178,15 @@ After implementation, report:
 
 Target maturity:
 
-Harness Fit Proposal plan:
-- Path:
+Installation mode:
+
+Installation completeness:
+
+Behavioral completeness:
+
+Harness Fit Proposal / decision log:
+- Temporary pre-edit path:
+- Durable post-install path:
 
 Files changed:
 -
@@ -1025,6 +1201,18 @@ Mechanical verification:
 
 Acceptance evidence:
 - <evidence or "not applicable; behavior did not change">
+
+Existing component decisions:
+-
+
+Skill or command conflict decisions:
+-
+
+Tests / lint / type check:
+-
+
+Communication audit:
+-
 
 Gaps surfaced:
 -
@@ -1050,6 +1238,20 @@ engineer introducing leverage:
 - argue for complexity,
 - record deferrals,
 - leave the repo with a harness humans can understand and maintain.
+
+Before finishing installed docs, run this wording check:
+
+- Does any phrase claim a maturity level that is only a target?
+- Does any phrase imply agents should access, print, inspect, or directly
+  handle sensitive values instead of validating secrets management wiring?
+- Does durable documentation point to a machine-local path such as
+  `../harness-framework` instead of the portable source name
+  `harness-framework`?
+- Does any doc call `/tmp` state persisted or durable without qualifying that
+  it is temporary?
+- Does the doc distinguish required behavior from optional guidance?
+- Does the doc tell ordinary implementers to read `docs/harness/` when they
+  only need the work brief, project docs, and code?
 
 The goal is not to maximize harness maturity. The goal is to install the
 smallest harness that makes agents and humans more effective now, while making

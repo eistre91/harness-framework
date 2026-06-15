@@ -1,12 +1,12 @@
 ---
-name: implement
+name: harness-implement
 description: Implements an Agent Work Brief with narrow scope, boundary-level tests where practical, and explicit mechanical and acceptance evidence. Use when coding from a brief, ticket, or agreed implementation scope.
 maturity: level-1
 install_when: Agents will implement work from briefs or tickets.
 repo_specific_adaptation: Verification command, project context paths, test conventions, and project-specific implementation risks.
 ---
 
-# Implement
+# Harness Implement
 
 Use when implementing an Agent Work Brief.
 

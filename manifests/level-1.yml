@@ -12,24 +12,27 @@ definition:
 assets:
   - id: implement-skill
     asset_type: installable
-    source: skills/core/implement/SKILL.md
-    default_target: .agents/skills/implement/SKILL.md
+    source: skills/core/harness-implement/SKILL.md
+    default_target: .agents/skills/harness-implement/SKILL.md
     required: true
     adapt:
       - repo verification command
       - project context paths
       - test conventions
       - project-specific implementation risks
+      - existing implementation skills or commands
   - id: work-brief-skill
     asset_type: installable
-    source: skills/core/work-brief/SKILL.md
-    default_target: .agents/skills/work-brief/SKILL.md
+    source: skills/core/harness-work-brief/SKILL.md
+    default_target: .agents/skills/harness-work-brief/SKILL.md
     required_when: Agents will help transform tracker items, issues, planning notes, or chat requests into executable Agent Work Briefs.
     adapt:
       - canonical brief location
       - tracker conventions
       - required acceptance evidence
       - project context paths
+      - local fallback and commit policy
+      - existing work-shaping skills or commands
 not_part_of_level_definition:
   - diagnose skill
   - hooks or automatic verification

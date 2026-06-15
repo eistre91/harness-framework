@@ -25,10 +25,12 @@ assets:
     install_when: The repo has repeated maintainability, harness, cognitive, or semantic debt signals.
   - id: diagnose-skill
     asset_type: installable
-    source: skills/optional/diagnose/SKILL.md
-    default_target: .agents/skills/diagnose/SKILL.md
+    source: skills/optional/harness-diagnose/SKILL.md
+    default_target: .agents/skills/harness-diagnose/SKILL.md
     maturity: level-1
     install_when: Agents will debug bugs, failing tests, flaky behavior, or regressions.
+    adapt:
+      - existing debug or diagnose skills and platform commands
   - id: documentation-quality-audit-skill
     asset_type: installable
     source: skills/optional/documentation-quality-audit/SKILL.md

@@ -108,12 +108,39 @@ Optional pull-ins, depending on repo evidence and team tools:
 
 - `docs/harness/component-brief.md`
 - `docs/harness/maintainability.md`
-- implementation or work-brief skills in `.agents/skills`
+- implementation or work-brief skills in `.agents/skills`, using
+  self-explaining names such as `harness-implement` and
+  `harness-work-brief` by default
 - adapter-specific hook or settings files
 
 The optional pieces should not be installed just because the template mentions
 them. They should be added when the Harness Fit Proposal explains the value,
 cost, and signal for each one.
+
+## Maturity, Completeness, And Install Mode
+
+Maturity level describes the behavior the repo is being fitted toward.
+Installation completeness describes how much of the canonical manifest for that
+level is actually installed or already satisfied. Installation mode describes
+the shape of the install:
+
+- `canonical`: install or adapt every required manifest asset and behavior for
+  the target level unless an existing component already satisfies it.
+- `starter`: install a deliberately partial subset with explicit deferrals.
+- `overlay`: apply harness principles through existing repo conventions with
+  little or no new asset creation.
+
+Do not describe a partial starter as simply "Level 1." Use precise wording:
+
+```text
+Target maturity: Level 1 bounded work execution.
+Installation mode: starter.
+Installation completeness: partial, not full canonical Level 1.
+```
+
+Harness-provided skills should avoid generic names that collide with platform,
+personal, or team skills. Prefer names such as `harness-review`,
+`harness-implement`, `harness-work-brief`, and `harness-diagnose`.
 
 ## Project Docs And Harness Docs
 
@@ -1206,7 +1233,9 @@ The maturity model should be used diagnostically:
 
 The model also allows partial adoption. A project might add secret guards from
 Level 3 before it needs `SPEC-MAP.md` from Level 2. The levels describe common
-growth pressure, not a strict installation order.
+growth pressure, not a strict installation order. When partial adoption is
+chosen, record the target maturity, install mode, installed asset
+completeness, behavioral completeness, deferrals, and revisit signals.
 
 ## Adoption Phases
 
@@ -1215,11 +1244,14 @@ without buying into the whole operating-system concept at once.
 
 ### Phase 0
 
-- the canonical Level 0 assets from `manifests/level-0.yml`
+- the canonical Level 0 assets from `manifests/level-0.yml`, or a starter
+  subset with explicit deferrals when existing repo components already satisfy
+  some behavior
 
 ### Phase 1
 
-- the additive Level 1 assets and behaviors from `manifests/level-1.yml`
+- the additive Level 1 assets and behaviors from `manifests/level-1.yml`, or
+  selected Level 1 behavior with explicit "partial starter" wording
 - acceptance evidence standard
 - optional secret/destructive-action guards
 - Stop hook or pre-commit integration for `scripts/verify.sh`
@@ -1283,24 +1315,15 @@ hard protection.
 Deferred. Maintainability begins as a periodic or manual sensor. Automatic
 gates should wait until they are accurate enough not to become noise.
 
-## Questions The Harness Fit Proposal Must Answer
+## Harness Fit Proposal Schema
 
-The framework is coherent enough to implement a first version, but the
-implementation guide should answer these questions for each target repo:
-
-1. Where should the Agent Work Brief live for the first team trial: tracker
-   comment, ticket section, repo file, PR description, or chat artifact?
-2. What is the smallest review skill that catches the most common agent
-   failures without becoming a large checklist?
-3. Should `scripts/verify.sh` run automatically on Stop from day one, or should
-   agents be instructed to run it manually until the project learns the cost?
-4. What acceptance evidence is required for different task types: API, CLI,
-   internal module, data migration, UI, background job?
-5. What is the first maintainability signal worth tracking manually?
-6. When does the project become large enough to add `SPEC-MAP.md`?
-7. What repeated confusion would justify adding `CONTEXT.md`?
-8. How should harness changes themselves be reviewed so the harness does not
-   grow accidentally?
+The canonical Harness Fit Proposal schema lives at
+`templates/core/docs/harness/fit-proposal.md`. Do not maintain a second full
+question list here. The proposal must capture the repo signals, existing
+component decisions, skill or command conflicts, target maturity, installation
+mode, installation completeness, work brief storage and fallback, verification
+and validation, tests/lint-format/type-check decisions, deferrals, proposed
+files, human decisions, and communication audit.
 
 ## Proposed First Artifact Set
 
