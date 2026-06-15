@@ -51,6 +51,13 @@ At this level, the harness should provide a repo agent entrypoint, canonical
 verification command, work brief template, local harness owner manual, and
 lightweight review guidance.
 
+Value:
+
+- fresh agents know where to start,
+- humans can hand off work in a consistent shape,
+- agents know how to prove basic correctness,
+- reviewers have a shared expectation for done.
+
 The Level 0 work brief template may include richer optional sections. For tiny
 work, the agent may only need source, goal, value target, context,
 verification, and done criteria. Filling the boundary, ambiguity, and
@@ -63,8 +70,16 @@ Add when:
 Move beyond when:
 
 - agents miss requirements from vague tickets,
+- agents forget verification commands,
 - reviewers repeatedly ask for the same evidence,
 - work handoff depends too heavily on chat history.
+
+This may be enough when:
+
+- tasks are small,
+- the codebase is still easy to navigate,
+- humans provide most context directly,
+- agents can complete work without repeatedly asking where things live.
 
 ## Level 1: Bounded Work Execution
 
@@ -95,12 +110,34 @@ Asset boundary:
 - `harness-diagnose` is an optional Level 1 pull-in for debugging work, not
   part of the Level 1 definition.
 
+Value:
+
+- agents understand what not to build,
+- humans and agents align on trade-offs before implementation,
+- interface decisions happen before code generation,
+- review can compare the diff to a concrete brief.
+
 Add when:
 
 - tickets are too vague for direct implementation,
 - changes affect APIs, modules, CLIs, integrations, or other boundaries,
+- human-agent planning conversations are repeating the same questions,
 - implementation spans more than one session or agent,
 - agents overbuild beyond the requested value.
+
+This may be enough when:
+
+- most work is still local,
+- acceptance examples are easy to state,
+- a human can still route context manually,
+- there are not many product docs to navigate.
+
+Move beyond when:
+
+- agents repeatedly read too much context,
+- agents miss important local conventions,
+- agents ask where relevant docs or modules are,
+- task briefs become overloaded with routing details.
 
 ## Level 2: Context Routing
 
@@ -113,11 +150,33 @@ Assets:
 - optional `CONTEXT.md`,
 - ADR or decision-log pointers.
 
+Value:
+
+- agents read the smallest useful context,
+- product knowledge moves out of chat and into durable files,
+- repeated conceptual explanations are compressed,
+- implementation agents avoid navigating historical or harness docs.
+
 Add when:
 
 - the project has multiple product areas,
 - docs exist but agents do not know which ones matter,
+- domain vocabulary causes confusion,
 - agents repeatedly rediscover the same context.
+
+This may be enough when:
+
+- context routing is short,
+- agents rarely need more than the routed docs and local code,
+- docs are current enough to reduce confusion,
+- implementation context remains focused.
+
+Move beyond when:
+
+- docs drift from code,
+- agents read stale docs and make bad changes,
+- maintainability problems recur across tasks,
+- reviewers repeatedly identify the same code or documentation debt.
 
 ## Level 3: Deterministic Controls
 
@@ -133,13 +192,35 @@ Assets:
 - CI parity with `scripts/verify.sh`,
 - optional `.harness.yml` once multiple mechanisms need shared settings.
 
+Value:
+
+- common failures are caught automatically,
+- verification does not depend on agent memory,
+- humans and agents share one command contract,
+- safety boundaries are enforced consistently.
+
 Add when:
 
 - agents forget verification,
 - contributors run different command sets,
 - secret, local-state, destructive-command, or production-affecting mistakes
   are plausible,
-- the same mechanical failure appears in review or CI.
+- the same mechanical failure appears in review or CI,
+- scripts and hooks start duplicating configuration.
+
+This may be enough when:
+
+- hooks are fast and quiet,
+- failures are actionable,
+- people do not routinely bypass the checks,
+- mechanical defects are caught before review.
+
+Move beyond when:
+
+- quality problems are not mechanical,
+- code organization is degrading,
+- documentation usefulness is degrading,
+- agents close tasks but require too many review cycles.
 
 ## Level 4: Maintainability Sensors
 
@@ -150,13 +231,37 @@ Assets:
 - maintainability checklist,
 - documentation quality audit,
 - recurring failure ledger,
-- optional duplicate/dead-code/complexity tools.
+- optional duplicate/dead-code/complexity tools,
+- issue creation for bounded repair work.
+
+Value:
+
+- technical debt becomes visible,
+- harness debt becomes visible,
+- cognitive and semantic drift are named,
+- recurring failures become repair work instead of review folklore.
 
 Add when:
 
 - reviewers repeatedly see the same maintainability concerns,
+- agents struggle to close similar work without extra verification cycles,
 - docs are stale enough to mislead,
-- humans and agents no longer share the same model of the system.
+- humans and agents no longer share the same model of the system,
+- objective tools reveal duplicate, dead, or overly complex code.
+
+This may be enough when:
+
+- maintainability work is periodic, bounded, and useful,
+- sensors produce few false alarms,
+- repair work is scoped as normal tickets,
+- product delivery is not slowed by constant process.
+
+Move beyond when:
+
+- multiple agents need to coordinate long-horizon work,
+- work spans many short-lived sessions,
+- verification itself needs orchestration,
+- state is getting lost between agents.
 
 ## Level 5: Orchestration And Automation
 
@@ -170,14 +275,33 @@ Assets:
 - unattended runners,
 - verifier agents,
 - multi-agent coordination rules,
-- eval suites.
+- eval suites,
+- harness modes,
+- stricter file access controls.
+
+Value:
+
+- long-horizon work survives fresh-context sessions,
+- multiple agents can coordinate through durable artifacts,
+- verification reports become structured,
+- the harness itself can be tested and improved.
 
 Add when:
 
 - work spans many short-lived sessions,
 - humans are routinely decomposing large work into many agent tasks,
+- agents are operating unattended or semi-unattended,
 - ordinary final messages are not reliable enough,
-- multiple agents need explicit ownership, review, or integration boundaries.
+- multiple agents need explicit ownership, review, or integration boundaries,
+- work state is too large for one session or ticket,
+- harness behavior itself needs regression testing.
+
+Do not add yet when:
+
+- a human is still closely guiding most work,
+- tasks are small enough for one agent session,
+- a work brief and verification script solve most coordination needs,
+- the team has not yet adopted the lower layers.
 
 ## Use
 
