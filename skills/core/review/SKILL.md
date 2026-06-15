@@ -10,9 +10,17 @@ repo_specific_adaptation: Review output format, severity scale, and project-spec
 
 Use when reviewing implementation against an Agent Work Brief.
 
+## Goal
+
+Protect value delivery as well as correctness. A good change satisfies the brief
+with the least structure that is clear and maintainable.
+
 Review the change critically against the brief, the diff, and the evidence.
 Do not edit files while using this skill. Lead with findings; keep summaries
 brief and secondary.
+
+Treat unearned abstraction, broad cleanup, new dependencies, or extra process as
+findings when the brief did not justify them.
 
 ## Review Independence
 
@@ -28,8 +36,10 @@ handoff when practical.
 ## Check
 
 1. Scope and intent:
+   - requested value delivered,
    - missed requirements,
    - scope creep,
+   - YAGNI violations or unearned generality,
    - acceptance evidence gaps,
    - docs impact marked none / maybe / required.
 2. Architecture and design:

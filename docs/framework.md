@@ -273,6 +273,11 @@ planning agent should use brief creation to surface ambiguities, ask focused
 questions, propose alternatives, and help the human make decisions before
 implementation begins.
 
+The brief is not a transcript of that planning discussion. The planning agent
+should distill its gathered context into the decisions, constraints,
+source-of-truth references, and acceptance evidence that the implementation
+agent and reviewer need.
+
 The goal is not to turn every ticket into a full PRD. The goal is to get
 agent, human, and future reviewer aligned enough that implementation work can
 proceed with less ambiguity.
@@ -282,22 +287,29 @@ proceed with less ambiguity.
 ```md
 # Agent Work Brief
 
+Fill only the sections that reduce risk for the current task.
+
 Source:
 Owner:
-Status:
+Status: Draft
 Tier: Tiny / Standard / Boundary-changing
 Agent-runnable: yes / no / blocked by human decision
 
 ## Goal
 What user or system outcome should change?
 
+## Value / Scope Discipline
+- Smallest valuable outcome:
+- Why this scope is enough now:
+- Extra structure, cleanup, abstraction, or dependency explicitly not justified:
+
 ## Non-Goals
 What should not be changed?
 
 ## Ambiguities / Decisions
-- Open ambiguity:
-- Decision made:
-- Trade-off accepted:
+- Open ambiguity that blocks implementation:
+- Decision made that affects implementation or review:
+- Accepted trade-off the implementer or reviewer must know:
 
 ## Progress / Divergences
 Use when work spans more than one session or the implementation differs from
@@ -935,8 +947,8 @@ starts failing.
 
 ### Level 0: Table Stakes
 
-This is the minimum required for agents to work in a repo without relying on
-private chat context.
+This is the minimum required for agents to work in a repo without reconstructing
+prior planning discussion.
 
 Includes:
 

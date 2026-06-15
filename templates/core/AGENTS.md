@@ -21,6 +21,7 @@ Before implementation, make sure the work has an Agent Work Brief or enough
 equivalent detail to answer:
 
 - goal,
+- smallest valuable outcome,
 - non-goals,
 - context to read,
 - verification,

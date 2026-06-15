@@ -1,9 +1,13 @@
 # Agent Work Brief
 
 Fill only the sections that reduce risk for the current task. For tiny work,
-source, goal, context, verification, and done criteria may be enough. Use the
-non-goals, ambiguity, boundary/interface, and acceptance sections when scope or
-behavior could otherwise be misunderstood.
+source, goal, value target, context, verification, and done criteria may be
+enough. Use the non-goals, ambiguity, boundary/interface, and acceptance
+sections when scope or behavior could otherwise be misunderstood.
+
+The brief should be self-contained for implementation, but it is not a
+transcript of planning. Record only decisions, constraints, and trade-offs that
+affect implementation or review.
 
 Source:
 Owner:
@@ -15,15 +19,21 @@ Agent-runnable: yes / no / blocked by human decision
 
 What user or system outcome should change?
 
+## Value / Scope Discipline
+
+- Smallest valuable outcome:
+- Why this scope is enough now:
+- Extra structure, cleanup, abstraction, or dependency explicitly not justified:
+
 ## Non-Goals
 
 What should not be changed?
 
 ## Ambiguities / Decisions
 
-- Open ambiguity:
-- Decision made:
-- Trade-off accepted:
+- Open ambiguity that blocks implementation:
+- Decision made that affects implementation or review:
+- Accepted trade-off the implementer or reviewer must know:
 
 ## Progress / Divergences
 

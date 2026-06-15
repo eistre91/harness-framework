@@ -12,7 +12,7 @@ assets are defined in manifests:
 
 ## Level 0: Table Stakes
 
-Minimum for agents to work without private chat context.
+Minimum for agents to work without reconstructing prior planning discussion.
 
 Default assets are defined in `manifests/level-0.yml`.
 
@@ -21,9 +21,9 @@ verification command, work brief template, local harness owner manual, and
 lightweight review guidance.
 
 The Level 0 work brief template may include richer optional sections. For tiny
-work, the agent may only need source, goal, context, verification, and done
-criteria. Filling the boundary, ambiguity, and acceptance sections becomes more
-important at Level 1.
+work, the agent may only need source, goal, value target, context,
+verification, and done criteria. Filling the boundary, ambiguity, and
+acceptance sections becomes more important at Level 1.
 
 Add when:
 

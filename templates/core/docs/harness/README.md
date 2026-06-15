@@ -41,9 +41,11 @@ canonical asset list.
   with existing repo checks and CI where practical.
 - `docs/harness/README.md`: this local owner’s manual for the harness.
 - `docs/harness/work-brief.md`: template for turning work into an executable
-  agent brief with goal, scope, context, verification, and acceptance evidence.
+  agent brief with goal, value target, scope, context, verification, and
+  acceptance evidence.
 - `.agents/skills/review/SKILL.md`: findings-led review lens for checking
-  scope, bugs, tests, maintainability, evidence, and review independence.
+  requested value, scope, bugs, tests, maintainability, evidence, and review
+  independence.
 
 ## Conditional Platform Pointers
 

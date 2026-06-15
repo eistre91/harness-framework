@@ -12,8 +12,21 @@ Use when turning an external work item into an Agent Work Brief.
 
 ## Goal
 
-Create enough shared understanding that an implementation agent can proceed
-without relying on hidden chat context.
+Create an implementation-ready brief that contains the information an
+implementation agent needs to do the work without reading the planning
+discussion.
+
+The planning agent may build up more context than the implementer needs.
+Distill that context into the relevant outcome, constraints, decisions,
+source-of-truth references, and acceptance evidence. Do not copy the full
+discussion into the brief. Include considered trade-offs only when the accepted
+decision affects implementation or review.
+
+The planning goal is to identify the smallest valuable outcome that satisfies
+the user's intent. Apply KISS and YAGNI before implementation starts: avoid
+speculative abstractions, broad cleanup, new dependencies, or extra process
+unless they are necessary to deliver the requested value or prevent a concrete
+failure.
 
 ## Process
 
@@ -25,16 +38,22 @@ without relying on hidden chat context.
 5. Decide whether the work is agent-runnable. If acceptance, ownership,
    interface, access, or product judgment is unclear, split runnable work from
    decision work.
-6. Record tier, goal, non-goals, context, implementation guidance,
-   verification, docs impact, and done criteria.
-7. Add the boundary/interface section only when the work changes a boundary.
-8. If the source work is too large, propose independently verifiable vertical
+6. Record tier, goal, value target, non-goals, context, implementation
+   guidance, verification, docs impact, and done criteria.
+7. Record only decisions and trade-offs that affect implementation or review.
+8. Add the boundary/interface section only when the work changes a boundary.
+9. If the source work is too large, propose independently verifiable vertical
    slices instead of layer-by-layer tasks. Each slice should have a clear
    outcome, boundary or interface, test surface, and dependency relationship.
-9. Write durable briefs around behavior, interfaces, acceptance evidence, and
-   source-of-truth files. Avoid brittle line numbers in long-lived briefs.
+10. Challenge any plan that adds structure, generality, dependencies, or cleanup
+   outside the requested value. Keep it only when the trade-off is explicit.
+11. Write durable briefs around behavior, interfaces, acceptance evidence, and
+    source-of-truth files. Avoid brittle line numbers in long-lived briefs.
 
 ## Collaboration
+
+Use this while planning with the human. The final brief should keep only the
+decisions and constraints the implementer or reviewer needs.
 
 For each meaningful choice, provide:
 
