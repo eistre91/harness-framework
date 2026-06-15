@@ -23,7 +23,7 @@ Use portable source names in committed docs. Keep local paths such as
 `../harness-framework` in temporary proposals or transcripts only.
 
 For significant harness changes, consult the source framework docs or run a
-fresh harness-fit pass before adding process.
+fresh fit pass with the implementation guide before adding process.
 
 ## Current Harness Maturity
 

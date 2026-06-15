@@ -36,13 +36,9 @@ understand.
 Every Harness Fit Proposal must state the installation mode. The mode controls
 what a maturity claim means.
 
-- `canonical`: install or adapt every required manifest asset and behavior for
-  the target level unless the proposal proves an existing component already
-  satisfies it.
-- `starter`: install a deliberately partial subset that closes the highest
-  value gaps, with explicit deferrals and revisit signals.
-- `overlay`: apply harness principles through existing repo conventions with
-  little or no new asset creation.
+Use `docs/maturity-model.md` as the canonical prose source for maturity levels,
+installation modes, asset completeness, and behavioral completeness. This guide
+uses those definitions operationally while fitting a specific target repo.
 
 Also state:
 
@@ -921,6 +917,13 @@ implementation, work-brief, run, verify, debug, or diagnose skills or
 commands, record whether the harness skill is added, adapted, merged,
 supersedes the existing skill, or is deferred.
 ```
+
+When Claude Code is in scope, mention bundled Claude Code skills and workflows
+such as `/code-review`, `/debug`, `/run`, and `/verify`. Ask whether they
+should stay enabled and documented, be treated as secondary to repo-specific
+guidance, or be disabled through Claude Code settings such as
+`disableBundledSkills` or the `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS` environment
+variable.
 
 ### Hooks
 

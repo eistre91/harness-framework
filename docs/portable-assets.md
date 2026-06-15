@@ -21,7 +21,6 @@ the target repo after installation.
 - `docs/maturity-model.md`
 - `docs/platform-support.md`
 - `docs/platforms/*.md`
-- `skills/core/harness-fit/SKILL.md`
 - `manifests/bootstrap.yml`
 - `manifests/level-0.yml`
 - `manifests/level-1.yml`

@@ -5,34 +5,15 @@ package.
 
 Use when the target repo uses Claude Code conventions.
 
-Before implementing Claude Code-specific hooks, settings, or native skill
-support, read:
+Before implementing Claude Code-specific hooks, settings, native skill support,
+or instruction loading, read:
 
 - `docs/platform-support.md`
 - `docs/platforms/claude-code.md`
 
-Default guidance:
-
-- `templates/core/CLAUDE.md` is a conditional pointer for repos that want
-  Claude Code support,
-- keep `CLAUDE.md` as `@AGENTS.md`,
-- do not duplicate the whole harness in multiple agent entrypoints,
-- audit bundled Claude Code skills such as `/code-review`, `/debug`, `/run`,
-  and `/verify` before adding overlapping project or harness skills,
-- tell the human that bundled skills can be disabled with
-  `disableBundledSkills` or `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS` if desired,
-- use this adapter only for Claude-specific settings or hooks beyond that
-  pointer file,
-- keep Claude-specific behavior aligned with Codex, pre-commit, and CI where
-  those tools are also used.
-
-Adapter purpose:
-
-- expose shared `AGENTS.md` guidance to Claude Code through `CLAUDE.md`,
-- expose shared skills to Claude Code when `.agents/skills` is not enough for
-  the desired workflow,
-- map Claude Code hook input and output to shared hook runners when automatic
-  checks are justified.
+Those files are the canonical source for Claude Code guidance. Keep this
+adapter directory limited to Claude-specific assets that cannot live in shared
+templates, such as settings examples, hook adapters, or skill-loading wrappers.
 
 Unclear until a target repo needs it:
 

@@ -29,10 +29,6 @@ assets:
     asset_type: bootstrap
     source: docs/platforms/claude-code.md
     use_when: Adding Claude Code-specific hooks, settings, native skills, or instruction loading support.
-  - id: harness-fit-skill
-    asset_type: bootstrap
-    source: skills/core/harness-fit/SKILL.md
-    use_when: Guiding an agent through the collaborative Harness Fit Proposal process.
   - id: level-0-manifest
     asset_type: bootstrap
     source: manifests/level-0.yml

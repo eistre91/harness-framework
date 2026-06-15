@@ -119,24 +119,10 @@ cost, and signal for each one.
 
 ## Maturity, Completeness, And Install Mode
 
-Maturity level describes the behavior the repo is being fitted toward.
-Installation completeness describes how much of the canonical manifest for that
-level is actually installed or already satisfied. Installation mode describes
-the shape of the install:
-
-- `canonical`: install or adapt every required manifest asset and behavior for
-  the target level unless an existing component already satisfies it.
-- `starter`: install a deliberately partial subset with explicit deferrals.
-- `overlay`: apply harness principles through existing repo conventions with
-  little or no new asset creation.
-
-Do not describe a partial starter as simply "Level 1." Use precise wording:
-
-```text
-Target maturity: Level 1 bounded work execution.
-Installation mode: starter.
-Installation completeness: partial, not full canonical Level 1.
-```
+`docs/maturity-model.md` is the canonical prose source for maturity levels,
+installation modes, asset completeness, and behavioral completeness. This
+framework uses those distinctions so a partial starter install is not mistaken
+for a complete canonical level.
 
 Harness-provided skills should avoid generic names that collide with platform,
 personal, or team skills. Prefer names such as `harness-review`,
@@ -309,85 +295,11 @@ The goal is not to turn every ticket into a full PRD. The goal is to get
 agent, human, and future reviewer aligned enough that implementation work can
 proceed with less ambiguity.
 
-### Suggested Template
+### Template
 
-```md
-# Agent Work Brief
-
-Fill only the sections that reduce risk for the current task.
-
-Source:
-Owner:
-Status: Draft
-Tier: Tiny / Standard / Boundary-changing
-Agent-runnable: yes / no / blocked by human decision
-
-## Goal
-What user or system outcome should change?
-
-## Value / Scope Discipline
-- Smallest valuable outcome:
-- Why this scope is enough now:
-- Extra structure, cleanup, abstraction, or dependency explicitly not justified:
-
-## Non-Goals
-What should not be changed?
-
-## Ambiguities / Decisions
-- Open ambiguity that blocks implementation:
-- Decision made that affects implementation or review:
-- Accepted trade-off the implementer or reviewer must know:
-
-## Progress / Divergences
-Use when work spans more than one session or the implementation differs from
-the original expectation. Keep this current in the canonical brief location or
-post it back there before removing a temporary local draft.
-
-- Current status:
-- Plan changes:
-- Divergences from expected approach:
-- Why the divergence was accepted:
-- Blockers:
-- Latest evidence:
-- Next action:
-
-## Boundary / Interface
-Required only when adding or changing a boundary.
-
-- New or changed interface:
-- Inputs:
-- Outputs:
-- Error cases:
-- Consumers:
-- Dependencies:
-- Explicitly not solving yet:
-
-## Context To Read
-- Files:
-- Docs:
-- Prior decisions:
-
-## Implementation Guidance
-- Preferred existing patterns:
-- Constraints:
-- Things to avoid:
-
-## Verification
-Mechanical:
-- Commands:
-- Negative proof for removals/moves/cleanup:
-
-Acceptance examples:
-- Given:
-- When:
-- Then:
-- Evidence expected:
-
-Docs impact: none / maybe / required
-
-## Done When
--
-```
+The canonical work brief template lives at
+`templates/core/docs/harness/work-brief.md`. Do not maintain a second copy in
+this framework explanation.
 
 ### Tiers
 
@@ -725,27 +637,9 @@ too early.
 
 Every harness component should justify itself using a small component brief.
 
-```md
-# Component Name
-
-Value:
-What failure does this prevent, or what capability does this unlock?
-
-Use when:
-When should an agent or human reach for this?
-
-Add when:
-What recurring signal proves the project now needs this?
-
-Do not add yet when:
-What would make this premature?
-
-Cost:
-What cognitive, maintenance, or workflow burden does this introduce?
-
-Simplify/remove when:
-What signs show this part has become harness debt?
-```
+The canonical component brief template lives at
+`templates/optional/docs/harness/component-brief.md`. Do not maintain a second
+copy in this framework explanation.
 
 This applies to:
 
@@ -972,254 +866,12 @@ better. A small project may be healthiest at an earlier level for a long time.
 The point is to make the next useful layer obvious when the current harness
 starts failing.
 
-### Level 0: Table Stakes
-
-This is the minimum required for agents to work in a repo without reconstructing
-prior planning discussion.
-
-Includes:
-
-- a small `AGENTS.md`,
-- a canonical verification command such as `scripts/verify.sh`,
-- a basic Agent Work Brief template,
-- a lightweight review checklist or skill.
-
-Value:
-
-- fresh agents know where to start,
-- humans can hand off work in a consistent shape,
-- agents know how to prove basic correctness,
-- reviewers have a shared expectation for done.
-
-Add when:
-
-- agents are going to work in the repo at all.
-
-Signs this is enough:
-
-- tasks are small,
-- the codebase is still easy to navigate,
-- humans provide most context directly,
-- agents can complete work without repeatedly asking where things live.
-
-Signs to move beyond it:
-
-- agents miss requirements from vague tickets,
-- agents forget verification commands,
-- reviewers repeatedly ask for the same evidence,
-- work handoff depends too heavily on chat history.
-
-### Level 1: Bounded Work Execution
-
-This layer makes work more executable and reduces implementation sprawl.
-
-Includes:
-
-- tiered Agent Work Briefs,
-- explicit non-goals,
-- ambiguity and decision notes when product or interface choices affect
-  implementation,
-- boundary/interface sections for boundary-changing work,
-- acceptance evidence standards,
-- progress/divergence state in the canonical brief location when work spans
-  sessions or departs from the plan,
-- lightweight implementation guidance.
-
-The additive Level 1 assets and behaviors are defined in
-`manifests/level-1.yml`. Review guidance remains Level 0 because every
-harness-managed change needs a review lens.
-
-Value:
-
-- agents understand what not to build,
-- humans and agents align on trade-offs before implementation,
-- interface decisions happen before code generation,
-- review can compare the diff to a concrete brief.
-
-Add when:
-
-- tickets are often too vague for direct implementation,
-- changes affect APIs, modules, CLIs, integrations, or other boundaries,
-- human-agent planning conversations are repeating the same questions,
-- agents overbuild beyond the user's requested value.
-
-Signs this is enough:
-
-- most work is still local,
-- acceptance examples are easy to state,
-- a human can still route context manually,
-- there are not many product docs to navigate.
-
-Signs to move beyond it:
-
-- agents repeatedly read too much context,
-- agents miss important local conventions,
-- agents ask where relevant docs or modules are,
-- task briefs become overloaded with routing details.
-
-### Level 2: Context Routing
-
-This layer introduces explicit product-context routing.
-
-Includes:
-
-- `docs/project/` for product docs,
-- optional `SPEC-MAP.md`,
-- optional `CONTEXT.md` if domain vocabulary has become meaningful,
-- ADR or decision-log pointers when decisions matter for implementation.
-
-Value:
-
-- agents read the smallest useful context,
-- product knowledge moves out of chat and into durable files,
-- repeated conceptual explanations are compressed,
-- implementation agents avoid navigating historical or harness docs.
-
-Add when:
-
-- the project has multiple product areas,
-- agents repeatedly rediscover the same context,
-- domain vocabulary causes confusion,
-- docs exist but agents do not know which ones matter for a task.
-
-Signs this is enough:
-
-- context routing is short,
-- agents rarely need more than the routed docs and local code,
-- docs are current enough to reduce confusion,
-- implementation context remains focused.
-
-Signs to move beyond it:
-
-- docs drift from code,
-- agents read stale docs and make bad changes,
-- maintainability problems recur across tasks,
-- reviewers repeatedly identify the same code or documentation debt.
-
-### Level 3: Deterministic Controls
-
-This layer moves repeatable checks from agent memory into tools.
-
-Includes:
-
-- secret and sensitive-file guards,
-- destructive-action warnings or blocks,
-- tool-safety checklists for protected paths, protected commands, and
-  ask/warn/block policy,
-- Stop hook or pre-commit verification,
-- CI parity with `scripts/verify.sh`,
-- optional shared config such as `.harness.yml` once multiple mechanisms need
-  the same settings.
-
-Value:
-
-- common failures are caught automatically,
-- verification does not depend on agent memory,
-- humans and agents share one command contract,
-- safety boundaries are enforced consistently.
-
-Add when:
-
-- agents forget verification,
-- contributors run different command sets,
-- secret or local-state mistakes are plausible,
-- the same mechanical failure appears in review or CI,
-- scripts and hooks start duplicating configuration.
-
-Signs this is enough:
-
-- hooks are fast and quiet,
-- failures are actionable,
-- people do not routinely bypass the checks,
-- mechanical defects are caught before review.
-
-Signs to move beyond it:
-
-- quality problems are not mechanical,
-- code organization is degrading,
-- documentation usefulness is degrading,
-- agents close tasks but require too many review cycles.
-
-### Level 4: Maintainability Sensors
-
-This layer observes entropy without turning every change into a process-heavy
-event.
-
-Includes:
-
-- manual maintainability checklist,
-- periodic documentation audit,
-- recurring failure ledger,
-- optional tools for duplicate code, dead code, complexity, or dependency
-  drift,
-- issue creation for bounded repair work.
-
-Value:
-
-- technical debt becomes visible,
-- harness debt becomes visible,
-- cognitive and semantic drift are named,
-- recurring failures become repair work instead of review folklore.
-
-Add when:
-
-- reviewers repeatedly see the same maintainability concerns,
-- agents struggle to close similar work without extra verification cycles,
-- docs are stale enough to mislead,
-- humans no longer share the same model of the system,
-- objective tools reveal duplicate, dead, or overly complex code.
-
-Signs this is enough:
-
-- maintainability work is periodic, bounded, and useful,
-- sensors produce few false alarms,
-- repair work is scoped as normal tickets,
-- product delivery is not slowed by constant process.
-
-Signs to move beyond it:
-
-- multiple agents need to coordinate long-horizon work,
-- work spans many short-lived sessions,
-- verification itself needs orchestration,
-- state is getting lost between agents.
-
-### Level 5: Orchestration And Automation
-
-This layer is for larger or more agent-heavy projects. It should not be part
-of the starter harness.
-
-Includes:
-
-- PRD lifecycle,
-- tracker adapters,
-- structured final-output protocols,
-- unattended runners,
-- verifier agents,
-- eval suites,
-- harness modes,
-- stricter file access controls.
-
-Value:
-
-- long-horizon work survives fresh-context sessions,
-- multiple agents can coordinate through durable artifacts,
-- verification reports become structured,
-- the harness itself can be tested and improved.
-
-Add when:
-
-- humans are routinely decomposing large work into many agent tasks,
-- agents are operating unattended or semi-unattended,
-- ordinary final messages are not reliable enough,
-- work state is too large for one session or ticket,
-- harness behavior itself needs regression testing.
-
-Do not add yet when:
-
-- a human is still closely guiding most work,
-- tasks are small enough for one agent session,
-- a work brief and verification script solve most coordination needs,
-- the team has not yet adopted the lower layers.
+The canonical level definitions live in `docs/maturity-model.md`. Do not
+maintain a second copy here. The manifest-level asset boundaries live in:
+
+- `manifests/level-0.yml`,
+- `manifests/level-1.yml`,
+- `manifests/optional-assets.yml`.
 
 ### How To Use The Model
 
