@@ -21,6 +21,8 @@ the target repo through inspection and collaboration:
   must be adapted.
 - `docs/platform-support.md` explains when to add platform-specific adapters
   and how to keep them thin.
+- `REFERENCES.md` records public projects that informed this framework.
+- `LICENSE` contains the MIT license for this repository.
 - `manifests/bootstrap.yml` lists bootstrap-only assets used during
   installation.
 - `manifests/level-0.yml` is the canonical list of default starter assets.
@@ -105,3 +107,7 @@ then only the platform note for the adapter being installed.
 For an initial trial, prefer the Level 0 harness defined in
 `manifests/level-0.yml`. Add more only when repo evidence or human preference
 justifies it.
+
+## License
+
+This project is licensed under the MIT License. See `LICENSE`.
