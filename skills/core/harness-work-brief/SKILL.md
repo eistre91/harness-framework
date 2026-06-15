@@ -45,9 +45,22 @@ failure.
 9. If the source work is too large, propose independently verifiable vertical
    slices instead of layer-by-layer tasks. Each slice should have a clear
    outcome, boundary or interface, test surface, and dependency relationship.
-10. Challenge any plan that adds structure, generality, dependencies, or cleanup
-   outside the requested value. Keep it only when the trade-off is explicit.
-11. Write durable briefs around behavior, interfaces, acceptance evidence, and
+10. For each proposed slice, make it thin but complete. A completed slice should
+    be demoable or verifiable on its own.
+11. Prefer more thin slices over a few thick slices when that reduces ambiguity
+    and dependency risk.
+12. If the owning behavior, interface, test surface, or acceptance evidence
+    cannot be named without guessing, split the work further or mark the
+    decision as human-blocked.
+13. Record lightweight design guardrails when they reduce implementation risk:
+    owning module or boundary, public interface callers/tests should use, what
+    complexity should stay hidden, test surface, dependency or blocker state,
+    and any obvious gravity-well risk.
+14. Present proposed slices before finalizing them when the split changes scope,
+    dependency ordering, or human/agent ownership.
+15. Challenge any plan that adds structure, generality, dependencies, or cleanup
+    outside the requested value. Keep it only when the trade-off is explicit.
+16. Write durable briefs around behavior, interfaces, acceptance evidence, and
     source-of-truth files. Avoid brittle line numbers in long-lived briefs.
 
 ## Collaboration

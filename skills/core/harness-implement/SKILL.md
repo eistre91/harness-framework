@@ -17,10 +17,14 @@ Use when implementing an Agent Work Brief.
 - Prefer existing project patterns over new dependencies or new architecture.
 - When behavior changes, tests should verify observable behavior through a
   public interface or boundary, not private implementation details.
+- Test names should use the repo's domain language and read like behavior
+  specifications.
 - Mock only at system boundaries such as external APIs, time, randomness,
   filesystem, or databases when needed.
 - For selection, routing, snapshot, fallback, or ordering logic, include a
   competing or stale candidate case when practical.
+- Focus test effort on critical paths and complex logic, not every possible
+  edge case.
 
 ## Process
 
@@ -35,12 +39,16 @@ Use when implementing an Agent Work Brief.
    - repeat for the next behavior.
 5. Avoid horizontal slicing: do not write a large batch of imagined tests and
    then a large batch of implementation.
-6. Refactor only after tests are green; keep tests on public behavior so
+6. Keep each cycle narrow:
+   - one test at a time,
+   - no speculative behavior for future tests,
+   - no refactor while the suite is red.
+7. Refactor only after tests are green; keep tests on public behavior so
    internal refactors do not break them.
-7. Run the repo's canonical verification command before claiming done.
-8. Provide mechanical evidence and acceptance evidence.
-9. Prepare a handoff for an independent reviewer.
-10. Call out any scope, design, or verification gaps.
+8. Run the repo's canonical verification command before claiming done.
+9. Provide mechanical evidence and acceptance evidence.
+10. Prepare a handoff for an independent reviewer.
+11. Call out any scope, design, or verification gaps.
 
 ## Guardrails
 

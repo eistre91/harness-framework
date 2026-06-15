@@ -27,6 +27,9 @@ assets:
     asset_type: installable
     source: skills/optional/harness-diagnose/SKILL.md
     default_target: .agents/skills/harness-diagnose/SKILL.md
+    companion_files:
+      - source: skills/optional/harness-diagnose/scripts/hitl-loop.template.sh
+        default_target: .agents/skills/harness-diagnose/scripts/hitl-loop.template.sh
     maturity: level-1
     install_when: Agents will debug bugs, failing tests, flaky behavior, or regressions.
     adapt:

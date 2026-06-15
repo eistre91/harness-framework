@@ -59,11 +59,17 @@ handoff when practical.
    - behavior changes covered by meaningful tests,
    - tests exercise public interfaces or behavior boundaries,
    - tests describe observable behavior, not implementation details,
+   - test names use project or domain language and read like behavior
+     specifications,
    - bug fixes include a regression test where practical,
+   - test effort focuses on critical paths and complex logic, not every
+     possible edge case,
    - selection, routing, snapshot, fallback, or ordering logic includes a
      competing or stale candidate case when practical,
    - mocks stay at system boundaries such as external APIs, time,
-     randomness, filesystem, or databases when needed.
+     randomness, filesystem, or databases when needed,
+   - tests do not mock internal collaborators or assert on private methods,
+     call counts, or call order unless that interaction is the public contract.
 5. User experience:
    - behavior is coherent from the user's perspective,
    - small polish gaps matter only when they materially affect the outcome.
