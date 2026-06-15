@@ -936,6 +936,12 @@ Start with scripts/verify.sh as the contract. Add hooks only if the team wants
 automatic enforcement or repeated failures show that agents forget the command.
 ```
 
+A narrow Stop hook that runs `scripts/verify.sh` is a common Level 1 starter
+pull-in when verification is real, reasonably fast, and actionable. Treat
+broader hook systems, secret guards, destructive-action policy, cross-platform
+hook runners, and CI/pre-commit parity as selected Level 3 deterministic
+controls.
+
 ## Starter Assets
 
 The source-of-truth asset selections live in the manifests. Do not maintain
@@ -1135,7 +1141,10 @@ and behaviors for the claimed levels.
 Add:
 
 - `scripts/verify.sh`,
-- pre-commit or Stop hook only if the team wants automatic enforcement,
+- early Stop hook running `scripts/verify.sh` when the command is real,
+  reasonably fast, and actionable,
+- pre-commit or broader hooks only if the team wants stronger automatic
+  enforcement,
 - CI parity if CI already exists or is in scope.
 
 Defer:

@@ -883,10 +883,11 @@ The maturity model should be used diagnostically:
 4. Keep the component brief for every new harness part.
 5. Remove or simplify layers that stop earning their maintenance cost.
 
-The model also allows partial adoption. A project might add secret guards from
-Level 3 before it needs `SPEC-MAP.md` from Level 2. The levels describe common
-growth pressure, not a strict installation order. When partial adoption is
-chosen, record the target maturity, install mode, installed asset
+The model also allows partial adoption. A project might add an early Stop hook
+that runs `scripts/verify.sh` during a Level 1 starter install, or add secret
+guards from Level 3 before it needs `SPEC-MAP.md` from Level 2. The levels
+describe common growth pressure, not a strict installation order. When partial
+adoption is chosen, record the target maturity, install mode, installed asset
 completeness, behavioral completeness, deferrals, and revisit signals.
 
 ## Adoption Phases
@@ -905,8 +906,9 @@ without buying into the whole operating-system concept at once.
 - the additive Level 1 assets and behaviors from `manifests/level-1.yml`, or
   selected Level 1 behavior with explicit "partial starter" wording
 - acceptance evidence standard
-- optional secret/destructive-action guards
-- Stop hook or pre-commit integration for `scripts/verify.sh`
+- optional selected Level 3 secret/destructive-action guards when risk warrants
+- optional Stop hook integration for `scripts/verify.sh` when the command is
+  real, fast enough, and actionable
 
 ### Phase 2
 

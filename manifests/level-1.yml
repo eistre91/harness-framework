@@ -33,9 +33,14 @@ assets:
       - project context paths
       - local fallback and commit policy
       - existing work-shaping skills or commands
+common_starter_pull_ins:
+  - id: verify-on-stop
+    asset_type: behavior
+    install_when: scripts/verify.sh is real, reasonably fast, actionable, and the team wants automatic feedback during agent sessions.
+    notes: Broad hook policy, secret guards, destructive-action rules, shared hook runners, and cross-platform enforcement remain selected Level 3 deterministic controls.
 not_part_of_level_definition:
   - diagnose skill
-  - hooks or automatic verification
+  - broad hooks or automatic verification beyond the optional verify-on-stop pull-in
   - SPEC-MAP.md
   - CONTEXT.md
   - .harness.yml

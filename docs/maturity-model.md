@@ -125,6 +125,17 @@ Add when:
 - implementation spans more than one session or agent,
 - agents overbuild beyond the requested value.
 
+Common starter pull-in:
+
+- a Stop hook that runs `scripts/verify.sh` when the repo has a real, reasonably
+  fast verification command and the team wants automatic feedback during agent
+  sessions.
+
+This is still a deterministic control, but it is small enough to pair with
+Level 1 because it reinforces the Level 0 verification contract without
+requiring a broader hook policy, shared runner, or cross-platform enforcement
+system.
+
 This may be enough when:
 
 - most work is still local,
@@ -188,7 +199,8 @@ Assets:
 - destructive-action warnings or blocks,
 - tool-safety checklist for protected paths, protected commands, and
   ask/warn/block policy,
-- Stop hook or pre-commit verification,
+- broader Stop hook or pre-commit enforcement beyond the early
+  `scripts/verify.sh` pull-in,
 - CI parity with `scripts/verify.sh`,
 - optional `.harness.yml` once multiple mechanisms need shared settings.
 
