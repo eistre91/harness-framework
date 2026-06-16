@@ -14,13 +14,14 @@ assets:
       - lifecycle/status update location
       - project context path
       - installed harness skill names and platform-specific skill conflicts
+      - distinction between committed .agents/skills and gitignored .agent/ local drafts
   - id: verification-script
     asset_type: installable
     source: templates/core/scripts/verify.sh
     default_target: scripts/verify.sh
     required: true
     adapt:
-      - commands derived from README, CI, Makefile, tox, nox, or project config
+      - commands derived from README, CI, existing scripts, or project config
       - CI parity where practical
       - preserve executable mode or run chmod +x after copying
   - id: harness-doc-index
@@ -44,21 +45,27 @@ assets:
     adapt:
       - final approved proposal
       - decisions changed after human review
-      - temporary proposal path if useful, labeled temporary
-  - id: work-brief-template
+  - id: work-brief-skill
     asset_type: installable
-    source: templates/core/docs/harness/work-brief.md
-    default_target: docs/harness/work-brief.md
+    source: skills/core/harness-work-brief/SKILL.md
+    default_target: .agents/skills/harness-work-brief/SKILL.md
+    companion_files:
+      - source: skills/core/harness-work-brief/work-brief-template.md
+        default_target: .agents/skills/harness-work-brief/work-brief-template.md
     required: true
     adapt:
+      - canonical brief location
       - required acceptance evidence for the repo's work types
       - tracker references if useful
+      - local fallback and commit policy
+      - existing work-shaping skills or commands
   - id: work-brief-fallback-gitignore
     asset_type: behavior
-    required_when: A local work brief fallback directory is introduced and brief instances are not explicitly approved for commit.
+    required_when: A local work brief fallback directory is introduced.
     satisfy_by:
       - Add the fallback directory, such as .agent/work/, to .gitignore.
-      - Or record explicit human approval that work brief instances may be committed.
+      - Do not commit local fallback brief instances.
+      - If the team wants versioned in-repo briefs, choose an explicit durable repo path such as docs/work/ as the canonical brief location.
     adapt:
       - local fallback path
       - commit policy for work brief instances
@@ -73,7 +80,7 @@ assets:
 defer_by_default:
   - hooks
   - platform pointer files for unused tools
-  - skills beyond review
+  - skills beyond work-brief and review
   - project docs/routing
   - docs/harness/component-brief.md
   - docs/harness/maintainability.md

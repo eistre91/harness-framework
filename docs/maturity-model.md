@@ -48,8 +48,8 @@ Minimum for agents to work without reconstructing prior planning discussion.
 Default assets are defined in `manifests/level-0.yml`.
 
 At this level, the harness should provide a repo agent entrypoint, canonical
-verification command, work brief template, local harness owner manual, and
-lightweight review guidance.
+verification command, work-brief skill bundle with a template, local harness
+owner manual, and lightweight review guidance.
 
 Value:
 
@@ -58,7 +58,7 @@ Value:
 - agents know how to prove basic correctness,
 - reviewers have a shared expectation for done.
 
-The Level 0 work brief template may include richer optional sections. For tiny
+The Level 0 work-brief template may include richer optional sections. For tiny
 work, the agent may only need source, goal, value target, context,
 verification, and done criteria. Filling the boundary, ambiguity, and
 acceptance sections becomes more important at Level 1.
@@ -105,8 +105,8 @@ Asset boundary:
   reusable review lens.
 - `harness-implement` is Level 1 because it guides bounded execution from a
   brief.
-- `harness-work-brief` is Level 1 when agents will help transform tickets,
-  issues, or chat requests into executable briefs.
+- `harness-work-brief` is Level 0 because the template and source-shaping
+  guidance should travel together.
 - `harness-diagnose` is an optional Level 1 pull-in for debugging work, not
   part of the Level 1 definition.
 

@@ -4,8 +4,8 @@ This repo separates portable harness assets from repo-specific adaptations.
 
 ## Rule
 
-Concepts and templates transfer. Final file contents, commands, paths, tracker
-locations, and adapters are fitted to the target repo.
+Concepts, templates, and skill bundles transfer. Final file contents, commands,
+paths, tracker locations, and adapters are fitted to the target repo.
 
 Adapters should preserve shared behavior across tools. Put common policy in
 portable assets, then make tool-specific adapters call or point to those

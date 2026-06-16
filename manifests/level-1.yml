@@ -21,18 +21,6 @@ assets:
       - test conventions
       - project-specific implementation risks
       - existing implementation skills or commands
-  - id: work-brief-skill
-    asset_type: installable
-    source: skills/core/harness-work-brief/SKILL.md
-    default_target: .agents/skills/harness-work-brief/SKILL.md
-    required_when: Agents will help transform tracker items, issues, planning notes, or chat requests into executable Agent Work Briefs.
-    adapt:
-      - canonical brief location
-      - tracker conventions
-      - required acceptance evidence
-      - project context paths
-      - local fallback and commit policy
-      - existing work-shaping skills or commands
 common_starter_pull_ins:
   - id: verify-on-stop
     asset_type: behavior

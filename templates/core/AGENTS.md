@@ -9,17 +9,21 @@ the current task requires.
 
 Primary work source: <Jira / GitHub Issues / human-provided brief / other>.
 
-Canonical work brief location: <Jira ticket/comment / repo file / PR
-description / chat for tiny work>.
+Canonical work source and brief location: <Jira ticket/comment / repo file /
+PR description / chat for tiny work>.
 
-Allowed temporary draft location: <none / .agent/work / docs/work / other>.
+Allowed local fallback draft location: <none / .agent/work / other gitignored
+path>.
 
-Commit policy for work brief instances: <commit / gitignore / explicit approval
-required>.
+Local fallback draft policy: do not commit local fallback brief instances. If
+the team wants versioned in-repo briefs, use an explicit durable path such as
+`docs/work/` as the canonical brief location.
 
-If the canonical brief location is external and unavailable, use the local
-fallback only as temporary state. Copy durable progress, evidence, blockers,
-and plan changes back to the canonical location before handoff.
+Availability means the current agent session can read and update the canonical
+source through the configured tool, such as an MCP server, API, CLI, or browser
+workflow. If the canonical source is external and unavailable, use the local
+fallback only as temporary state. Copy durable progress, evidence, blockers, and
+accepted plan changes back to the canonical location before handoff.
 
 Lifecycle/status updates: <where Draft -> Ready For Implementation ->
 Implemented -> Verified -> Reviewed is recorded>.
@@ -34,7 +38,10 @@ equivalent detail to answer:
 - verification,
 - acceptance evidence for behavior changes.
 
-Work brief template: `docs/harness/work-brief.md`
+For tiny work, a ticket, issue, or chat request can be enough when it states the
+source, goal, context, verification, and done criteria.
+
+Work brief skill/template: `.agents/skills/harness-work-brief/`
 
 ## Verification
 
@@ -57,10 +64,10 @@ inspecting, or directly handling secret values.
 
 ## Skills
 
-Harness-provided skills, if installed, use the `harness-` prefix, such as
-`harness-review`, `harness-implement`, `harness-work-brief`, or
-`harness-diagnose`. Existing platform-native skills or commands may also be
-available; use the repo-specific decision recorded during installation.
+Reusable harness skills are installed in platform-neutral `.agents/skills/` by
+default. Use those repo-specific skills when their descriptions match the task.
+The singular `.agent/` path, when configured, is for local gitignored drafts and
+state, not committed shared skills.
 
 ## Review Independence
 
@@ -77,10 +84,13 @@ documentation.
 
 ## Harness Docs
 
-Harness docs live in `docs/harness/`.
+Harness docs live in `docs/harness/`. Do not read them for ordinary
+implementation or to learn how to use the harness during product work. Use this
+entrypoint, the canonical work source, installed skills, project docs, and local
+code instead.
 
-Read them when the task is to maintain or extend the harness. Normal product
-work should use the work brief, project docs, and local code.
+Read `docs/harness/` only when the task is to inspect, audit, maintain, or
+extend the harness itself.
 
 ## Safety
 

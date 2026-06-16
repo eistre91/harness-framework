@@ -1,14 +1,16 @@
 # Harness Docs
 
-Audience: agents and maintainers intentionally changing this repo's agent
-harness.
+Audience: agents and maintainers intentionally inspecting, auditing,
+maintaining, or extending this repo's agent harness.
 
 Use when: maintaining harness files, changing agent workflow, raising harness
-maturity, or understanding why these files exist.
+maturity, auditing harness behavior, or understanding why these harness files
+exist.
 
 Normal product work should start from `AGENTS.md`, the current Agent Work
 Brief, project docs, and local code. Do not read harness docs for ordinary
-implementation unless the task is about the harness itself.
+implementation or to learn how to use the harness unless the task is about the
+harness itself.
 
 ## Provenance
 
@@ -16,11 +18,10 @@ Source framework: harness-framework
 Source version or commit, if known:
 Installed on:
 Installed by:
-Temporary Harness Fit Proposal path, if any:
 Durable Harness Fit Proposal or decision log:
 
-Use portable source names in committed docs. Keep local paths such as
-`../harness-framework` in temporary proposals or transcripts only.
+Use portable source names in committed docs. Do not record machine-local paths
+or temporary proposal paths in durable harness docs.
 
 For significant harness changes, consult the source framework docs or run a
 fresh fit pass with the implementation guide before adding process.
@@ -104,8 +105,8 @@ this table. Do not copy the canonical manifest here.
   cost.
 - Record why a new harness component exists and when it should be simplified or
   removed.
-- Keep shared behavior in `AGENTS.md`, `scripts/verify.sh`, work brief
-  templates, and shared skills. Keep tool-specific adapters thin.
+- Keep shared behavior in `AGENTS.md`, `scripts/verify.sh`, work-brief skill
+  bundles, and shared skills. Keep tool-specific adapters thin.
 - Prefer executable checks and concrete acceptance evidence over prose.
 - For secrets management changes, verify declarations, aliases, permissions,
   redaction, and runtime wiring without printing, revealing, inspecting, or

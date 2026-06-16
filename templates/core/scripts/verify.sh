@@ -3,7 +3,7 @@ set -eu
 
 # Canonical local verification for this repo.
 # Replace the placeholder below with commands derived from README, CI,
-# Makefile, tox, nox, package/project config, or existing scripts.
+# existing scripts, package/project config, or other repo evidence.
 # Keep this aligned with CI where practical.
 
 run() {

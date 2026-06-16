@@ -135,9 +135,8 @@ Observed gap:
 
 Recommendation:
   Opt out of adding linting during this install unless the team explicitly
-  wants it. Use the existing test command in scripts/verify.sh, name a
-  reasonable future default such as ruff for Python when appropriate, and
-  record the opt-out in the proposal.
+  wants it. Use the existing verification command in scripts/verify.sh and
+  record the linting opt-out in the proposal.
 ```
 
 ### Argue For Complexity
@@ -189,12 +188,8 @@ Suggested inspection targets:
   `.claude/commands/`, `.agents/skills/`, Cursor rules, or local team
   command directories,
 - CI workflows such as `.github/workflows/*`,
-- package or project config:
-  - Python: `pyproject.toml`, `setup.cfg`, `setup.py`, `tox.ini`,
-    `noxfile.py`, `requirements*.txt`, `Pipfile`, `uv.lock`,
-  - Node: `package.json`, lockfiles,
-  - other stacks: obvious build/test config,
-- `Makefile`, `justfile`, `Taskfile.yml`, `scripts/*`,
+- package, build, or project config files,
+- existing task runners and scripts,
 - test directories,
 - docs directories,
 - tracker references in README, CONTRIBUTING, or issue templates,
@@ -293,8 +288,8 @@ Example:
 
 Current observed maturity:
 - Level: partial Level 0
-- Evidence: README documents `pytest`, CI runs tests, but there is no agent
-  entrypoint or work brief.
+- Evidence: README documents a test command, CI runs tests, but there is no
+  agent entrypoint or work brief.
 - Gaps: no canonical verification script; no acceptance evidence standard.
 
 Recommended target for this installation:
@@ -349,10 +344,11 @@ human before editing. A short summary is fine, but it must not substitute for
 the full proposal.
 
 The temporary plan should survive a session handoff during installation, but
-`/tmp` is not durable repo documentation. After installation, record the final
-proposal or an equivalent decision log under `docs/harness/`, either by
+`/tmp` is not durable repo documentation. After installation, record only the
+final proposal or equivalent decision log under `docs/harness/`, either by
 creating a file such as `docs/harness/fit-proposal.md` or by embedding the
-final decisions in `docs/harness/README.md`.
+final decisions in `docs/harness/README.md`. Do not copy temporary proposal
+paths into durable harness docs.
 
 If the proposal changes after human questions are answered, update the
 persisted plan before editing files.
@@ -368,9 +364,9 @@ What should the harness do?
 Better:
 
 ```text
-I found pytest in CI and no lint command. I recommend scripts/verify.sh run
-pytest only for now and record linting as a future improvement. Do you want
-linting added now despite it not already existing?
+I found a test command in CI and no lint command. I recommend scripts/verify.sh
+run the existing test command only for now and record linting as a future
+improvement. Do you want linting added now despite it not already existing?
 ```
 
 ### 5. Ask Focused Human Questions
@@ -384,7 +380,8 @@ both obvious from repo evidence and low-risk:
 - Where should canonical Agent Work Briefs live?
 - What local fallback should agents use when the canonical brief store is
   unavailable?
-- Should work brief instances be committed or gitignored?
+- Should brief instances live only in the external tracker, in a durable repo
+  path, or as gitignored local fallback drafts?
 - Should missing test, lint/format, or type-check tools be added now or
   explicitly deferred?
 - How should existing platform skills, commands, or review flows be merged,
@@ -398,8 +395,7 @@ Useful questions:
 - Which work tracker is authoritative?
 - Which agent tools will the team actually use?
 - Which agent platforms need first-class support now, if any?
-- Do you want the temporary Harness Fit Proposal somewhere other than `/tmp`,
-  and should the final proposal be copied to `docs/harness/fit-proposal.md` or
+- Should the final proposal be copied to `docs/harness/fit-proposal.md` or
   embedded in `docs/harness/README.md`?
 - Should verification run automatically, or only be documented for now?
 - Are any files, directories, services, or data sources off limits to agents?
@@ -469,7 +465,7 @@ After implementation, check that a fresh agent could:
 A Level 0 or Level 1 starter harness is acceptable when:
 
 - `AGENTS.md` tells agents where to start without becoming an encyclopedia,
-- the work brief template can turn a Jira ticket, GitHub issue, or chat request
+- the work-brief skill bundle can turn a tracker item, issue, or chat request
   into executable work,
 - `scripts/verify.sh` exists and either runs real repo commands or clearly
   fails with an honest placeholder,
@@ -534,7 +530,6 @@ Possible locations:
 
 ```text
 docs/work/<ticket-id>.md
-.agent/work/<ticket-id>.md
 ```
 
 Pros:
@@ -566,7 +561,9 @@ Recommended default:
 ```text
 Canonical work brief location: <tracker>.
 Local fallback: .agent/work/ or another gitignored directory.
-Commit policy: do not commit work brief instances unless explicitly approved.
+Commit policy: do not commit local fallback brief instances. If the team wants
+versioned in-repo briefs, choose a durable repo path such as docs/work/ as the
+canonical location.
 Sync rule: if local fallback state changes, copy the durable summary back to
 the tracker before considering the work handed off.
 ```
@@ -669,8 +666,7 @@ entrypoints where practical.
 1. Inspect CI workflows.
 2. Inspect documented setup and test commands in README or CONTRIBUTING.
 3. Inspect project config.
-4. Inspect existing scripts such as `Makefile`, `justfile`, `tox`, `nox`, or
-   `package.json`.
+4. Inspect existing task runners, scripts, and package/build entrypoints.
 5. Inspect test directories and naming conventions.
 6. Prefer commands the repo already uses over commands the agent happens to
    prefer.
@@ -678,47 +674,18 @@ entrypoints where practical.
 8. If tests, linting, or type checking are missing, record an explicit opt-out
    or human-approved addition rather than silently deferring it.
 
-### Python Signals
-
-Common signals:
-
-```text
-pytest:
-  pyproject.toml, pytest.ini, tests/, CI command uses pytest
-
-ruff:
-  pyproject.toml [tool.ruff], CI uses ruff
-
-mypy:
-  mypy.ini, pyproject.toml [tool.mypy], CI uses mypy
-
-pyright:
-  pyrightconfig.json, CI uses pyright
-
-tox:
-  tox.ini
-
-nox:
-  noxfile.py
-
-uv:
-  uv.lock, pyproject.toml, CI uses uv run
-
-poetry:
-  poetry.lock, pyproject.toml [tool.poetry]
-```
-
 ### Command Selection Rules
 
 Prefer the highest-level command the repo already uses.
 
-Examples:
+Examples without naming target-specific tools:
 
 ```text
-If CI runs `make test`, use `make test`.
-If CI runs `tox`, use `tox`.
-If README says `uv run pytest`, use `uv run pytest`.
-If only pytest config exists, use `pytest` or the repo's environment manager.
+If CI runs a single project verification command, use that command.
+If README documents a local test command, use that command.
+If an existing script wraps tests, linting, and type checking, use that wrapper.
+If only lower-level tool config exists, propose the smallest command derived
+from that config and record the evidence.
 ```
 
 Do not add a new tool during harness installation unless the human agrees.
@@ -738,19 +705,17 @@ run() {
 }
 
 # Replace these commands with the repo's existing verification commands.
-# Prefer commands already documented in README, CI, Makefile, tox, nox, or
-# project config.
+# Prefer commands already documented in README, CI, existing scripts, or
+# package/project config.
 # If no command can be confirmed, leave this explicit failure in place instead
 # of guessing.
 
 echo "No canonical verification command has been configured for this repo." >&2
-echo "Replace this placeholder with commands derived from README, CI, Makefile, tox, nox, or project config." >&2
+echo "Replace this placeholder with commands derived from repo evidence." >&2
 exit 1
 ```
 
-### Python Examples
-
-Existing pytest only:
+### Existing Wrapper Example
 
 ```sh
 #!/usr/bin/env sh
@@ -761,51 +726,7 @@ run() {
   "$@"
 }
 
-run pytest
-```
-
-Existing ruff and pytest:
-
-```sh
-#!/usr/bin/env sh
-set -eu
-
-run() {
-  echo "+ $*"
-  "$@"
-}
-
-run ruff check .
-run pytest
-```
-
-Existing uv workflow:
-
-```sh
-#!/usr/bin/env sh
-set -eu
-
-run() {
-  echo "+ $*"
-  "$@"
-}
-
-run uv run ruff check .
-run uv run pytest
-```
-
-Existing make workflow:
-
-```sh
-#!/usr/bin/env sh
-set -eu
-
-run() {
-  echo "+ $*"
-  "$@"
-}
-
-run make test
+run <existing-project-verification-command>
 ```
 
 ### If Verification Is Missing
@@ -874,8 +795,8 @@ harness.
 Default:
 
 ```text
-Keep shared policy in AGENTS.md, scripts/verify.sh, work brief templates, and
-portable skill guidance. Make adapters thin wrappers around those shared
+Keep shared policy in AGENTS.md, scripts/verify.sh, work-brief skill bundles,
+and portable skill guidance. Make adapters thin wrappers around those shared
 contracts.
 ```
 
@@ -1101,9 +1022,7 @@ Add:
 
 - acceptance evidence standard,
 - non-goals and interface sections for boundary-changing work,
-- implementation guidance for agents working from briefs,
-- work-brief guidance if agents will shape tickets or chat requests into
-  executable briefs.
+- implementation guidance for agents working from briefs.
 
 Defer:
 
@@ -1161,13 +1080,14 @@ The implementation is done when:
   completeness claims are recorded,
 - the final Harness Fit Proposal or equivalent decision log is durable under
   `docs/harness/`,
-- temporary proposal paths are labeled temporary and not described as durable,
+- temporary proposal paths are not copied into durable harness docs,
 - the human has agreed to the starter shape or explicitly delegated the choice,
 - all agreed starter files exist,
 - `scripts/verify.sh` either runs real repo commands or clearly fails with an
   honest placeholder,
 - the Agent Work Brief has a chosen placement and lifecycle,
-- any local work-brief fallback is gitignored or explicitly approved for commit,
+- any local work-brief fallback is gitignored, and any durable in-repo briefs
+  use an explicit canonical repo path,
 - the final report separates mechanical verification from acceptance evidence,
 - side-effect evidence covers external systems, secrets management, schedules,
   deployment behavior, integrations, and runtime boundaries when relevant,
@@ -1197,7 +1117,6 @@ Installation completeness:
 Behavioral completeness:
 
 Harness Fit Proposal / decision log:
-- Temporary pre-edit path:
 - Durable post-install path:
 
 Files changed:
@@ -1259,8 +1178,7 @@ Before finishing installed docs, run this wording check:
 - Does durable documentation point to a machine-local path such as
   `../harness-framework` instead of the portable source name
   `harness-framework`?
-- Does any doc call `/tmp` state persisted or durable without qualifying that
-  it is temporary?
+- Does any durable doc record `/tmp` state or another machine-local path?
 - Does the doc distinguish required behavior from optional guidance?
 - Does the doc tell ordinary implementers to read `docs/harness/` when they
   only need the work brief, project docs, and code?

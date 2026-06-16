@@ -73,8 +73,9 @@ Most first trials should install only the Level 0 assets from
 and explicitly defer anything else.
 
 If a first trial targets Level 1 behavior without installing every canonical
-Level 1 manifest asset, describe it as a partial starter fit, not simply a
-"Level 1 harness."
+Level 1 manifest asset, describe the target and installation completeness
+separately. Do not describe the repo as having completed Level 1 unless the
+manifest assets and behavior are actually complete.
 
 ## Asset Types
 

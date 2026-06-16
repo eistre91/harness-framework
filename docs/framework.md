@@ -100,7 +100,7 @@ Conceptually, Level 0 provides:
 
 - a repo agent entrypoint,
 - a canonical verification command,
-- a work brief template,
+- a work-brief skill bundle with a template,
 - a local harness owner manual,
 - lightweight review guidance.
 
@@ -108,9 +108,8 @@ Optional pull-ins, depending on repo evidence and team tools:
 
 - `docs/harness/component-brief.md`
 - `docs/harness/maintainability.md`
-- implementation or work-brief skills in `.agents/skills`, using
-  self-explaining names such as `harness-implement` and
-  `harness-work-brief` by default
+- implementation skills in `.agents/skills`, using self-explaining names such
+  as `harness-implement` by default
 - adapter-specific hook or settings files
 
 The optional pieces should not be installed just because the template mentions
@@ -146,15 +145,15 @@ should be intentional. An operator should explicitly point an agent at
 `docs/harness/README.md` or a specific harness document when the task is to
 modify the harness itself.
 
-We discussed whether a router should explicitly say "do not read harness docs
-unless doing harness work." The current conclusion is that this is probably
-unnecessary at the start. If normal entrypoints never route to harness docs,
-agents are unlikely to spend context there.
+The repo entrypoint should explicitly say not to read harness docs for ordinary
+implementation or to understand how to use the harness. Ordinary work should
+route through the canonical work source, the installed skills, project docs, and
+local code.
 
 The escalation ladder is:
 
 1. omit harness docs from normal routing,
-2. add an explicit convention if agents wander into them,
+2. state the explicit convention in the repo entrypoint,
 3. add warning hooks if the problem repeats,
 4. add blocking hooks only for proven recurring harm or sensitive files,
 5. use sandbox/container separation only when risk justifies the machinery.
@@ -170,7 +169,7 @@ encyclopedia.
 It should answer:
 
 - where work comes from,
-- where the Agent Work Brief template lives,
+- where the Agent Work Brief skill/template bundle lives,
 - how to verify work,
 - where product context lives,
 - what files or operations are sensitive,
@@ -297,9 +296,9 @@ proceed with less ambiguity.
 
 ### Template
 
-The canonical work brief template lives at
-`templates/core/docs/harness/work-brief.md`. Do not maintain a second copy in
-this framework explanation.
+The canonical work brief template travels with the `harness-work-brief` skill at
+`skills/core/harness-work-brief/work-brief-template.md`. Do not maintain a
+second copy in this framework explanation.
 
 ### Tiers
 
@@ -318,7 +317,7 @@ Standard:
   includes goal, non-goals, context, verification, done criteria
 
 Boundary-changing:
-  adds interface section, alternatives/trade-offs, acceptance examples
+  adds interface section, accepted decisions, acceptance examples
 ```
 
 The interface section is not required for every bug fix. It is needed when a
@@ -960,9 +959,9 @@ configuration.
 
 ### Strict Harness-Docs Blocking
 
-Deferred. Omit harness docs from normal routing first. Add warnings or blocks
-only if agents repeatedly waste context there or if sensitive files require
-hard protection.
+Deferred. Omit harness docs from normal routing and state the convention in the
+repo entrypoint first. Add warnings or blocks only if agents repeatedly waste
+context there or if sensitive files require hard protection.
 
 ### Always-On Maintainability Gate
 

@@ -1,5 +1,6 @@
 .DS_Store
 .harness-bootstrap/
+# Local agent drafts/state. Committed skills use .agents/skills/.
 .agent/
 .env*
 secrets/

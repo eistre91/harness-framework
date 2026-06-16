@@ -1,9 +1,8 @@
 # Harness Fit Proposal
 
 This file records the final approved harness installation proposal or equivalent
-decision log. It is durable repo documentation. Temporary proposal paths such
-as `/tmp/<repo>-harness-fit-proposal.md` are installation-session artifacts,
-not durable records.
+decision log. It is durable repo documentation. Do not record machine-local
+paths or temporary installation-session proposal paths here.
 
 ## Repo Signals
 
@@ -89,12 +88,6 @@ Future improvement:
 ## Human Decisions
 
 -
-
-## Proposal Persistence
-
-- Temporary pre-edit path:
-- Durable post-install proposal or decision log location:
-- Update rule:
 
 ## Intentionally Deferred
 

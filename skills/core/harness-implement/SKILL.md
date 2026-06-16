@@ -8,7 +8,8 @@ repo_specific_adaptation: Verification command, project context paths, test conv
 
 # Harness Implement
 
-Use when implementing an Agent Work Brief.
+Use when implementing an Agent Work Brief, tracker item, or human-approved scope
+that contains enough executable detail.
 
 ## Principles
 
@@ -28,9 +29,9 @@ Use when implementing an Agent Work Brief.
 
 ## Process
 
-1. Read the brief and only the context needed for the task.
-2. Confirm the tier and stop on ambiguities that materially affect scope,
-   interface, verification, or acceptance.
+1. Read the canonical work source and only the context needed for the task.
+2. Confirm the tier when provided and stop on ambiguities that materially affect
+   scope, interface, verification, or acceptance.
 3. Identify the behavior boundary: API, CLI, function, component, job, file
    format, integration, or user-visible workflow.
 4. For behavior changes, use a vertical red-green loop where practical:
@@ -49,6 +50,11 @@ Use when implementing an Agent Work Brief.
 9. Provide mechanical evidence and acceptance evidence.
 10. Prepare a handoff for an independent reviewer.
 11. Call out any scope, design, or verification gaps.
+
+For tiny work, do not create extra process when the ticket, issue, or chat
+request already states the source, goal, context, verification, and done
+criteria. For standard or boundary-changing work, expect a concrete Agent Work
+Brief or equivalent executable scope before coding.
 
 ## Guardrails
 

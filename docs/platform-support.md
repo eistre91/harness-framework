@@ -24,7 +24,7 @@ Prefer these shared surfaces:
 
 - `AGENTS.md` for repo-wide agent operating guidance,
 - `scripts/verify.sh` for canonical mechanical verification,
-- `docs/harness/work-brief.md` for executable work shape,
+- the `harness-work-brief` skill bundle for executable work shape,
 - shared skill source for reusable task workflows,
 - one shared hook runner when multiple platforms enforce the same check.
 

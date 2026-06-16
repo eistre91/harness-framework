@@ -6,8 +6,8 @@ enough. Use the non-goals, ambiguity, boundary/interface, and acceptance
 sections when scope or behavior could otherwise be misunderstood.
 
 The brief should be self-contained for implementation, but it is not a
-transcript of planning. Record only decisions, constraints, and trade-offs that
-affect implementation or review.
+transcript of planning. Record only accepted decisions, constraints, and
+source-of-truth references that affect implementation or review.
 
 Source:
 Owner:
@@ -32,8 +32,8 @@ What should not be changed?
 ## Ambiguities / Decisions
 
 - Open ambiguity that blocks implementation:
-- Decision made that affects implementation or review:
-- Accepted trade-off the implementer or reviewer must know:
+- Accepted decision that affects implementation or review:
+- Accepted constraint the implementer or reviewer must know:
 
 ## Progress / Divergences
 
