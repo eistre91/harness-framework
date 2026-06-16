@@ -804,6 +804,15 @@ Docs are valuable when they reduce repeated inference cost. They are harmful
 when agents must parse too much stale or irrelevant material before doing the
 work.
 
+### Shared Behavior Has One Owner
+
+Each reusable harness behavior, schema, template, or policy should have one
+canonical home. Explanatory docs should point to that owner instead of
+maintaining second copies. Use manifests for asset boundaries, the maturity
+model for level definitions, skill bundles for executable workflows and
+templates, scripts for mechanical command contracts, and adapters as thin
+wrappers over shared behavior.
+
 ### Interfaces Are Natural Boundaries
 
 Agents and humans work better when boundaries are explicit. Interfaces reduce
