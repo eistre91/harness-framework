@@ -614,9 +614,9 @@ It protects the project from entropy without slowing every feature.
 
 ### Add When
 
-Add maintainability checks when repeated review findings, agent confusion,
-large files, duplicate code, stale docs, or recurring verification failures
-start appearing.
+Use the Level 4 "Add when" guidance in `docs/maturity-model.md` as the
+canonical trigger list. Conceptually, add maintainability checks when repeated
+maintainability, harness, cognitive, or semantic debt signals start appearing.
 
 ### Do Not Add Yet When
 
@@ -741,9 +741,9 @@ reversible.
 
 ## Progressive Disclosure
 
-The framework treats context windows as precious. Large context windows,
-compaction, and broad document loading are signals that the harness may be
-failing.
+The framework treats context windows as precious. The canonical context-related
+harness failure signals live in `docs/maturity-model.md`; this section explains
+the context movement choices behind those signals.
 
 The progressive-disclosure question is:
 
@@ -807,8 +807,8 @@ surface.
 
 This maturity model is not a status ladder where "higher" is automatically
 better. A small project may be healthiest at an earlier level for a long time.
-The point is to make the next useful layer obvious when the current harness
-starts failing.
+The point is to make the next useful layer obvious when the failure signals in
+`docs/maturity-model.md` appear.
 
 The canonical level definitions live in `docs/maturity-model.md`. Do not
 maintain a second copy here. The manifest-level asset boundaries live in:
@@ -819,13 +819,10 @@ maintain a second copy here. The manifest-level asset boundaries live in:
 
 ### How To Use The Model
 
-The maturity model should be used diagnostically:
-
-1. Start with the smallest layer that supports current work.
-2. Watch for repeated failures or coordination costs.
-3. Add the smallest next component that addresses the observed signal.
-4. Keep the component brief for every new harness part.
-5. Remove or simplify layers that stop earning their maintenance cost.
+Use the harness failure signals and level-specific "Add when" / "Move beyond
+when" guidance in `docs/maturity-model.md` to choose the smallest useful next
+change. Keep component briefs for new harness parts, and simplify or remove
+layers that stop earning their maintenance cost.
 
 The model also allows partial adoption. A project might add an early Stop hook
 that runs `scripts/repo-checks.sh` during a Level 1 starter install, or add secret
@@ -955,6 +952,6 @@ design alignment, captures interface and boundary decisions when needed, and
 requires concrete acceptance evidence for behavior changes.
 
 The broader principle is that harnesses should evolve the way good code
-evolves: start small, observe failure modes, add the least structure that
+evolves: start small, respond to observed signals, add the least structure that
 solves the real problem, and keep removing or simplifying anything that stops
 earning its place.
