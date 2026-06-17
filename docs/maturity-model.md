@@ -3,6 +3,25 @@
 Use this model diagnostically. Higher maturity is not automatically better. A
 small repo may be healthiest at Level 0 or Level 1 for a long time.
 
+## Harness Failure Signals
+
+A harness may be failing when agents or humans repeatedly show the same
+coordination, context, verification, or maintenance symptoms:
+
+- agents miss requirements, overbuild, or need repeated clarification,
+- agents forget checks or different contributors run different verification,
+- reviewers repeatedly ask for the same evidence,
+- work handoff depends on chat history or gets lost between sessions,
+- individual agent contexts rot, read too broadly, miss important context, or
+  hit compaction,
+- docs mislead agents or drift from code,
+- harness instructions, hooks, skills, or adapters duplicate truth or no longer
+  help,
+- product delivery slows because process surfaces create more work than value.
+
+Use the level-specific "Add when" and "Move beyond when" sections below to
+choose the smallest next harness change.
+
 Maturity level is not the same as installation completeness. A target repo can
 be aimed at Level 1 behavior without installing every canonical Level 1 asset.
 Every install should state three separate claims:
