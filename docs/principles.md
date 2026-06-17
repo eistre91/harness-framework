@@ -8,11 +8,17 @@ The harness should help agents deliver useful work, not admire its own
 structure. Every component should answer what value it provides now or what
 specific failure it prevents.
 
-### KISS And YAGNI Apply To The Harness
+### The Harness Is A System Too
 
-Do not introduce `CONTEXT.md`, `SPEC-MAP.md`, `.harness.yml`, full PRD flows,
-unattended runners, or structured protocols just because they are useful in a
-larger system. Add them when the project has signals that justify them.
+The harness is subject to the same failure modes as the codebase it supports. It
+can rot, overfit old workflows, duplicate truth, hide complexity, accumulate
+dead paths, and become too hard for humans or agents to understand.
+
+Keep the harness fit to purpose, explicit, and easy to change. The harness
+should satisfy KISS/YAGNI: do not introduce harness components, maturity levels,
+automation, protocols, or adapters without demonstrated need. Add them when the
+project has signals that justify them, and simplify or remove them when they
+stop earning their maintenance cost.
 
 ### Code Is The Source Of Truth
 
@@ -24,6 +30,20 @@ Prefer code, tests, scripts, and executable examples where possible.
 Docs are valuable when they reduce repeated inference cost. They are harmful
 when agents must parse too much stale or irrelevant material before doing the
 work.
+
+### Context Is Precious And Focused
+
+An agent's context window is a limited working set, not a storage layer. Good
+context is correct, complete enough for the current task, small enough to stay
+focused, and oriented toward the next action.
+
+Too little context makes agents guess. Too much context creates context rot:
+stale claims, irrelevant history, duplicated guidance, and noisy reading paths
+crowd out the instructions and evidence that matter.
+
+The harness should route agents to the smallest sufficient context and preserve
+progress through explicit handoffs. Automatic compaction is a failure of context
+engineering, not a planned workflow.
 
 ### Shared Behavior Has One Owner
 
