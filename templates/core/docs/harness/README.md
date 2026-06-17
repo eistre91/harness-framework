@@ -63,12 +63,19 @@ skills.
 
 | Platform or path | Skill or command | Overlap | Decision |
 | --- | --- | --- | --- |
-|  |  | review / implement / work brief / diagnose-debug / run-verify / other |  |
+|  |  | review / implement / work brief / diagnose-debug / run-checks / other |  |
 
 For Claude Code, record whether bundled skills such as `/code-review`,
 `/debug`, `/run`, and `/verify` should remain enabled, be documented as
 secondary to repo-specific guidance, or be disabled by the human's Claude Code
 settings.
+
+If Claude Code native skill wrappers are installed, record the `.claude/skills`
+wrapper path, the shared `.agents/skills` source path, and the Claude-specific
+frontmatter that must be preserved, such as `model`, `allowed-tools`, `effort`,
+`context`, `hooks`, or `paths`. Thin wrapper bodies may use an `@` import to
+the shared skill source; the wrapper frontmatter is still platform-owned
+adapter metadata.
 
 ## Installed Harness Pieces
 
@@ -105,7 +112,7 @@ this table. Do not copy the canonical manifest here.
   cost.
 - Record why a new harness component exists and when it should be simplified or
   removed.
-- Keep shared behavior in `AGENTS.md`, `scripts/verify.sh`, work-brief skill
+- Keep shared behavior in `AGENTS.md`, `scripts/repo-checks.sh`, work-brief skill
   bundles, and shared skills. Keep tool-specific adapters thin.
 - Prefer executable checks and concrete acceptance evidence over prose.
 - For secrets management changes, verify declarations, aliases, permissions,

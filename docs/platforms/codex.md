@@ -43,12 +43,22 @@ For repo-scoped skills, Codex scans `.agents/skills` from the working directory
 up to the repository root. Keep shared harness skills there unless the target
 repo has a stronger local convention.
 
+Codex can use the shared `.agents/skills/<skill>/SKILL.md` files directly. Do
+not install a second Codex-specific copy unless the target repo needs a real
+Codex-only wrapper or plugin package.
+
 Use self-explaining harness skill names such as `harness-review`,
 `harness-implement`, `harness-work-brief`, and `harness-diagnose` by default.
 Before installing them, audit existing `.agents/skills` entries for generic or
 overlapping names such as `review`, `implement`, `debug`, `diagnose`, `run`,
 or `verify`, and record whether the harness skill is merged, adapted,
 supersedes the existing skill, or is deferred.
+
+If the same shared skill also needs a Claude Code native skill, keep the
+Claude-specific frontmatter in `.claude/skills/<skill>/SKILL.md`. The Codex
+skill source should not be treated as the Claude adapter when Claude Code needs
+additional metadata such as `model`, `allowed-tools`, or other Claude-only
+frontmatter.
 
 ## Project Config
 
@@ -129,4 +139,4 @@ Add Codex support when:
   behavior.
 
 Do not add Codex support when `AGENTS.md`, shared skills, and
-`scripts/verify.sh` are enough.
+`scripts/repo-checks.sh` are enough.

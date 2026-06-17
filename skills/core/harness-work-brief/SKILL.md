@@ -1,9 +1,6 @@
 ---
 name: harness-work-brief
 description: Converts external work from a tracker, issue, chat, or planning notes into an Agent Work Brief that agents can execute. Use when turning user intent or a work item into implementation-ready scope.
-maturity: level-0
-install_when: Work arrives in a tracker or chat format that is not directly executable by agents.
-repo_specific_adaptation: Canonical brief location, tracker conventions, required acceptance evidence, and project context paths.
 ---
 
 # Harness Work Brief

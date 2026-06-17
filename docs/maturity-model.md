@@ -48,8 +48,8 @@ Minimum for agents to work without reconstructing prior planning discussion.
 Default assets are defined in `manifests/level-0.yml`.
 
 At this level, the harness should provide a repo agent entrypoint, canonical
-verification command, work-brief skill bundle with a template, local harness
-owner manual, and lightweight review guidance.
+deterministic repo checks command, work-brief skill bundle with a template,
+local harness owner manual, and lightweight review guidance.
 
 Value:
 
@@ -70,7 +70,7 @@ Add when:
 Move beyond when:
 
 - agents miss requirements from vague tickets,
-- agents forget verification commands,
+- agents forget repo checks commands,
 - reviewers repeatedly ask for the same evidence,
 - work handoff depends too heavily on chat history.
 
@@ -127,12 +127,12 @@ Add when:
 
 Common starter pull-in:
 
-- a Stop hook that runs `scripts/verify.sh` when the repo has a real, reasonably
-  fast verification command and the team wants automatic feedback during agent
+- a Stop hook that runs `scripts/repo-checks.sh` when the repo has a real, reasonably
+  fast checks command and the team wants automatic feedback during agent
   sessions.
 
 This is still a deterministic control, but it is small enough to pair with
-Level 1 because it reinforces the Level 0 verification contract without
+Level 1 because it reinforces the Level 0 repo checks contract without
 requiring a broader hook policy, shared runner, or cross-platform enforcement
 system.
 
@@ -200,8 +200,8 @@ Assets:
 - tool-safety checklist for protected paths, protected commands, and
   ask/warn/block policy,
 - broader Stop hook or pre-commit enforcement beyond the early
-  `scripts/verify.sh` pull-in,
-- CI parity with `scripts/verify.sh`,
+  `scripts/repo-checks.sh` pull-in,
+- CI parity with `scripts/repo-checks.sh`,
 - optional `.harness.yml` once multiple mechanisms need shared settings.
 
 Value:

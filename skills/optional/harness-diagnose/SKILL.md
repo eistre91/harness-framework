@@ -1,9 +1,6 @@
 ---
 name: harness-diagnose
 description: "Runs a disciplined diagnosis loop for bugs, failing tests, regressions, and unclear behavior: reproduce, minimize, hypothesize, instrument, fix, regression-test. Use when something is broken, flaky, slow, throwing, or behaving unexpectedly."
-maturity: level-1
-install_when: Agents will debug bugs, failing tests, flaky behavior, regressions, or production-like incidents.
-repo_specific_adaptation: Reproduction commands, logs, runtime services, test command, observability tools, and rollback or safety rules.
 support_files:
   - scripts/hitl-loop.template.sh
 ---

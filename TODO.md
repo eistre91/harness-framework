@@ -53,7 +53,7 @@ Provenance:
 - The useful pattern is not the exact expected artifacts. Their evals assume
   `feature_list.json`, `progress.md`, `session-handoff.md`, and `init.sh`,
   while this framework centers repo fitting, Agent Work Briefs, and
-  `scripts/verify.sh`.
+  `scripts/repo-checks.sh`.
 
 Why deferred:
 
@@ -68,7 +68,7 @@ Potential future shape:
 - A small `evals/` directory with scenario prompts, target repo fixtures or
   fixture descriptions, expected installed assets, and expectations.
 - Cases for fitting Level 0 to a small repo, declining premature `SPEC-MAP.md`
-  or `CONTEXT.md`, deriving `scripts/verify.sh` from README/CI evidence,
+  or `CONTEXT.md`, deriving `scripts/repo-checks.sh` from README/CI evidence,
   turning a vague issue into an Agent Work Brief, reviewing a change against a
   brief, and recommending higher-level controls only when signals justify them.
 - A lightweight runner or checklist that reports whether the agent produced a
@@ -116,19 +116,19 @@ Potential future shape:
 
 - Keep structural coverage separate from maturity fit.
 - Check for the local core surfaces: repo entrypoint, chosen Agent Work Brief
-  location, `scripts/verify.sh`, harness owner docs, review guidance,
+  location, `scripts/repo-checks.sh`, harness owner docs, review guidance,
   documented deferrals, and acceptance evidence expectations.
 - Report findings as advisory evidence, not as the definition of harness
   quality.
 - Include explicit fit risks such as premature `SPEC-MAP.md`, duplicated
-  platform policy, stale placeholder verification commands, or a second source
+  platform policy, stale placeholder repo checks commands, or a second source
   of truth for work state.
 
 Signal to revisit:
 
 - Humans want a quick smoke test after applying the framework to a repo.
 - Repeated installations miss the same required Level 0 surfaces.
-- A future installer needs a post-install verification command.
+- A future installer needs a post-install repo checks command.
 
 ## Deferred: Persistent Work State Model
 

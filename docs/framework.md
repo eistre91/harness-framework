@@ -99,7 +99,7 @@ canonical file-level asset list lives in `manifests/level-0.yml`.
 Conceptually, Level 0 provides:
 
 - a repo agent entrypoint,
-- a canonical verification command,
+- a canonical deterministic repo checks command,
 - a work-brief skill bundle with a template,
 - a local harness owner manual,
 - lightweight review guidance.
@@ -415,13 +415,14 @@ Mechanical verification should be automated as much as practical.
 Acceptance verification should be structured so humans and review agents can
 evaluate whether the change actually satisfies the intended behavior.
 
-### scripts/verify.sh
+### scripts/repo-checks.sh
 
-`scripts/verify.sh` is the canonical verification entrypoint.
+`scripts/repo-checks.sh` is the canonical deterministic checks entrypoint for
+the repo.
 
 It answers:
 
-> What does this repo consider basic verification?
+> What deterministic checks should run before claiming repo work is complete?
 
 It can be used by:
 
@@ -431,10 +432,10 @@ It can be used by:
 - CI,
 - reviewers who want reproducible evidence.
 
-Hooks answer when verification runs automatically. `verify.sh` defines what
-verification is.
+Hooks answer when checks run automatically. `repo-checks.sh` defines the repo's
+local lint, typecheck, test, build, package, or static-analysis command set.
 
-Keeping the verification contract in a script has several benefits:
+Keeping the deterministic checks contract in a script has several benefits:
 
 - agents do not need to infer commands from README prose,
 - hooks and CI can share the same entrypoint,
@@ -444,7 +445,7 @@ Keeping the verification contract in a script has several benefits:
 
 ### What Hooks Cannot Fully Verify
 
-Even if `verify.sh` runs on a Stop hook, not everything can be reduced to that
+Even if `repo-checks.sh` runs on a Stop hook, not everything can be reduced to that
 mechanical gate.
 
 Hooks cannot reliably answer:
@@ -509,7 +510,7 @@ Start with:
 
 - guard secrets,
 - warn or block destructive actions,
-- optionally run `scripts/verify.sh` on Stop or pre-commit.
+- optionally run `scripts/repo-checks.sh` on Stop or pre-commit.
 
 At the checklist level, tool safety should identify:
 
@@ -665,9 +666,9 @@ Its purpose would be shared machine-readable harness configuration.
 Example:
 
 ```yaml
-verify:
-  default: ./scripts/verify.sh
-  quick: ./scripts/verify.sh --quick
+checks:
+  default: ./scripts/repo-checks.sh
+  quick: ./scripts/repo-checks.sh --quick
 
 guards:
   protected_paths:
@@ -892,7 +893,7 @@ The maturity model should be used diagnostically:
 5. Remove or simplify layers that stop earning their maintenance cost.
 
 The model also allows partial adoption. A project might add an early Stop hook
-that runs `scripts/verify.sh` during a Level 1 starter install, or add secret
+that runs `scripts/repo-checks.sh` during a Level 1 starter install, or add secret
 guards from Level 3 before it needs `SPEC-MAP.md` from Level 2. The levels
 describe common growth pressure, not a strict installation order. When partial
 adoption is chosen, record the target maturity, install mode, installed asset
@@ -915,7 +916,7 @@ without buying into the whole operating-system concept at once.
   selected Level 1 behavior with explicit "partial starter" wording
 - acceptance evidence standard
 - optional selected Level 3 secret/destructive-action guards when risk warrants
-- optional Stop hook integration for `scripts/verify.sh` when the command is
+- optional Stop hook integration for `scripts/repo-checks.sh` when the command is
   real, fast enough, and actionable
 
 ### Phase 2
@@ -1007,7 +1008,7 @@ control surfaces:
 
 - a tiny repo entrypoint,
 - a local executable work brief,
-- a canonical verification command,
+- a canonical deterministic repo checks command,
 - lightweight implementation and review guidance,
 - optional safety hooks,
 - optional project context routing,

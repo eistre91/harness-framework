@@ -1,9 +1,6 @@
 ---
 name: harness-review
 description: Reviews implementation against an Agent Work Brief with findings-led focus on bugs, scope, evidence, maintainability, and over-engineering. Use when reviewing a completed change, PR, commit, or working tree against a brief.
-maturity: level-0
-install_when: Agents or humans need a reusable review lens for harness-managed work.
-repo_specific_adaptation: Review output format, severity scale, and project-specific risks.
 ---
 
 # Harness Review

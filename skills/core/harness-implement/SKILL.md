@@ -1,9 +1,6 @@
 ---
 name: harness-implement
 description: Implements an Agent Work Brief with narrow scope, boundary-level tests where practical, and explicit mechanical and acceptance evidence. Use when coding from a brief, ticket, or agreed implementation scope.
-maturity: level-1
-install_when: Agents will implement work from briefs or tickets.
-repo_specific_adaptation: Verification command, project context paths, test conventions, and project-specific implementation risks.
 ---
 
 # Harness Implement
@@ -46,7 +43,7 @@ that contains enough executable detail.
    - no refactor while the suite is red.
 7. Refactor only after tests are green; keep tests on public behavior so
    internal refactors do not break them.
-8. Run the repo's canonical verification command before claiming done.
+8. Run the repo's canonical checks command before claiming done.
 9. Provide mechanical evidence and acceptance evidence.
 10. Prepare a handoff for an independent reviewer.
 11. Call out any scope, design, or verification gaps.

@@ -17,9 +17,19 @@ templates, such as settings examples, hook adapters, or skill-loading wrappers.
 
 Unclear until a target repo needs it:
 
-- whether skills should be mirrored, symlinked, wrapped, or manually installed,
 - which hooks are worth adding,
 - whether project settings should be committed or kept local.
+
+## Native Skill Wrappers
+
+When Claude Code should discover harness skills natively, prefer a thin wrapper
+under `.claude/skills/<skill>/SKILL.md` that keeps Claude Code frontmatter and
+imports the shared `.agents/skills/<skill>/SKILL.md` body with `@`.
+
+Do not let install copy only the shared `.agents` skill into `.claude/skills`
+when that would drop Claude-specific fields such as model choices or tool
+permissions like `allowed-tools`. The shared `.agents` skill owns the portable
+workflow body; the `.claude` wrapper owns Claude Code metadata.
 
 Potential future assets:
 

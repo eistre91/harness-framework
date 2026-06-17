@@ -1,10 +1,14 @@
 name: bootstrap
 description: Assets used while fitting this framework to a target repo. These usually should not remain installed in the target repo.
 assets:
+  - id: principles-doc
+    asset_type: bootstrap
+    source: docs/principles.md
+    use_when: Understanding the framework principles before fitting a harness.
   - id: framework-doc
     asset_type: bootstrap
     source: docs/framework.md
-    use_when: Understanding the framework principles and maturity model.
+    use_when: Understanding the framework shape, rationale, and maturity model.
   - id: implementation-guide
     asset_type: bootstrap
     source: docs/implementation-guide.md

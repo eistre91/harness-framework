@@ -23,7 +23,7 @@ Shared behavior should have one owner.
 Prefer these shared surfaces:
 
 - `AGENTS.md` for repo-wide agent operating guidance,
-- `scripts/verify.sh` for canonical mechanical verification,
+- `scripts/repo-checks.sh` for canonical deterministic repo checks,
 - the `harness-work-brief` skill bundle for executable work shape,
 - shared skill source for reusable task workflows,
 - one shared hook runner when multiple platforms enforce the same check.
@@ -34,7 +34,7 @@ and output formats. They should not re-encode the policy itself.
 
 An adapter can be as small as a pointer file, a generated skill mirror, a hook
 config plus wrapper script, or a pre-commit/CI entry that calls
-`scripts/verify.sh`. The adapter's purpose is to expose the shared harness to a
+`scripts/repo-checks.sh`. The adapter's purpose is to expose the shared harness to a
 specific runtime, not to become another copy of the harness.
 
 ## Decision Flow
@@ -95,7 +95,7 @@ Platform adapters own the unstable parts:
 
 The shared runner owns the stable policy:
 
-- which verification command to run,
+- which repo checks command to run,
 - which paths or commands are sensitive,
 - what counts as pass, warn, or block,
 - how messages should be phrased for humans and agents.
@@ -105,6 +105,33 @@ The shared runner owns the stable policy:
 Keep reusable workflow content in one source location. If a platform requires a
 different discovery path, add a mirror, wrapper, symlink, generator, or install
 step rather than manually maintaining two skill bodies.
+
+Separate reusable skill instructions from platform-owned skill metadata. The
+shared skill source should hold the portable workflow body and the metadata
+needed by the shared skill format. If a platform requires additional
+frontmatter or sidecar metadata, such as model selection, allowed tools, or
+runtime-specific discovery fields, keep that metadata in the platform adapter
+instead of stripping it or copying it into the shared skill body.
+
+For Claude Code, a native `.claude/skills/<skill>/SKILL.md` wrapper may remain
+thin, but it must still keep valid Claude Code frontmatter. The wrapper body can
+delegate to the installed shared skill source with an `@` import, for example:
+
+```md
+---
+name: harness-review
+description: Reviews implementation against the repo's Agent Work Brief.
+model: <Claude model, when the target repo wants one>
+allowed-tools: <Claude tools, when pre-approved for this skill>
+---
+
+@../../../.agents/skills/harness-review/SKILL.md
+```
+
+Treat that frontmatter as Claude-owned adapter metadata. Do not replace the
+wrapper with a plain copied shared skill body if doing so would lose Claude
+Code discovery fields, model choices, `allowed-tools` declarations, or other
+Claude-specific settings.
 
 Harness-provided skills should use self-explaining names such as
 `harness-review`, `harness-implement`, `harness-work-brief`, and
@@ -117,6 +144,11 @@ with review, implementation, work-brief, diagnose/debug, run, and verify
 workflows. Record whether each overlapping item is merged, adapted,
 superseded, left alone, or deferred.
 
+When native skill wrappers are installed for a platform, record where the
+shared skill source lives, where the wrapper lives, what platform frontmatter
+is intentionally present, and how the wrapper imports or mirrors the shared
+body.
+
 Skill descriptions are part of the runtime contract. Keep them concise and
 front-load the trigger condition so platforms can select the right skill from
 frontmatter or metadata without always loading the full instructions.
@@ -125,7 +157,7 @@ frontmatter or metadata without always loading the full instructions.
 
 - Copying full hook policy into `.codex/`, `.claude/`, pre-commit, and CI.
 - Maintaining separate review or implementation skill text for each runtime.
-- Adding hooks before `scripts/verify.sh` defines the command contract.
+- Adding hooks before `scripts/repo-checks.sh` defines the command contract.
 - Installing platform files for tools the team does not use.
 - Treating platform docs as always-loaded product context.
 

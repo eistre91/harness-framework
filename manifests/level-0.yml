@@ -15,10 +15,10 @@ assets:
       - project context path
       - installed harness skill names and platform-specific skill conflicts
       - distinction between committed .agents/skills and gitignored .agent/ local drafts
-  - id: verification-script
+  - id: repo-checks-script
     asset_type: installable
-    source: templates/core/scripts/verify.sh
-    default_target: scripts/verify.sh
+    source: templates/core/scripts/repo-checks.sh
+    default_target: scripts/repo-checks.sh
     required: true
     adapt:
       - commands derived from README, CI, existing scripts, or project config
@@ -58,6 +58,7 @@ assets:
       - required acceptance evidence for the repo's work types
       - tracker references if useful
       - local fallback and commit policy
+      - project context paths
       - existing work-shaping skills or commands
   - id: work-brief-fallback-gitignore
     asset_type: behavior
@@ -75,6 +76,8 @@ assets:
     default_target: .agents/skills/harness-review/SKILL.md
     required: true
     adapt:
+      - review output format
+      - severity scale
       - project-specific review risks
       - existing review skills or platform review commands
 defer_by_default:

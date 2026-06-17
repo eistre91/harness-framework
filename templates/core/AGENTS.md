@@ -43,12 +43,13 @@ source, goal, context, verification, and done criteria.
 
 Work brief skill/template: `.agents/skills/harness-work-brief/`
 
-## Verification
+## Repo Checks
 
-Before claiming implementation is complete, run:
+Before claiming implementation is complete, run the canonical deterministic
+repo checks:
 
 ```sh
-./scripts/verify.sh
+./scripts/repo-checks.sh
 ```
 
 If the command fails, report the failure and do not claim the work is done.

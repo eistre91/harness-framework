@@ -17,6 +17,7 @@ Bootstrap assets help install the harness. They usually should not remain in
 the target repo after installation.
 
 - `docs/framework.md`
+- `docs/principles.md`
 - `docs/implementation-guide.md`
 - `docs/maturity-model.md`
 - `docs/platform-support.md`
@@ -56,7 +57,7 @@ Every installation should adapt:
 - work source,
 - canonical Agent Work Brief location,
 - local work brief fallback and commit policy,
-- verification commands,
+- repo checks commands,
 - project context paths,
 - sensitive file patterns,
 - project-specific skill guidance under `.agents/skills`, using

@@ -10,7 +10,7 @@ behavior to work across multiple platforms.
 
 ## Current Public Docs Checked
 
-Checked on 2026-06-15 against Anthropic Claude Code docs:
+Checked on 2026-06-17 against Anthropic Claude Code docs:
 
 - `https://code.claude.com/docs/en/memory`
 - `https://code.claude.com/docs/en/skills`
@@ -55,6 +55,32 @@ source to Claude Code with the smallest adapter the target repo can maintain:
 
 Do not manually maintain separate Claude and Codex skill bodies unless a real
 platform limitation requires it.
+
+When using a thin wrapper skill, keep Claude Code frontmatter in the wrapper
+even though the instruction body delegates to the shared source. This prevents
+installers from losing Claude-specific discovery metadata, model choices,
+`allowed-tools` declarations, or other Claude Code fields.
+
+Recommended wrapper shape:
+
+```md
+---
+name: harness-review
+description: Reviews implementation against the repo's Agent Work Brief.
+model: <Claude model, when the target repo wants one>
+allowed-tools: <Claude tools, when pre-approved for this skill>
+---
+
+@../../../.agents/skills/harness-review/SKILL.md
+```
+
+The shared `.agents/skills/<skill>/SKILL.md` remains the canonical workflow
+body. The `.claude/skills/<skill>/SKILL.md` file is the Claude Code adapter and
+owns Claude-specific frontmatter. If the target repo already has a Claude skill
+with `model`, `allowed-tools`, `disallowed-tools`, `effort`, `context`, `hooks`,
+`paths`, or other platform-specific fields, preserve or
+intentionally adapt those fields during install; do not silently replace them
+with the shared skill frontmatter.
 
 ### Bundled Skills
 

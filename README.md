@@ -14,7 +14,8 @@ the target repo through inspection and collaboration:
 
 ## Start Here
 
-- `docs/framework.md` explains the framework and principles.
+- `docs/principles.md` lists the framework principles.
+- `docs/framework.md` explains the framework shape and rationale.
 - `docs/implementation-guide.md` explains how to apply the framework to a repo.
 - `docs/maturity-model.md` summarizes the layered adoption model.
 - `docs/portable-assets.md` explains what can transfer between repos and what
@@ -97,7 +98,7 @@ remain a thin pointer to `AGENTS.md`:
 ```
 
 When multiple agentic coding tools are used, keep shared behavior in portable
-files such as `AGENTS.md` and `scripts/verify.sh`. Adapters should be thin
+files such as `AGENTS.md` and `scripts/repo-checks.sh`. Adapters should be thin
 wrappers that preserve the same harness behavior across tools.
 
 If platform-specific support is in scope, read `docs/platform-support.md` and
@@ -108,6 +109,17 @@ then only the platform note for the adapter being installed.
 For an initial trial, prefer the Level 0 harness defined in
 `manifests/level-0.yml`. Add more only when repo evidence or human preference
 justifies it.
+
+## Repository Checks
+
+Run the YAML/frontmatter validator before changing manifests or skills:
+
+```sh
+./scripts/verify-yaml.py
+```
+
+It checks repository `.yml` / `.yaml` files and top-of-file Markdown
+frontmatter. It requires Python 3 with PyYAML available.
 
 ## License
 

@@ -23,6 +23,10 @@ questions, and implement only the agreed starter shape.
 Use this guide when applying the minimal harness framework to a repository that
 does not already have a mature agent harness.
 
+Before fitting a harness, read `docs/principles.md` and `docs/framework.md`.
+The principles are the shared decision lens for deciding what to install,
+adapt, defer, or reject.
+
 The first implementation should normally aim for Level 0 or Level 1 maturity,
 possibly with a small number of selected pieces from higher levels when the
 repo already has clear evidence for them.
@@ -115,7 +119,8 @@ installation into a broad modernization project.
 
 Tests, linting, and type checking are especially important for agent
 performance. The proposal should actively look for them and either include
-existing commands or explicitly opt out of missing ones for this install.
+existing commands in `scripts/repo-checks.sh` or explicitly opt out of missing
+ones for this install.
 
 Separate gaps into:
 
@@ -135,7 +140,7 @@ Observed gap:
 
 Recommendation:
   Opt out of adding linting during this install unless the team explicitly
-  wants it. Use the existing verification command in scripts/verify.sh and
+  wants it. Use the existing repo checks command in scripts/repo-checks.sh and
   record the linting opt-out in the proposal.
 ```
 
@@ -222,10 +227,10 @@ Agent tools:
   Codex / Claude / Cursor / mixed / unknown
 
 Existing harness components:
-  none / agent entrypoint / skills / verification scripts / hooks / work docs / other
+  none / agent entrypoint / skills / repo checks script / hooks / work docs / other
 
 Skill or command conflicts:
-  none / review-like / implement-like / work-brief-like / diagnose-debug-like / run-verify-like / unknown
+  none / review-like / implement-like / work-brief-like / diagnose-debug-like / run-checks-like / unknown
 
 CI:
   present / absent / not inspected
@@ -290,7 +295,8 @@ Current observed maturity:
 - Level: partial Level 0
 - Evidence: README documents a test command, CI runs tests, but there is no
   agent entrypoint or work brief.
-- Gaps: no canonical verification script; no acceptance evidence standard.
+- Gaps: no canonical deterministic repo checks script; no acceptance evidence
+  standard.
 
 Recommended target for this installation:
 - Target level: Level 1 bounded work execution
@@ -304,7 +310,7 @@ Recommended target for this installation:
 Why this target:
 - The repo already has basic test evidence, but work handoff is vague.
 - The highest-value improvement is a small agent entrypoint, a work brief, and
-  a canonical verify command.
+  a canonical repo checks command.
 - Context routing is premature because project docs are small.
 
 Signal to expand later:
@@ -364,7 +370,7 @@ What should the harness do?
 Better:
 
 ```text
-I found a test command in CI and no lint command. I recommend scripts/verify.sh
+I found a test command in CI and no lint command. I recommend scripts/repo-checks.sh
 run the existing test command only for now and record linting as a future
 improvement. Do you want linting added now despite it not already existing?
 ```
@@ -426,7 +432,7 @@ the harness shape. Please review:
 - target maturity and installation mode,
 - included and excluded assets,
 - work brief storage and fallback,
-- verification commands,
+- repo checks command,
 - existing component merge/defer decisions,
 - skill or command conflict decisions,
 - durable location for the final fit proposal.
@@ -452,7 +458,7 @@ After implementation, check that a fresh agent could:
 - understand where work comes from,
 - create or read an Agent Work Brief,
 - find relevant context or know that no context router exists yet,
-- run `scripts/verify.sh`,
+- run `scripts/repo-checks.sh`,
 - produce mechanical and acceptance evidence,
 - know what review should check,
 - know what was intentionally deferred,
@@ -467,9 +473,9 @@ A Level 0 or Level 1 starter harness is acceptable when:
 - `AGENTS.md` tells agents where to start without becoming an encyclopedia,
 - the work-brief skill bundle can turn a tracker item, issue, or chat request
   into executable work,
-- `scripts/verify.sh` exists and either runs real repo commands or clearly
+- `scripts/repo-checks.sh` exists and either runs real repo checks or clearly
   fails with an honest placeholder,
-- verification commands are derived from repo evidence or clearly marked as
+- repo checks commands are derived from repo evidence or clearly marked as
   placeholders,
 - `docs/harness/README.md` records portable harness provenance, target
   maturity, installation mode, completeness, installed files, and intentional
@@ -643,21 +649,22 @@ The implementation agent owns carrying out the brief and producing evidence.
 The reviewer owns checking whether the change satisfies the brief and whether
 the implementation introduces unacceptable risk or debt.
 
-## Verification Discovery Recipe
+## Repo Checks Discovery Recipe
 
-`scripts/verify.sh` should encode the repo's current verification contract.
+`scripts/repo-checks.sh` should encode the repo's current deterministic checks
+contract.
 The agent should derive that contract from evidence.
 
 The proposal should distinguish:
 
-- canonical full-repo verification,
+- canonical full-repo deterministic checks,
 - focused validation for a subsystem, package, agent, or component,
 - CI-only verification that is not practical locally,
 - manual acceptance evidence for behavior, external systems, schedules,
   integrations, runtime boundaries, or secrets management.
 
 Prefer reusing or wrapping existing commands over replacing them. A new
-`scripts/verify.sh` can be valuable when it gives agents one stable command,
+`scripts/repo-checks.sh` can be valuable when it gives agents one stable command,
 but it should call the repo's existing test, lint, type-check, or validation
 entrypoints where practical.
 
@@ -681,7 +688,7 @@ Prefer the highest-level command the repo already uses.
 Examples without naming target-specific tools:
 
 ```text
-If CI runs a single project verification command, use that command.
+If CI runs a single project checks command, use that command.
 If README documents a local test command, use that command.
 If an existing script wraps tests, linting, and type checking, use that wrapper.
 If only lower-level tool config exists, propose the smallest command derived
@@ -690,13 +697,16 @@ from that config and record the evidence.
 
 Do not add a new tool during harness installation unless the human agrees.
 
-### Generic `verify.sh` Template
+### Generic `repo-checks.sh` Template
 
 ```sh
 #!/usr/bin/env sh
 set -eu
 
-# Canonical local verification for this repo.
+# Canonical deterministic checks for this repo.
+# Installed by the minimal agent harness as the repo checks entrypoint.
+# Scope: lint/typecheck/tests/build checks for product code, not harness validation.
+#
 # Keep this aligned with CI where practical.
 
 run() {
@@ -704,13 +714,13 @@ run() {
   "$@"
 }
 
-# Replace these commands with the repo's existing verification commands.
+# Replace these commands with the repo's existing deterministic checks.
 # Prefer commands already documented in README, CI, existing scripts, or
 # package/project config.
 # If no command can be confirmed, leave this explicit failure in place instead
 # of guessing.
 
-echo "No canonical verification command has been configured for this repo." >&2
+echo "No canonical repo checks command has been configured for this repo." >&2
 echo "Replace this placeholder with commands derived from repo evidence." >&2
 exit 1
 ```
@@ -734,8 +744,8 @@ run <existing-project-verification-command>
 If no reliable command can be inferred:
 
 1. do not invent a full verification stack,
-2. create `scripts/verify.sh` with an explicit placeholder,
-3. record the missing verification command as a gap,
+2. create `scripts/repo-checks.sh` with an explicit placeholder,
+3. record the missing repo checks command as a gap,
 4. recommend the smallest next action.
 
 Example placeholder:
@@ -744,7 +754,7 @@ Example placeholder:
 #!/usr/bin/env sh
 set -eu
 
-echo "No canonical verification command has been configured for this repo." >&2
+echo "No canonical repo checks command has been configured for this repo." >&2
 echo "Add the repo's test/lint/typecheck commands here once agreed." >&2
 exit 1
 ```
@@ -762,7 +772,7 @@ Portable concepts:
 
 - repo entrypoint,
 - work brief,
-- verification command,
+- repo checks command,
 - review guidance,
 - acceptance evidence,
 - maturity model,
@@ -795,7 +805,7 @@ harness.
 Default:
 
 ```text
-Keep shared policy in AGENTS.md, scripts/verify.sh, work-brief skill bundles,
+Keep shared policy in AGENTS.md, scripts/repo-checks.sh, work-brief skill bundles,
 and portable skill guidance. Make adapters thin wrappers around those shared
 contracts.
 ```
@@ -839,6 +849,14 @@ commands, record whether the harness skill is added, adapted, merged,
 supersedes the existing skill, or is deferred.
 ```
 
+If Claude Code native skills are installed, create `.claude/skills/<skill>/`
+as a platform adapter rather than a second canonical skill body. The Claude
+`SKILL.md` wrapper should keep Claude Code frontmatter, including fields such
+as model or tool declarations when the target repo uses them, and its body may
+delegate to the shared `.agents/skills/<skill>/SKILL.md` with an `@` import.
+Record the wrapper path, shared source path, and preserved Claude frontmatter
+fields in the fit proposal.
+
 When Claude Code is in scope, mention bundled Claude Code skills and workflows
 such as `/code-review`, `/debug`, `/run`, and `/verify`. Ask whether they
 should stay enabled and documented, be treated as secondary to repo-specific
@@ -853,12 +871,12 @@ Hooks are optional in the starter installation.
 Default:
 
 ```text
-Start with scripts/verify.sh as the contract. Add hooks only if the team wants
+Start with scripts/repo-checks.sh as the contract. Add hooks only if the team wants
 automatic enforcement or repeated failures show that agents forget the command.
 ```
 
-A narrow Stop hook that runs `scripts/verify.sh` is a common Level 1 starter
-pull-in when verification is real, reasonably fast, and actionable. Treat
+A narrow Stop hook that runs `scripts/repo-checks.sh` is a common Level 1 starter
+pull-in when the checks are real, reasonably fast, and actionable. Treat
 broader hook systems, secret guards, destructive-action policy, cross-platform
 hook runners, and CI/pre-commit parity as selected Level 3 deterministic
 controls.
@@ -1059,8 +1077,8 @@ and behaviors for the claimed levels.
 
 Add:
 
-- `scripts/verify.sh`,
-- early Stop hook running `scripts/verify.sh` when the command is real,
+- `scripts/repo-checks.sh`,
+- early Stop hook running `scripts/repo-checks.sh` when the command is real,
   reasonably fast, and actionable,
 - pre-commit or broader hooks only if the team wants stronger automatic
   enforcement,
@@ -1083,7 +1101,7 @@ The implementation is done when:
 - temporary proposal paths are not copied into durable harness docs,
 - the human has agreed to the starter shape or explicitly delegated the choice,
 - all agreed starter files exist,
-- `scripts/verify.sh` either runs real repo commands or clearly fails with an
+- `scripts/repo-checks.sh` either runs real repo checks or clearly fails with an
   honest placeholder,
 - the Agent Work Brief has a chosen placement and lifecycle,
 - any local work-brief fallback is gitignored, and any durable in-repo briefs

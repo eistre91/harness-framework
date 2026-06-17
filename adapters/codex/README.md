@@ -23,7 +23,7 @@ Unclear until a target repo needs it:
 
 Potential future assets:
 
-- Stop hook wrapper for `scripts/verify.sh`,
+- Stop hook wrapper for `scripts/repo-checks.sh`,
 - secret or sensitive-file guard,
 - destructive shell warning rules,
 - bounded hook output formatting.

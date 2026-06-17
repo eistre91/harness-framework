@@ -18,7 +18,7 @@ paths or temporary installation-session proposal paths here.
 
 | Platform or path | Existing skill/command | Overlap | Handling | Human decision |
 | --- | --- | --- | --- | --- |
-|  |  | review / implement / work brief / diagnose-debug / run-verify / other |  |  |
+|  |  | review / implement / work brief / diagnose-debug / run-checks / other |  |  |
 
 Claude Code note, when relevant:
 
@@ -26,6 +26,10 @@ Claude Code note, when relevant:
   remain enabled / are secondary / are disabled by user or project settings,
 - disable mechanism, if chosen: `disableBundledSkills` or
   `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS`,
+- native skill wrapper decision: none / generated copy / symlink / thin wrapper
+  with Claude frontmatter and `@` import,
+- Claude wrapper frontmatter to preserve or add, such as `model`,
+  `allowed-tools`, `effort`, `context`, `hooks`, or `paths`:
 - reason:
 
 ## Current Maturity
