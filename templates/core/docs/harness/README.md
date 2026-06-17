@@ -81,12 +81,12 @@ adapter metadata.
 
 Update this section during installation so it records the target repo's actual
 installed harness. It is a local inventory, not the source framework's
-canonical asset list. For the canonical source asset list, consult the source
-framework manifests:
+canonical asset list.
 
-- `manifests/level-0.yml`
-- `manifests/level-1.yml`
-- `manifests/optional-assets.yml`
+Populate this table from the final Harness Fit Proposal or decision log. If the
+source framework manifests are needed later, use the provenance above to locate
+the same framework version; do not assume bootstrap manifest files remain in the
+target repo.
 
 | Piece | Status | Purpose | Notes |
 | --- | --- | --- | --- |
@@ -99,8 +99,8 @@ framework manifests:
 
 ## Deferred Or Excluded Components
 
-Use the final Harness Fit Proposal or source framework manifests to populate
-this table. Do not copy the canonical manifest here.
+Use the final Harness Fit Proposal or decision log to populate this table. Do
+not copy the canonical manifest here.
 
 | Component | Status | Reason | Revisit signal |
 | --- | --- | --- | --- |

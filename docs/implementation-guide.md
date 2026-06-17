@@ -697,47 +697,18 @@ from that config and record the evidence.
 
 Do not add a new tool during harness installation unless the human agrees.
 
-### Generic `repo-checks.sh` Template
+### Repo Checks Template Source
 
-```sh
-#!/usr/bin/env sh
-set -eu
-
-# Canonical deterministic checks for this repo.
-# Installed by the minimal agent harness as the repo checks entrypoint.
-# Scope: lint/typecheck/tests/build checks for product code, not harness validation.
-#
-# Keep this aligned with CI where practical.
-
-run() {
-  echo "+ $*"
-  "$@"
-}
-
-# Replace these commands with the repo's existing deterministic checks.
-# Prefer commands already documented in README, CI, existing scripts, or
-# package/project config.
-# If no command can be confirmed, leave this explicit failure in place instead
-# of guessing.
-
-echo "No canonical repo checks command has been configured for this repo." >&2
-echo "Replace this placeholder with commands derived from repo evidence." >&2
-exit 1
-```
+Use the canonical script template at `templates/core/scripts/repo-checks.sh`.
+Adapt it with commands derived from README, CI, existing scripts, package or
+project config, or other repo evidence. Keep the template's explicit failure
+when no reliable command can be confirmed.
 
 ### Existing Wrapper Example
 
-```sh
-#!/usr/bin/env sh
-set -eu
-
-run() {
-  echo "+ $*"
-  "$@"
-}
-
-run <existing-project-verification-command>
-```
+An adapted script can be as small as the canonical template invoking one
+existing project verification command. Keep command details in
+`scripts/repo-checks.sh`; do not maintain a second command list in docs.
 
 ### If Verification Is Missing
 
@@ -747,17 +718,6 @@ If no reliable command can be inferred:
 2. create `scripts/repo-checks.sh` with an explicit placeholder,
 3. record the missing repo checks command as a gap,
 4. recommend the smallest next action.
-
-Example placeholder:
-
-```sh
-#!/usr/bin/env sh
-set -eu
-
-echo "No canonical repo checks command has been configured for this repo." >&2
-echo "Add the repo's test/lint/typecheck commands here once agreed." >&2
-exit 1
-```
 
 This makes the absence explicit instead of letting agents pretend verification
 exists.

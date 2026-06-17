@@ -112,14 +112,15 @@ justifies it.
 
 ## Repository Checks
 
-Run the YAML/frontmatter validator before changing manifests or skills:
+Run the canonical repository checks before changing manifests or skills:
 
 ```sh
-./scripts/verify-yaml.py
+./scripts/repo-checks.sh
 ```
 
-It checks repository `.yml` / `.yaml` files and top-of-file Markdown
-frontmatter. It requires Python 3 with PyYAML available.
+This currently runs the YAML/frontmatter validator, which checks repository
+`.yml` / `.yaml` files and top-of-file Markdown frontmatter. It requires
+Python 3 with PyYAML available.
 
 ## License
 

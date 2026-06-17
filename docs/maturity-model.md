@@ -93,10 +93,12 @@ Definition:
 - explicit non-goals when scope could sprawl,
 - ambiguity and decision notes when product or interface choices affect
   implementation,
-- boundary/interface sections for boundary-changing work,
-- acceptance evidence standards for behavior changes,
+- boundary/interface sections for public APIs, CLIs, integrations, modules,
+  jobs, file formats, or other consumed surfaces,
+- acceptance evidence standards for externally visible or boundary-changing
+  behavior,
 - progress/divergence state in the canonical brief location when work spans
-  sessions or departs from the plan,
+  sessions or departs from the original plan,
 - implementation guidance for agents working from briefs.
 
 Asset boundary:
