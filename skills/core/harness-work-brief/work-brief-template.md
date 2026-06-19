@@ -1,41 +1,32 @@
 # Agent Work Brief
 
-Fill only the sections that reduce risk for the current task. For tiny work,
-source, goal, value target, context, verification, and done criteria may be
-enough. Use the non-goals, ambiguity, boundary/interface, and acceptance
-sections when scope or behavior could otherwise be misunderstood.
-
-The brief should be self-contained for implementation, but it is not a
-transcript of planning. Record only accepted decisions, constraints, and
-source-of-truth references that affect implementation or review.
-
 Source:
 Owner:
 Status: Draft
-Tier: Tiny / Standard / Boundary-changing
+Tier: Tiny / Standard / Complex
 Agent-runnable: yes / no / blocked by human decision
 
-## Goal
+## Goal (All tiers)
 
 What user or system outcome should change?
 
-## Value / Scope Discipline
+## Value / Scope Discipline (All tiers)
 
 - Smallest valuable outcome:
 - Why this scope is enough now:
 - Extra structure, cleanup, abstraction, or dependency explicitly not justified:
 
-## Non-Goals
+## Non-Goals (Standard / Complex)
 
 What should not be changed?
 
-## Ambiguities / Decisions
+## Ambiguities / Decisions (Standard / Complex)
 
 - Open ambiguity that blocks implementation:
-- Accepted decision that affects implementation or review:
-- Accepted constraint the implementer or reviewer must know:
+- Decision made that affects implementation or review:
+- Accepted trade-off or constraint the implementer or reviewer must know:
 
-## Progress / Divergences
+## Progress / Divergences (When applicable)
 
 Use when work spans more than one session or the implementation differs from
 the original expectation. Keep this current in the canonical brief location or
@@ -50,9 +41,11 @@ post it back there before removing a temporary local draft.
 - Next action:
 - Superseded by / archive note:
 
-## Boundary / Interface
+## Boundary / Interface (When applicable)
 
-Required only when adding or changing a boundary.
+Use when the work changes or depends on a boundary such as a public API, CLI,
+module, job, file format, external API use, schedule, configuration/schema
+contract, secret declaration, runtime integration, or other consumed surface.
 
 - New or changed interface:
 - Inputs:
@@ -62,25 +55,28 @@ Required only when adding or changing a boundary.
 - Dependencies:
 - Explicitly not solving yet:
 
-## Context To Read
+## Context To Read (All tiers)
 
 - Files:
 - Docs:
 - Prior decisions:
 
-## Implementation Guidance
+## Implementation Guidance (All tiers)
 
 - Preferred existing patterns:
 - Constraints:
 - Things to avoid:
 
-## Verification
+## Verification (All tiers)
 
 Mechanical:
-- Commands:
+
+- Full repo:
+- Focused:
 - Negative proof for removals/moves/cleanup:
 
 Acceptance examples:
+
 - Given:
 - When:
 - Then:
@@ -88,6 +84,6 @@ Acceptance examples:
 
 Docs impact: none / maybe / required
 
-## Done When
+## Done When (All tiers)
 
 -

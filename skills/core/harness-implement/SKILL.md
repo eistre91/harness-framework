@@ -52,8 +52,8 @@ that contains enough executable detail.
 
 For tiny work, do not create extra process when the ticket, issue, or chat
 request already states the source, goal, context, verification, and done
-criteria. For standard or boundary-changing work, expect a concrete Agent Work
-Brief or equivalent executable scope before coding.
+criteria. For standard or complex work, expect a concrete Agent Work Brief or
+equivalent executable scope before coding.
 
 ## Guardrails
 

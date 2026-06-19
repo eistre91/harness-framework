@@ -1057,7 +1057,8 @@ Decision:
 Add:
 
 - acceptance evidence standard,
-- non-goals and interface sections for boundary-changing work,
+- non-goals and interface sections for complex work, including
+  boundary/interface changes,
 - implementation guidance for agents working from briefs.
 
 Defer:

@@ -309,20 +309,24 @@ much planning depth was intended.
 
 ```text
 Tiny:
-  bug fix or obvious local change
-  includes goal, context, verification
+  contained bug fix, docs tweak, prompt copy change, or test-only cleanup
+  includes source, goal, context, verification, done criteria
 
 Standard:
-  normal feature or behavior change
+  behavior change inside an existing pattern or interface
   includes goal, non-goals, context, verification, done criteria
 
-Boundary-changing:
-  adds interface section, accepted decisions, acceptance examples
+Complex:
+  boundary/interface change, cross-area work, multi-session work, sequencing,
+  migration/backcompat concern, or product/design ambiguity
+  includes interface notes, accepted decisions, trade-offs, and acceptance
+  examples when relevant
 ```
 
 The interface section is not required for every bug fix. It is needed when a
-task introduces or changes a boundary, public behavior, module interface, API,
-CLI, integration, or other surface consumed by other code or people.
+task introduces, changes, or depends on a boundary, public behavior, module
+interface, API, CLI, integration, configuration/schema contract, or other
+surface consumed by code or people.
 
 The progress/divergence section is not a substitute for a formal long-term
 state store. Its job is narrower: when a work brief is the executable unit for

@@ -84,6 +84,28 @@ Signal to revisit:
 - The framework gains an installer or validator whose behavior needs
   representative scenario coverage.
 
+## Deferred: Skill Adaptation Guidance
+
+Investigate whether installing agents need a short explicit policy for adapting
+harness skill bodies.
+
+Potential guidance:
+
+- Preserve the core portable workflow semantics.
+- Adapt repo-specific work sources, commands, context paths, risks, acceptance
+  evidence, and storage policy.
+- Keep platform-only behavior in adapters or mirrors rather than shared skill
+  bodies.
+- Record when an existing repo skill is merged, adapted, superseded, left alone,
+  or deferred.
+
+Signal to revisit:
+
+- Installed skills repeatedly drift from framework intent.
+- Agents overfit portable skills to one target repo.
+- Installers are unsure how much repo-specific policy belongs in skills versus
+  `AGENTS.md`, project docs, or platform adapters.
+
 ## Deferred: Structural Harness Validator
 
 The framework may eventually include a validator that gives objective evidence

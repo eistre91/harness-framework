@@ -84,9 +84,9 @@ separate context windows when practical.
 
 ## Review Independence
 
-For standard or boundary-changing work, prefer an independent review in a
-separate context window or by a separate agent. If the implementer reviews the
-same change, label it as a self-review and treat it as lower-confidence.
+For standard or complex work, prefer an independent review in a separate context
+window or by a separate agent. If the implementer reviews the same change, label
+it as a self-review and treat it as lower-confidence.
 
 ## Project Context
 

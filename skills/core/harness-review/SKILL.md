@@ -28,9 +28,8 @@ Before reviewing, state one of:
 - Independent review: I did not implement this change in this context.
 - Self-review: I implemented this change or share the implementation context.
 
-Self-review is allowed, but lower-confidence. For standard or
-boundary-changing work, recommend an independent review before merge or
-handoff when practical.
+Self-review is allowed, but lower-confidence. For standard or complex work,
+recommend an independent review before merge or handoff when practical.
 
 ## Check
 
