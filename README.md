@@ -98,8 +98,9 @@ remain a thin pointer to `AGENTS.md`:
 ```
 
 When multiple agentic coding tools are used, keep shared behavior in portable
-files such as `AGENTS.md` and `scripts/repo-checks.sh`. Adapters should be thin
-wrappers that preserve the same harness behavior across tools.
+files such as `AGENTS.md`, `.agents/skills`, and `scripts/repo-checks.sh`.
+Adapters should be thin mirrors, wrappers, or callers that preserve the same
+harness behavior across tools.
 
 If platform-specific support is in scope, read `docs/platform-support.md` and
 then only the platform note for the adapter being installed.
@@ -112,15 +113,20 @@ justifies it.
 
 ## Repository Checks
 
-Run the canonical repository checks before changing manifests or skills:
+Run this framework repo's own canonical checks before changing framework
+manifests, docs, scripts, or skills:
 
 ```sh
 ./scripts/repo-checks.sh
 ```
 
-This currently runs the YAML/frontmatter validator, which checks repository
-`.yml` / `.yaml` files and top-of-file Markdown frontmatter. It requires
-Python 3 with PyYAML available.
+This currently runs the YAML/frontmatter validator and the Python tests. It
+requires Python 3 with PyYAML and pytest available.
+
+Do not copy this framework repo's `scripts/repo-checks.sh` into target repos.
+The installable target-repo template is
+`templates/core/scripts/repo-checks.sh`, which must be adapted from the target
+repo's README, CI, existing scripts, and project config.
 
 ## License
 

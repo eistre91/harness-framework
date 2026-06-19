@@ -13,23 +13,25 @@ or instruction loading, read:
 
 Those files are the canonical source for Claude Code guidance. Keep this
 adapter directory limited to Claude-specific assets that cannot live in shared
-templates, such as settings examples, hook adapters, or skill-loading wrappers.
+templates, such as settings examples, hook adapters, or skill-loading notes.
 
 Unclear until a target repo needs it:
 
 - which hooks are worth adding,
 - whether project settings should be committed or kept local.
 
-## Native Skill Wrappers
+## Native Skill Mirrors
 
-When Claude Code should discover harness skills natively, prefer a thin wrapper
-under `.claude/skills/<skill>/SKILL.md` that keeps Claude Code frontmatter and
-imports the shared `.agents/skills/<skill>/SKILL.md` body with `@`.
+When Claude Code should discover harness skills natively, prefer the generated
+mirror pattern documented in `docs/platforms/claude-code.md`:
+`.agents/skills/<skill>/SKILL.md` owns the portable workflow body and support
+files, while `.claude/skills/<skill>/SKILL.md` owns Claude Code frontmatter.
 
-Do not let install copy only the shared `.agents` skill into `.claude/skills`
-when that would drop Claude-specific fields such as model choices or tool
-permissions like `allowed-tools`. The shared `.agents` skill owns the portable
-workflow body; the `.claude` wrapper owns Claude Code metadata.
+Install `scripts/sync_claude_skills.py` when using generated mirrors. Do not
+let install overwrite Claude-specific fields such as model choices or tool
+permissions like `allowed-tools` with shared `.agents` frontmatter. Thin
+wrappers with `@` imports remain an explicit exception when the target repo
+chooses that adapter shape deliberately.
 
 Potential future assets:
 

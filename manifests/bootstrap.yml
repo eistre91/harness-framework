@@ -33,6 +33,10 @@ assets:
     asset_type: bootstrap
     source: docs/platforms/claude-code.md
     use_when: Adding Claude Code-specific hooks, settings, native skills, or instruction loading support.
+  - id: claude-skill-sync-script
+    asset_type: bootstrap
+    source: scripts/sync_claude_skills.py
+    use_when: Installing generated Claude Code skill mirrors from canonical .agents/skills sources.
   - id: level-0-manifest
     asset_type: bootstrap
     source: manifests/level-0.yml

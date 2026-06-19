@@ -63,6 +63,9 @@ Every installation should adapt:
 - project-specific skill guidance under `.agents/skills`, using
   self-explaining harness names such as `harness-review` unless adapting to an
   existing convention,
+- Claude Code skill mirrors under `.claude/skills` when installed, preserving
+  Claude-specific frontmatter while syncing bodies and support files from
+  `.agents/skills`,
 - existing platform skill or command conflicts,
 - adapter choice,
 - acceptance evidence standards.

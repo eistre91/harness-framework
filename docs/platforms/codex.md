@@ -54,10 +54,11 @@ overlapping names such as `review`, `implement`, `debug`, `diagnose`, `run`,
 or `verify`, and record whether the harness skill is merged, adapted,
 supersedes the existing skill, or is deferred.
 
-If the same shared skill also needs a Claude Code native skill, keep the
-Claude-specific frontmatter in `.claude/skills/<skill>/SKILL.md`. The Codex
-skill source should not be treated as the Claude adapter when Claude Code needs
-additional metadata such as `model`, `allowed-tools`, or other Claude-only
+If the same shared skill also needs a Claude Code native skill, keep
+`.agents/skills/<skill>/SKILL.md` as the source of truth and sync
+`.claude/skills/<skill>/SKILL.md` as a Claude mirror. Preserve Claude-specific
+frontmatter in the mirror. The `.agents` skill source should not absorb
+Claude-only metadata such as `model`, `allowed-tools`, or other Claude-only
 frontmatter.
 
 ## Project Config

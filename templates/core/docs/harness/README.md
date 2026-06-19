@@ -70,12 +70,12 @@ For Claude Code, record whether bundled skills such as `/code-review`,
 secondary to repo-specific guidance, or be disabled by the human's Claude Code
 settings.
 
-If Claude Code native skill wrappers are installed, record the `.claude/skills`
-wrapper path, the shared `.agents/skills` source path, and the Claude-specific
-frontmatter that must be preserved, such as `model`, `allowed-tools`, `effort`,
-`context`, `hooks`, or `paths`. Thin wrapper bodies may use an `@` import to
-the shared skill source; the wrapper frontmatter is still platform-owned
-adapter metadata.
+If Claude Code native skill mirrors are installed, record the `.claude/skills`
+mirror path, the shared `.agents/skills` source path, the sync command, and the
+Claude-specific frontmatter that must be preserved, such as `model`,
+`allowed-tools`, `effort`, `context`, `hooks`, or `paths`. Treat
+`.agents/skills` as the source of truth for skill bodies and support files;
+the mirror frontmatter remains platform-owned adapter metadata.
 
 ## Installed Harness Pieces
 

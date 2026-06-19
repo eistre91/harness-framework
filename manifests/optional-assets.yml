@@ -10,22 +10,27 @@ assets:
     install_when: The target repo uses Claude Code or the human wants Claude Code support.
     adapt:
       - keep content as "@AGENTS.md"; put shared behavior in AGENTS.md
-  - id: claude-skill-wrappers
-    asset_type: behavior
+  - id: claude-skill-mirrors
+    asset_type: installable
+    source: scripts/sync_claude_skills.py
+    default_target: scripts/sync_claude_skills.py
     maturity: level-0
     category: platform-skill-adapter
     install_when: The target repo uses Claude Code native skill discovery for harness-provided skills.
     satisfy_by:
       - Install shared skill source under .agents/skills/<skill>/SKILL.md.
-      - Create or adapt .claude/skills/<skill>/SKILL.md as the Claude Code wrapper.
-      - Keep valid Claude Code frontmatter in the wrapper, including model, allowed-tools, or other Claude-specific fields when used by the target repo.
-      - Keep the wrapper body thin by importing the shared skill body with an @ reference when practical.
+      - Install this script at scripts/sync_claude_skills.py.
+      - Create or adapt .claude/skills/<skill>/SKILL.md as the generated Claude Code mirror.
+      - Keep valid Claude Code frontmatter in the mirror, including model, allowed-tools, or other Claude-specific fields when used by the target repo.
+      - Run python3 -m scripts.sync_claude_skills after changing .agents/skills.
+      - Add python3 -m scripts.sync_claude_skills --check to the target repo's canonical checks unless the fit proposal records a deliberate reason not to.
       - Do not replace existing Claude skill frontmatter with the shared .agents skill frontmatter unless the human explicitly approves that metadata loss.
+      - Remove orphaned Claude mirrors or restore their .agents sources before considering the adapter healthy.
     adapt:
       - Claude skill names and descriptions
       - Claude-specific model, allowed-tools, or other frontmatter fields
-      - relative @ import path from .claude/skills/<skill>/SKILL.md to .agents/skills/<skill>/SKILL.md
       - existing Claude skill conflicts
+      - target repo's canonical checks command
   - id: component-brief
     asset_type: installable
     source: templates/optional/docs/harness/component-brief.md
@@ -78,7 +83,7 @@ adapters:
   - id: claude
     asset_type: adapter
     source: adapters/claude
-    install_when: The target repo uses Claude Code settings, hooks, or native skill wrappers beyond the core CLAUDE.md pointer.
+    install_when: The target repo uses Claude Code settings, hooks, or native skill mirrors beyond the core CLAUDE.md pointer.
     read_before_install:
       - docs/platform-support.md
       - docs/platforms/claude-code.md

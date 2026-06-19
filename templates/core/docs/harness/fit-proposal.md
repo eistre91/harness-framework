@@ -26,10 +26,12 @@ Claude Code note, when relevant:
   remain enabled / are secondary / are disabled by user or project settings,
 - disable mechanism, if chosen: `disableBundledSkills` or
   `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS`,
-- native skill wrapper decision: none / generated copy / symlink / thin wrapper
-  with Claude frontmatter and `@` import,
-- Claude wrapper frontmatter to preserve or add, such as `model`,
+- native skill adapter decision: none / generated mirror with
+  `scripts/sync_claude_skills.py` / symlink / thin wrapper with Claude
+  frontmatter and `@` import,
+- Claude mirror or wrapper frontmatter to preserve or add, such as `model`,
   `allowed-tools`, `effort`, `context`, `hooks`, or `paths`:
+- sync/check command, when using generated mirrors:
 - reason:
 
 ## Current Maturity

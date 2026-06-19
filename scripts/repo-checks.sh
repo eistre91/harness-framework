@@ -14,3 +14,4 @@ run() {
 }
 
 run ./scripts/verify-yaml.py
+run env PYTHONDONTWRITEBYTECODE=1 python3 -B -m pytest tests

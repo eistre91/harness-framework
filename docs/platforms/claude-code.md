@@ -46,20 +46,40 @@ descriptions. Keep descriptions clear, scoped, and front-loaded with the
 trigger condition.
 
 If the harness keeps portable skill source under `.agents/skills`, expose that
-source to Claude Code with the smallest adapter the target repo can maintain:
-
-- a generated copy,
-- a symlink where that is practical,
-- a thin wrapper skill that points to the shared source,
-- or a documented install step.
+source to Claude Code with a generated mirror by default. Install
+`scripts/sync_claude_skills.py` from this framework when the target repo wants
+Claude Code native skills for the same harness skills that live in
+`.agents/skills`.
 
 Do not manually maintain separate Claude and Codex skill bodies unless a real
 platform limitation requires it.
 
-When using a thin wrapper skill, keep Claude Code frontmatter in the wrapper
-even though the instruction body delegates to the shared source. This prevents
-installers from losing Claude-specific discovery metadata, model choices,
-`allowed-tools` declarations, or other Claude Code fields.
+The generated mirror pattern treats `.agents/skills/<skill>/SKILL.md` as the
+source of truth for the skill body and support files. The corresponding
+`.claude/skills/<skill>/SKILL.md` owns Claude-specific frontmatter. The sync
+script preserves existing Claude frontmatter, replaces the body with the
+`.agents` body, copies support files, and rejects orphaned Claude files that no
+longer have a `.agents` source.
+
+Add this to the target repo's canonical checks when the mirror adapter is
+installed:
+
+```sh
+python3 -m scripts.sync_claude_skills --check
+```
+
+Run this after changing `.agents/skills` or adding a Claude skill mirror:
+
+```sh
+python3 -m scripts.sync_claude_skills
+```
+
+Thin wrapper skills with `@` imports remain acceptable only when the target
+repo deliberately chooses wrappers over generated mirrors. When using a thin
+wrapper skill, keep Claude Code frontmatter in the wrapper even though the
+instruction body delegates to the shared source. This prevents installers from
+losing Claude-specific discovery metadata, model choices, `allowed-tools`
+declarations, or other Claude Code fields.
 
 Recommended wrapper shape:
 
@@ -74,13 +94,10 @@ allowed-tools: <Claude tools, when pre-approved for this skill>
 @../../../.agents/skills/harness-review/SKILL.md
 ```
 
-The shared `.agents/skills/<skill>/SKILL.md` remains the canonical workflow
-body. The `.claude/skills/<skill>/SKILL.md` file is the Claude Code adapter and
-owns Claude-specific frontmatter. If the target repo already has a Claude skill
-with `model`, `allowed-tools`, `disallowed-tools`, `effort`, `context`, `hooks`,
-`paths`, or other platform-specific fields, preserve or
-intentionally adapt those fields during install; do not silently replace them
-with the shared skill frontmatter.
+When adapting an existing Claude skill, preserve or intentionally adapt
+platform-specific fields such as `model`, `allowed-tools`, `disallowed-tools`,
+`effort`, `context`, `hooks`, or `paths`. Do not silently replace them with the
+shared skill frontmatter.
 
 ### Bundled Skills
 

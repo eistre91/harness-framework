@@ -113,25 +113,11 @@ frontmatter or sidecar metadata, such as model selection, allowed tools, or
 runtime-specific discovery fields, keep that metadata in the platform adapter
 instead of stripping it or copying it into the shared skill body.
 
-For Claude Code, a native `.claude/skills/<skill>/SKILL.md` wrapper may remain
-thin, but it must still keep valid Claude Code frontmatter. The wrapper body can
-delegate to the installed shared skill source with an `@` import, for example:
-
-```md
----
-name: harness-review
-description: Reviews implementation against the repo's Agent Work Brief.
-model: <Claude model, when the target repo wants one>
-allowed-tools: <Claude tools, when pre-approved for this skill>
----
-
-@../../../.agents/skills/harness-review/SKILL.md
-```
-
-Treat that frontmatter as Claude-owned adapter metadata. Do not replace the
-wrapper with a plain copied shared skill body if doing so would lose Claude
-Code discovery fields, model choices, `allowed-tools` declarations, or other
-Claude-specific settings.
+For repos that use both `.agents/skills` and Claude Code native skills, the
+standard harness adapter is a generated Claude mirror: `.agents/skills` owns
+the reusable body and support files, while `.claude/skills` owns
+Claude-specific frontmatter. Read `docs/platforms/claude-code.md` for the
+sync command, drift check, and wrapper-import exception.
 
 Harness-provided skills should use self-explaining names such as
 `harness-review`, `harness-implement`, `harness-work-brief`, and
@@ -144,10 +130,9 @@ with review, implementation, work-brief, diagnose/debug, run, and verify
 workflows. Record whether each overlapping item is merged, adapted,
 superseded, left alone, or deferred.
 
-When native skill wrappers are installed for a platform, record where the
-shared skill source lives, where the wrapper lives, what platform frontmatter
-is intentionally present, and how the wrapper imports or mirrors the shared
-body.
+When native skill mirrors are installed for a platform, record where the shared
+skill source lives, where the mirror lives, what platform frontmatter is
+intentionally present, and which sync or check command prevents drift.
 
 Skill descriptions are part of the runtime contract. Keep them concise and
 front-load the trigger condition so platforms can select the right skill from

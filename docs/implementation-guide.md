@@ -704,6 +704,22 @@ Adapt it with commands derived from README, CI, existing scripts, package or
 project config, or other repo evidence. Keep the template's explicit failure
 when no reliable command can be confirmed.
 
+Do not copy the framework repo's own `scripts/repo-checks.sh` into the target
+repo. That file validates this framework package. The target repo receives the
+template path above, adapted to the target repo's deterministic checks.
+
+When the Claude Code generated skill mirror adapter is installed, also add this
+adapter health check to the target repo's adapted `scripts/repo-checks.sh`
+unless the Harness Fit Proposal records a deliberate reason not to:
+
+```sh
+python3 -m scripts.sync_claude_skills --check
+```
+
+Do not add that Claude mirror check to the base template by default. It only
+applies when `scripts/sync_claude_skills.py` and `.claude/skills` mirrors are
+installed in the target repo.
+
 ### Existing Wrapper Example
 
 An adapted script can be as small as the canonical template invoking one
@@ -766,8 +782,8 @@ Default:
 
 ```text
 Keep shared policy in AGENTS.md, scripts/repo-checks.sh, work-brief skill bundles,
-and portable skill guidance. Make adapters thin wrappers around those shared
-contracts.
+and portable skill guidance. Make adapters thin mirrors, wrappers, or callers
+around those shared contracts.
 ```
 
 For hooks, this means:
@@ -809,13 +825,11 @@ commands, record whether the harness skill is added, adapted, merged,
 supersedes the existing skill, or is deferred.
 ```
 
-If Claude Code native skills are installed, create `.claude/skills/<skill>/`
-as a platform adapter rather than a second canonical skill body. The Claude
-`SKILL.md` wrapper should keep Claude Code frontmatter, including fields such
-as model or tool declarations when the target repo uses them, and its body may
-delegate to the shared `.agents/skills/<skill>/SKILL.md` with an `@` import.
-Record the wrapper path, shared source path, and preserved Claude frontmatter
-fields in the fit proposal.
+If Claude Code native skills are installed, follow
+`docs/platforms/claude-code.md` and the `claude-skill-mirrors` optional asset
+manifest entry. Record the mirror path, shared source path, sync command,
+preserved Claude frontmatter fields, and any deliberate wrapper-import
+exception in the fit proposal.
 
 When Claude Code is in scope, mention bundled Claude Code skills and workflows
 such as `/code-review`, `/debug`, `/run`, and `/verify`. Ask whether they
