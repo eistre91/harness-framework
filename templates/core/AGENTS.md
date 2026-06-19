@@ -19,6 +19,12 @@ Local fallback draft policy: do not commit local fallback brief instances. If
 the team wants versioned in-repo briefs, use an explicit durable path such as
 `docs/work/` as the canonical brief location.
 
+Durability policy: committed repo briefs are shared work records and may be
+useful for collaboration, but they can go stale. If this repo uses committed
+briefs, keep source, status, owner, progress, and supersession/archive state
+clear enough that future agents do not treat stale work records as current
+project guidance.
+
 Availability means the current agent session can read and update the canonical
 source through the configured tool, such as an MCP server, API, CLI, or browser
 workflow. If the canonical source is external and unavailable, use the local
@@ -69,6 +75,12 @@ Reusable harness skills are installed in platform-neutral `.agents/skills/` by
 default. Use those repo-specific skills when their descriptions match the task.
 The singular `.agent/` path, when configured, is for local gitignored drafts and
 state, not committed shared skills.
+
+Use harness skills by phase, not as one combined reading list. Shape ambiguous
+or acceptance-heavy work with `harness-work-brief`, implement from the agreed
+brief or scope with `harness-implement`, then review against that brief or scope
+with `harness-review`. For non-trivial work, keep implementation and review in
+separate context windows when practical.
 
 ## Review Independence
 

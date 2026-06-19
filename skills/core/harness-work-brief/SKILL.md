@@ -65,6 +65,9 @@ failure.
 
 ## Work Source
 
+Do not leave work brief durability implicit. Use the canonical location named in
+the repo entrypoint or current request.
+
 If the canonical source is external, such as Jira, GitHub Issues, or Linear, use
 it when the current agent session has working read/write access through an MCP
 server, API, CLI, or browser workflow. If that source is unavailable, use the
@@ -75,6 +78,11 @@ progress, evidence, blockers, and accepted plan changes back to the canonical
 source when access is available. If the team wants versioned in-repo briefs,
 they should choose an explicit durable path such as `docs/work/` as the
 canonical location instead of treating local fallback drafts as source of truth.
+
+Committed repo briefs can be useful shared work records, but they also become
+documentation that can go stale. When the canonical location is a repo path,
+include enough source, status, owner, and progress context for later agents to
+tell whether the brief is current, completed, superseded, or ready to archive.
 
 For tiny work, do not force every template section. Capture the source, goal,
 context, verification, and done criteria, then add richer sections only when

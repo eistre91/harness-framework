@@ -48,6 +48,7 @@ post it back there before removing a temporary local draft.
 - Blockers:
 - Latest evidence:
 - Next action:
+- Superseded by / archive note:
 
 ## Boundary / Interface
 

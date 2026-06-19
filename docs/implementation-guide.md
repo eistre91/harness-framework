@@ -330,7 +330,8 @@ The proposal must include decisions for:
 - current and target maturity,
 - installation mode and completeness,
 - manifest inclusion or deferral,
-- work brief storage, local fallback, commit policy, and sync rule,
+- work brief storage, durability rationale, local fallback, commit policy, stale
+  brief mitigation, and sync rule,
 - verification, focused validation, CI-only checks, and manual evidence,
 - tests, lint/format, and type checking,
 - gaps, trade-offs, human decisions, deferred items, proposed files,
@@ -384,10 +385,13 @@ both obvious from repo evidence and low-risk:
 
 - Should this install mode be `canonical`, `starter`, or `overlay`?
 - Where should canonical Agent Work Briefs live?
+- Why is that durability choice the right trade-off for this repo right now?
 - What local fallback should agents use when the canonical brief store is
   unavailable?
 - Should brief instances live only in the external tracker, in a durable repo
   path, or as gitignored local fallback drafts?
+- If briefs are committed, how should stale or completed briefs be audited,
+  archived, or removed?
 - Should missing test, lint/format, or type-check tools be added now or
   explicitly deferred?
 - How should existing platform skills, commands, or review flows be merged,
@@ -457,6 +461,8 @@ After implementation, check that a fresh agent could:
   `docs/harness/`,
 - understand where work comes from,
 - create or read an Agent Work Brief,
+- understand that harness skills are used by phase and not as one combined
+  reading list,
 - find relevant context or know that no context router exists yet,
 - run `scripts/repo-checks.sh`,
 - produce mechanical and acceptance evidence,
@@ -484,6 +490,9 @@ A Level 0 or Level 1 starter harness is acceptable when:
   `docs/harness/`,
 - acceptance evidence is required for externally visible or boundary-changing
   behavior,
+- `AGENTS.md` tells agents to use work-brief, implementation, and review skills
+  by phase, with separate implementation and review context windows for
+  non-trivial work when practical,
 - side-effect evidence uses "secrets management" wording and does not imply
   agents should print, reveal, inspect, or directly handle secret values,
 - review guidance checks bugs, scope, tests, maintainability, and
@@ -501,6 +510,39 @@ A Level 0 or Level 1 starter harness is acceptable when:
 
 The Agent Work Brief is the central work artifact. The implementation guide
 should choose where it lives for the project rather than leaving that implicit.
+
+### Durability Policy
+
+Work brief storage is a trade-off. Do not treat durability as an incidental
+detail.
+
+There are three supported patterns:
+
+- External durable store: the brief lives in a tracker or planning system such as
+  Jira, GitHub Issues, Linear, or another team source of truth.
+- Repo durable store: the brief lives in a committed repo path such as
+  `docs/work/<ticket-id>.md`.
+- Local temporary store: the brief lives in a gitignored local path such as
+  `.agent/work/`.
+
+The recommended default is an external durable store when the team already has a
+reliable tracker workflow and agents can read and update it. This keeps work
+context visible to the team without turning the code repo into a planning
+archive.
+
+Repo durable storage is reasonable when the team wants shared agent-readable
+work records, when tracker access is weak, or when a small repo benefits more
+from visible collaboration than from minimizing documentation surface. The cost
+is long-term maintenance: committed briefs can go stale, duplicate tracker
+truth, and confuse future agents. If a team chooses committed briefs, record the
+status, source, and owner, and periodically audit, archive, or remove stale work
+records.
+
+Local temporary storage is convenient for drafting and for sessions that cannot
+access the canonical store. It is not shared provenance. Use it only as a
+fallback or for tiny work where losing continuity is acceptable, and copy durable
+progress, evidence, blockers, and accepted plan changes back to the canonical
+location before handoff.
 
 ### Placement Options
 
@@ -554,7 +596,9 @@ Recommended default:
 
 ```text
 Use repo files only when the team wants durable in-repo planning artifacts or
-does not have a reliable tracker workflow.
+does not have a reliable tracker workflow. Treat committed briefs as work
+records, not evergreen project documentation, and include status/source metadata
+so stale briefs can be audited or archived later.
 ```
 
 ### Local Fallback

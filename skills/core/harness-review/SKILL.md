@@ -73,16 +73,28 @@ handoff when practical.
    - behavior is coherent from the user's perspective,
    - small polish gaps matter only when they materially affect the outcome.
 6. Security and operational risk:
-   - secrets, credentials, tokens, and private state are not read, printed,
-     copied, logged, or committed,
+   - secrets, credentials, tokens, sensitive URLs, and private state are not
+     hardcoded, read unnecessarily, printed, copied, logged, serialized,
+     committed, or exposed in tests,
    - auth, authorization, permissions, and data exposure boundaries still match
      the intended behavior,
    - inputs that cross trust boundaries are validated, escaped, constrained, or
      otherwise handled according to existing project patterns,
+   - shell, subprocess, query, template, and file-path construction do not
+     introduce injection or traversal risk,
    - external side effects, migrations, scheduled work, deployment behavior, and
      integrations are scoped and reversible enough for the brief,
    - logs, errors, screenshots, fixtures, and test output do not reveal sensitive
      values.
+7. Project-specific risks:
+   - check the repo entrypoint, local agent docs, work brief, or review request
+     for named invariants the change must preserve,
+   - examples include dependency direction, runtime or framework isolation,
+     configuration/schema contracts, secret-management rules, generated
+     artifacts, compatibility promises, deployment constraints, and validation
+     commands,
+   - treat violations of those local invariants as review findings even when the
+     generic checklist would not catch them.
 
 ## Finding Format
 

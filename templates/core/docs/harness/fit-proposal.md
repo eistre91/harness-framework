@@ -59,6 +59,8 @@ Claude Code note, when relevant:
 - Local fallback when canonical store is unavailable:
 - Commit policy for brief instances:
 - Sync rule back to canonical location:
+- Durability rationale:
+- Stale brief mitigation when briefs are committed:
 
 ## Verification And Validation
 

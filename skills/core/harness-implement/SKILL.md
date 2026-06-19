@@ -43,10 +43,12 @@ that contains enough executable detail.
    - no refactor while the suite is red.
 7. Refactor only after tests are green; keep tests on public behavior so
    internal refactors do not break them.
-8. Run the repo's canonical checks command before claiming done.
-9. Provide mechanical evidence and acceptance evidence.
-10. Prepare a handoff for an independent reviewer.
-11. Call out any scope, design, or verification gaps.
+8. Run focused validation for the touched area while iterating when the repo has
+   a clear focused command or test surface.
+9. Run the repo's canonical checks command before claiming done.
+10. Provide mechanical evidence and acceptance evidence.
+11. Prepare a handoff for an independent reviewer.
+12. Call out any scope, design, or verification gaps.
 
 For tiny work, do not create extra process when the ticket, issue, or chat
 request already states the source, goal, context, verification, and done
@@ -60,6 +62,8 @@ Brief or equivalent executable scope before coding.
 - Do not continue coding from a brief that lacks a necessary interface,
   behavior, or acceptance decision.
 - If no meaningful test surface exists, say so and explain the residual risk.
+- Do not commit unless the human explicitly approves after reviewing the changed
+  files summary.
 
 ## Final Evidence
 
