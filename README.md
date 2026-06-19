@@ -120,8 +120,9 @@ manifests, docs, scripts, or skills:
 ./scripts/repo-checks.sh
 ```
 
-This currently runs the YAML/frontmatter validator and the Python tests. It
-requires Python 3 with PyYAML and pytest available.
+The script is the source of truth for this framework repo's checks. In this
+repo it validates YAML/frontmatter and runs the Python tests. It requires
+Python 3 with PyYAML and pytest available.
 
 Do not copy this framework repo's `scripts/repo-checks.sh` into target repos.
 The installable target-repo template is

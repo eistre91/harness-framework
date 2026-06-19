@@ -67,8 +67,8 @@ skills.
 
 For Claude Code, record whether bundled skills such as `/code-review`,
 `/debug`, `/run`, and `/verify` should remain enabled, be documented as
-secondary to repo-specific guidance, or be disabled by the human's Claude Code
-settings.
+secondary to repo-specific guidance, or be disabled by user or project Claude
+Code settings.
 
 If Claude Code native skill mirrors are installed, record the `.claude/skills`
 mirror path, the shared `.agents/skills` source path, the sync command, and the

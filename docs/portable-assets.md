@@ -1,5 +1,10 @@
 # Portable Harness Assets
 
+Audience: agents and maintainers selecting framework assets for a target repo.
+
+Use when: distinguishing bootstrap docs, installable assets, optional pull-ins,
+adapters, and repo-specific adaptations.
+
 This repo separates portable harness assets from repo-specific adaptations.
 
 ## Rule

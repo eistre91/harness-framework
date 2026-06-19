@@ -1,5 +1,10 @@
 # TODO
 
+This is a work record for deferred framework ideas, not active implementation
+guidance. Use `docs/principles.md`, `docs/framework.md`,
+`docs/implementation-guide.md`, `docs/maturity-model.md`, and the manifests as
+the current source of truth.
+
 ## Deferred: PRD / Technical Design To Issue Pipeline
 
 The current minimal harness intentionally focuses on getting small loops right:

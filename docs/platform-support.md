@@ -98,6 +98,8 @@ The shared runner owns the stable policy:
 - which repo checks command to run,
 - which paths or commands are sensitive,
 - what counts as pass, warn, or block,
+- whether an operation is safe for this specific hook event or tool call,
+  including whether a command can run concurrently in the current context,
 - how messages should be phrased for humans and agents.
 
 ## Skill Pattern

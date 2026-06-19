@@ -1,5 +1,11 @@
 # Harness Maturity Model
 
+Audience: agents and maintainers deciding how much harness structure a target
+repo needs.
+
+Use when: choosing current and target maturity, installation mode, asset
+completeness, behavioral completeness, and deferrals.
+
 Use this model diagnostically. Higher maturity is not automatically better. A
 small repo may be healthiest at Level 0 or Level 1 for a long time.
 
@@ -220,6 +226,9 @@ Assets:
 - destructive-action warnings or blocks,
 - tool-safety checklist for protected paths, protected commands, and
   ask/warn/block policy,
+- per-call safety decisions for operations that may be safe in one context but
+  unsafe in another, including whether a command can run concurrently for this
+  specific invocation,
 - broader Stop hook or pre-commit enforcement beyond the early
   `scripts/repo-checks.sh` pull-in,
 - CI parity with `scripts/repo-checks.sh`,

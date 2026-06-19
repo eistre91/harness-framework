@@ -1,4 +1,10 @@
-## Principles
+# Principles
+
+Audience: agents and maintainers changing this framework or fitting its assets
+to a target repo.
+
+Use when: deciding whether a harness component, document, adapter, skill,
+script, or maturity claim earns its maintenance cost.
 
 The following principles guide the framework.
 
