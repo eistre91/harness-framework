@@ -55,6 +55,74 @@ model: haiku
 """
 
 
+def test_expected_claude_skill_text_sets_user_invoked_from_codex_policy() -> None:
+    agent_text = """---
+name: deploy
+description: Shared description
+---
+
+# Shared Body
+"""
+    claude_text = """---
+name: deploy
+description: Claude-specific description
+model: haiku
+---
+
+stale body
+"""
+
+    expected = expected_claude_skill_text(
+        agent_text,
+        claude_text,
+        codex_allow_implicit_invocation=False,
+    )
+
+    assert expected == """---
+name: deploy
+description: Claude-specific description
+model: haiku
+disable-model-invocation: true
+---
+
+# Shared Body
+"""
+
+
+def test_expected_claude_skill_text_clears_user_invoked_from_codex_policy() -> None:
+    agent_text = """---
+name: deploy
+description: Shared description
+---
+
+# Shared Body
+"""
+    claude_text = """---
+name: deploy
+description: Claude-specific description
+disable-model-invocation: true
+model: haiku
+---
+
+stale body
+"""
+
+    expected = expected_claude_skill_text(
+        agent_text,
+        claude_text,
+        codex_allow_implicit_invocation=True,
+    )
+
+    assert expected == """---
+name: deploy
+description: Claude-specific description
+model: haiku
+---
+
+# Shared Body
+"""
+
+
 def test_sync_claude_skills_check_detects_drift(tmp_path: Path) -> None:
     agent_skill = tmp_path / ".agents" / "skills" / "sample-skill" / "SKILL.md"
     claude_skill = tmp_path / ".claude" / "skills" / "sample-skill" / "SKILL.md"
@@ -125,6 +193,115 @@ model: haiku
 ---
 
 # Shared
+"""
+
+
+def test_sync_claude_skills_syncs_user_invoked_policy_from_codex_metadata(
+    tmp_path: Path,
+) -> None:
+    agent_skill = tmp_path / ".agents" / "skills" / "deploy" / "SKILL.md"
+    codex_metadata = (
+        tmp_path / ".agents" / "skills" / "deploy" / "agents" / "openai.yaml"
+    )
+    claude_skill = tmp_path / ".claude" / "skills" / "deploy" / "SKILL.md"
+    agent_skill.parent.mkdir(parents=True)
+    codex_metadata.parent.mkdir(parents=True)
+    claude_skill.parent.mkdir(parents=True)
+    agent_skill.write_text(
+        """---
+name: deploy
+description: Shared
+---
+
+# Deploy
+""",
+        encoding="utf-8",
+    )
+    codex_metadata.write_text(
+        """policy:
+  allow_implicit_invocation: false
+""",
+        encoding="utf-8",
+    )
+    claude_skill.write_text(
+        """---
+name: deploy
+description: Claude-specific
+model: haiku
+---
+
+stale
+""",
+        encoding="utf-8",
+    )
+
+    changed = sync_claude_skills(tmp_path, check=False)
+
+    assert changed == [claude_skill]
+    assert claude_skill.read_text(encoding="utf-8") == """---
+name: deploy
+description: Claude-specific
+model: haiku
+disable-model-invocation: true
+---
+
+# Deploy
+"""
+    assert not (
+        tmp_path / ".claude" / "skills" / "deploy" / "agents" / "openai.yaml"
+    ).exists()
+
+
+def test_sync_claude_skills_syncs_model_invoked_policy_from_codex_metadata(
+    tmp_path: Path,
+) -> None:
+    agent_skill = tmp_path / ".agents" / "skills" / "review" / "SKILL.md"
+    codex_metadata = (
+        tmp_path / ".agents" / "skills" / "review" / "agents" / "openai.yaml"
+    )
+    claude_skill = tmp_path / ".claude" / "skills" / "review" / "SKILL.md"
+    agent_skill.parent.mkdir(parents=True)
+    codex_metadata.parent.mkdir(parents=True)
+    claude_skill.parent.mkdir(parents=True)
+    agent_skill.write_text(
+        """---
+name: review
+description: Shared
+---
+
+# Review
+""",
+        encoding="utf-8",
+    )
+    codex_metadata.write_text(
+        """policy:
+  allow_implicit_invocation: true
+""",
+        encoding="utf-8",
+    )
+    claude_skill.write_text(
+        """---
+name: review
+description: Claude-specific
+disable-model-invocation: true
+model: haiku
+---
+
+# Review
+""",
+        encoding="utf-8",
+    )
+
+    changed = sync_claude_skills(tmp_path, check=False)
+
+    assert changed == [claude_skill]
+    assert claude_skill.read_text(encoding="utf-8") == """---
+name: review
+description: Claude-specific
+model: haiku
+---
+
+# Review
 """
 
 

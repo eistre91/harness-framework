@@ -4,8 +4,21 @@
 from __future__ import annotations
 
 import argparse
+import re
 from dataclasses import dataclass
 from pathlib import Path
+
+try:
+    import yaml
+except ImportError:  # pragma: no cover - exercised only in missing dependency envs.
+    yaml = None
+
+
+CODEX_METADATA_PATH = Path("agents") / "openai.yaml"
+CLAUDE_DISABLE_MODEL_INVOCATION_KEY = "disable-model-invocation"
+CLAUDE_DISABLE_MODEL_INVOCATION_PATTERN = re.compile(
+    rf"^{re.escape(CLAUDE_DISABLE_MODEL_INVOCATION_KEY)}\s*:"
+)
 
 
 @dataclass(frozen=True)
@@ -30,7 +43,12 @@ def split_frontmatter(text: str) -> tuple[str, str]:
     raise ValueError("skill frontmatter is missing a closing '---' delimiter")
 
 
-def expected_claude_skill_text(agent_text: str, claude_text: str) -> str:
+def expected_claude_skill_text(
+    agent_text: str,
+    claude_text: str,
+    *,
+    codex_allow_implicit_invocation: bool | None = None,
+) -> str:
     """Build Claude skill text with Claude frontmatter and canonical agent body."""
     agent_frontmatter, agent_body = split_frontmatter(agent_text)
     claude_frontmatter, _ = split_frontmatter(claude_text)
@@ -40,17 +58,94 @@ def expected_claude_skill_text(agent_text: str, claude_text: str) -> str:
     if not claude_frontmatter:
         raise ValueError("Claude skill is missing YAML frontmatter")
 
+    claude_frontmatter = expected_claude_frontmatter(
+        claude_frontmatter,
+        codex_allow_implicit_invocation=codex_allow_implicit_invocation,
+    )
+
     return f"{claude_frontmatter}\n\n{agent_body}"
 
 
-def expected_new_claude_skill_text(agent_text: str) -> str:
+def expected_new_claude_skill_text(
+    agent_text: str,
+    *,
+    codex_allow_implicit_invocation: bool | None = None,
+) -> str:
     """Build a new Claude skill mirror from the canonical agent skill."""
     agent_frontmatter, agent_body = split_frontmatter(agent_text)
 
     if not agent_frontmatter:
         raise ValueError("agent skill is missing YAML frontmatter")
 
+    agent_frontmatter = expected_claude_frontmatter(
+        agent_frontmatter,
+        codex_allow_implicit_invocation=codex_allow_implicit_invocation,
+    )
+
     return f"{agent_frontmatter}\n\n{agent_body}"
+
+
+def expected_claude_frontmatter(
+    frontmatter: str,
+    *,
+    codex_allow_implicit_invocation: bool | None,
+) -> str:
+    """Return Claude frontmatter with invocation policy synced when configured."""
+    if codex_allow_implicit_invocation is None:
+        return frontmatter
+
+    disable_model_invocation = not codex_allow_implicit_invocation
+    lines = frontmatter.splitlines()
+    expected_lines: list[str] = []
+    invocation_line_seen = False
+
+    for index, line in enumerate(lines):
+        if CLAUDE_DISABLE_MODEL_INVOCATION_PATTERN.match(line):
+            if disable_model_invocation and not invocation_line_seen:
+                expected_lines.append(
+                    f"{CLAUDE_DISABLE_MODEL_INVOCATION_KEY}: true"
+                )
+                invocation_line_seen = True
+            continue
+
+        if (
+            index == len(lines) - 1
+            and line == "---"
+            and disable_model_invocation
+            and not invocation_line_seen
+        ):
+            expected_lines.append(f"{CLAUDE_DISABLE_MODEL_INVOCATION_KEY}: true")
+            invocation_line_seen = True
+
+        expected_lines.append(line)
+
+    return "\n".join(expected_lines)
+
+
+def codex_allow_implicit_invocation(skill_dir: Path) -> bool | None:
+    """Return Codex implicit invocation policy from agents/openai.yaml if present."""
+    metadata_path = skill_dir / CODEX_METADATA_PATH
+    if not metadata_path.exists():
+        return None
+
+    if yaml is None:
+        raise ValueError("PyYAML is required to parse agents/openai.yaml")
+
+    metadata = yaml.safe_load(metadata_path.read_text(encoding="utf-8")) or {}
+    if not isinstance(metadata, dict):
+        raise ValueError(f"{metadata_path}: Codex skill metadata must be a mapping")
+
+    policy = metadata.get("policy") or {}
+    if not isinstance(policy, dict):
+        raise ValueError(f"{metadata_path}: policy must be a mapping")
+
+    allow_implicit_invocation = policy.get("allow_implicit_invocation", True)
+    if not isinstance(allow_implicit_invocation, bool):
+        raise ValueError(
+            f"{metadata_path}: policy.allow_implicit_invocation must be a boolean"
+        )
+
+    return allow_implicit_invocation
 
 
 def discover_skill_pairs(root: Path) -> list[SkillPair]:
@@ -89,10 +184,20 @@ def support_file_paths(skill_dir: Path) -> dict[Path, Path]:
     if not skill_dir.exists():
         return {}
 
+    paths: dict[Path, Path] = {}
+    for path in skill_dir.rglob("*"):
+        if not path.is_file() or path.name == "SKILL.md":
+            continue
+
+        relative_path = path.relative_to(skill_dir)
+        if relative_path == CODEX_METADATA_PATH:
+            continue
+
+        paths[relative_path] = path
+
     return {
-        path.relative_to(skill_dir): path
-        for path in skill_dir.rglob("*")
-        if path.is_file() and path.name != "SKILL.md"
+        relative_path: paths[relative_path]
+        for relative_path in sorted(paths)
     }
 
 
@@ -103,12 +208,22 @@ def sync_claude_skills(root: Path, *, check: bool) -> list[Path]:
     for pair in discover_skill_pairs(root):
         agent_text = pair.agent_path.read_text(encoding="utf-8")
         try:
+            allow_implicit_invocation = codex_allow_implicit_invocation(
+                pair.agent_path.parent
+            )
             if pair.claude_exists:
                 claude_text = pair.claude_path.read_text(encoding="utf-8")
-                expected = expected_claude_skill_text(agent_text, claude_text)
+                expected = expected_claude_skill_text(
+                    agent_text,
+                    claude_text,
+                    codex_allow_implicit_invocation=allow_implicit_invocation,
+                )
             else:
                 claude_text = ""
-                expected = expected_new_claude_skill_text(agent_text)
+                expected = expected_new_claude_skill_text(
+                    agent_text,
+                    codex_allow_implicit_invocation=allow_implicit_invocation,
+                )
         except ValueError as exc:
             raise ValueError(f"{pair.claude_path}: {exc}") from exc
 
