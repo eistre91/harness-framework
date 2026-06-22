@@ -44,6 +44,20 @@ assets:
     default_target: docs/harness/maintainability.md
     maturity: level-4
     install_when: The repo has repeated maintainability, harness, cognitive, or semantic debt signals.
+  - id: project-intent
+    asset_type: installable
+    source: templates/optional/docs/project/intent.md
+    default_target: docs/project/intent.md
+    maturity: level-2
+    category: project-context
+    install_when: >-
+      Repeated planning, exploratory, scope, or value-sensitive review decisions
+      need a shared project north star.
+    adapt:
+      - project users, stakeholders, or served systems
+      - project problem and value proposition
+      - current product, architecture, domain, or operational direction
+      - review triggers and any narrow boundaries that prevent repeated scope confusion
   - id: diagnose-skill
     asset_type: installable
     source: skills/optional/harness-diagnose/SKILL.md

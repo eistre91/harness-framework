@@ -229,6 +229,8 @@ The proposal must include decisions for:
 - current and target maturity,
 - installation mode and completeness,
 - manifest inclusion or deferral,
+- project context and intent, including whether optional
+  `docs/project/intent.md` is useful now or should be deferred,
 - work brief storage, durability rationale, local fallback, commit policy,
   stale brief mitigation, and sync rule,
 - verification, focused validation, CI-only checks, and manual evidence,
@@ -280,6 +282,9 @@ evidence and low-risk:
   path, or as gitignored local fallback drafts?
 - If briefs are committed, how should stale or completed briefs be audited,
   archived, or removed?
+- Is there already a short project intent source? If not, are repeated planning,
+  scope, or value-sensitive review decisions causing enough friction to justify
+  `docs/project/intent.md` now?
 - Should missing test, lint/format, or type-check tools be added now or
   explicitly deferred?
 - Are any files, directories, services, or data sources off limits to agents?
@@ -638,6 +643,9 @@ Common install shapes:
   execution, with canonical briefs in Jira ticket/comment or a repo file.
 - Repo with useful but scattered docs: Level 1 plus selected Level 2 context
   routing; maybe `SPEC-MAP.md` if there are multiple areas.
+- Repo with repeated planning, scope, or value-tradeoff confusion: Level 1 plus
+  selected Level 2 project context; maybe `docs/project/intent.md` if humans can
+  state a short shared north star.
 - Repo with repeated mechanical failures: Level 1 plus selected Level 3
   deterministic controls; maybe a Stop hook running `scripts/repo-checks.sh`.
 

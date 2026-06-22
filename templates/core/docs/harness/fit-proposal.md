@@ -52,6 +52,18 @@ Claude Code note, when relevant:
 | --- | --- | --- | --- | --- |
 | 0 |  | include / adapt / already satisfied / defer / exclude |  |  |
 | 1 |  | include / adapt / already satisfied / defer / exclude |  |  |
+| optional |  | include / adapt / already satisfied / defer / exclude |  |  |
+
+## Project Context And Intent
+
+- Existing project context docs:
+- Existing project intent source:
+- `docs/project/intent.md` decision: include / adapt existing / defer / exclude
+- Reason:
+- Revisit signal:
+- Routing note:
+  planning and value-sensitive review only / explicitly routed implementation
+  context / other:
 
 ## Work Brief Storage
 

@@ -184,7 +184,8 @@ Adds product-context routing.
 Assets:
 
 - `docs/project/`,
-- optional short `docs/project/intent.md`,
+- optional short `docs/project/intent.md` from
+  `templates/optional/docs/project/intent.md`,
 - optional `SPEC-MAP.md`,
 - optional `CONTEXT.md`,
 - ADR or decision-log pointers.
