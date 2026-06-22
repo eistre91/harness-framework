@@ -124,6 +124,18 @@ The script is the source of truth for this framework repo's checks. In this
 repo it validates YAML/frontmatter and runs the Python tests. It requires
 Python 3 with PyYAML and pytest available.
 
+Install the lightweight development dependencies in a local virtual
+environment:
+
+```sh
+python3 -m venv .venv
+. .venv/bin/activate
+python -m pip install -r requirements-dev.txt
+```
+
+`scripts/repo-checks.sh` automatically uses `.venv/bin/python` when that
+environment exists; otherwise it falls back to `python3`.
+
 Do not copy this framework repo's `scripts/repo-checks.sh` into target repos.
 The installable target-repo template is
 `templates/core/scripts/repo-checks.sh`, which must be adapted from the target
