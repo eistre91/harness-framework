@@ -1,5 +1,5 @@
 name: level-0
-description: Default starter asset set for an initial minimal harness trial.
+description: Default starter asset set for an initial harness trial.
 install_policy: Install only after a Harness Fit Proposal confirms the target repo needs these assets.
 assets:
   - id: agents-entrypoint

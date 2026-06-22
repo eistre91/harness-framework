@@ -1,4 +1,4 @@
-# Minimal Agent Harness Framework
+# Right-Sized Agent Harness Framework
 
 Audience: agents and maintainers changing this framework or deciding which
 harness concepts belong in a target repo.
@@ -6,9 +6,10 @@ harness concepts belong in a target repo.
 Use when: understanding the framework shape and rationale. For installation
 steps, use `docs/implementation-guide.md`.
 
-This document defines the conceptual shape of a small, portable agent harness.
-It intentionally avoids being the source of truth for installable file lists,
-templates, or detailed installation procedure.
+This document defines the conceptual shape of a portable agent harness that can
+be fitted to the target repo's current needs and grown as new needs are
+discovered. It intentionally avoids being the source of truth for installable
+file lists, templates, or detailed installation procedure.
 
 ## Source Of Truth Map
 
@@ -99,7 +100,7 @@ external work item
   -> maintainability feedback when patterns repeat
 ```
 
-## Minimal Starter
+## Starter Harness
 
 For an initial trial, the canonical Level 0 file-level asset list lives in
 `manifests/level-0.yml`.
@@ -216,7 +217,7 @@ explicitly routes them there.
 
 ## Agent Work Brief
 
-The Agent Work Brief is the central artifact of the minimal harness.
+The Agent Work Brief is the central artifact of the starter harness.
 
 It is the local executable form of work. It can be produced from a tracker
 ticket, issue, PRD, chat request, or planning conversation. The external work
@@ -541,7 +542,7 @@ or installed harness docs.
 
 ## Summary
 
-The minimal harness framework is a small set of control surfaces:
+The right-sized harness framework starts from a small set of control surfaces:
 
 - a tiny repo entrypoint,
 - a local executable work brief,

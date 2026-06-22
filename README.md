@@ -1,16 +1,21 @@
-# Minimal Agent Harness Framework
+# Right-Sized Agent Harness Framework
 
-This repository is a source package for applying a small, portable agent
-harness to another software repository.
+This repository is a source package for fitting a portable agent harness to
+another software repository.
+
+The framework aims for a right-sized harness: enough structure to provide
+immediate value in the target repo, with explicit paths to grow the harness as
+coordination, context, verification, and automation needs appear.
 
 The harness is not meant to be installed wholesale. It is meant to be fitted to
 the target repo through inspection and collaboration:
 
 1. inspect the target repo,
-2. propose the smallest useful harness maturity target,
+2. propose the smallest useful harness maturity target for the repo now,
 3. ask only the human questions that materially affect the harness shape,
 4. copy or adapt selected templates, skills, and adapters,
-5. remove temporary bootstrap material after installation.
+5. record how the harness can grow when new needs are discovered,
+6. remove temporary bootstrap material after installation.
 
 ## Start Here
 
@@ -46,11 +51,12 @@ cd <target-repo>
 Then ask an agent:
 
 ```text
-Use ../harness-framework/docs/implementation-guide.md to fit a minimal harness
-to this repo. Inspect this repo first, write and persist a Harness Fit Proposal
-under /tmp by default, present the exact proposal text before editing, ask for
-explicit approval or corrections, install only the approved assets, and record
-the final proposal or equivalent decision log under docs/harness/.
+Use ../harness-framework/docs/implementation-guide.md to fit a right-sized
+agent harness to this repo. Inspect this repo first, write and persist a
+Harness Fit Proposal under /tmp by default, present the exact proposal text
+before editing, ask for explicit approval or corrections, install only the
+approved assets, and record the final proposal or equivalent decision log under
+docs/harness/.
 ```
 
 ### Option B: Temporary Bootstrap Directory
@@ -59,12 +65,12 @@ Copy or unzip this repo into the target repo as `.harness-bootstrap/`, then ask
 an agent:
 
 ```text
-Use .harness-bootstrap/docs/implementation-guide.md to fit a minimal harness to
-this repo. Inspect this repo first, write and persist a Harness Fit Proposal
-under /tmp by default, present the exact proposal text before editing, ask for
-explicit approval or corrections, install only the approved assets, record the
-final proposal or equivalent decision log under docs/harness/, and remove
-.harness-bootstrap/ after installation.
+Use .harness-bootstrap/docs/implementation-guide.md to fit a right-sized agent
+harness to this repo. Inspect this repo first, write and persist a Harness Fit
+Proposal under /tmp by default, present the exact proposal text before editing,
+ask for explicit approval or corrections, install only the approved assets,
+record the final proposal or equivalent decision log under docs/harness/, and
+remove .harness-bootstrap/ after installation.
 ```
 
 ### Expected First Install

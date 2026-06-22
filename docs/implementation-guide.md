@@ -1,8 +1,8 @@
-# Minimal Agent Harness Implementation Guide
+# Agent Harness Implementation Guide
 
 Audience: agents and maintainers fitting this framework to a target repo.
 
-Use when: inspecting a repo, proposing the smallest useful harness shape, and
+Use when: inspecting a repo, proposing a right-sized harness shape, and
 installing only the approved assets.
 
 This guide turns the framework into an installation process. The central rule

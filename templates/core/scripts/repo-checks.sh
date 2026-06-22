@@ -2,7 +2,7 @@
 set -eu
 
 # Canonical deterministic checks for this repo.
-# Installed by the minimal agent harness as the repo checks entrypoint.
+# Installed by the agent harness as the repo checks entrypoint.
 # Scope: lint/typecheck/tests/build checks for product code, not harness validation.
 # This is the target-repo template; do not replace it with the framework repo's
 # own scripts/repo-checks.sh.

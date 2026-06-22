@@ -7,7 +7,7 @@ the current source of truth.
 
 ## Deferred: PRD / Technical Design To Issue Pipeline
 
-The current minimal harness intentionally focuses on getting small loops right:
+The current starter harness intentionally focuses on getting small loops right:
 
 ```text
 work brief -> implementation -> verification -> review -> feedback
@@ -49,7 +49,7 @@ can apply the harness philosophy correctly, not just copy files.
 Provenance:
 
 - Walking Labs `learn-harness-engineering` includes a `harness-creator`
-  skill with `evals/evals.json` covering minimal harness creation, session
+  skill with `evals/evals.json` covering starter harness creation, session
   continuity, harness assessment, verification workflow design, memory
   taxonomy, tool safety, context budgets, multi-agent coordination, lifecycle
   bootstrap, and scripted benchmark/report usage.
