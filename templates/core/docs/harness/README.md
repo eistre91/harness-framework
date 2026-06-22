@@ -112,8 +112,9 @@ not copy the canonical manifest here.
   cost.
 - Record why a new harness component exists and when it should be simplified or
   removed.
-- Keep shared behavior in `AGENTS.md`, `scripts/repo-checks.sh`, work-brief skill
-  bundles, and shared skills. Keep tool-specific adapters thin.
+- Keep universal operating guidance in `AGENTS.md`, deterministic checks in
+  `scripts/repo-checks.sh`, and phase-specific behavior in work-brief bundles
+  and shared skills. Keep tool-specific adapters thin.
 - Prefer executable checks and concrete acceptance evidence over prose.
 - For secrets management changes, verify declarations, aliases, permissions,
   redaction, and runtime wiring without printing, revealing, inspecting, or

@@ -5,6 +5,11 @@
 Use this file as the repo entrypoint. Keep context focused and read only what
 the current task requires.
 
+This file is for instructions every agent in this repo needs for ordinary work.
+Put phase-specific workflow in skills, deterministic checks in scripts,
+product/domain context in routed project docs, and detailed standards in
+focused docs, tests, hooks, or review guidance.
+
 ## Work Source
 
 Primary work source: <Jira / GitHub Issues / human-provided brief / other>.

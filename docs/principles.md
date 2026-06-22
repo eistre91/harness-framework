@@ -10,9 +10,15 @@ The following principles guide the framework.
 
 ### Relentlessly Pursue Value
 
-The harness should help agents deliver useful work, not admire its own
-structure. Every component should answer what value it provides now or what
-specific failure it prevents.
+Value is the goal; harness structure, metrics, checks, docs, and agent output
+are only attempts to steer toward it. The harness should maximize human
+leverage and help implementation pursue human-defined value, not admire its own
+ceremony or produce work because it is easy to generate.
+
+Every harness component should answer which repo need it serves now or what
+specific failure it prevents. Every agent-executable task should stay aimed at
+the smallest valuable outcome instead of broad cleanup, speculative
+abstraction, or measurable-but-misaligned activity.
 
 ### The Harness Is A System Too
 

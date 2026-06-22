@@ -164,6 +164,7 @@ comprehension.
 Classify what already exists:
 
 - agent entrypoint: present / absent / stale / unclear,
+- entrypoint fit: universal and concise / too broad / too long / over-routed,
 - work source: Jira / GitHub Issues / Linear / chat / docs / unknown,
 - verification: documented / inferred from CI / inferred from config / missing,
 - project docs: none / small / useful but unrouted / large enough to route,
@@ -221,6 +222,9 @@ Before editing, prepare a Harness Fit Proposal using the canonical schema in
 The proposal must include decisions for:
 
 - repo signals and existing harness components,
+- entrypoint fit, including any recommendation to split non-universal
+  `AGENTS.md` content into skills, scripts, project docs, hooks, or review
+  guidance,
 - skill and command conflicts,
 - current and target maturity,
 - installation mode and completeness,
@@ -347,6 +351,8 @@ After implementation, check that a fresh agent could:
 A Level 0 or Level 1 starter harness is acceptable when:
 
 - `AGENTS.md` tells agents where to start without becoming an encyclopedia,
+- `AGENTS.md` contains only instructions every agent needs for ordinary work,
+  with phase-specific, product/domain, or rare-task guidance routed elsewhere,
 - the work-brief skill bundle can turn a tracker item, issue, or chat request
   into executable work,
 - `scripts/repo-checks.sh` exists and either runs real repo checks or clearly
@@ -443,11 +449,12 @@ For work that spans sessions, the canonical brief should capture:
 
 Ownership:
 
-- the human owns product intent and trade-offs,
+- the human owns product intent, trade-offs, and the risk of delegated choices,
 - the planning agent owns converting intent into an executable brief,
 - the implementation agent owns carrying out the brief and producing evidence,
 - the reviewer owns checking whether the change satisfies the brief and whether
-  the implementation introduces unacceptable risk or debt.
+  the implementation introduces unacceptable risk or debt, including latent
+  decisions that should return to human ownership.
 
 ## Repo Checks Discovery
 
@@ -543,9 +550,10 @@ When a repo uses multiple agentic coding tools, preserve the same behavior
 where practical:
 
 ```text
-Keep shared policy in AGENTS.md, scripts/repo-checks.sh, work-brief skill
-bundles, and portable skill guidance. Make adapters thin mirrors, wrappers, or
-callers around those shared contracts.
+Keep universal operating guidance in AGENTS.md, deterministic checks in
+scripts/repo-checks.sh, and phase-specific workflow in work-brief bundles and
+portable skill guidance. Make adapters thin mirrors, wrappers, or callers
+around those shared contracts.
 ```
 
 For hooks:
@@ -733,6 +741,9 @@ Before finishing installed docs, check:
   `harness-framework`?
 - Does any durable doc record `/tmp` state or another machine-local path?
 - Does the doc distinguish required behavior from optional guidance?
+- Does `AGENTS.md` include only guidance that is broadly applicable to ordinary
+  repo work, rather than product strategy, one-off standards, historical notes,
+  or phase-specific instructions better owned by skills or focused docs?
 - Does the doc tell ordinary implementers to read `docs/harness/` when they
   only need the work brief, project docs, and code?
 

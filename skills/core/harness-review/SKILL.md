@@ -21,6 +21,15 @@ brief and secondary.
 Treat unearned abstraction, broad cleanup, new dependencies, or extra process as
 findings when the brief did not justify them.
 
+Surface latent product, architecture, domain, priority, or risk decisions that
+the implementation exposed but the brief did not settle. Review can identify
+those decisions and recommend options; ownership returns to the human unless a
+prior policy explicitly delegated the choice.
+
+If `docs/project/intent.md` exists, consult it only for value-sensitive review,
+such as when a change may satisfy the brief mechanically while drifting from the
+project's stated problem, audience, direction, or value proposition.
+
 ## Review Independence
 
 Before reviewing, state one of:

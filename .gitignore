@@ -1,7 +1,9 @@
 .DS_Store
 .harness-bootstrap/
-# Local agent drafts/state. Committed skills use .agents/skills/.
+# Local agent drafts/state.
 .agent/
+# Repo-local development helpers. Portable framework skills live in skills/.
+.agents/
 .env*
 secrets/
 *.key

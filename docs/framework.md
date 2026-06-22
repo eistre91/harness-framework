@@ -28,6 +28,17 @@ templates, or detailed installation procedure.
 - Component brief template:
   `templates/optional/docs/harness/component-brief.md`
 
+## Mission
+
+The mission of the harness is to maximize human leverage by keeping humans in
+control of software strategy while agents expand tactical execution,
+investigation, and review. It translates human intent into bounded,
+inspectable work agents can carry forward without silently making product,
+architecture, domain, priority, or risk decisions. A good harness makes humans
+and agents together more capable than either alone while preserving human
+responsibility for what the software is, how it evolves, and what it should
+become.
+
 ## Working Definition
 
 A harness is the engineered control system around an agentic model that turns
@@ -53,9 +64,9 @@ verification loops, context routers, hooks, review patterns, unattended
 runners, maintainability reports, and documentation-quality-audit workflows.
 
 Those systems can be valuable when a repo has grown enough to need them. This
-framework starts smaller. It should help a fresh agent:
+framework starts smaller. It should help the human-agent system:
 
-1. orient quickly,
+1. let fresh agents orient quickly,
 2. understand where work comes from,
 3. transform external work into an executable local shape,
 4. read only the context needed for the current task,
@@ -176,8 +187,18 @@ The escalation ladder for harness-doc over-reading is:
 - which skills exist for implementation and review,
 - where harness-maintenance docs live when explicitly needed.
 
-`AGENTS.md` should not encode every engineering standard. Many standards are
-better enforced by scripts, hooks, review skills, or focused project docs.
+`AGENTS.md` should contain only instructions that every agent in the repo needs
+for ordinary work. It should stay short enough to function as a bootloader, not
+an encyclopedia. Phase-specific workflow belongs in skills, deterministic
+commands belong in scripts, product or domain context belongs in routed project
+docs, and detailed engineering standards usually belong in focused docs,
+review skills, hooks, tests, or examples.
+
+During installation, treat an oversized or over-routed existing entrypoint as a
+harness-fit signal. For example, an `AGENTS.md` with hundreds of lines,
+historical notes, product strategy, one-off standards, or instructions that
+apply only to rare tasks should usually be split into narrower surfaces instead
+of copied forward as universal context.
 
 `SPEC-MAP.md` is optional. Add it when there are enough product areas or docs
 that agents need routing help. It should route product implementation work to
@@ -186,6 +207,12 @@ the smallest useful context and should not route to `docs/harness/`.
 `CONTEXT.md` is not part of the starter harness by default. It can be useful as
 a short domain glossary and semantic compression point when agents or humans
 repeatedly misunderstand the same domain terms.
+
+`docs/project/intent.md` is an optional Level 2 project-intent document, not a
+default entrypoint dependency. When it exists, planning and value-sensitive
+review skills may consult it for strategic, exploratory, product, or scoping
+work. Ordinary implementation agents should read it only when the work brief
+explicitly routes them there.
 
 ## Agent Work Brief
 
@@ -244,7 +271,7 @@ Alternative A:
 Alternative B:
 Trade-off:
 Decision needed:
-Default if human does not care:
+Default if human delegates the choice:
 ```
 
 The planning agent should help the human make decisions, not bury the human in
@@ -359,7 +386,10 @@ A minimal review skill should be findings-led. It should prioritize:
 
 Review is where many inferential checks belong. The harness should not force
 every engineering principle into implementation instructions. Some standards
-are better applied after the agent has produced a concrete change.
+are better applied after the agent has produced a concrete change. Review
+should also surface latent product, architecture, domain, priority, or risk
+decisions that were not explicit in the brief and should return those decisions
+to human ownership.
 
 ## Maintainability Lifecycle
 

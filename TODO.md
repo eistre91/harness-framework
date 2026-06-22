@@ -111,6 +111,40 @@ Signal to revisit:
 - Installers are unsure how much repo-specific policy belongs in skills versus
   `AGENTS.md`, project docs, or platform adapters.
 
+## Deferred: Entrypoint Compatibility Audit
+
+Installing agents should eventually push back more explicitly when an existing
+repo setup conflicts with the harness philosophy instead of only adding the
+selected harness assets.
+
+Example signals:
+
+- `AGENTS.md` is hundreds of lines long and no longer functions as a universal
+  repo bootloader.
+- Always-loaded instructions include product strategy, historical notes,
+  one-off standards, or phase-specific workflow that belongs in skills, scripts,
+  project docs, hooks, or review guidance.
+- Multiple platform entrypoints duplicate or contradict shared behavior.
+- Ordinary implementation agents are routed to harness-maintenance docs,
+  project-intent docs, stale planning records, or broad doc trees by default.
+
+Potential future shape:
+
+- An installer checklist or skill that audits existing agent entrypoints before
+  fitting the harness.
+- Findings that recommend split, merge, defer, leave-alone, or human decision
+  handling for conflicting instructions.
+- A communication audit that reports what every agent truly needs to know
+  versus what should be reached only by planning, implementation, review,
+  diagnosis, or harness-maintenance phases.
+
+Signal to revisit:
+
+- Installed repos repeatedly keep oversized or contradictory `AGENTS.md` files.
+- Agents read too much always-loaded context before ordinary implementation.
+- Harness installs succeed structurally but preserve routing patterns that
+  undermine focused context.
+
 ## Deferred: Structural Harness Validator
 
 The framework may eventually include a validator that gives objective evidence

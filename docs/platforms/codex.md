@@ -22,8 +22,8 @@ Re-check those docs before implementing a new adapter or hook schema.
 ## Guidance Files
 
 Codex reads `AGENTS.md` files as project guidance. Keep shared repo behavior in
-`AGENTS.md`, and use nested guidance only when a subtree genuinely needs a
-different rule.
+`AGENTS.md` only when every Codex agent in the repo needs it for ordinary work.
+Use nested guidance only when a subtree genuinely needs a different rule.
 
 Do not put a platform-specific inventory of skills into `AGENTS.md`. Codex
 discovers available skills from skill metadata and loads the full skill only

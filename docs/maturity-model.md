@@ -184,6 +184,7 @@ Adds product-context routing.
 Assets:
 
 - `docs/project/`,
+- optional short `docs/project/intent.md`,
 - optional `SPEC-MAP.md`,
 - optional `CONTEXT.md`,
 - ADR or decision-log pointers.
@@ -195,10 +196,15 @@ Value:
 - repeated conceptual explanations are compressed,
 - implementation agents avoid navigating historical or harness docs.
 
+`docs/project/intent.md`, when present, should be short and human-owned. It is
+for planning, exploratory work, ambiguous scope decisions, and value-sensitive
+review. Do not route ordinary implementation agents to it by default.
+
 Add when:
 
 - the project has multiple product areas,
 - docs exist but agents do not know which ones matter,
+- repeated planning or review decisions need a shared project north star,
 - domain vocabulary causes confusion,
 - agents repeatedly rediscover the same context.
 
@@ -309,6 +315,10 @@ Move beyond when:
 
 For larger or more agent-heavy projects.
 
+At this level, automation scales execution and coordination. It does not move
+strategy, product meaning, architecture direction, priority, or acceptable risk
+out of human ownership.
+
 Assets:
 
 - PRD lifecycle,
@@ -332,7 +342,8 @@ Add when:
 
 - work spans many short-lived sessions,
 - humans are routinely decomposing large work into many agent tasks,
-- agents are operating unattended or semi-unattended,
+- agents are operating unattended or semi-unattended inside bounded,
+  human-approved intent,
 - ordinary final messages are not reliable enough,
 - multiple agents need explicit ownership, review, or integration boundaries,
 - work state is too large for one session or ticket,

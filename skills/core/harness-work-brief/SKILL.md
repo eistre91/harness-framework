@@ -29,6 +29,10 @@ speculative abstractions, broad cleanup, new dependencies, or extra process
 unless they are necessary to deliver the requested value or prevent a concrete
 failure.
 
+If `docs/project/intent.md` exists, consult it for strategic, exploratory,
+product, or scope-sensitive planning. Do not route ordinary implementation
+agents to that document unless the resulting brief needs it for the task.
+
 ## When To Use A Brief
 
 Create a brief for ambiguous, multi-session, acceptance-heavy, or
@@ -184,5 +188,5 @@ For each meaningful choice, provide:
 - trade-off,
 - when to revisit.
 
-The human owns product intent and trade-offs. The planning agent owns making the
-intent executable.
+The human owns product intent, trade-offs, and the risk of delegated choices.
+The planning agent owns making the intent executable.
