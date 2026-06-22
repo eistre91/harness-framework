@@ -89,6 +89,47 @@ Signal to revisit:
 - The framework gains an installer or validator whose behavior needs
   representative scenario coverage.
 
+## Deferred: Staged Level-By-Level Installation
+
+The framework may need a more structured installation process where agents
+install and validate one maturity layer at a time, even when inspection suggests
+that multiple levels are eligible for the target repo.
+
+Why deferred:
+
+- The current guide still assumes a capable planning agent can inspect the repo,
+  choose a target maturity, prepare one fit proposal, and install the approved
+  shape.
+- As the framework grows, handing the whole framework plus a target repo to an
+  installing agent increases the chance that it misses required decisions,
+  optional asset routing, entrypoint fit issues, project-intent handling, or
+  validation steps.
+- Level eligibility is not the same as installation readiness. A repo may show
+  Level 2 or Level 3 signals while still needing a clean Level 0/1 foundation
+  installed and verified first.
+
+Potential future shape:
+
+- Define an install pipeline such as inspect -> Level 0 proposal -> Level 0
+  install -> validation -> Level 1 proposal -> Level 1 install -> validation
+  -> selected higher-level pull-ins.
+- Require a checkpoint after each level where the installing agent reports
+  installed assets, deferrals, human decisions, communication audit findings,
+  and whether the next level is still justified.
+- Split the current implementation guide into phase-specific installer skills
+  or checklists so agents do not need to hold the whole framework in one
+  planning context.
+- Treat selected higher-level assets as explicit pull-ins with local acceptance
+  criteria instead of bundling them into one broad target-maturity install.
+
+Signal to revisit:
+
+- Installing agents miss optional assets, routing rules, or fit-proposal
+  decisions when asked to install multiple maturity levels at once.
+- Harness installs pass structurally but leave Level 0/1 behavior unclear.
+- Humans have to repeatedly correct broad install proposals that conflate
+  target maturity with immediate installation scope.
+
 ## Deferred: Skill Adaptation Guidance
 
 Investigate whether installing agents need a short explicit policy for adapting
