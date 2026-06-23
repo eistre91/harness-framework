@@ -28,6 +28,8 @@ file lists, templates, or detailed installation procedure.
   `templates/core/docs/harness/fit-proposal.md`
 - Component brief template:
   `templates/optional/docs/harness/component-brief.md`
+- Level 5 orchestration sketch, exploratory:
+  `docs/level-5-orchestration.md`
 
 ## Mission
 
@@ -61,7 +63,7 @@ product code can.
 ## Target Shape
 
 Large agent harnesses can include issue lifecycle conventions, PRD flows,
-verification loops, context routers, hooks, review patterns, unattended
+validation loops, context routers, hooks, review patterns, unattended
 runners, maintainability reports, and documentation-quality-audit workflows.
 
 Those systems can be valuable when a repo has grown enough to need them. This
@@ -84,7 +86,7 @@ language, framework, unattended runner, or mature domain-doc structure.
 The core lifecycle is:
 
 ```text
-bootstrap -> work brief -> implementation -> verification -> review -> feedback
+bootstrap -> work brief -> implementation -> validation -> feedback
 ```
 
 A fuller lifecycle is:
@@ -93,12 +95,61 @@ A fuller lifecycle is:
 external work item
   -> agent work brief
   -> scoped implementation
-  -> mechanical verification
-  -> acceptance verification
-  -> review
+  -> validation: verification, review, and human checkpoints as needed
   -> closeout or follow-up work
   -> maintainability feedback when patterns repeat
 ```
+
+## Primitive Agent Work Verbs
+
+The lifecycle above is one concrete expression of a smaller conceptual model:
+
+```text
+research -> plan -> implement -> validate
+```
+
+These verbs are primitives for reasoning about agent work, not mandatory
+ceremony. Tiny work may collapse all four into one short context. Standard work
+may combine research and planning, then implement from the resulting brief.
+Complex work often benefits from isolating each phase into separate context
+windows with explicit handoff artifacts.
+
+Each phase can be understood as an input/output function:
+
+- Research gathers the code, docs, prior decisions, human context, and external
+  references needed to act on the intent.
+- Plan shapes intent and research into executable scope: what will change, what
+  will not change, what boundary is affected, and how completion will be
+  checked.
+- Implement produces the requested artifact inside the delegated scope. When
+  reality falsifies the plan, the implementer should record the divergence or
+  return to planning or human decision rather than silently changing direction.
+- Validate decides whether the output satisfies the intent at acceptable risk.
+  Validation includes deterministic verification, judgment-heavy review, and
+  human-required checkpoints when intent, trade-offs, residual risk, or
+  long-living decisions need human input.
+
+Human intent is the initial input, but it is not assumed to be complete. Any
+phase may discover ambiguity, missing context, or a decision that requires a new
+injection of human intent or another source artifact.
+
+## Intent Layers
+
+Semantic intent may live at several layers. The framework should name these
+layers without prescribing one storage system:
+
+- Project intent: the high-level direction, audience, constraints, and value
+  proposition for the product or system.
+- Initiative intent: feature, PRD, design, or larger body-of-work intent that
+  decomposes into work units.
+- Work-unit intent: the local goal, scope, non-goals, acceptance evidence, and
+  constraints for an agent-executable task.
+- Implementation intent: local design choices inside the approved work unit,
+  such as the immediate boundary, test surface, and code path.
+
+The storage can be a tracker, repo docs, PRD, issue, Agent Work Brief, or other
+durable project source. The important property is that future agents and humans
+can recover the relevant intent without relying on chat history.
 
 ## Starter Harness
 
@@ -232,11 +283,13 @@ matters:
 - what boundary or interface is changing,
 - what context to read,
 - what trade-offs have been accepted,
+- what human-required checkpoints exist,
 - what evidence will prove the task is complete.
 
-The brief is not a planning transcript. The planning agent should distill
-context into accepted decisions, constraints, source-of-truth references, and
-acceptance evidence.
+For most Level 0 and Level 1 work, the Agent Work Brief is the minimal plan. It
+is not a planning transcript. The planning agent should distill context into
+accepted decisions, constraints, source-of-truth references, and acceptance
+evidence.
 
 The canonical template lives at
 `skills/core/harness-work-brief/work-brief-template.md`. Do not maintain a
@@ -263,6 +316,11 @@ Add progress/divergence notes when work spans more than one session or departs
 from the original expectation. If the brief was drafted in a temporary local
 file, copy durable status, evidence, blockers, and accepted plan changes back
 to the canonical work source before handoff.
+
+Add human-required checkpoints when a human must clarify intent, approve a
+plan, approve an interface, accept residual risk, or evaluate acceptance before
+the work should move forward. Use checkpoints deliberately; too many gates
+create decision fatigue, while too few allow semantic drift and hidden risk.
 
 During planning, surface bounded choices:
 
@@ -304,21 +362,27 @@ abstraction. Define the smallest useful boundary for the current value, make
 inputs and outputs clear, test behavior at the boundary, and allow the
 interface to evolve when the project learns more.
 
-## Verification
+## Validation
 
-The framework separates verification into two categories:
+In this framework, validation is the umbrella activity for deciding whether the
+work satisfies intent at acceptable risk. It has three recurring mechanisms:
 
 ```text
-Mechanical verification:
+Verification:
   deterministic checks such as lint, format, typecheck, unit tests,
   integration tests, build/package checks, static analysis
 
-Acceptance verification:
-  concrete evidence that the requested behavior works and matches the brief
+Review:
+  judgment-heavy checks such as scope fit, design fit, maintainability,
+  security posture, over-engineering, and acceptance satisfaction
+
+Human-required checkpoints:
+  human clarification, decision, approval, or evaluation when the harness cannot
+  own the product intent, trade-off, long-living decision, or residual risk
 ```
 
 Mechanical verification should be automated as much as practical. Acceptance
-verification should be concrete enough for humans and review agents to evaluate
+evidence should be concrete enough for humans and review agents to evaluate
 whether the change satisfies the intended behavior.
 
 `scripts/repo-checks.sh` is the canonical deterministic checks entrypoint for a
@@ -391,6 +455,23 @@ are better applied after the agent has produced a concrete change. Review
 should also surface latent product, architecture, domain, priority, or risk
 decisions that were not explicit in the brief and should return those decisions
 to human ownership.
+
+## Resteering
+
+Resteering is feedback that changes the trajectory of the human-agent system
+when new information shows that the work is drifting from intent, quality, or
+acceptable risk.
+
+At small scale, resteering can be a failed test, type error, hook warning, or
+review comment that sends implementation back for correction. At larger scales,
+it can be a human clarification, maintainability finding, production signal,
+design review, or product evaluation that changes the plan, creates follow-up
+work, or updates durable intent.
+
+Resteering should inject enough new information to correct the trajectory
+without flooding the active context. The goal is not perfection; it is enough
+confidence that the work is complete for the current risk tolerance, with
+residual risks made visible to the humans who own them.
 
 ## Maintainability Lifecycle
 

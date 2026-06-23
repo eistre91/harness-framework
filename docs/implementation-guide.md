@@ -233,7 +233,7 @@ The proposal must include decisions for:
   `docs/project/intent.md` is useful now or should be deferred,
 - work brief storage, durability rationale, local fallback, commit policy,
   stale brief mitigation, and sync rule,
-- verification, focused validation, CI-only checks, and manual evidence,
+- verification, focused verification, CI-only checks, and manual evidence,
 - tests, lint/format, and type checking,
 - gaps, trade-offs, human decisions, deferred items, proposed files,
   acceptance criteria, and communication audit.
@@ -469,7 +469,7 @@ contract. Derive that contract from evidence.
 The proposal should distinguish:
 
 - canonical full-repo deterministic checks,
-- focused validation for a subsystem, package, agent, or component,
+- focused verification for a subsystem, package, agent, or component,
 - CI-only verification that is not practical locally,
 - manual acceptance evidence for behavior, external systems, schedules,
   integrations, runtime boundaries, or secrets management.

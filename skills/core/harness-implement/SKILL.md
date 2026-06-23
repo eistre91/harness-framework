@@ -43,7 +43,7 @@ that contains enough executable detail.
    - no refactor while the suite is red.
 7. Refactor only after tests are green; keep tests on public behavior so
    internal refactors do not break them.
-8. Run focused validation for the touched area while iterating when the repo has
+8. Run focused verification for the touched area while iterating when the repo has
    a clear focused command or test surface.
 9. Run the repo's canonical checks command before claiming done.
 10. Provide mechanical evidence and acceptance evidence.

@@ -309,7 +309,7 @@ Move beyond when:
 
 - multiple agents need to coordinate long-horizon work,
 - work spans many short-lived sessions,
-- verification itself needs orchestration,
+- validation itself needs orchestration,
 - state is getting lost between agents.
 
 ## Level 5: Orchestration And Automation
@@ -319,6 +319,11 @@ For larger or more agent-heavy projects.
 At this level, automation scales execution and coordination. It does not move
 strategy, product meaning, architecture direction, priority, or acceptable risk
 out of human ownership.
+
+Complex work at this level often separates research, planning, implementation,
+and validation into distinct context windows linked by durable artifacts. The
+signals and operating model are still emerging; see
+`docs/level-5-orchestration.md` for the current sketch.
 
 Assets:
 
@@ -336,7 +341,7 @@ Value:
 
 - long-horizon work survives fresh-context sessions,
 - multiple agents can coordinate through durable artifacts,
-- verification reports become structured,
+- validation reports become structured,
 - the harness itself can be tested and improved.
 
 Add when:

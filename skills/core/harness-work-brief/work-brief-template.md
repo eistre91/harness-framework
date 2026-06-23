@@ -26,6 +26,24 @@ What should not be changed?
 - Decision made that affects implementation or review:
 - Accepted trade-off or constraint the implementer or reviewer must know:
 
+## Human Checkpoints (When applicable)
+
+Use when a human must clarify intent, approve a plan, approve an interface,
+accept residual risk, or evaluate acceptance before the work moves forward.
+If a checkpoint must happen before implementation, set `Agent-runnable` to
+blocked until the checkpoint is resolved. Use a delegated default only when the
+human or source work item explicitly delegates that exact decision.
+
+Human checkpoints: none / clarify before implementation / approve plan /
+approve interface / approve residual risk / evaluate acceptance
+
+- Checkpoint:
+- Timing: before implementation / before interface change / before closeout /
+  after demo
+- Status: pending / resolved / explicitly delegated / not required
+- Human input needed:
+- Delegated default:
+
 ## Progress / Divergences (When applicable)
 
 Use when work spans more than one session or the implementation differs from

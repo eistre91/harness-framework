@@ -152,6 +152,52 @@ Signal to revisit:
 - Installers are unsure how much repo-specific policy belongs in skills versus
   `AGENTS.md`, project docs, or platform adapters.
 
+## Deferred: Primitive Phase Skills And Validation Schema
+
+The framework now names `research -> plan -> implement -> validate` as
+primitive agent work verbs, but only implementation, review, and work-brief
+creation have concrete skill surfaces.
+
+Why deferred:
+
+- The primitive verbs are explanatory first and should not become mandatory
+  ceremony for tiny work.
+- Good research behavior is often repo-specific: shared utility locations,
+  domain docs, RAG tools, dependency documentation, architecture records, and
+  preferred source order vary by target repo.
+- Validation result handling becomes more important in Level 5 orchestration,
+  where agents may need to decide whether work can close, must iterate, or
+  requires human approval.
+- The formal session / attempt model is still deferred, so validation reports
+  do not yet have a stable state model to attach to.
+
+Potential future shape:
+
+- Add a `harness-research` skill when repeated planning or implementation work
+  suffers from missing context, duplicated investigation, or poor source
+  selection.
+- Define what research artifacts should contain: relevant code, docs, prior
+  decisions, external references, repo conventions, risks, and open questions.
+- Refine the formal attempt model so each execution pass can record actor,
+  status, files touched, decisions, divergences, verification, acceptance
+  evidence, blockers, and next action.
+- Define a validation result schema, likely starting with `pass`,
+  `pass with risks`, and `fail`, while deciding whether `blocked` and
+  `needs human decision` are validation results, work-unit states, or both.
+- Decide how human-required checkpoints are represented in briefs, validation
+  reports, tracker comments, PRs, or orchestration stores.
+
+Signal to revisit:
+
+- Agents repeatedly implement before finding the relevant context.
+- Research findings are useful but get lost between planning and implementation.
+- Complex work needs independent verifier agents or structured validation
+  reports.
+- Humans need to explicitly approve residual risk before an agent can consider
+  work done.
+- Multiple attempts against the same work unit make current status or next
+  action unclear.
+
 ## Deferred: Entrypoint Compatibility Audit
 
 Installing agents should eventually push back more explicitly when an existing

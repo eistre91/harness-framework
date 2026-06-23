@@ -117,17 +117,24 @@ Convert the shaped scope into a handoff artifact.
    verification, docs impact, and done criteria.
 4. Record only accepted decisions and trade-offs that affect implementation or
    review. Do not preserve the planning transcript.
-5. Add the boundary/interface section when the work changes or depends on a
+5. Add human checkpoints when the work needs human clarification, plan approval,
+   interface approval, residual-risk approval, or human acceptance evaluation.
+   Use them sparingly; too many gates create decision fatigue, while too few can
+   allow semantic drift or hidden risk. If a checkpoint must happen before
+   implementation, mark the brief blocked until it is resolved. Use a delegated
+   default only when the human or source work item explicitly delegates that
+   exact decision.
+6. Add the boundary/interface section when the work changes or depends on a
    public API, CLI, module, job, file format, external API use, schedule,
    configuration/schema contract, secret declaration, runtime integration, or
    other consumed surface.
-6. Add progress/divergence notes when work spans more than one session or the
+7. Add progress/divergence notes when work spans more than one session or the
    implementation differs from the original expectation.
-7. Record lightweight design guardrails when they reduce implementation risk:
+8. Record lightweight design guardrails when they reduce implementation risk:
    owning module or boundary, public interface callers/tests should use, what
    complexity should stay hidden, test surface, dependency or blocker state, and
    any obvious gravity-well risk.
-8. Write durable briefs around behavior, interfaces, acceptance evidence, and
+9. Write durable briefs around behavior, interfaces, acceptance evidence, and
    source-of-truth files. Avoid brittle line numbers in long-lived briefs.
 
 ### Phase 3: Validate The Brief
@@ -139,6 +146,9 @@ Check that another agent could execute the brief without guessing.
 - Non-goals are clear enough to prevent scope creep.
 - Verification is concrete and proportionate to the tier.
 - Human-owned decisions are resolved or explicitly marked blocked.
+- Human checkpoints are explicit when the agent may not own the next decision,
+  risk acceptance, or acceptance evaluation; pending pre-implementation
+  checkpoints make the brief not agent-runnable.
 - Complex work is sliced into independently verifiable units when needed.
 - The brief avoids speculative structure, broad cleanup, and new dependencies
   unless the trade-off is explicit.
