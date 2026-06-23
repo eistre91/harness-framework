@@ -1,4 +1,4 @@
-# Right-Sized Agent Harness Framework
+# Agent Harness Framework
 
 Audience: agents and maintainers changing this framework or deciding which
 harness concepts belong in a target repo.
@@ -6,10 +6,10 @@ harness concepts belong in a target repo.
 Use when: understanding the framework shape and rationale. For installation
 steps, use `docs/implementation-guide.md`.
 
-This document defines the conceptual shape of a portable agent harness that can
-be fitted to the target repo's current needs and grown as new needs are
-discovered. It intentionally avoids being the source of truth for installable
-file lists, templates, or detailed installation procedure.
+This document defines the conceptual shape of a portable agent harness that is
+fit to the target repo's current purpose and grown as new needs are discovered.
+It intentionally avoids being the source of truth for installable file lists,
+templates, or detailed installation procedure.
 
 ## Source Of Truth Map
 
@@ -623,7 +623,7 @@ or installed harness docs.
 
 ## Summary
 
-The right-sized harness framework starts from a small set of control surfaces:
+The agent harness framework starts from a small set of control surfaces:
 
 - a tiny repo entrypoint,
 - a local executable work brief,

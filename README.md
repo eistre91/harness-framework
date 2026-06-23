@@ -1,11 +1,12 @@
-# Right-Sized Agent Harness Framework
+# Agent Harness Framework
 
 This repository is a source package for fitting a portable agent harness to
 another software repository.
 
-The framework aims for a right-sized harness: enough structure to provide
-immediate value in the target repo, with explicit paths to grow the harness as
-coordination, context, verification, and automation needs appear.
+The framework fits the smallest useful harness to the target repo's current
+purpose: enough structure to provide immediate value, with explicit paths to
+grow the harness as coordination, context, validation, and automation needs
+appear.
 
 The harness is not meant to be installed wholesale. It is meant to be fitted to
 the target repo through inspection and collaboration:
@@ -51,7 +52,7 @@ cd <target-repo>
 Then ask an agent:
 
 ```text
-Use ../harness-framework/docs/implementation-guide.md to fit a right-sized
+Use ../harness-framework/docs/implementation-guide.md to fit the smallest useful
 agent harness to this repo. Inspect this repo first, write and persist a
 Harness Fit Proposal under /tmp by default, present the exact proposal text
 before editing, ask for explicit approval or corrections, install only the
@@ -65,12 +66,12 @@ Copy or unzip this repo into the target repo as `.harness-bootstrap/`, then ask
 an agent:
 
 ```text
-Use .harness-bootstrap/docs/implementation-guide.md to fit a right-sized agent
-harness to this repo. Inspect this repo first, write and persist a Harness Fit
-Proposal under /tmp by default, present the exact proposal text before editing,
-ask for explicit approval or corrections, install only the approved assets,
-record the final proposal or equivalent decision log under docs/harness/, and
-remove .harness-bootstrap/ after installation.
+Use .harness-bootstrap/docs/implementation-guide.md to fit the smallest useful
+agent harness to this repo. Inspect this repo first, write and persist a
+Harness Fit Proposal under /tmp by default, present the exact proposal text
+before editing, ask for explicit approval or corrections, install only the
+approved assets, record the final proposal or equivalent decision log under
+docs/harness/, and remove .harness-bootstrap/ after installation.
 ```
 
 ### Expected First Install
