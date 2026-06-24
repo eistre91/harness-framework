@@ -19,4 +19,6 @@ run() {
 }
 
 run env PYTHONDONTWRITEBYTECODE=1 "$python_bin" -B scripts/verify-yaml.py
+run env PYTHONDONTWRITEBYTECODE=1 "$python_bin" -B scripts/verify-manifests.py
+run env PYTHONDONTWRITEBYTECODE=1 "$python_bin" -B scripts/verify-doc-refs.py
 run env PYTHONDONTWRITEBYTECODE=1 "$python_bin" -B -m pytest tests
