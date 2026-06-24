@@ -48,6 +48,13 @@ the ideas in this repo.
   decomposition, structured handoffs, context resets, evaluator agents, and
   criteria-driven feedback.
 
+- [Getting AI to Work in Complex Codebases](https://github.com/humanlayer/advanced-context-engineering-for-coding-agents/blob/main/ace-fca.md)
+  by HumanLayer.
+  An essay on frequent intentional compaction for coding agents, including
+  context quality, research-plan-implement workflows, separate contexts,
+  subagent-assisted research, and high-leverage human review of research and
+  plans before implementation.
+
 ## Commercial Use Posture
 
 As of 2026-06-15, the three reference repositories above are listed on GitHub

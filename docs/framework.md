@@ -133,6 +133,14 @@ Human intent is the initial input, but it is not assumed to be complete. Any
 phase may discover ambiguity, missing context, or a decision that requires a new
 injection of human intent or another source artifact.
 
+For complex work, human review belongs as far left as practical. Wrong research
+or a bad plan can fan out into many low-quality implementation changes, so
+research notes and Agent Work Briefs should be inspectable enough for a human
+or independent agent to reject, correct, or approve before implementation
+begins. Reviewing generated code still matters, but it is usually less
+leveraged than catching incorrect context, missing constraints, or a weak plan
+before they shape the implementation.
+
 ## Intent Layers
 
 Semantic intent may live at several layers. The framework should name these

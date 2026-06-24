@@ -178,6 +178,15 @@ The framework now names `research -> plan -> implement -> validate` as
 primitive agent work verbs, but only implementation, review, and work-brief
 creation have concrete skill surfaces.
 
+Provenance:
+
+- HumanLayer's `advanced-context-engineering-for-coding-agents` frames
+  frequent intentional compaction around research, plan, and implementation
+  artifacts, with emphasis on context quality, separate contexts, subagent
+  research, and human review of research and plans.
+- Reference URL:
+  `https://github.com/humanlayer/advanced-context-engineering-for-coding-agents/blob/main/ace-fca.md`
+
 Why deferred:
 
 - The primitive verbs are explanatory first and should not become mandatory
@@ -198,6 +207,10 @@ Potential future shape:
   selection.
 - Define what research artifacts should contain: relevant code, docs, prior
   decisions, external references, repo conventions, risks, and open questions.
+- Define a research artifact quality checklist: sources checked, claims with
+  evidence, uncertainty called out, rejected hypotheses, relevant files and
+  entrypoints, risks, open questions, and the next decision or planning step the
+  research is meant to support.
 - Refine the formal attempt model so each execution pass can record actor,
   status, files touched, decisions, divergences, verification, acceptance
   evidence, blockers, and next action.
@@ -217,6 +230,59 @@ Signal to revisit:
   work done.
 - Multiple attempts against the same work unit make current status or next
   action unclear.
+
+## Deferred: Human Mental Alignment And System Comprehension
+
+The framework treats human intent, checkpoints, review, cognitive debt, and
+semantic debt as important, but it does not yet define a positive workflow for
+keeping humans oriented as agent-assisted systems evolve quickly.
+
+This is a bidirectional context problem. Agents need enough human and system
+context to act well, but humans also need compressed, trustworthy feedback from
+agent work to preserve their mental model of what the system does, why it
+changed, what decisions were made, and what risks or trade-offs now exist.
+
+Why deferred:
+
+- The starter harness should first make individual work units executable and
+  reviewable.
+- Human comprehension mechanisms can easily become stale dashboards,
+  duplicated docs, or status theater if they are not tied to real work,
+  decisions, and review signals.
+- Different teams may need different surfaces: PR descriptions, design notes,
+  architecture maps, decision logs, release notes, onboarding docs, or periodic
+  synthesis.
+- The framework needs clearer rules for when a human-facing synthesis artifact
+  reduces cognitive debt versus when it creates semantic debt.
+
+Potential future shape:
+
+- Define mental-alignment outputs for agent work, such as "what changed and
+  why", affected boundaries, accepted trade-offs, behavior evidence, and what a
+  future human or agent should rely on.
+- Extend review guidance so a mechanically correct change can still fail if it
+  leaves humans unable to recover intent, ownership, or system impact.
+- Add a periodic synthesis workflow that turns completed briefs, reviews,
+  decisions, and maintainability findings into current system understanding,
+  while avoiding historical status dumps.
+- Distinguish human-facing comprehension artifacts from agent-facing execution
+  artifacts. A work brief makes work executable; a synthesis artifact helps
+  humans understand the evolving system.
+- Explore whether cognitive debt should have explicit signals, severity, and
+  repair work separate from documentation drift.
+
+Signal to revisit:
+
+- Humans cannot explain recent system changes without rereading large diffs or
+  chat transcripts.
+- Reviewers approve code mechanically but lose track of product behavior,
+  architecture boundaries, or ownership.
+- Agent-produced work changes the system faster than docs, onboarding material,
+  or team mental models can absorb.
+- Repeated reviews ask "why was this built this way?" after the original
+  decision context is no longer recoverable.
+- Maintainers avoid or slow agent-assisted work because they cannot preserve
+  enough understanding of the system being changed.
 
 ## Deferred: Entrypoint Compatibility Audit
 
