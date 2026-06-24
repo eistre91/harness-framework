@@ -21,6 +21,7 @@ the target repo through inspection and collaboration:
 
 ## Start Here
 
+- `AGENTS.md` is the repo entrypoint for agents maintaining this framework.
 - `docs/principles.md` lists the framework principles.
 - `docs/installer.md` is the staged installation entrypoint.
 - `docs/install/level-0.md` is the Level 0 installer checklist.
@@ -136,8 +137,9 @@ manifests, docs, scripts, or skills:
 ```
 
 The script is the source of truth for this framework repo's checks. In this
-repo it validates YAML/frontmatter and runs the Python tests. It requires
-Python 3 with PyYAML and pytest available.
+repo it validates YAML/frontmatter, manifest references, local documentation
+references, and runs the Python tests. It requires Python 3 with PyYAML and
+pytest available.
 
 Install the lightweight development dependencies in a local virtual
 environment:
