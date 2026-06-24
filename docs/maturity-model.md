@@ -1,10 +1,11 @@
 # Harness Maturity Model
 
 Audience: agents and maintainers deciding how much harness structure a target
-repo needs.
+repo needs after the staged installer routes them here.
 
-Use when: choosing current and target maturity, installation mode, asset
-completeness, behavioral completeness, and deferrals.
+Use when: choosing or reviewing maturity, installation mode, asset completeness,
+behavioral completeness, and deferrals for the current approved stage. For
+ordinary installation, start with `docs/installer.md`.
 
 Use this model diagnostically. Higher maturity is not automatically better. A
 small repo may be healthiest at Level 0 or Level 1 for a long time.
@@ -30,7 +31,7 @@ choose the smallest next harness change.
 
 Maturity level is not the same as installation completeness. A target repo can
 be aimed at Level 1 behavior without installing every canonical Level 1 asset.
-Every install should state three separate claims:
+Every stage proposal or install record should state three separate claims:
 
 - target maturity: the behavior the repo is being fitted toward,
 - asset completeness: whether the canonical manifest assets for that level are
@@ -55,7 +56,7 @@ When an install is partial, do not describe the repo as simply "Level 1" or
 ```text
 Target maturity: Level 1 bounded work execution.
 Installation mode: starter.
-Installation completeness: partial, not full canonical Level 1.
+Stage asset completeness: partial, not full canonical Level 1.
 Deferred manifest assets are listed with reasons and revisit signals.
 ```
 

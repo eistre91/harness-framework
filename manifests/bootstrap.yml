@@ -5,18 +5,26 @@ assets:
     asset_type: bootstrap
     source: docs/principles.md
     use_when: Understanding the framework principles before fitting a harness.
+  - id: staged-installer
+    asset_type: bootstrap
+    source: docs/installer.md
+    use_when: Starting the default staged installation workflow.
+  - id: level-0-installer-checklist
+    asset_type: bootstrap
+    source: docs/install/level-0.md
+    use_when: Installing and validating the Level 0 foundation.
   - id: framework-doc
     asset_type: bootstrap
     source: docs/framework.md
-    use_when: Understanding the framework shape, rationale, and maturity model.
+    use_when: Understanding or editing the framework shape and rationale.
   - id: implementation-guide
     asset_type: bootstrap
     source: docs/implementation-guide.md
-    use_when: Applying the harness to a target repo.
+    use_when: Consulting broad installation reference after the staged installer routes there.
   - id: maturity-model
     asset_type: bootstrap
     source: docs/maturity-model.md
-    use_when: Choosing current and target harness maturity.
+    use_when: Choosing or reviewing maturity after the current stage requires it.
   - id: portable-assets
     asset_type: bootstrap
     source: docs/portable-assets.md

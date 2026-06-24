@@ -23,6 +23,8 @@ the target repo after installation.
 
 - `docs/framework.md`
 - `docs/principles.md`
+- `docs/installer.md`
+- `docs/install/*.md`
 - `docs/implementation-guide.md`
 - `docs/maturity-model.md`
 - `docs/platform-support.md`
@@ -32,7 +34,9 @@ the target repo after installation.
 - `manifests/level-1.yml`
 - `manifests/optional-assets.yml`
 
-Use these while creating the Harness Fit Proposal and selecting assets.
+Use `docs/installer.md` first. Read the stage checklist and manifest for the
+current approved stage, then load other bootstrap assets only when the staged
+installer path routes you there.
 
 ## Core Installable Assets
 

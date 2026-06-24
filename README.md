@@ -12,17 +12,20 @@ The harness is not meant to be installed wholesale. It is meant to be fitted to
 the target repo through inspection and collaboration:
 
 1. inspect the target repo,
-2. propose the smallest useful harness maturity target for the repo now,
+2. propose the next installation stage, starting with Level 0 by default,
 3. ask only the human questions that materially affect the harness shape,
-4. copy or adapt selected templates, skills, and adapters,
-5. record how the harness can grow when new needs are discovered,
-6. remove temporary bootstrap material after installation.
+4. copy or adapt only the approved current-stage assets,
+5. validate the installed stage and leave a durable handoff,
+6. ask whether to stop or inspect the next stage,
+7. remove temporary bootstrap material after installation.
 
 ## Start Here
 
 - `docs/principles.md` lists the framework principles.
+- `docs/installer.md` is the staged installation entrypoint.
+- `docs/install/level-0.md` is the Level 0 installer checklist.
 - `docs/framework.md` explains the framework shape and rationale.
-- `docs/implementation-guide.md` explains how to apply the framework to a repo.
+- `docs/implementation-guide.md` is broad installation reference material.
 - `docs/maturity-model.md` summarizes the layered adoption model.
 - `docs/portable-assets.md` explains what can transfer between repos and what
   must be adapted.
@@ -52,12 +55,13 @@ cd <target-repo>
 Then ask an agent:
 
 ```text
-Use ../harness-framework/docs/implementation-guide.md to fit the smallest useful
-agent harness to this repo. Inspect this repo first, write and persist a
-Harness Fit Proposal under /tmp by default, present the exact proposal text
-before editing, ask for explicit approval or corrections, install only the
-approved assets, and record the final proposal or equivalent decision log under
-docs/harness/.
+Use ../harness-framework/docs/installer.md to fit the smallest useful agent
+harness stage to this repo. Start with Level 0 unless I explicitly approve a
+different current stage. Inspect this repo first, write and persist the current
+stage proposal under /tmp by default, present the exact proposal text before
+editing, ask for explicit approval or corrections, install only the approved
+current-stage assets, validate the stage, and record the final proposal or
+equivalent stage handoff under docs/harness/.
 ```
 
 ### Option B: Temporary Bootstrap Directory
@@ -66,24 +70,28 @@ Copy or unzip this repo into the target repo as `.harness-bootstrap/`, then ask
 an agent:
 
 ```text
-Use .harness-bootstrap/docs/implementation-guide.md to fit the smallest useful
-agent harness to this repo. Inspect this repo first, write and persist a
-Harness Fit Proposal under /tmp by default, present the exact proposal text
-before editing, ask for explicit approval or corrections, install only the
-approved assets, record the final proposal or equivalent decision log under
-docs/harness/, and remove .harness-bootstrap/ after installation.
+Use .harness-bootstrap/docs/installer.md to fit the smallest useful agent
+harness stage to this repo. Start with Level 0 unless I explicitly approve a
+different current stage. Inspect this repo first, write and persist the current
+stage proposal under /tmp by default, present the exact proposal text before
+editing, ask for explicit approval or corrections, install only the approved
+current-stage assets, validate the stage, record the final proposal or
+equivalent stage handoff under docs/harness/, and remove .harness-bootstrap/
+after installation.
 ```
 
 ### Expected First Install
 
 Most first trials should install only the Level 0 assets from
 `manifests/level-0.yml`. The agent should adapt those files to the target repo
-and explicitly defer anything else.
+and explicitly defer anything else. Use `docs/install/level-0.md` as the Level
+0 stage checklist.
 
-If a first trial targets Level 1 behavior without installing every canonical
-Level 1 manifest asset, describe the target and installation completeness
-separately. Do not describe the repo as having completed Level 1 unless the
-manifest assets and behavior are actually complete.
+After Level 0 validates, the agent should ask whether to stop or inspect the
+next stage. If a later stage targets Level 1 behavior without installing every
+canonical Level 1 manifest asset, describe the target and installation
+completeness separately. Do not describe the repo as having completed Level 1
+unless the manifest assets and behavior are actually complete.
 
 ## Asset Types
 

@@ -7,8 +7,8 @@ Use when: the target repo needs Codex, Claude Code, pre-commit, CI, or another
 runtime to load skills, settings, hooks, or other adapter-specific behavior.
 
 Do not read this for ordinary Level 0 installation unless platform-specific
-support is part of the requested harness shape. Start with
-`docs/implementation-guide.md` and the manifests first.
+support is part of the requested harness shape. Start with `docs/installer.md`,
+the current stage checklist, and the current stage manifest first.
 
 ## Read Next
 

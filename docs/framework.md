@@ -1,10 +1,11 @@
 # Agent Harness Framework
 
-Audience: agents and maintainers changing this framework or deciding which
-harness concepts belong in a target repo.
+Audience: agents and maintainers changing this framework or resolving
+conceptual harness-design questions.
 
-Use when: understanding the framework shape and rationale. For installation
-steps, use `docs/implementation-guide.md`.
+Use when: understanding or editing the framework shape and rationale. For
+target-repo installation, start with `docs/installer.md`; use this file only
+when installer guidance and principles do not answer a design question.
 
 This document defines the conceptual shape of a portable agent harness that is
 fit to the target repo's current purpose and grown as new needs are discovered.
@@ -14,11 +15,13 @@ templates, or detailed installation procedure.
 ## Source Of Truth Map
 
 - Principles: `docs/principles.md`
+- Staged installer entrypoint: `docs/installer.md`
+- Level 0 installer checklist: `docs/install/level-0.md`
 - Maturity definitions and failure signals: `docs/maturity-model.md`
 - Bootstrap, Level 0, Level 1, and optional assets:
   `manifests/bootstrap.yml`, `manifests/level-0.yml`,
   `manifests/level-1.yml`, and `manifests/optional-assets.yml`
-- Installation procedure: `docs/implementation-guide.md`
+- Broad installation reference: `docs/implementation-guide.md`
 - Portable versus repo-specific assets: `docs/portable-assets.md`
 - Platform adapter guidance: `docs/platform-support.md` and
   `docs/platforms/*.md`
@@ -206,6 +209,10 @@ The levels describe common growth pressure, not a strict installation order. A
 repo may add a narrow Stop hook during a Level 1 starter install, or add secret
 guards from Level 3 before it needs a Level 2 context router, when the proposal
 explains the evidence.
+
+During target-repo installation, `docs/installer.md` stages this diagnostic
+model so agents install and validate the current layer before inspecting the
+next one.
 
 ## Documentation Boundaries
 

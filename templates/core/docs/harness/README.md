@@ -24,14 +24,15 @@ Use portable source names in committed docs. Do not record machine-local paths
 or temporary proposal paths in durable harness docs.
 
 For significant harness changes, consult the source framework docs or run a
-fresh fit pass with the implementation guide before adding process.
+fresh staged fit pass with the installer before adding process.
 
-## Current Harness Maturity
+## Current Harness Stage
 
+Current stage:
 Target level:
 Installation mode: canonical / starter / overlay
-Installation completeness:
-Behavioral completeness:
+Stage asset completeness:
+Stage behavioral completeness:
 
 Why:
 
@@ -43,7 +44,7 @@ describe the repo as simply "Level 1." Prefer:
 ```text
 Target maturity: Level 1 bounded work execution.
 Installation mode: starter.
-Installation completeness: partial, not full canonical Level 1.
+Stage asset completeness: partial, not full canonical Level 1.
 ```
 
 ## Existing Harness Components
@@ -131,3 +132,23 @@ Update after installation and after significant harness changes.
 - A fresh agent may still misunderstand:
 - Terms that need clearer wording:
 - Deferred decisions that must not be mistaken for completed maturity:
+
+## Stage Handoff
+
+Update after each completed installation stage. Use the canonical stage handoff
+fields from the staged installer.
+
+- Stage completed:
+- Installation mode:
+- Stage asset completeness:
+- Stage behavioral completeness:
+- Files installed or edited:
+- Validation result:
+- Mechanical verification:
+- Acceptance or communication evidence:
+- Context used:
+- Human decisions:
+- Placeholders and gaps:
+- Deferrals:
+- Out-of-stage observations:
+- Recommended next action:

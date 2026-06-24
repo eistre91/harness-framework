@@ -2,6 +2,7 @@
 
 This is a work record for deferred framework ideas, not active implementation
 guidance. Use `docs/principles.md`, `docs/framework.md`,
+`docs/installer.md`, `docs/install/level-0.md`,
 `docs/implementation-guide.md`, `docs/maturity-model.md`, and the manifests as
 the current source of truth.
 
@@ -89,66 +90,53 @@ Signal to revisit:
 - The framework gains an installer or validator whose behavior needs
   representative scenario coverage.
 
-## Deferred: Staged Level-By-Level Installation
+## Deferred: Staged Installer Follow-Ups
 
-The framework may need a more structured installation process where agents
-install and validate one maturity layer at a time, even when inspection suggests
-that multiple levels are eligible for the target repo.
+Status: partially addressed.
 
-This is also a progressive-disclosure problem for the framework itself. As the
-framework grows, installers should not need to load every concept, maturity
-level, optional asset, adapter rule, and future-facing TODO before making a
-safe Level 0 or Level 1 proposal.
+The framework now has a staged installer entrypoint at `docs/installer.md` and
+a Level 0 stage checklist at `docs/install/level-0.md`. The default installer
+path is level-by-level: inspect, propose the current stage, get human approval,
+install only the approved current-stage assets, validate, leave a durable
+handoff, and ask whether to stop or inspect the next stage.
+
+The original concern is not fully closed. The framework still needs later
+stage checklists and more experience with staged installs before adding more
+installer machinery.
 
 Why deferred:
 
-- The current guide still assumes a capable planning agent can inspect the repo,
-  choose a target maturity, prepare one fit proposal, and install the approved
-  shape.
-- As the framework grows, handing the whole framework plus a target repo to an
-  installing agent increases the chance that it misses required decisions,
-  optional asset routing, entrypoint fit issues, project-intent handling, or
-  validation steps.
-- The implementation guide is becoming broad enough that installation may need
-  its own context routing: core installer path first, then level-specific
-  references, adapter references, and optional-asset references only when the
-  current install stage needs them.
-- Level eligibility is not the same as installation readiness. A repo may show
-  Level 2 or Level 3 signals while still needing a clean Level 0/1 foundation
-  installed and verified first.
+- Only Level 0 has a focused stage checklist.
+- Level 1 bounded-work execution still relies on broad reference material.
+- Selected Level 2 or Level 3 pull-ins still need clear local acceptance
+  criteria and stage gates.
+- Stage logging under `docs/harness/` has flexible guidance but not strong
+  recommendations yet.
+- A docs-only installer path may or may not be enough; the framework needs real
+  staged install attempts before adding an installer skill or evals.
 
 Potential future shape:
 
-- Define an install pipeline such as inspect -> Level 0 proposal -> Level 0
-  install -> validation -> Level 1 proposal -> Level 1 install -> validation
-  -> selected higher-level pull-ins.
-- Require a checkpoint after each level where the installing agent reports
-  installed assets, deferrals, human decisions, communication audit findings,
-  and whether the next level is still justified.
-- Add an explicit review pass for each installed level before moving on. The
-  review should check behavior, communication clarity, asset completeness,
-  behavioral completeness, deferrals, and whether the next level is still fit to
-  purpose.
-- Split the current implementation guide into phase-specific installer skills
-  or checklists so agents do not need to hold the whole framework in one
-  planning context.
-- Create a progressive-disclosure map for installers: always-read sources,
-  level-specific sources, adapter-specific sources, optional-asset sources, and
-  exploratory/future-facing sources that should not be loaded during ordinary
-  starter installs.
-- Treat selected higher-level assets as explicit pull-ins with local acceptance
-  criteria instead of bundling them into one broad target-maturity install.
+- Add `docs/install/level-1.md` for bounded work execution.
+- Add guidance for selected higher-level pull-ins, especially context routing
+  and deterministic controls, without encouraging broad multi-level installs.
+- Strengthen recommendations for durable stage logs under `docs/harness/` once
+  a few install shapes are observed.
+- Consider a `harness-install` bootstrap skill only if agents still miss the
+  docs-only staged flow.
+- Add installer eval cases once staged installation behavior is stable enough
+  to test.
 
 Signal to revisit:
 
-- Installing agents miss optional assets, routing rules, or fit-proposal
-  decisions when asked to install multiple maturity levels at once.
-- Harness installs pass structurally but leave Level 0/1 behavior unclear.
-- Installing agents over-read framework docs, load future-facing concepts too
-  early, or add optional assets because they were present in context rather than
-  justified by repo signals.
-- Humans have to repeatedly correct broad install proposals that conflate
-  target maturity with immediate installation scope.
+- Level 1 installs vary too much because there is no stage checklist.
+- Harness installs pass Level 0 structurally but leave Level 1 behavior
+  unclear.
+- Installing agents still over-read framework docs, load future-facing concepts
+  too early, or add optional assets because they were present in context rather
+  than justified by current-stage scope.
+- Humans have to repeatedly correct proposals that conflate observed
+  out-of-stage evidence with immediate installation approval.
 
 ## Deferred: Skill Adaptation Guidance
 

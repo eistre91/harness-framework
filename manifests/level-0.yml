@@ -31,11 +31,12 @@ assets:
     required: true
     adapt:
       - source framework provenance
-      - target maturity
-      - installation mode and completeness
+      - current stage and target maturity behavior
+      - installation mode and stage completeness
       - installed files
       - intentional deferrals
       - existing harness component decisions
+      - stage handoff
       - post-install communication audit
   - id: harness-fit-proposal-record
     asset_type: installable

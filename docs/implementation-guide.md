@@ -1,12 +1,13 @@
-# Agent Harness Implementation Guide
+# Agent Harness Implementation Reference
 
-Audience: agents and maintainers fitting this framework to a target repo.
+Audience: agents and maintainers needing broad reference while fitting this
+framework to a target repo.
 
-Use when: inspecting a repo, proposing a fit-to-purpose harness shape, and
-installing only the approved assets.
+Use when: `docs/installer.md` or a stage checklist routes you here for deeper
+installation detail. For ordinary installation, start with
+`docs/installer.md`.
 
-This guide turns the framework into an installation process. The central rule
-is:
+This reference supports the staged installation process. The central rule is:
 
 ```text
 Harness implementation is repo diagnosis plus collaborative workflow design,
@@ -19,10 +20,17 @@ The framework explains what the harness is and why it is shaped that way:
 The principles are the decision lens for installing, adapting, deferring, or
 rejecting components: `docs/principles.md`.
 
+The staged installer entrypoint is `docs/installer.md`. It is the default
+installation workflow. This file is broad reference material and should not
+cause installers to load later-level, optional, adapter, or future-facing
+context before the current stage needs it.
+
 ## Source Of Truth Map
 
 - Maturity levels, installation modes, asset completeness, behavioral
   completeness, and level-specific signals: `docs/maturity-model.md`
+- Staged installation entrypoint: `docs/installer.md`
+- Level 0 stage checklist: `docs/install/level-0.md`
 - Bootstrap, Level 0, Level 1, and optional asset lists:
   `manifests/bootstrap.yml`, `manifests/level-0.yml`,
   `manifests/level-1.yml`, and `manifests/optional-assets.yml`
@@ -38,20 +46,20 @@ Do not maintain second copies of those assets or schemas in this guide.
 
 ## Installation Modes
 
-Every Harness Fit Proposal must state:
+Every stage proposal must state:
 
-- target maturity: the behavior the repo is being fitted toward,
+- current stage and target behavior for that stage,
 - installation mode: `canonical`, `starter`, or `overlay`,
-- asset completeness: full / partial / mostly existing,
-- behavioral completeness: whether the workflow is usable,
-- deferred manifest assets and why they are not installed now.
+- asset completeness for the current stage: full / partial / mostly existing,
+- behavioral completeness expected after the current stage,
+- deferred current-stage assets and why they are not installed now.
 
 When installation is partial, use precise wording:
 
 ```text
 Target maturity: Level 1 bounded work execution.
 Installation mode: starter.
-Installation completeness: partial, not full canonical Level 1.
+Stage asset completeness: partial, not full canonical Level 1.
 Deferred manifest assets are listed below with reasons and revisit signals.
 ```
 
@@ -59,19 +67,24 @@ Do not describe a repo as having completed a level unless the manifest assets
 and intended behavior for that claim are actually complete or already
 satisfied.
 
+Install level by level by default. Later-level evidence found during a current
+stage may be recorded as plain out-of-stage observations, but do not classify
+it into future maturity levels, load future manifests, or propose later-stage
+edits until the human chooses to begin that stage.
+
 ## Operating Rules
 
 ### Collaborate Before Editing
 
-Before creating or changing target-repo files, write a Harness Fit Proposal and
-present the exact proposal text to the human. Do not edit the repo until the
-human explicitly approves the harness shape or corrects the proposal.
+Before creating or changing target-repo files, write a current-stage Harness
+Fit Proposal or equivalent stage proposal and present the exact proposal text
+to the human. Do not edit the repo until the human explicitly approves the
+current-stage shape or corrects the proposal.
 
 The proposal should explain:
 
 - repo signals,
-- current observed maturity,
-- recommended target maturity,
+- current stage and the behavior it should establish,
 - installation mode and completeness,
 - files to create or edit,
 - defaults inferred from repo evidence,
@@ -88,9 +101,9 @@ broad "carry it out" as approval of those decisions.
 
 ### Start Lower Than Feels Ambitious
 
-Most repos should start with Level 0 or Level 1. Adding a large harness too
-early creates harness debt: too many docs, instructions, hooks, artifacts, and
-process surfaces that nobody maintains.
+Most repos should start with Level 0. Adding a large harness too early creates
+harness debt: too many docs, instructions, hooks, artifacts, and process
+surfaces that nobody maintains.
 
 A small harness that is used is more valuable than a complete harness that
 people work around.
@@ -133,7 +146,8 @@ the signal that should trigger reconsideration.
 
 ## Implementation Flow
 
-Follow this sequence.
+Follow the staged sequence in `docs/installer.md`. The flow below is reference
+material for the stage currently being installed.
 
 ### 1. Inspect The Repo
 
@@ -196,28 +210,28 @@ Human decision needed:
   <none or concrete decision>
 ```
 
-### 3. Decide Current And Target Maturity
+### 3. Decide The Current Stage
 
-Use `docs/maturity-model.md` to decide the smallest useful target. The proposal
-must explicitly state current observed maturity and recommended target
-maturity.
+Use the current stage checklist and manifest to decide the smallest useful
+current-stage install. For ordinary first installs, this is Level 0. Do not
+read `docs/maturity-model.md` during Level 0 installation unless a human
+explicitly expands the current scope or a stage checklist routes you there.
 
 Include:
 
-- current observed level, evidence, and gaps,
-- recommended target level,
+- current stage, evidence, and gaps,
 - installation mode,
-- asset completeness claim,
-- behavioral completeness claim,
-- selected pull-ins from higher levels,
+- current-stage asset completeness claim,
+- current-stage behavioral completeness claim,
 - components intentionally not added,
-- why this target fits,
-- signal to expand later.
+- why this stage fits,
+- plain out-of-stage observations, when incidentally found.
 
-### 4. Prepare A Harness Fit Proposal
+### 4. Prepare A Stage Proposal
 
-Before editing, prepare a Harness Fit Proposal using the canonical schema in
-`templates/core/docs/harness/fit-proposal.md`.
+Before editing, prepare a current-stage Harness Fit Proposal or equivalent
+stage proposal. Use `templates/core/docs/harness/fit-proposal.md` as the
+durable decision-log schema when it fits the target repo.
 
 The proposal must include decisions for:
 
@@ -226,17 +240,20 @@ The proposal must include decisions for:
   `AGENTS.md` content into skills, scripts, project docs, hooks, or review
   guidance,
 - skill and command conflicts,
-- current and target maturity,
+- current stage and target behavior for the stage,
 - installation mode and completeness,
-- manifest inclusion or deferral,
-- project context and intent, including whether optional
-  `docs/project/intent.md` is useful now or should be deferred,
+- current-stage manifest inclusion or deferral,
+- project context needed for the current stage,
 - work brief storage, durability rationale, local fallback, commit policy,
   stale brief mitigation, and sync rule,
 - verification, focused verification, CI-only checks, and manual evidence,
 - tests, lint/format, and type checking,
 - gaps, trade-offs, human decisions, deferred items, proposed files,
-  acceptance criteria, and communication audit.
+  acceptance criteria, communication audit, and context used.
+
+For Level 0, do not ask whether optional `docs/project/intent.md`, `SPEC-MAP.md`,
+`CONTEXT.md`, hooks, or adapters are useful now unless the human explicitly
+expanded the current stage.
 
 Persist the proposal to disk before editing. Ask for a preferred path only if
 the target repo already has a clear planning location or the human is likely to
@@ -250,9 +267,10 @@ After writing the temporary proposal, present the exact proposal text to the
 human. A short summary is fine, but it must not replace the full proposal.
 
 `/tmp` is not durable repo documentation. After installation, record only the
-final proposal or equivalent decision log under `docs/harness/`, either as
-`docs/harness/fit-proposal.md` or embedded in `docs/harness/README.md`. Do not
-copy temporary proposal paths into durable harness docs.
+final proposal, equivalent decision log, or stage handoff under
+`docs/harness/`, either as `docs/harness/fit-proposal.md`, an install log, or
+embedded in `docs/harness/README.md`. Do not copy temporary proposal paths into
+durable harness docs.
 
 If the proposal changes after human questions are answered, update the
 persisted plan before editing files.
@@ -269,6 +287,10 @@ already existing?
 ### 5. Ask Focused Human Questions
 
 Ask only questions that affect implementation.
+
+For Level 0, use the focused checkpoint in `docs/install/level-0.md`. The
+broader decision set below applies only when the current approved stage or
+human-approved pull-in needs those decisions.
 
 Ask this minimum decision set unless the answer is both obvious from repo
 evidence and low-risk:
@@ -305,16 +327,16 @@ When to revisit:
 Before editing, use a final checkpoint:
 
 ```md
-I have written the fit proposal and will not edit the repo until you confirm
-the harness shape. Please review:
+I have written the current-stage proposal and will not edit the repo until you
+confirm the stage shape. Please review:
 
-- target maturity and installation mode,
-- included and excluded assets,
+- current stage and installation mode,
+- included and excluded current-stage assets,
 - work brief storage and fallback,
 - repo checks command,
 - existing component merge/defer decisions,
 - skill or command conflict decisions,
-- durable location for the final fit proposal.
+- durable location for the final proposal or stage handoff.
 
 Reply with corrections, or say "approved to install" and I will make only the
 listed changes.
@@ -364,8 +386,9 @@ A Level 0 or Level 1 starter harness is acceptable when:
   fails with an honest placeholder,
 - repo checks commands are derived from repo evidence or clearly marked as
   placeholders,
-- `docs/harness/README.md` records provenance, target maturity, installation
-  mode, completeness, installed files, and intentional deferrals,
+- `docs/harness/README.md` records provenance, current stage, target maturity
+  behavior for that stage, installation mode, completeness, installed files,
+  and intentional deferrals,
 - the final proposal or equivalent decision log is durable under
   `docs/harness/`,
 - acceptance evidence is required for externally visible or boundary-changing
@@ -385,7 +408,7 @@ A Level 0 or Level 1 starter harness is acceptable when:
 - a post-install communication audit records what fresh agents can understand
   and what they may still misunderstand,
 - optional components are explicitly deferred with signals for later adoption,
-- the human can explain why the chosen maturity target fits the repo.
+- the human can explain why the chosen stage target fits the repo.
 
 ## Work Brief Lifecycle
 
@@ -649,17 +672,18 @@ Common install shapes:
 - Repo with repeated mechanical failures: Level 1 plus selected Level 3
   deterministic controls; maybe a Stop hook running `scripts/repo-checks.sh`.
 
-In all cases, defer assets that lack evidence or human preference, and record
-the revisit signal.
+Use these as later-stage examples, not as permission to combine stages during
+the first proposal. In all cases, defer assets that lack current-stage scope,
+evidence, or human preference, and record the revisit signal.
 
 ## Done Criteria
 
 The installation is done when:
 
-- the chosen maturity target, provenance, and deferrals are recorded in
+- the chosen stage target, provenance, and deferrals are recorded in
   `docs/harness/README.md`,
-- installation mode, installation completeness, and behavioral completeness
-  claims are recorded,
+- installation mode, stage asset completeness, and stage behavioral
+  completeness claims are recorded,
 - the final Harness Fit Proposal or equivalent decision log is durable under
   `docs/harness/`,
 - temporary proposal paths are not copied into durable harness docs,
@@ -690,13 +714,15 @@ After installation, report:
 ```md
 ## Harness Installed
 
+Current stage:
+
 Target maturity:
 
 Installation mode:
 
-Installation completeness:
+Stage asset completeness:
 
-Behavioral completeness:
+Stage behavioral completeness:
 
 Harness Fit Proposal / decision log:
 - Durable post-install path:

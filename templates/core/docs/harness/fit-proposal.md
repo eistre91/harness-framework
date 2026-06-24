@@ -4,6 +4,10 @@ This file records the final approved harness installation proposal or equivalent
 decision log. It is durable repo documentation. Do not record machine-local
 paths or temporary installation-session proposal paths here.
 
+Use this template for the current approved stage. Fill or keep only the
+sections that apply to that stage. Do not use a Level 0 proposal to approve
+later-stage assets.
+
 ## Repo Signals
 
 -
@@ -34,27 +38,31 @@ Claude Code note, when relevant:
 - sync/check command, when using generated mirrors:
 - reason:
 
-## Current Maturity
+## Current Stage Assessment
 
 -
 
-## Target Maturity
+## Stage Target
 
+- Current stage:
 - Target maturity:
 - Installation mode: canonical / starter / overlay
-- Installation completeness:
-- Behavioral completeness:
+- Stage asset completeness:
+- Stage behavioral completeness:
 - Maturity wording to use in installed docs:
 
 ## Manifest Inclusion Table
 
-| Level | Asset or behavior | Status | Reason | Revisit signal |
+Use the current stage manifest as the source of truth. Do not use this table to
+preselect future-stage or optional assets during a Level 0 stage.
+
+| Stage | Asset or behavior | Status | Reason | Revisit signal |
 | --- | --- | --- | --- | --- |
-| 0 |  | include / adapt / already satisfied / defer / exclude |  |  |
-| 1 |  | include / adapt / already satisfied / defer / exclude |  |  |
-| optional |  | include / adapt / already satisfied / defer / exclude |  |  |
+| current |  | include / adapt / already satisfied / defer / exclude |  |  |
 
 ## Project Context And Intent
+
+Use when project context or intent is in the current approved stage.
 
 - Existing project context docs:
 - Existing project intent source:
@@ -114,6 +122,28 @@ Future improvement:
 | Component | Why deferred | Revisit signal |
 | --- | --- | --- |
 |  |  |  |
+
+## Out-Of-Stage Observations
+
+Record plain observations found during the current stage. Do not classify them
+by future maturity level or preselect future assets unless the human has
+approved that stage.
+
+-
+
+## Context Used
+
+Framework sources:
+
+-
+
+Target repo sources:
+
+-
+
+Out-of-stage sources used and justification:
+
+-
 
 ## Files Proposed Or Installed
 

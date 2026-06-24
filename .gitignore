@@ -2,6 +2,7 @@
 .harness-bootstrap/
 # Local agent drafts/state.
 .agent/
+skills-lock.json
 docs/ignored/
 # Repo-local development helpers. Portable framework skills live in skills/.
 .agents/
