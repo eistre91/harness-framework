@@ -91,46 +91,32 @@ Signal to revisit:
 - The framework gains an installer or validator whose behavior needs
   representative scenario coverage.
 
-## Deferred: Staged Installer Follow-Ups
+## Deferred: Installer Evidence And Higher-Stage Pull-Ins
 
-Status: partially addressed.
-
-The framework now has a staged installer entrypoint at `docs/installer.md`, a
-Level 0 stage checklist at `docs/install/level-0.md`, a Level 1 stage checklist
-at `docs/install/level-1.md`, and a Level 2 context-routing checklist at
-`docs/install/level-2.md`. The default installer path is level-by-level:
-inspect, propose the current stage, get human approval, install only the
-approved current-stage assets, validate, leave a durable handoff, and ask
-whether to stop or inspect the next stage.
-
-The original concern is not fully closed. The framework still needs more
-experience with staged installs, selected deterministic-control guidance, and
-higher-stage pull-in guidance before adding more installer machinery.
+Current staged installer behavior lives in `docs/installer.md` and
+`docs/install/*.md`. This TODO entry records remaining installer-design
+questions, not active installation guidance.
 
 Why deferred:
 
-- Level 1 now has a focused checklist, but it has not yet been exercised enough
-  in real installs to know where it is too loose or too heavy.
-- Level 2 context routing now has an initial `SPEC-MAP.md` path, but it has not
-  yet been exercised enough in real installs to know where it is too loose or
-  too heavy.
+- Level 1 and Level 2 checklists need more real-install evidence before the
+  framework can know where they are too loose, too heavy, or missing acceptance
+  gates.
 - Selected Level 3 pull-ins still need clear local acceptance criteria and
-  stage gates.
-- Stage logging under `docs/harness/` has flexible guidance but not strong
-  recommendations yet.
-- A docs-only installer path may or may not be enough; the framework needs real
-  staged install attempts before adding an installer skill or evals.
+  stage boundaries.
+- Durable stage logging under `docs/harness/` has flexible guidance, but the
+  framework needs more install examples before prescribing a stronger shape.
+- A docs-only installer path may be enough; add an installer skill or evals only
+  if repeated installs show agents still miss the staged flow.
 
 Potential future shape:
 
-- Exercise `docs/install/level-1.md` in real installs and tighten it from
-  observed failure signals.
-- Exercise `docs/install/level-2.md` in real installs and tighten it from
-  observed routing failures.
-- Add guidance for selected higher-level pull-ins, especially deterministic
-  controls, without encouraging broad multi-level installs.
-- Strengthen recommendations for durable stage logs under `docs/harness/` once
-  a few install shapes are observed.
+- Tighten `docs/install/level-1.md` and `docs/install/level-2.md` from observed
+  install failures.
+- Add selected higher-level pull-in guidance without encouraging broad
+  multi-level installs.
+- Strengthen recommendations for durable stage logs once several install shapes
+  are observed.
 - Consider a `harness-install` bootstrap skill only if agents still miss the
   docs-only staged flow.
 - Add installer eval cases once staged installation behavior is stable enough
@@ -138,15 +124,14 @@ Potential future shape:
 
 Signal to revisit:
 
-- Level 1 installs still vary too much even with the stage checklist.
-- Level 2 installs still vary too much even with the stage checklist.
-- Harness installs pass Level 0 structurally but leave Level 1 behavior
-  unclear.
-- Installing agents still over-read framework docs, load future-facing concepts
-  too early, or add optional assets because they were present in context rather
-  than justified by current-stage scope.
-- Humans have to repeatedly correct proposals that conflate observed
-  out-of-stage evidence with immediate installation approval.
+- Level 1 or Level 2 installs still vary too much with the current checklists.
+- Harness installs pass structurally but leave behavior or completeness unclear.
+- Installing agents over-read higher-stage manifests, optional manifests,
+  adapter docs, deterministic-control guidance, future-facing docs, or
+  exploratory docs because they were present in context rather than justified
+  by stage scope.
+- Humans repeatedly correct proposals that conflate out-of-stage observations
+  with approval to install later-stage assets.
 
 ## Deferred: Skill Adaptation Guidance
 

@@ -1,5 +1,11 @@
 # Harness Component Brief
 
+Audience: agents and maintainers proposing, adding, changing, or retiring a
+harness component.
+
+Use when: recording why a harness component exists, what signal justifies it,
+what cost it adds, and when it should be simplified or removed.
+
 Component:
 
 ## Value
