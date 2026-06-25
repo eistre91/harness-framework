@@ -65,6 +65,7 @@ assets are defined in manifests:
 
 - Level 0 required starter assets: `manifests/level-0.yml`
 - Level 1 additive assets and behaviors: `manifests/level-1.yml`
+- Level 2 additive assets and behaviors: `manifests/level-2.yml`
 - Other optional pull-ins and adapters: `manifests/optional-assets.yml`
 
 ## Level 0: Table Stakes
@@ -182,12 +183,14 @@ Move beyond when:
 
 Adds product-context routing.
 
+Default additive assets and behaviors are defined in `manifests/level-2.yml`.
+
 Assets:
 
-- `docs/project/`,
+- `SPEC-MAP.md`,
+- project-area briefs under `docs/project/areas/`,
 - optional short `docs/project/intent.md` from
   `templates/optional/docs/project/intent.md`,
-- optional `SPEC-MAP.md`,
 - optional `CONTEXT.md`,
 - ADR or decision-log pointers.
 

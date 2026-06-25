@@ -24,7 +24,8 @@ the target repo through inspection and collaboration:
 - `AGENTS.md` is the repo entrypoint for agents maintaining this framework.
 - `docs/principles.md` lists the framework principles.
 - `docs/installer.md` is the staged installation entrypoint.
-- `docs/install/level-0.md` is the Level 0 installer checklist.
+- `docs/install/level-0.md`, `docs/install/level-1.md`, and
+  `docs/install/level-2.md` are staged installer checklists.
 - `docs/framework.md` explains the framework shape and rationale.
 - `docs/implementation-guide.md` is broad installation reference material.
 - `docs/maturity-model.md` summarizes the layered adoption model.
@@ -39,6 +40,7 @@ the target repo through inspection and collaboration:
 - `manifests/level-0.yml` is the canonical list of default starter assets.
 - `manifests/level-1.yml` is the canonical additive list for bounded work
   execution.
+- `manifests/level-2.yml` is the canonical additive list for context routing.
 - `manifests/optional-assets.yml` lists optional pull-ins.
 
 ## Quickstart
@@ -89,10 +91,14 @@ and explicitly defer anything else. Use `docs/install/level-0.md` as the Level
 0 stage checklist.
 
 After Level 0 validates, the agent should ask whether to stop or inspect the
-next stage. If a later stage targets Level 1 behavior without installing every
+next stage. Use `docs/install/level-1.md` when the human chooses Level 1
+inspection. If a later stage targets Level 1 behavior without installing every
 canonical Level 1 manifest asset, describe the target and installation
 completeness separately. Do not describe the repo as having completed Level 1
 unless the manifest assets and behavior are actually complete.
+
+After Level 1 validates, use `docs/install/level-2.md` when the human chooses
+context-routing inspection.
 
 ## Asset Types
 

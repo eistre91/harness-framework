@@ -1,0 +1,51 @@
+name: level-2
+description: Additive asset and behavior set for product context routing.
+base: manifests/level-1.yml
+install_policy: Install after Level 1 when repo evidence shows agents need stronger routing to product areas, domain context, ADRs, or deep project docs.
+level_definition_source: docs/maturity-model.md#level-2-context-routing
+assets:
+  - id: spec-map
+    asset_type: installable
+    source: templates/level-2/SPEC-MAP.md
+    default_target: SPEC-MAP.md
+    required: true
+    adapt:
+      - task intents and terms used by the target repo's issues, briefs, code, tests, or user workflows
+      - primary project-area brief paths
+      - trigger-matched deep project references
+      - source-of-truth order for code, tests, work briefs, ADRs, project docs, and historical records
+      - update triggers for route drift or missing project areas
+  - id: project-area-brief-guide
+    asset_type: installable
+    source: templates/level-2/docs/project/areas/README.md
+    default_target: docs/project/areas/README.md
+    required: true
+    adapt:
+      - current project-area brief list
+      - preferred project-area path if the repo already has an equivalent docs structure
+      - source-of-truth hierarchy
+      - area-specific brief shape and doc update triggers
+  - id: project-area-briefs
+    asset_type: behavior
+    required: true
+    satisfy_by:
+      - Create or adapt project-area briefs for the product areas, module families, workflows, CLIs, integrations, or file formats that caused the Level 2 install.
+      - Keep each area brief roughly 80 to 150 lines unless the target repo records a reason for a different size.
+      - Include audience, use-when triggers, read-first guidance, trigger-matched deep references, important modules, core invariants, do-not guidance, useful tests or searches, and update-docs triggers.
+      - Route every installed area brief from SPEC-MAP.md.
+common_starter_pull_ins:
+  - id: project-intent
+    asset_type: optional-reference
+    install_when: Repeated planning, exploratory, scope, or value-sensitive review decisions need a shared project north star.
+    notes: The installable asset boundary is owned by the project-intent entry in manifests/optional-assets.yml.
+  - id: context-glossary
+    asset_type: behavior
+    install_when: Agents or humans repeatedly misunderstand the same domain terms and a short glossary would prevent drift.
+    notes: A root CONTEXT.md or docs/project glossary may satisfy this, but Level 2 SPEC-MAP routing does not require a glossary by default.
+excluded_from_level_asset_boundary:
+  - broad historical doc routing by default
+  - CONTEXT-MAP.md as a required installable asset
+  - documentation quality audit
+  - maintainability sensors
+  - link checking or deterministic doc enforcement beyond normal repo checks
+  - .harness.yml

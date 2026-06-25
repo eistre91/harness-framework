@@ -32,6 +32,7 @@ the target repo after installation.
 - `manifests/bootstrap.yml`
 - `manifests/level-0.yml`
 - `manifests/level-1.yml`
+- `manifests/level-2.yml`
 - `manifests/optional-assets.yml`
 
 Use `docs/installer.md` first. Read the stage checklist and manifest for the
@@ -47,6 +48,10 @@ The additive Level 1 assets and behaviors are defined in
 `manifests/level-1.yml`. Treat that manifest as the canonical Level 1 asset
 boundary.
 
+The additive Level 2 assets and behaviors are defined in
+`manifests/level-2.yml`. Treat that manifest as the canonical Level 2 asset
+boundary.
+
 ## Optional Installable Assets
 
 Install optional assets only when repo evidence or human preference justifies
@@ -57,6 +62,7 @@ Selection manifests:
 
 - `manifests/level-0.yml`
 - `manifests/level-1.yml`
+- `manifests/level-2.yml`
 - `manifests/optional-assets.yml`
 
 ## Repo-Specific Adaptation
@@ -68,6 +74,7 @@ Every installation should adapt:
 - local work brief fallback and commit policy,
 - repo checks commands,
 - project context paths,
+- Level 2 task-intent routes and project-area brief paths,
 - sensitive file patterns,
 - project-specific skill guidance under `.agents/skills`, using
   self-explaining harness names such as `harness-review` unless adapting to an

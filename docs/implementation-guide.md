@@ -30,10 +30,12 @@ context before the current stage needs it.
 - Maturity levels, installation modes, asset completeness, behavioral
   completeness, and level-specific signals: `docs/maturity-model.md`
 - Staged installation entrypoint: `docs/installer.md`
-- Level 0 stage checklist: `docs/install/level-0.md`
-- Bootstrap, Level 0, Level 1, and optional asset lists:
+- Stage checklists: `docs/install/level-0.md`,
+  `docs/install/level-1.md`, and `docs/install/level-2.md`
+- Bootstrap, Level 0, Level 1, Level 2, and optional asset lists:
   `manifests/bootstrap.yml`, `manifests/level-0.yml`,
-  `manifests/level-1.yml`, and `manifests/optional-assets.yml`
+  `manifests/level-1.yml`, `manifests/level-2.yml`, and
+  `manifests/optional-assets.yml`
 - Portable asset boundaries: `docs/portable-assets.md`
 - Platform support: `docs/platform-support.md`, then the relevant platform note
 - Harness Fit Proposal template:
@@ -41,6 +43,7 @@ context before the current stage needs it.
 - Installed harness docs template: `templates/core/docs/harness/README.md`
 - Target-repo checks template: `templates/core/scripts/repo-checks.sh`
 - Work brief skill and template: `skills/core/harness-work-brief/`
+- Level 2 routing templates: `templates/level-2/`
 
 Do not maintain second copies of those assets or schemas in this guide.
 
@@ -288,9 +291,11 @@ already existing?
 
 Ask only questions that affect implementation.
 
-For Level 0, use the focused checkpoint in `docs/install/level-0.md`. The
-broader decision set below applies only when the current approved stage or
-human-approved pull-in needs those decisions.
+For Level 0, use the focused checkpoint in `docs/install/level-0.md`. For
+Level 1, use the focused checkpoint in `docs/install/level-1.md`. For Level 2,
+use the focused checkpoint in `docs/install/level-2.md`. The broader decision
+set below applies only when the current approved stage or human-approved
+pull-in needs those decisions.
 
 Ask this minimum decision set unless the answer is both obvious from repo
 evidence and low-risk:
@@ -654,6 +659,7 @@ The source-of-truth asset selections live in manifests:
 - `manifests/bootstrap.yml`
 - `manifests/level-0.yml`
 - `manifests/level-1.yml`
+- `manifests/level-2.yml`
 - `manifests/optional-assets.yml`
 
 Use those files to decide what to copy or adapt. The examples in this guide

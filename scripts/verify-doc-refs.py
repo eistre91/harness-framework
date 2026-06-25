@@ -40,7 +40,6 @@ INTENTIONAL_TARGET_FILES = {
     ".harness.yml",
     "CONTEXT.md",
     "SPEC-MAP.md",
-    "docs/install/level-1.md",
     "docs/routing",
 }
 

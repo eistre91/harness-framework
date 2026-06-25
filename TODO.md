@@ -3,6 +3,7 @@
 This is a work record for deferred framework ideas, not active implementation
 guidance. Use `docs/principles.md`, `docs/framework.md`,
 `docs/installer.md`, `docs/install/level-0.md`,
+`docs/install/level-1.md`, `docs/install/level-2.md`,
 `docs/implementation-guide.md`, `docs/maturity-model.md`, and the manifests as
 the current source of truth.
 
@@ -94,22 +95,27 @@ Signal to revisit:
 
 Status: partially addressed.
 
-The framework now has a staged installer entrypoint at `docs/installer.md` and
-a Level 0 stage checklist at `docs/install/level-0.md`. The default installer
-path is level-by-level: inspect, propose the current stage, get human approval,
-install only the approved current-stage assets, validate, leave a durable
-handoff, and ask whether to stop or inspect the next stage.
+The framework now has a staged installer entrypoint at `docs/installer.md`, a
+Level 0 stage checklist at `docs/install/level-0.md`, a Level 1 stage checklist
+at `docs/install/level-1.md`, and a Level 2 context-routing checklist at
+`docs/install/level-2.md`. The default installer path is level-by-level:
+inspect, propose the current stage, get human approval, install only the
+approved current-stage assets, validate, leave a durable handoff, and ask
+whether to stop or inspect the next stage.
 
-The original concern is not fully closed. The framework still needs later
-stage checklists and more experience with staged installs before adding more
-installer machinery.
+The original concern is not fully closed. The framework still needs more
+experience with staged installs, selected deterministic-control guidance, and
+higher-stage pull-in guidance before adding more installer machinery.
 
 Why deferred:
 
-- Only Level 0 has a focused stage checklist.
-- Level 1 bounded-work execution still relies on broad reference material.
-- Selected Level 2 or Level 3 pull-ins still need clear local acceptance
-  criteria and stage gates.
+- Level 1 now has a focused checklist, but it has not yet been exercised enough
+  in real installs to know where it is too loose or too heavy.
+- Level 2 context routing now has an initial `SPEC-MAP.md` path, but it has not
+  yet been exercised enough in real installs to know where it is too loose or
+  too heavy.
+- Selected Level 3 pull-ins still need clear local acceptance criteria and
+  stage gates.
 - Stage logging under `docs/harness/` has flexible guidance but not strong
   recommendations yet.
 - A docs-only installer path may or may not be enough; the framework needs real
@@ -117,9 +123,12 @@ Why deferred:
 
 Potential future shape:
 
-- Add `docs/install/level-1.md` for bounded work execution.
-- Add guidance for selected higher-level pull-ins, especially context routing
-  and deterministic controls, without encouraging broad multi-level installs.
+- Exercise `docs/install/level-1.md` in real installs and tighten it from
+  observed failure signals.
+- Exercise `docs/install/level-2.md` in real installs and tighten it from
+  observed routing failures.
+- Add guidance for selected higher-level pull-ins, especially deterministic
+  controls, without encouraging broad multi-level installs.
 - Strengthen recommendations for durable stage logs under `docs/harness/` once
   a few install shapes are observed.
 - Consider a `harness-install` bootstrap skill only if agents still miss the
@@ -129,7 +138,8 @@ Potential future shape:
 
 Signal to revisit:
 
-- Level 1 installs vary too much because there is no stage checklist.
+- Level 1 installs still vary too much even with the stage checklist.
+- Level 2 installs still vary too much even with the stage checklist.
 - Harness installs pass Level 0 structurally but leave Level 1 behavior
   unclear.
 - Installing agents still over-read framework docs, load future-facing concepts

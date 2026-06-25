@@ -16,17 +16,22 @@ templates, or detailed installation procedure.
 
 - Principles: `docs/principles.md`
 - Staged installer entrypoint: `docs/installer.md`
-- Level 0 installer checklist: `docs/install/level-0.md`
+- Stage installer checklists: `docs/install/level-0.md`,
+  `docs/install/level-1.md`, and `docs/install/level-2.md`
 - Maturity definitions and failure signals: `docs/maturity-model.md`
-- Bootstrap, Level 0, Level 1, and optional assets:
+- Bootstrap, Level 0, Level 1, Level 2, and optional assets:
   `manifests/bootstrap.yml`, `manifests/level-0.yml`,
-  `manifests/level-1.yml`, and `manifests/optional-assets.yml`
+  `manifests/level-1.yml`, `manifests/level-2.yml`, and
+  `manifests/optional-assets.yml`
 - Broad installation reference: `docs/implementation-guide.md`
 - Portable versus repo-specific assets: `docs/portable-assets.md`
 - Platform adapter guidance: `docs/platform-support.md` and
   `docs/platforms/*.md`
 - Work brief template:
   `skills/core/harness-work-brief/work-brief-template.md`
+- Level 2 routing templates:
+  `templates/level-2/SPEC-MAP.md` and
+  `templates/level-2/docs/project/areas/README.md`
 - Harness fit proposal template:
   `templates/core/docs/harness/fit-proposal.md`
 - Component brief template:
@@ -179,6 +184,10 @@ Level 1 adds bounded work execution. Its canonical additive asset and behavior
 list lives in `manifests/level-1.yml`; the prose definition lives in
 `docs/maturity-model.md`.
 
+Level 2 adds context routing. Its canonical additive asset and behavior list
+lives in `manifests/level-2.yml`; the prose definition lives in
+`docs/maturity-model.md`.
+
 Optional pull-ins should not be installed just because they exist. Use
 `manifests/optional-assets.yml` and the Harness Fit Proposal to justify their
 value, cost, and revisit signal.
@@ -267,9 +276,17 @@ historical notes, product strategy, one-off standards, or instructions that
 apply only to rare tasks should usually be split into narrower surfaces instead
 of copied forward as universal context.
 
-`SPEC-MAP.md` is optional. Add it when there are enough product areas or docs
-that agents need routing help. It should route product implementation work to
-the smallest useful context and should not route to `docs/harness/`.
+`SPEC-MAP.md` is the Level 2 implementation task-intent router. Add it when
+there are enough product areas or docs that agents need routing help. It should
+route product implementation work to the smallest useful project-area brief and
+trigger-matched deep references, and should not route ordinary product work to
+`docs/harness/`.
+
+Project-area briefs live under `docs/project/areas/` by default. They compress
+the context needed for one product area, module family, user workflow, CLI,
+integration, file format, or other repeated implementation concept. Keep each
+brief roughly 80 to 150 lines unless the target repo records a reason for a
+different size.
 
 `CONTEXT.md` is not part of the starter harness by default. It can be useful as
 a short domain glossary and semantic compression point when agents or humans

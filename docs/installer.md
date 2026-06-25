@@ -147,3 +147,25 @@ current Level 0 stage checklist.
 
 Do not inspect Level 1 guidance until Level 0 has been installed and validated,
 unless the human explicitly changes the current approved stage.
+
+## Level 1 Next
+
+After Level 0 has been installed and validated, ask whether to stop or inspect
+the next stage. If the human chooses Level 1 inspection, use
+`docs/install/level-1.md` for the current Level 1 stage checklist.
+
+Do not inspect Level 2 guidance, selected deterministic controls, or optional
+pull-ins during Level 1 unless the human explicitly changes the current
+approved stage or the Level 1 checklist routes to a narrow current-stage
+pull-in.
+
+## Level 2 Context Routing
+
+After Level 1 has been installed and validated, ask whether to stop or inspect
+the next stage. If the human chooses Level 2 inspection, use
+`docs/install/level-2.md` for the current Level 2 stage checklist.
+
+Do not inspect Level 3 deterministic controls, maintainability sensors, or
+future orchestration guidance during Level 2 unless the human explicitly
+changes the current approved stage or the Level 2 checklist routes to a narrow
+current-stage pull-in.

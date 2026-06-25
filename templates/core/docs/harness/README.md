@@ -39,12 +39,20 @@ Why:
 Intentionally deferred:
 
 Use precise maturity wording. If this is a partial starter install, do not
-describe the repo as simply "Level 1." Prefer:
+describe the repo as simply "Level 1" or "Level 2." Prefer:
 
 ```text
 Target maturity: Level 1 bounded work execution.
 Installation mode: starter.
 Stage asset completeness: partial, not full canonical Level 1.
+```
+
+Or, for context routing:
+
+```text
+Target maturity: Level 2 context routing.
+Installation mode: starter.
+Stage asset completeness: partial, not full canonical Level 2.
 ```
 
 ## Existing Harness Components
