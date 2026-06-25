@@ -16,24 +16,39 @@ Adapters should preserve shared behavior across tools. Put common policy in
 portable assets, then make tool-specific adapters call or point to those
 assets.
 
+## Asset Types
+
+Manifests own the canonical asset inventory. Use these asset type definitions
+when reading or editing manifests:
+
+- `bootstrap`: temporary framework material used while fitting a harness to a
+  target repo. Bootstrap assets usually should not remain installed after the
+  harness is fitted.
+- `installable`: a file or file bundle that can be copied or adapted into a
+  target repo when the current stage or optional pull-in justifies it.
+- `behavior`: a required or optional harness capability that may be satisfied
+  by existing repo conventions, adapted files, scripts, hooks, or documented
+  workflow instead of a single copied file.
+- `optional-reference`: optional reference material that supports a stage when
+  evidence justifies the extra context, but is not part of the required
+  current-stage asset boundary.
+- `adapter`: platform-specific support that exposes shared harness behavior to
+  a tool such as Codex, Claude Code, pre-commit, CI, or another runtime.
+
+Fields such as `maturity`, `category`, `common_starter_pull_ins`, and
+`excluded_from_level_asset_boundary` qualify selection or grouping. They are
+not asset types.
+
 ## Bootstrap Assets
 
 Bootstrap assets help install the harness. They usually should not remain in
 the target repo after installation.
 
-- `docs/framework.md`
-- `docs/principles.md`
-- `docs/installer.md`
-- `docs/install/*.md`
-- `docs/implementation-guide.md`
-- `docs/maturity-model.md`
-- `docs/platform-support.md`
-- `docs/platforms/*.md`
-- `manifests/bootstrap.yml`
-- `manifests/level-0.yml`
-- `manifests/level-1.yml`
-- `manifests/level-2.yml`
-- `manifests/optional-assets.yml`
+`manifests/bootstrap.yml` owns the canonical bootstrap asset boundary.
+Conceptually, bootstrap assets include the principles, staged installer,
+current-stage checklists, broad reference docs, platform notes, stage
+manifests, optional-asset manifest, and installer support scripts used while
+fitting a target repo.
 
 Use `docs/installer.md` first. Read the stage checklist and manifest for the
 current approved stage, then load other bootstrap assets only when the staged
@@ -58,12 +73,9 @@ Install optional assets only when repo evidence or human preference justifies
 them. Treat `manifests/optional-assets.yml` as the canonical optional asset
 list.
 
-Selection manifests:
-
-- `manifests/level-0.yml`
-- `manifests/level-1.yml`
-- `manifests/level-2.yml`
-- `manifests/optional-assets.yml`
+Use the current-stage manifest for required stage assets. Read
+`manifests/optional-assets.yml` only when the stage checklist or
+human-approved scope routes to an optional pull-in.
 
 ## Repo-Specific Adaptation
 

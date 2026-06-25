@@ -21,27 +21,24 @@ the target repo through inspection and collaboration:
 
 ## Start Here
 
-- `AGENTS.md` is the repo entrypoint for agents maintaining this framework.
-- `docs/principles.md` lists the framework principles.
-- `docs/installer.md` is the staged installation entrypoint.
-- `docs/install/level-0.md`, `docs/install/level-1.md`, and
-  `docs/install/level-2.md` are staged installer checklists.
-- `docs/framework.md` explains the framework shape and rationale.
-- `docs/implementation-guide.md` is broad installation reference material.
-- `docs/maturity-model.md` summarizes the layered adoption model.
-- `docs/portable-assets.md` explains what can transfer between repos and what
-  must be adapted.
-- `docs/platform-support.md` explains when to add platform-specific adapters
-  and how to keep them thin.
-- `REFERENCES.md` records public projects that informed this framework.
-- `LICENSE` contains the MIT license for this repository.
-- `manifests/bootstrap.yml` lists bootstrap-only assets used during
-  installation.
-- `manifests/level-0.yml` is the canonical list of default starter assets.
-- `manifests/level-1.yml` is the canonical additive list for bounded work
-  execution.
-- `manifests/level-2.yml` is the canonical additive list for context routing.
-- `manifests/optional-assets.yml` lists optional pull-ins.
+Use these entrypoints by task:
+
+- Framework maintenance in this repo: start with `AGENTS.md`, then
+  `docs/principles.md`.
+- Target-repo installation: start with `docs/installer.md`, then the current
+  stage checklist under `docs/install/`.
+- Framework shape and rationale: use `docs/framework.md`.
+- Maturity definitions and failure signals: use `docs/maturity-model.md` when
+  routed there.
+- Broad installation reference: use `docs/implementation-guide.md` after the
+  staged installer or a stage checklist routes you there.
+- Portability and adaptation boundaries: use `docs/portable-assets.md` when
+  adaptation scope is unclear.
+- Platform adapters: use `docs/platform-support.md`, then only the relevant
+  platform note or adapter README, when platform support is in scope.
+- Asset boundaries: use the manifests in `manifests/` as the canonical source;
+  do not infer installable file lists from this README.
+- Attribution and license: see `REFERENCES.md` and `LICENSE`.
 
 ## Quickstart
 

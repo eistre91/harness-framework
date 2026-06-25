@@ -14,6 +14,8 @@ templates, or detailed installation procedure.
 
 ## Source Of Truth Map
 
+Active owners:
+
 - Principles: `docs/principles.md`
 - Staged installer entrypoint: `docs/installer.md`
 - Stage installer checklists: `docs/install/level-0.md`,
@@ -36,8 +38,14 @@ templates, or detailed installation procedure.
   `templates/core/docs/harness/fit-proposal.md`
 - Component brief template:
   `templates/optional/docs/harness/component-brief.md`
+
+Exploratory or future-facing sources:
+
 - Level 5 orchestration sketch, exploratory:
   `docs/level-5-orchestration.md`
+
+Do not route ordinary installation or framework-maintenance work to exploratory
+sources unless the task is about that topic.
 
 ## Mission
 
