@@ -16,6 +16,29 @@ Adapters should preserve shared behavior across tools. Put common policy in
 portable assets, then make tool-specific adapters call or point to those
 assets.
 
+## Asset Types
+
+Manifests own the canonical asset inventory. Use these asset type definitions
+when reading or editing manifests:
+
+- `bootstrap`: temporary framework material used while fitting a harness to a
+  target repo. Bootstrap assets usually should not remain installed after the
+  harness is fitted.
+- `installable`: a file or file bundle that can be copied or adapted into a
+  target repo when the current stage or optional pull-in justifies it.
+- `behavior`: a required or optional harness capability that may be satisfied
+  by existing repo conventions, adapted files, scripts, hooks, or documented
+  workflow instead of a single copied file.
+- `optional-reference`: optional reference material that supports a stage when
+  evidence justifies the extra context, but is not part of the required
+  current-stage asset boundary.
+- `adapter`: platform-specific support that exposes shared harness behavior to
+  a tool such as Codex, Claude Code, pre-commit, CI, or another runtime.
+
+Fields such as `maturity`, `category`, `common_starter_pull_ins`, and
+`excluded_from_level_asset_boundary` qualify selection or grouping. They are
+not asset types.
+
 ## Bootstrap Assets
 
 Bootstrap assets help install the harness. They usually should not remain in
