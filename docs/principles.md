@@ -6,7 +6,10 @@ to a target repo.
 Use when: deciding whether a harness component, document, adapter, skill,
 script, or maturity claim earns its maintenance cost.
 
-The following principles guide the framework.
+The following principles guide framework maintenance and target-repo harness
+design. The framework should follow them itself; installed harnesses should
+carry them into target repos. A principle may point at different artifacts in
+each context, but the same decision test should hold in both.
 
 ### Relentlessly Pursue Value
 
@@ -17,8 +20,8 @@ outcome.
 
 Valuable work answers the question: who is better off, and how?
 
-This applies both to the framework as a maintained product and to the outcomes
-each installed harness helps deliver.
+Apply that test to framework changes and to the target-repo outcomes each
+installed harness helps deliver.
 
 Tasks that cannot name the concrete outcome they improve are speculative waste.
 Defer, simplify, or remove them.
@@ -48,16 +51,25 @@ KISS and YAGNI apply to the harness too. Add structure when a real failure mode
 or coordination need appears. Simplify or remove structure when it stops serving
 its purpose.
 
-### Code Is The Source Of Truth
+### Prefer Executable Evidence
 
-Documentation compresses truth or records intended direction. It rots quickly.
-Prefer code, tests, scripts, and executable examples where possible.
+Prefer executable evidence over documentation when determining current behavior.
 
-### Documentation Is Compression
+Code and other executable artifacts show what the system does now. Documentation
+can record why the system works that way, where it should go next, or which
+gaps are known, but those records are not proof of current behavior.
 
-Docs are valuable when they reduce repeated inference cost. They are harmful
-when agents must parse too much stale or irrelevant material before doing the
-work.
+When sources conflict, trust the artifact closest to execution for current
+behavior and update the conflicting record.
+
+### Descriptive Documentation Compresses
+
+Good descriptive documentation provides durable guidance that saves recurring
+inference cost. It should be slow-changing and avoid repeating implementation
+details.
+
+It is a compressed map of the system, not the territory. Keep it short and
+rewrite or remove docs that duplicate what agents should inspect directly.
 
 ### Context Is Precious And Focused
 
@@ -126,6 +138,9 @@ This might not need to raise to the level of a principle.
 This is more guidance.
 
 The principle might more be that we want clear separation of concerns.
+
+When refining this principle, consider framing it as: separate harness concerns
+from product concerns.
 
 Agents doing product work should not need to understand the harness internals.
 Agents changing the harness should read harness docs intentionally.
