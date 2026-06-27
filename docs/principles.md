@@ -10,27 +10,43 @@ The following principles guide the framework.
 
 ### Relentlessly Pursue Value
 
-Value is the goal; harness structure, metrics, checks, docs, and agent output
-are only attempts to steer toward it. The harness should maximize human
-leverage and help implementation pursue human-defined value, not admire its own
-ceremony or produce work because it is easy to generate.
+Value is the central principle.
 
-Every harness component should answer which repo need it serves now or what
-specific failure it prevents. Every agent-executable task should stay aimed at
-the smallest valuable outcome instead of broad cleanup, speculative
-abstraction, or measurable-but-misaligned activity.
+Work produces value when it helps a real human or agent achieve a concrete
+outcome.
+
+Valuable work answers the question: who is better off, and how?
+
+This applies both to the framework as a maintained product and to the outcomes
+each installed harness helps deliver.
+
+Tasks that cannot name the concrete outcome they improve are speculative waste.
+Defer, simplify, or remove them.
+
+### Design For The Human-Agent System
+
+The harness exists to make humans and agents together more capable than either
+alone.
+
+Humans own trajectory: intent, priorities, product judgment, and risk acceptance.
+
+Agents drive progress: bounded investigation, implementation, verification, and
+synthesis within delegated intent, explicit constraints, and reviewable evidence.
 
 ### The Harness Is A System Too
 
 The harness is subject to the same failure modes as the codebase it supports. It
-can rot, overfit old workflows, duplicate truth, hide complexity, accumulate
-dead paths, and become too hard for humans or agents to understand.
+can rot, accumulate debt, and become too hard for humans or agents to understand.
 
-Keep the harness fit to purpose, explicit, and easy to change. The harness
-should satisfy KISS/YAGNI: do not introduce harness components, maturity levels,
-automation, protocols, or adapters without demonstrated need. Add them when the
-project has signals that justify them, and simplify or remove them when they
-stop earning their maintenance cost.
+Everything in a harness adds system surface area and should earn its maintenance
+cost the same way application code does.
+
+When changing the harness, ask: if this were application code, what engineering
+concern would we notice?
+
+KISS and YAGNI apply to the harness too. Add structure when a real failure mode
+or coordination need appears. Simplify or remove structure when it stops serving
+its purpose.
 
 ### Code Is The Source Of Truth
 
@@ -65,6 +81,14 @@ compaction is a failure of context engineering, not a planned workflow.
 
 ### Shared Behavior Has One Owner
 
+This is drifting into being lower level than a principle.
+
+The principle is that shared behavior has one owner. Behavior?
+
+I think this should more be that there should be a source of truth
+and where possible everything refers to that source of truth.
+Do not duplicate source of truth.
+
 Each reusable harness behavior, schema, template, or policy should have one
 canonical home. Explanatory docs should point to that owner instead of
 maintaining second copies. Use manifests for asset boundaries, the maturity
@@ -86,16 +110,35 @@ or CI.
 
 ### Judgment Belongs In Structured Review
 
+What is this trying to say?
+
+Did this arise out of the separation between what can be done deterministically
+and that which cannot?
+
 Scope fit, interface quality, over-engineering, abstraction timing, and
 acceptance satisfaction are not fully deterministic. The harness should provide
 briefs, examples, and review skills that make judgment easier.
 
 ### Harness Docs Are Not Product Docs
 
+This might not need to raise to the level of a principle.
+
+This is more guidance.
+
+The principle might more be that we want clear separation of concerns.
+
 Agents doing product work should not need to understand the harness internals.
 Agents changing the harness should read harness docs intentionally.
 
 ### Start With Manual Sensors Before Automatic Gates
+
+Automation prevents known failure modes in repeatable ways.
+
+We write tests and run them because we know that software is better with them.
+
+I think what I don't like here is that it focuses on adoption. Which is true but downstream of a principle.
+
+The principle is that you shouldn't automate for the sake of automation. Everything should have purpose.
 
 Maintainability and documentation drift matter, but noisy gates can damage
 adoption. Begin with manual or periodic review, then automate once signals are
