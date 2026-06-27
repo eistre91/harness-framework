@@ -73,23 +73,15 @@ rewrite or remove docs that duplicate what agents should inspect directly.
 
 ### Context Is Precious And Focused
 
-An agent's context window is a limited working set, not a storage layer. Good
-context is correct, complete enough for the current task, small enough to stay
-focused, and oriented toward the next action.
+Context is engineered working state for the current task. Agents work best from
+a context window that is correct, complete enough for the current outcome, small
+enough to stay focused, and oriented toward the next action.
 
-Bad context is usually worse than missing context, and missing context is
-usually worse than noisy context. The harness should bias toward removing stale
-or misleading claims first, then filling task-critical gaps, then reducing
-irrelevant volume.
+Ask: does the agent have what it needs for the next action, without stale,
+misleading, missing, or noisy material?
 
-Too little context makes agents guess. Too much context creates context rot:
-stale claims, irrelevant history, duplicated guidance, and noisy reading paths
-crowd out the instructions and evidence that matter.
-
-The harness should route agents to the smallest sufficient context and preserve
-progress through explicit handoffs. Intentional compression into briefs,
-handoffs, research notes, or validation reports is useful. Unplanned automatic
-compaction is a failure of context engineering, not a planned workflow.
+Remove incorrect context first, fill task-critical gaps next, then trim noise.
+Split or hand off work when the scope no longer fits in a focused context.
 
 ### Shared Behavior Has One Owner
 
