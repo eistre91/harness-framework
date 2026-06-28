@@ -108,11 +108,22 @@ the context callers must carry. Every interface should earn its keep: it should
 improve human-agent collaboration, expose useful concepts, and not exist
 speculatively.
 
-### Deterministic Work Belongs To Deterministic Tools
+### Mechanical Work Belongs To Deterministic Tools
 
-Linting, formatting, type checking, tests, secret guards, and static checks
-should not rely on the agent remembering them. Put them behind scripts, hooks,
-or CI.
+Deterministic tools provide repeatable guarantees and useful feedback. Their
+results should be readily available and hard to miss: easy for humans to run,
+run by CI, and fed into the agent loop through scripts or hooks.
+
+Good deterministic checks keep codebases healthy, ground agents in the current
+system state, and allow agents to focus on bounded investigation,
+implementation, repair, and synthesis while receiving valuable information.
+
+Reach for deterministic tools like tests, type checkers, and scripts when a
+requirement can be checked or performed mechanically. Do not rely on an agent to
+remember, infer, or enforce when a tool could verify directly.
+
+A deterministic check should still earn its cost: keep it regularly used, acted
+on, and connected to real requirements, useful signals, or known failure modes.
 
 ### Judgment Belongs In Structured Review
 
