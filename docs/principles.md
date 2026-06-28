@@ -11,6 +11,10 @@ design. The framework should follow them itself; installed harnesses should
 carry them into target repos. A principle may point at different artifacts in
 each context, but the same decision test should hold in both.
 
+When framework maintenance or harness installation work appears to conflict
+with these principles, challenge it explicitly: name the conflict, state the
+trade-off, and get human approval before proceeding with the conflicting work.
+
 ### Relentlessly Pursue Value
 
 Value is the central principle.
@@ -83,28 +87,26 @@ misleading, missing, or noisy material?
 Remove incorrect context first, fill task-critical gaps next, then trim noise.
 Split or hand off work when the scope no longer fits in a focused context.
 
-### Shared Behavior Has One Owner
+### Single Source Of Truth
 
-This is drifting into being lower level than a principle.
+Shared facts and behavior that are meant to stay consistent should have one
+source of truth.
 
-The principle is that shared behavior has one owner. Behavior?
+Before adding something new, ask whether the system already has a source of
+truth that can be reused, updated, or pointed to instead. This prevents drift,
+keeps the system internally consistent, and makes behavior changes easier to
+localize.
 
-I think this should more be that there should be a source of truth
-and where possible everything refers to that source of truth.
-Do not duplicate source of truth.
+### Interfaces Provide A Shared Language
 
-Each reusable harness behavior, schema, template, or policy should have one
-canonical home. Explanatory docs should point to that owner instead of
-maintaining second copies. Use manifests for asset boundaries, the maturity
-model for level definitions, skill bundles for executable workflows and
-templates, scripts for mechanical command contracts, and adapters as thin
-wrappers over shared behavior.
+A good interface creates a shared language humans and agents can use to
+communicate about the system. It lets humans steer through concepts while
+agents work with implementation details when needed.
 
-### Interfaces Are Natural Boundaries
-
-Agents and humans work better when boundaries are explicit. Interfaces reduce
-cognitive burden, support parallel work, and guide testing. But interfaces
-should be allowed to evolve; do not overdesign them too early.
+Interfaces increase leverage when they hide meaningful complexity and reduce
+the context callers must carry. Every interface should earn its keep: it should
+improve human-agent collaboration, expose useful concepts, and not exist
+speculatively.
 
 ### Deterministic Work Belongs To Deterministic Tools
 
