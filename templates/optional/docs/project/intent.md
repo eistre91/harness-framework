@@ -15,6 +15,9 @@ it.
 Keep this short. Prefer fewer than 50 lines, and do not exceed 100 lines. Move
 details into PRDs, ADRs, roadmap docs, domain docs, or work briefs.
 
+Expected change cadence: early project intent may change frequently while the
+team learns. Mature project intent should change deliberately and more slowly.
+
 ## Who This Serves
 
 Who are the users, maintainers, operators, stakeholders, or systems this project
