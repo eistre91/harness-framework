@@ -198,6 +198,63 @@ Signal to revisit:
 - Installers are unsure how much repo-specific policy belongs in skills versus
   `AGENTS.md`, project docs, or platform adapters.
 
+## Deferred: Cross-Platform Shared Behavior Guidance
+
+Review and strengthen the framework's cross-platform adapter story so shared
+harness behavior can be exposed consistently across coding tools without
+duplicating policy in each platform's config.
+
+Initial scope:
+
+- subagents and reviewer/worker orchestration,
+- reusable skills and platform-native skill mirrors or wrappers,
+- hooks and lifecycle events,
+- MCP servers, connectors, or tool-provider configuration,
+- platform entrypoints and project config that load the shared harness.
+
+Why deferred:
+
+- The current framework has general adapter guidance and specific Codex and
+  Claude Code notes, but it has not been audited as a complete story across
+  subagents, skills, hooks, and MCPs.
+- Platform behavior changes quickly, and adapter guidance should be based on
+  current official behavior plus target-repo evidence.
+- The first goal should be consistency: one shared behavior contract exposed
+  through thin adapters so setup does not drift between Codex, Claude Code, and
+  other tools.
+- Intentional platform-specific divergence may eventually be useful, but it is
+  a later maturity goal. Before optimizing for fit, the framework should make
+  the common behavior clear and hard to accidentally fork.
+
+Potential future shape:
+
+- Audit each platform surface and classify it as portable behavior,
+  adapter-owned metadata, or platform-only capability.
+- Define installable shared contracts for skills, subagent roles, hooks, MCP
+  servers, verification commands, and review workflows where cross-platform
+  installation is practical.
+- Provide comparison tables for Codex, Claude Code, and other supported tools:
+  discovery path, config path, invocation model, hook events, MCP/tool loading,
+  trust or permission behavior, and drift checks.
+- Expand adapter guidance to say how to keep shared behavior synchronized and
+  where to record unavoidable divergence.
+- Add examples showing one shared behavior exposed through multiple adapters,
+  such as a review skill mirrored to Claude Code, a Codex skill sidecar, and a
+  shared hook runner called by both platforms.
+- Later, explore "intentional drift" guidance for cases where a platform can
+  offer a better-native experience without weakening the shared behavior
+  contract.
+
+Signal to revisit:
+
+- Target repos support multiple coding tools and their harness setup begins to
+  differ unintentionally.
+- Installers are unsure whether behavior belongs in shared `.agents/skills`,
+  `.claude/skills`, `.codex/`, MCP config, hooks, or `AGENTS.md`.
+- A shared skill, hook, MCP, or subagent workflow works on one platform but is
+  missing, duplicated, or semantically different on another.
+- Platform adapter docs repeatedly need one-off patches for the same concepts.
+
 ## Deferred: Primitive Phase Skills And Validation Schema
 
 The framework now names `research -> plan -> implement -> validate` as

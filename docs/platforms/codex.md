@@ -47,6 +47,13 @@ Codex can use the shared `.agents/skills/<skill>/SKILL.md` files directly. Do
 not install a second Codex-specific copy unless the target repo needs a real
 Codex-only wrapper or plugin package.
 
+When a Codex skill needs explicit invocation policy, keep Codex sidecar
+metadata at `.agents/skills/<skill>/agents/openai.yaml`. For example,
+`policy.allow_implicit_invocation: false` marks the skill as explicitly invoked
+only. If the same skill is mirrored to Claude Code, the Claude adapter
+translates that policy into Claude-specific frontmatter rather than copying the
+sidecar.
+
 Use self-explaining harness skill names such as `harness-review`,
 `harness-implement`, `harness-work-brief`, and `harness-diagnose` by default.
 Before installing them, audit existing `.agents/skills` entries for generic or

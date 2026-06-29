@@ -61,6 +61,12 @@ script preserves existing Claude frontmatter, replaces the body with the
 `.agents` body, copies support files, and rejects orphaned Claude files that no
 longer have a `.agents` source.
 
+When a shared skill includes Codex invocation policy at
+`.agents/skills/<skill>/agents/openai.yaml`, the sync script translates
+`policy.allow_implicit_invocation: false` into Claude frontmatter
+`disable-model-invocation: true`. The Codex sidecar remains Codex metadata and
+is not copied into `.claude/skills`.
+
 Add this to the target repo's canonical checks when the mirror adapter is
 installed:
 
