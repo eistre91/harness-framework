@@ -77,9 +77,13 @@ rewrite or remove docs that duplicate what agents should inspect directly.
 
 ### Context Is Precious And Focused
 
-Context is engineered working state for the current task. Agents work best from
-a context window that is correct, complete enough for the current outcome, small
-enough to stay focused, and oriented toward the next action.
+Context is engineered working state for the current task. Every piece of
+context spends attention: stale, misleading, missing, or noisy material
+competes with the information the agent needs to act well.
+
+Agents work best from a context window that is correct, complete enough for the
+current outcome, small enough to stay focused, and oriented toward the next
+action.
 
 Ask: does the agent have what it needs for the next action, without stale,
 misleading, missing, or noisy material?
@@ -125,41 +129,16 @@ remember, infer, or enforce when a tool could verify directly.
 A deterministic check should still earn its cost: keep it regularly used, acted
 on, and connected to real requirements, useful signals, or known failure modes.
 
-### Judgment Belongs In Structured Review
+### Judgment Needs Reviewable Evidence
 
-What is this trying to say?
+Some important quality questions are not mechanically decidable: whether scope
+fits the request, an interface feels natural, an abstraction is earned, or the
+result satisfies intent.
 
-Did this arise out of the separation between what can be done deterministically
-and that which cannot?
+Do not treat implementation as proof that those calls were resolved. Use
+structured review to name the question, compare the result against the brief,
+examples, and project patterns, and surface findings or human decisions when
+evidence is missing or trade-offs remain.
 
-Scope fit, interface quality, over-engineering, abstraction timing, and
-acceptance satisfaction are not fully deterministic. The harness should provide
-briefs, examples, and review skills that make judgment easier.
-
-### Harness Docs Are Not Product Docs
-
-This might not need to raise to the level of a principle.
-
-This is more guidance.
-
-The principle might more be that we want clear separation of concerns.
-
-When refining this principle, consider framing it as: separate harness concerns
-from product concerns.
-
-Agents doing product work should not need to understand the harness internals.
-Agents changing the harness should read harness docs intentionally.
-
-### Start With Manual Sensors Before Automatic Gates
-
-Automation prevents known failure modes in repeatable ways.
-
-We write tests and run them because we know that software is better with them.
-
-I think what I don't like here is that it focuses on adoption. Which is true but downstream of a principle.
-
-The principle is that you shouldn't automate for the sake of automation. Everything should have purpose.
-
-Maintainability and documentation drift matter, but noisy gates can damage
-adoption. Begin with manual or periodic review, then automate once signals are
-clear and detection is reliable.
+Review does not make judgment deterministic. It makes judgment explicit,
+inspectable, and easier to correct.
