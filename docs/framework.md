@@ -166,6 +166,9 @@ layers without prescribing one storage system:
   proposition for the product or system.
 - Initiative intent: feature, PRD, design, or larger body-of-work intent that
   decomposes into work units.
+- Work item: the external source of requested work, such as a tracker ticket,
+  issue, PRD section, or human request. In simple repos this may be the same
+  artifact as the work unit; in larger repos it often needs shaping first.
 - Work-unit intent: the local goal, scope, non-goals, acceptance evidence, and
   constraints for an agent-executable task.
 - Implementation intent: local design choices inside the approved work unit,
@@ -174,6 +177,13 @@ layers without prescribing one storage system:
 The storage can be a tracker, repo docs, PRD, issue, Agent Work Brief, or other
 durable project source. The important property is that future agents and humans
 can recover the relevant intent without relying on chat history.
+
+These intent layers describe the product or project work flow, not the harness
+installation order. A project may define `docs/project/intent.md` before any
+agent work begins, but the harness still treats that document as an optional
+Level 2 project-context asset during staged installation because many repos can
+start with work items and Agent Work Briefs without a durable project-intent
+file.
 
 ## Starter Harness
 

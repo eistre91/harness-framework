@@ -7,7 +7,7 @@ guidance. Use `docs/principles.md`, `docs/framework.md`,
 `docs/implementation-guide.md`, `docs/maturity-model.md`, and the manifests as
 the current source of truth.
 
-## Deferred: PRD / Technical Design To Issue Pipeline
+## Deferred: Project Intent / PRD / Technical Design To Issue Pipeline
 
 The current starter harness intentionally focuses on getting small loops right:
 
@@ -18,6 +18,31 @@ work brief -> implementation -> verification -> review -> feedback
 We have not yet designed a longer-horizon pipeline from product requirements
 documents or technical design documents into individual issues and Agent Work
 Briefs.
+
+Clarification from 2026-06-28:
+
+- There are two related but distinct flows:
+
+  ```text
+  product intent flow:
+  project intent -> initiative -> work item -> work unit -> attempt
+
+  harness installation flow:
+  Level 0 -> Level 1 -> Level 2 -> selected higher-stage pull-ins
+  ```
+
+- `docs/project/intent.md` can be conceptually upstream of project work while
+  remaining an optional Level 2 project-context asset for harness installation.
+- The initiative layer needs a clearer future shape. It likely includes PRDs,
+  technical designs, epics, or larger outcome documents, but should stay
+  outcome-oriented rather than becoming a waterfall hierarchy.
+- Work-item to work-unit decomposition is the high-risk translation point from
+  semantic intent into executable work. Future guidance should emphasize
+  acceptance criteria, non-goals, vertical slices, and concrete executable
+  evidence.
+- Agents at the project-intent and initiative layers are primarily
+  brainstorming, gap-finding, stress-testing, and synthesis partners. Humans
+  retain ownership of product meaning, priority, trade-offs, and risk.
 
 Why deferred:
 
@@ -30,18 +55,36 @@ Why deferred:
 
 Potential future shape:
 
+- A short project-intent artifact as the durable alignment anchor when repeated
+  planning, scope, or value judgments need one.
 - PRD or technical design document as the upstream intent artifact.
+- Initiative guidance that defines outcomes, user or system stories,
+  acceptance criteria, non-goals, and evidence expectations without requiring
+  subinitiatives by default.
 - Issue decomposition as human/team coordination.
 - Agent Work Briefs as the executable unit for individual implementation loops.
+- Vertical-slice work units that satisfy a meaningful subset of the initiative
+  and produce evidence humans or review agents can evaluate.
 - Review and feedback from those loops feeding back into the larger plan.
 
 Signal to revisit:
 
+- Repeated planning or review decisions need a shared project north star.
 - Work regularly spans multiple agent sessions or multiple issues.
 - Humans repeatedly spend time decomposing PRDs or technical designs into
   agent-runnable work.
 - Issues lack enough boundary, sequencing, or acceptance detail for agents to
   implement safely.
+- Agents or humans conflate external work items with executable work units and
+  lose scope, non-goals, or acceptance evidence in the translation.
+
+Open decisions:
+
+- Whether the framework needs an installable initiative/PRD template or only
+  guidance for adapting an existing tracker or PRD practice.
+- Whether to allow "subinitiative" as a formal term. Prefer decomposing into
+  smaller initiatives or vertical-slice work units unless a real coordination
+  signal justifies another hierarchy layer.
 
 ## Deferred: Harness Eval Suite
 
@@ -243,6 +286,9 @@ Potential future shape:
 - Define mental-alignment outputs for agent work, such as "what changed and
   why", affected boundaries, accepted trade-offs, behavior evidence, and what a
   future human or agent should rely on.
+- Define layer-aware realignment signals for project intent, initiatives,
+  work-unit translation, implementation attempts, code structure, documentation,
+  and harness surfaces.
 - Extend review guidance so a mechanically correct change can still fail if it
   leaves humans unable to recover intent, ownership, or system impact.
 - Add a periodic synthesis workflow that turns completed briefs, reviews,

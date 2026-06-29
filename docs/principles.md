@@ -6,97 +6,139 @@ to a target repo.
 Use when: deciding whether a harness component, document, adapter, skill,
 script, or maturity claim earns its maintenance cost.
 
-The following principles guide the framework.
+The following principles guide framework maintenance and target-repo harness
+design. The framework should follow them itself; installed harnesses should
+carry them into target repos. A principle may point at different artifacts in
+each context, but the same decision test should hold in both.
+
+When framework maintenance or harness installation work appears to conflict
+with these principles, challenge it explicitly: name the conflict, state the
+trade-off, and get human approval before proceeding with the conflicting work.
 
 ### Relentlessly Pursue Value
 
-Value is the goal; harness structure, metrics, checks, docs, and agent output
-are only attempts to steer toward it. The harness should maximize human
-leverage and help implementation pursue human-defined value, not admire its own
-ceremony or produce work because it is easy to generate.
+Value is the central principle.
 
-Every harness component should answer which repo need it serves now or what
-specific failure it prevents. Every agent-executable task should stay aimed at
-the smallest valuable outcome instead of broad cleanup, speculative
-abstraction, or measurable-but-misaligned activity.
+Work produces value when it helps a real human or agent achieve a concrete
+outcome.
+
+Valuable work answers the question: who is better off, and how?
+
+Apply that test to framework changes and to the target-repo outcomes each
+installed harness helps deliver.
+
+Tasks that cannot name the concrete outcome they improve are speculative waste.
+Defer, simplify, or remove them.
+
+### Design For The Human-Agent System
+
+The harness exists to make humans and agents together more capable than either
+alone.
+
+Humans own trajectory: intent, priorities, product judgment, and risk acceptance.
+
+Agents drive progress: bounded investigation, implementation, verification, and
+synthesis within delegated intent, explicit constraints, and reviewable evidence.
 
 ### The Harness Is A System Too
 
 The harness is subject to the same failure modes as the codebase it supports. It
-can rot, overfit old workflows, duplicate truth, hide complexity, accumulate
-dead paths, and become too hard for humans or agents to understand.
+can rot, accumulate debt, and become too hard for humans or agents to understand.
 
-Keep the harness fit to purpose, explicit, and easy to change. The harness
-should satisfy KISS/YAGNI: do not introduce harness components, maturity levels,
-automation, protocols, or adapters without demonstrated need. Add them when the
-project has signals that justify them, and simplify or remove them when they
-stop earning their maintenance cost.
+Everything in a harness adds system surface area and should earn its maintenance
+cost the same way application code does.
 
-### Code Is The Source Of Truth
+When changing the harness, ask: if this were application code, what engineering
+concern would we notice?
 
-Documentation compresses truth or records intended direction. It rots quickly.
-Prefer code, tests, scripts, and executable examples where possible.
+KISS and YAGNI apply to the harness too. Add structure when a real failure mode
+or coordination need appears. Simplify or remove structure when it stops serving
+its purpose.
 
-### Documentation Is Compression
+### Prefer Executable Evidence
 
-Docs are valuable when they reduce repeated inference cost. They are harmful
-when agents must parse too much stale or irrelevant material before doing the
-work.
+Prefer executable evidence over documentation when determining current behavior.
+
+Code and other executable artifacts show what the system does now. Documentation
+can record why the system works that way, where it should go next, or which
+gaps are known, but those records are not proof of current behavior.
+
+When sources conflict, trust the artifact closest to execution for current
+behavior and update the conflicting record.
+
+### Descriptive Documentation Compresses
+
+Good descriptive documentation provides durable guidance that saves recurring
+inference cost. It should be slow-changing and avoid repeating implementation
+details.
+
+It is a compressed map of the system, not the territory. Keep it short and
+rewrite or remove docs that duplicate what agents should inspect directly.
 
 ### Context Is Precious And Focused
 
-An agent's context window is a limited working set, not a storage layer. Good
-context is correct, complete enough for the current task, small enough to stay
-focused, and oriented toward the next action.
+Context is engineered working state for the current task. Every piece of
+context spends attention: stale, misleading, missing, or noisy material
+competes with the information the agent needs to act well.
 
-Bad context is usually worse than missing context, and missing context is
-usually worse than noisy context. The harness should bias toward removing stale
-or misleading claims first, then filling task-critical gaps, then reducing
-irrelevant volume.
+Agents work best from a context window that is correct, complete enough for the
+current outcome, small enough to stay focused, and oriented toward the next
+action.
 
-Too little context makes agents guess. Too much context creates context rot:
-stale claims, irrelevant history, duplicated guidance, and noisy reading paths
-crowd out the instructions and evidence that matter.
+Ask: does the agent have what it needs for the next action, without stale,
+misleading, missing, or noisy material?
 
-The harness should route agents to the smallest sufficient context and preserve
-progress through explicit handoffs. Intentional compression into briefs,
-handoffs, research notes, or validation reports is useful. Unplanned automatic
-compaction is a failure of context engineering, not a planned workflow.
+Remove incorrect context first, fill task-critical gaps next, then trim noise.
+Split or hand off work when the scope no longer fits in a focused context.
 
-### Shared Behavior Has One Owner
+### Single Source Of Truth
 
-Each reusable harness behavior, schema, template, or policy should have one
-canonical home. Explanatory docs should point to that owner instead of
-maintaining second copies. Use manifests for asset boundaries, the maturity
-model for level definitions, skill bundles for executable workflows and
-templates, scripts for mechanical command contracts, and adapters as thin
-wrappers over shared behavior.
+Shared facts and behavior that are meant to stay consistent should have one
+source of truth.
 
-### Interfaces Are Natural Boundaries
+Before adding something new, ask whether the system already has a source of
+truth that can be reused, updated, or pointed to instead. This prevents drift,
+keeps the system internally consistent, and makes behavior changes easier to
+localize.
 
-Agents and humans work better when boundaries are explicit. Interfaces reduce
-cognitive burden, support parallel work, and guide testing. But interfaces
-should be allowed to evolve; do not overdesign them too early.
+### Interfaces Provide A Shared Language
 
-### Deterministic Work Belongs To Deterministic Tools
+A good interface creates a shared language humans and agents can use to
+communicate about the system. It lets humans steer through concepts while
+agents work with implementation details when needed.
 
-Linting, formatting, type checking, tests, secret guards, and static checks
-should not rely on the agent remembering them. Put them behind scripts, hooks,
-or CI.
+Interfaces increase leverage when they hide meaningful complexity and reduce
+the context callers must carry. Every interface should earn its keep: it should
+improve human-agent collaboration, expose useful concepts, and not exist
+speculatively.
 
-### Judgment Belongs In Structured Review
+### Mechanical Work Belongs To Deterministic Tools
 
-Scope fit, interface quality, over-engineering, abstraction timing, and
-acceptance satisfaction are not fully deterministic. The harness should provide
-briefs, examples, and review skills that make judgment easier.
+Deterministic tools provide repeatable guarantees and useful feedback. Their
+results should be readily available and hard to miss: easy for humans to run,
+run by CI, and fed into the agent loop through scripts or hooks.
 
-### Harness Docs Are Not Product Docs
+Good deterministic checks keep codebases healthy, ground agents in the current
+system state, and allow agents to focus on bounded investigation,
+implementation, repair, and synthesis while receiving valuable information.
 
-Agents doing product work should not need to understand the harness internals.
-Agents changing the harness should read harness docs intentionally.
+Reach for deterministic tools like tests, type checkers, and scripts when a
+requirement can be checked or performed mechanically. Do not rely on an agent to
+remember, infer, or enforce when a tool could verify directly.
 
-### Start With Manual Sensors Before Automatic Gates
+A deterministic check should still earn its cost: keep it regularly used, acted
+on, and connected to real requirements, useful signals, or known failure modes.
 
-Maintainability and documentation drift matter, but noisy gates can damage
-adoption. Begin with manual or periodic review, then automate once signals are
-clear and detection is reliable.
+### Judgment Needs Reviewable Evidence
+
+Some important quality questions are not mechanically decidable: whether scope
+fits the request, an interface feels natural, an abstraction is earned, or the
+result satisfies intent.
+
+Do not treat implementation as proof that those calls were resolved. Use
+structured review to name the question, compare the result against the brief,
+examples, and project patterns, and surface findings or human decisions when
+evidence is missing or trade-offs remain.
+
+Review does not make judgment deterministic. It makes judgment explicit,
+inspectable, and easier to correct.
