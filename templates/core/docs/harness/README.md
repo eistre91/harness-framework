@@ -94,9 +94,11 @@ target repo.
 |  | installed / already satisfied / adapted / deferred / excluded |  |  |
 
 Record the required `repo-checks-on-stop` behavior explicitly, including the
-desired hook-capable agent runtime(s), adapter path, command, and result. If no
-desired hook-capable runtime is in current scope, record the unsupported-runtime
-gap and do not claim full canonical Level 0 completeness.
+desired hook-capable agent runtime(s), adapter path, hook command, repo-root
+handling, blocking behavior, validation result, and whether an actual runtime
+Stop event was tested or only the wrapper was smoke-tested. If no desired
+hook-capable runtime is in current scope, record the unsupported-runtime gap
+and do not claim full canonical Level 0 completeness.
 
 ## Conditional Platform Pointers
 

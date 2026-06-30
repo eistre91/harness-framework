@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 ROOT_FILES = ("README.md", "TODO.md", "AGENTS.md", "CLAUDE.md")
 SCAN_GLOBS = (
+    "adapters/**/*.md",
     "docs/**/*.md",
     "templates/**/*.md",
     "skills/**/*.md",
@@ -33,6 +34,7 @@ INTENTIONAL_TARGET_PREFIXES = (
     "docs/routing/",
     "docs/project/",
     "docs/work/",
+    "scripts/hooks/",
     "skills/harness-creator/",
 )
 INTENTIONAL_TARGET_FILES = {

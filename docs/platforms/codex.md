@@ -10,7 +10,7 @@ behavior to work across multiple platforms.
 
 ## Current Public Docs Checked
 
-Checked on 2026-06-14 against the OpenAI Codex manual:
+Checked on 2026-06-30 against the OpenAI Codex manual:
 
 - `https://developers.openai.com/codex/skills.md`
 - `https://developers.openai.com/codex/guides/agents-md.md`
@@ -114,6 +114,77 @@ exit-code or JSON response shape for that event.
 If the same policy must also run in Claude Code, pre-commit, or CI, the Codex
 hook should dispatch to a shared runner and translate only Codex-specific input
 and output.
+
+## Level 0 Stop Adapter
+
+For the required Level 0 `repo-checks-on-stop` behavior, use the standard
+shared runner from `adapters/common-hooks` plus the Codex declaration and
+wrapper from `adapters/codex`.
+
+Default target paths:
+
+```text
+scripts/hooks/repo_checks_on_stop.py
+.codex/hooks.json
+.codex/hooks/repo-checks-on-stop.py
+```
+
+The Codex declaration should be a single `Stop` command hook. Do not add a
+matcher; Codex ignores matchers for `Stop`.
+
+Minimal JSON shape:
+
+```json
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/repo-checks-on-stop.py\"",
+            "timeout": 600,
+            "statusMessage": "Running repo checks"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Codex passes one JSON object on stdin to command hooks. The shared fields include
+`session_id`, `cwd`, and `hook_event_name`; `Stop` also includes fields such as
+`turn_id`, `stop_hook_active`, and `last_assistant_message`. The standard
+wrapper leaves payload interpretation to the shared runner, which only uses
+`stop_hook_active` to avoid recursive Stop blocking, then maps the neutral
+result to Codex Stop output.
+
+The standard Codex wrapper exits `0` with no output when
+`scripts/repo-checks.sh` passes. When the command fails, it exits `0` with Stop
+JSON:
+
+```json
+{
+  "decision": "block",
+  "reason": "scripts/repo-checks.sh failed at Stop..."
+}
+```
+
+For Codex `Stop`, `decision: "block"` continues the session with the reason
+rather than ending the turn. Do not make `scripts/repo-checks.sh` emit platform
+hook JSON; keep all Codex output mapping in the hook adapter.
+
+Project `.codex/` hooks load only after the project config layer is trusted.
+Changed non-managed hooks may need to be reviewed and trusted again before they
+run.
+
+For Windows support, `commandWindows` in `hooks.json` or `command_windows` in
+TOML can invoke the same `.codex/hooks/repo-checks-on-stop.py` wrapper, but the
+shared runner still executes `scripts/repo-checks.sh`. Use this adapter on
+Windows only when the target repo has POSIX shell support such as Git Bash or
+WSL, or record an unsupported-runtime gap until the target repo approves a
+Windows-specific checks adapter.
 
 ## Adapter Pattern
 

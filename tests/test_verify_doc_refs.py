@@ -37,6 +37,7 @@ def test_validate_doc_refs_ignores_fenced_code_and_target_paths(
     (tmp_path / "README.md").write_text(
         """\
 Target work goes under `docs/work/`.
+Hook adapters install under `scripts/hooks/repo_checks_on_stop.py`.
 
 ```text
 Use docs/missing.md while trying an example.
@@ -74,6 +75,19 @@ Copy `scripts/loop.sh` before editing.
     _count, errors = module.validate_doc_refs(tmp_path)
 
     assert errors == []
+
+
+def test_validate_doc_refs_scans_adapter_readmes(tmp_path: Path) -> None:
+    module = load_verify_doc_refs()
+    readme = tmp_path / "adapters" / "codex" / "README.md"
+    readme.parent.mkdir(parents=True)
+    readme.write_text("Read docs/missing.md before installing.\n", encoding="utf-8")
+
+    _count, errors = module.validate_doc_refs(tmp_path)
+
+    assert errors == [
+        "adapters/codex/README.md:1: referenced path does not exist: docs/missing.md",
+    ]
 
 
 def test_validate_doc_refs_checks_parent_relative_markdown_links(

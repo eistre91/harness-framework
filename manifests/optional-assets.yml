@@ -87,6 +87,12 @@ assets:
       - doc routing maps
       - approval rules for removal
 adapters:
+  - id: common-hooks
+    asset_type: adapter
+    source: adapters/common-hooks
+    install_when: The target repo uses the framework-provided Codex or Claude Code Stop adapters for shared repo checks behavior.
+    read_before_install:
+      - docs/platform-support.md
   - id: codex
     asset_type: adapter
     source: adapters/codex

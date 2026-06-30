@@ -78,10 +78,12 @@ Level 0 includes a required `repo-checks-on-stop` behavior: install or adapt a
 narrow Stop hook, or equivalent stop automation, for each desired hook-capable
 agent runtime in current scope. The automation runs only `scripts/repo-checks.sh`
 from the target repo root. This may require a thin platform adapter such as
-`.codex/` or `.claude/` hook config. Broad hook policy, secret guards,
-destructive-action controls, shared hook runners, cross-platform enforcement,
-and CI or pre-commit parity remain selected deterministic controls beyond this
-stage unless explicitly approved as separate current-stage scope.
+`.codex/` or `.claude/` hook config. For Codex or Claude Code, prefer the
+standard shared runner in `adapters/common-hooks` plus the relevant narrow
+platform adapter documented in `docs/platform-support.md`. Broad hook policy,
+secret guards, destructive-action controls, and CI or pre-commit parity remain
+selected deterministic controls beyond this stage unless explicitly approved
+as separate current-stage scope.
 
 If no hook-capable desired agent runtime is in scope, record that as a Level 0
 gap and do not claim full canonical Level 0 asset or behavioral completeness.

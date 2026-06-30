@@ -1,8 +1,5 @@
 # Claude Adapter
 
-This adapter is intentionally a guidance placeholder, not a complete install
-package.
-
 Use when the target repo uses Claude Code conventions.
 
 Before implementing Claude Code-specific hooks, settings, native skill support,
@@ -15,10 +12,32 @@ Those files are the canonical source for Claude Code guidance. Keep this
 adapter directory limited to Claude-specific assets that cannot live in shared
 templates, such as settings examples, hook adapters, or skill-loading notes.
 
-Unclear until a target repo needs it:
+## Level 0 Stop Hook
 
-- which hooks are worth adding,
-- whether project settings should be committed or kept local.
+This adapter includes the narrow Claude Code side of the required Level 0
+`repo-checks-on-stop` behavior. Copy these source files to the default targets:
+
+```text
+adapters/claude/settings.json -> .claude/settings.json
+adapters/claude/hooks/repo-checks-on-stop.py -> .claude/hooks/repo-checks-on-stop.py
+```
+
+Install the shared runner from `adapters/common-hooks` at the same time:
+
+```text
+scripts/hooks/__init__.py
+scripts/hooks/repo_checks_on_stop.py
+```
+
+The Claude files declare the `Stop` hook, call the shared runner, and map the
+neutral result to Claude Code Stop output. Verification behavior remains in the
+target repo's `scripts/repo-checks.sh`.
+
+The provided settings command uses `${CLAUDE_PROJECT_DIR}` to reference the
+project wrapper. For Windows, the command can call the same wrapper, but the
+target environment must still be able to execute `scripts/repo-checks.sh`, for
+example through Git Bash or WSL. If it cannot, record an unsupported-runtime gap
+or add a target-specific Windows checks adapter with explicit approval.
 
 ## Native Skill Mirrors
 
@@ -33,7 +52,9 @@ permissions like `allowed-tools` with shared `.agents` frontmatter. Thin
 wrappers with `@` imports remain an explicit exception when the target repo
 chooses that adapter shape deliberately.
 
-Potential future assets:
+## Not Included
 
-- Claude settings or hook examples,
-- Claude-specific skill placement notes.
+Broader hook policies are not part of this adapter. Add secret guards,
+destructive shell warning rules, tool policy, or additional Claude-specific
+settings only when the current approved scope includes those deterministic
+controls.

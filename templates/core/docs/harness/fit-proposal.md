@@ -98,11 +98,12 @@ behavior.
 
 - Desired hook-capable runtime(s) in scope:
 - Decision: already satisfied / install / adapt / unsupported gap
-- Adapter files to create or edit:
+- Adapter source and files to create or edit:
 - Hook event and command:
 - Repo-root handling:
 - Output and blocking behavior:
 - Validation command and result:
+- Runtime Stop event tested or wrapper smoke-tested:
 - Human decision or gap:
 - Revisit signal:
 

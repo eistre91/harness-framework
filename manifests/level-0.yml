@@ -100,11 +100,13 @@ assets:
       - docs/platform-support.md
     satisfy_by:
       - Install or adapt a narrow Stop hook, or equivalent stop automation, for each desired hook-capable agent runtime in current scope. The automation runs only scripts/repo-checks.sh from the target repo root.
+      - Use the standard shared Stop runner from adapters/common-hooks when installing the framework-provided Codex or Claude Code adapters.
       - Keep platform-specific hook config and adapters thin; the canonical command contract remains scripts/repo-checks.sh.
       - If the target repo has no desired hook-capable agent runtime in current scope, record the unsupported-runtime gap and do not claim full canonical Level 0 completeness.
     adapt:
       - desired hook-capable agent runtime(s)
       - platform hook config path
+      - shared runner path
       - adapter command or script path
       - hook output and blocking behavior
     notes: Broad hook policy, secret guards, destructive-action rules, shared hook runners, cross-platform enforcement, and CI/pre-commit parity remain selected Level 3 deterministic controls.

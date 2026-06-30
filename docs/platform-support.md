@@ -52,6 +52,94 @@ If the repo uses Claude Code only for instruction loading and another primary
 runtime owns the required Stop automation, support can often be just the
 conditional pointer file `CLAUDE.md` containing `@AGENTS.md`.
 
+## Level 0 Repo Checks Stop Hook
+
+Level 0 requires `repo-checks-on-stop` for each desired hook-capable agent
+runtime in current scope. The canonical behavior is:
+
+```text
+platform Stop hook declaration
+  -> platform wrapper script
+  -> shared scripts/hooks/repo_checks_on_stop.py
+  -> scripts/repo-checks.sh
+  -> neutral pass or block result
+  -> platform wrapper maps result back to platform Stop output
+```
+
+The shared contract is deliberately narrow:
+
+- `scripts/repo-checks.sh` owns verification behavior.
+- Platform hook files only declare when and how the runtime calls the hook.
+- Platform wrappers resolve the repo root, import the shared runner, and map
+  its neutral result into platform Stop output.
+- `scripts/hooks/repo_checks_on_stop.py` runs only
+  `scripts/repo-checks.sh` from the repo root and returns a neutral pass or
+  block result.
+- Broad hook policy, secret guards, destructive-action rules, tool policy, and
+  CI or pre-commit parity remain later deterministic controls unless
+  explicitly approved in current scope.
+
+Copy the target-independent shared runner from:
+
+```text
+adapters/common-hooks/scripts/hooks/__init__.py
+adapters/common-hooks/scripts/hooks/repo_checks_on_stop.py
+```
+
+to:
+
+```text
+scripts/hooks/__init__.py
+scripts/hooks/repo_checks_on_stop.py
+```
+
+Then copy or adapt the platform declaration and wrapper for each runtime in
+scope:
+
+| Runtime | Adapter source | Default target |
+| --- | --- | --- |
+| Codex | `adapters/codex/hooks.json` | `.codex/hooks.json` |
+| Codex | `adapters/codex/hooks/repo-checks-on-stop.py` | `.codex/hooks/repo-checks-on-stop.py` |
+| Claude Code | `adapters/claude/settings.json` | `.claude/settings.json` |
+| Claude Code | `adapters/claude/hooks/repo-checks-on-stop.py` | `.claude/hooks/repo-checks-on-stop.py` |
+
+The standard platform wrappers exit silently when `scripts/repo-checks.sh`
+passes. When checks fail, each wrapper emits Stop JSON with
+`decision: "block"` and a reason that tells the agent to fix the failures
+before ending the turn. For both Codex and Claude Code, a blocked Stop
+continues the agent session instead of accepting the turn as finished.
+
+Keep platform differences at the adapter edge:
+
+| Difference | Codex | Claude Code |
+| --- | --- | --- |
+| Config path | `.codex/hooks.json` or `.codex/config.toml` | `.claude/settings.json` |
+| Stop matcher | No matcher; Stop is turn-scoped | No matcher; Stop ignores matchers |
+| Repo-root command | Resolve from Git root because Codex may start in a subdirectory | Use `${CLAUDE_PROJECT_DIR}` for project paths |
+| Trust/settings | Project `.codex` config and changed non-managed hooks must be trusted | Project settings can be disabled or limited by managed policy |
+| Windows command | `commandWindows` or TOML `command_windows` can call the wrapper, but the checks command still needs POSIX shell support | Use explicit shell or a Windows wrapper only when `scripts/repo-checks.sh` can run |
+
+The shared hook behavior is portable across Codex and Claude Code, but the
+Level 0 checks command is `scripts/repo-checks.sh`. The provided declarations
+are POSIX-oriented examples and require an environment that can execute that
+script, such as POSIX shell, Git Bash, or WSL. On native Windows without that
+support, changing only `commandWindows`, `command_windows`, or the Claude
+settings command is not enough. Record an unsupported-runtime gap, or add a
+target-specific Windows check adapter with explicit approval.
+
+Validate the adapter before claiming Level 0 completeness:
+
+1. Run `scripts/repo-checks.sh` directly from the target repo root.
+2. Run each wrapper from the repo root with a Stop-shaped payload, for example
+   `printf '%s\n' '{"hook_event_name":"Stop"}' | python3 .codex/hooks/repo-checks-on-stop.py`.
+3. Run each wrapper from a subdirectory using the same repo-root command form
+   declared in the platform config, for example
+   `python3 "$(git rev-parse --show-toplevel)/.codex/hooks/repo-checks-on-stop.py"`.
+4. Record whether an actual runtime Stop event was tested or only the wrapper
+   was smoke-tested.
+5. Record the adapter path, hook command, repo-root handling, blocking
+   behavior, and validation result in `docs/harness/`.
+
 ## Hook Pattern
 
 When multiple runtimes need the same hook behavior, use this shape:
