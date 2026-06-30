@@ -134,8 +134,15 @@ Add when:
 
 Required deterministic behavior:
 
-- a narrow Stop hook, or equivalent primary-agent stop automation, that runs
-  `scripts/repo-checks.sh` from the target repo root.
+- `scripts/repo-checks.sh` runs actionable deterministic checks derived from
+  repo evidence,
+- the default check set is lint, type checks, and tests, with an explicit
+  omission reason, human-approved addition, or human waiver for any member of
+  that set that is missing, unclear, too slow, flaky, or inappropriate for the
+  repo,
+- a narrow Stop hook, or equivalent stop automation, for each desired
+  hook-capable agent runtime in current scope, running `scripts/repo-checks.sh`
+  from the target repo root.
 
 This is still a deterministic control, but it is small and central enough to be
 part of the bounded-work foundation. It reinforces the Level 0 repo checks
@@ -217,6 +224,12 @@ Assets:
 - per-call safety decisions for operations that may be safe in one context but
   unsafe in another, including whether a command can run concurrently for this
   specific invocation,
+- broader repo checks beyond the Level 0 lint/type/test contract, such as
+  format, build/package, static analysis, generated-artifact validation, or
+  adapter health checks when repo evidence justifies them,
+- focused subsystem checks and CI-only verification records when full local
+  parity is not practical,
+- check performance, noise, and failure-clarity tuning,
 - broader Stop hook or pre-commit enforcement beyond the required Level 0
   `repo-checks-on-stop` behavior,
 - CI parity with `scripts/repo-checks.sh`,
@@ -233,6 +246,9 @@ Add when:
 
 - agents forget verification,
 - contributors run different command sets,
+- the Level 0 lint/type/test contract misses recurring deterministic failures,
+- full-repo checks are too slow, noisy, flaky, or unclear for agent-stop
+  feedback,
 - secret, local-state, destructive-command, or production-affecting mistakes
   are plausible,
 - the same mechanical failure appears in review or CI,

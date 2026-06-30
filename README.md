@@ -90,7 +90,8 @@ and explicitly defer anything else. Use `docs/install/level-0.md` as the Level
 Level 0 includes bounded work execution: work-brief shaping, implementation
 guidance, review guidance, verification expectations, and the skill-use rules
 for ordinary harness work. It also requires narrow Stop automation for the
-target repo's primary agent runtime that runs `scripts/repo-checks.sh`.
+target repo's desired hook-capable agent runtime(s), running
+`scripts/repo-checks.sh`.
 
 After Level 0 validates, the agent should ask whether to stop or inspect
 context routing. Use `docs/install/level-2.md` when the human chooses

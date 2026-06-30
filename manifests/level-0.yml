@@ -21,7 +21,8 @@ assets:
     default_target: scripts/repo-checks.sh
     required: true
     adapt:
-      - commands derived from README, CI, existing scripts, or project config
+      - lint, type-check, and test commands derived from README, CI, existing scripts, or project config
+      - explicit omission reason or human waiver for any lint, type-check, or test command that is missing, unclear, too slow, flaky, or inappropriate for the repo
       - CI parity where practical
       - preserve executable mode or run chmod +x after copying
   - id: harness-doc-index
@@ -98,11 +99,11 @@ assets:
     read_before_install:
       - docs/platform-support.md
     satisfy_by:
-      - Install or adapt a narrow Stop hook, or equivalent primary-agent stop automation, that runs only scripts/repo-checks.sh from the target repo root.
+      - Install or adapt a narrow Stop hook, or equivalent stop automation, for each desired hook-capable agent runtime in current scope. The automation runs only scripts/repo-checks.sh from the target repo root.
       - Keep platform-specific hook config and adapters thin; the canonical command contract remains scripts/repo-checks.sh.
-      - If the target repo has no hook-capable primary agent runtime, record the unsupported-runtime gap and do not claim full canonical Level 0 completeness.
+      - If the target repo has no desired hook-capable agent runtime in current scope, record the unsupported-runtime gap and do not claim full canonical Level 0 completeness.
     adapt:
-      - primary agent runtime
+      - desired hook-capable agent runtime(s)
       - platform hook config path
       - adapter command or script path
       - hook output and blocking behavior

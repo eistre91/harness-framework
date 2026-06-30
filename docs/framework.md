@@ -416,8 +416,7 @@ work satisfies intent at acceptable risk. It has three recurring mechanisms:
 
 ```text
 Verification:
-  deterministic checks such as lint, format, typecheck, unit tests,
-  integration tests, build/package checks, static analysis
+  deterministic checks such as lint, type checks, and tests
 
 Review:
   judgment-heavy checks such as scope fit, design fit, maintainability,
@@ -440,7 +439,8 @@ What deterministic checks should run before claiming repo work is complete?
 ```
 
 Hooks decide when checks run automatically. `repo-checks.sh` defines the repo's
-local lint, typecheck, test, build, package, or static-analysis command set.
+local lint, type-check, and test command set by default. Other deterministic
+checks are repo-specific additions, not part of the default Level 0 expectation.
 
 Even if `repo-checks.sh` runs on a Stop hook, hooks cannot fully verify:
 
@@ -458,9 +458,10 @@ expected output or side effect, and evidence.
 ## Hooks
 
 The minimal hook posture is conservative and opinionated: Level 0 includes one
-required narrow Stop hook, or equivalent primary-agent stop automation, that
-runs `scripts/repo-checks.sh`. A starter install should not add any other hooks
-just because hook adapters exist.
+required narrow Stop hook, or equivalent stop automation, for each desired
+hook-capable agent runtime in current scope. It runs `scripts/repo-checks.sh`.
+A starter install should not add any other hooks just because hook adapters
+exist.
 
 Add other hooks when a failure is common, cheap to detect, and expensive enough
 to prevent automatically. Beyond the required repo checks Stop hook, start with

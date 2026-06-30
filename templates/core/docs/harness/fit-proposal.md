@@ -82,22 +82,33 @@ Use when project context or intent is in the current approved stage.
 - Durability rationale:
 - Stale brief mitigation when briefs are committed:
 
-## Verification And Validation
-
-| Kind | Command or evidence | Status | Notes |
-| --- | --- | --- | --- |
-| Full-repo verification |  | include / already exists / missing / opt out |  |
-| Focused subsystem validation |  | include / already exists / missing / opt out |  |
-| CI-only verification |  | include / already exists / missing / opt out |  |
-| Manual acceptance evidence |  | include / not applicable |  |
-
 ## Tests, Lint, And Type Checking
 
 | Capability | Existing command | Decision | Reason / future default |
 | --- | --- | --- | --- |
-| Tests |  | include / add / opt out |  |
-| Lint / format |  | include / add / opt out |  |
-| Type check |  | include / add / opt out |  |
+| Tests |  | include / add / omit with reason / waiver |  |
+| Lint |  | include / add / omit with reason / waiver |  |
+| Type check |  | include / add / omit with reason / waiver |  |
+
+## Acceptance Evidence
+
+| Kind | Command or evidence | Status | Notes |
+| --- | --- | --- | --- |
+| Manual acceptance evidence |  | include / not applicable |  |
+
+## Later Deterministic Controls
+
+Use only when the current approved stage includes Level 3 deterministic
+controls or an explicit selected pull-in. Do not use this section to approve
+future-stage assets during Level 0.
+
+| Candidate | Existing command or evidence | Status | Notes |
+| --- | --- | --- | --- |
+| Focused subsystem validation |  | observation / include now / defer |  |
+| CI-only verification |  | observation / include now / defer |  |
+| Format checks |  | observation / include now / defer |  |
+| Build/package checks |  | observation / include now / defer |  |
+| Static analysis |  | observation / include now / defer |  |
 
 ## Gaps Surfaced
 

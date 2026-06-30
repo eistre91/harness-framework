@@ -79,9 +79,9 @@ Project-local config and hooks load only when the project `.codex/` layer is
 trusted. User and system config remain separate.
 
 Do not add `.codex/` files during a starter install unless Codex is the target
-repo's primary agent runtime for the required Level 0 `repo-checks-on-stop`
-behavior, or the target repo otherwise needs Codex-specific config, hooks, or
-policy.
+repo's desired hook-capable agent runtime in current scope for the required
+Level 0 `repo-checks-on-stop` behavior, or the target repo otherwise needs
+Codex-specific config, hooks, or policy.
 
 ## Hooks
 
@@ -144,12 +144,12 @@ The shared runner should own:
 Add Codex support when:
 
 - the team actually uses Codex for repo work,
-- Codex is the primary agent runtime for the required Level 0
+- Codex is a desired hook-capable agent runtime for the required Level 0
   `repo-checks-on-stop` behavior,
 - the repo needs Codex hooks or project config,
 - Codex needs a platform-specific path or setting to expose shared harness
   behavior.
 
-Do not add Codex support when another primary runtime satisfies the required
-Stop automation and `AGENTS.md`, shared skills, and `scripts/repo-checks.sh`
-are enough for Codex users.
+Do not add Codex support when Codex is not in current scope for required Stop
+automation and `AGENTS.md`, shared skills, and `scripts/repo-checks.sh` are
+enough for Codex users.

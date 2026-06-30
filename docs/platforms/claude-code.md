@@ -190,6 +190,6 @@ Add Claude Code support when:
 
 For Claude Code instruction loading, a one-line `CLAUDE.md` pointer should be
 enough. Keep it as `@AGENTS.md` unless there is a genuine Claude-specific
-behavior to document. If Claude Code is the target repo's primary agent
-runtime, Level 0 also needs the required `repo-checks-on-stop` behavior through
-a narrow Claude Code Stop hook adapter when supported.
+behavior to document. If Claude Code is a desired hook-capable agent runtime in
+current scope, Level 0 also needs the required `repo-checks-on-stop` behavior
+through a narrow Claude Code Stop hook adapter when supported.
