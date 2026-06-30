@@ -181,7 +181,10 @@ Minimal project settings shape:
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PROJECT_DIR}/.claude/hooks/repo-checks-on-stop.py",
+            "command": "python3",
+            "args": [
+              "${CLAUDE_PROJECT_DIR}/.claude/hooks/repo-checks-on-stop.py"
+            ],
             "timeout": 600,
             "statusMessage": "Running repo checks"
           }
@@ -195,12 +198,15 @@ Minimal project settings shape:
 Claude Code passes one JSON object on stdin to command hooks. The shared fields
 include `session_id`, `cwd`, and `hook_event_name`; `Stop` also includes
 `stop_hook_active`. The standard wrapper leaves payload interpretation to the
-shared runner, which only uses `stop_hook_active` to avoid recursive Stop
-blocking, then maps the neutral result to Claude Code Stop output.
+shared runner, which uses `stop_hook_active` to avoid recursive Stop blocking
+while still reporting check failures, then maps the neutral result to Claude
+Code Stop output.
 
 The standard Claude Code wrapper exits `0` with no output when
-`scripts/repo-checks.sh` passes. When the command fails, it exits `0` with Stop
-JSON:
+`scripts/repo-checks.sh` passes. Keep that script quiet on pass; Stop hook
+output should be limited to actionable failures, missing setup, or next steps.
+When the command fails on an ordinary Stop event, the wrapper exits `0` with
+Stop JSON:
 
 ```json
 {
@@ -212,6 +218,18 @@ JSON:
 For Claude Code `Stop`, `decision: "block"` makes Claude continue instead of
 ending the turn. Do not make `scripts/repo-checks.sh` emit Claude hook JSON;
 keep all Claude output mapping in the hook adapter.
+
+When Claude Code sends `stop_hook_active: true`, the standard wrapper still
+runs `scripts/repo-checks.sh`, but maps failures to non-blocking JSON:
+
+```json
+{
+  "systemMessage": "scripts/repo-checks.sh failed at Stop..."
+}
+```
+
+That reports the actionable check output without starting another Stop-hook
+continuation loop.
 
 Project `.claude/settings.json` is team-shared. Personal settings can disable
 or override hooks, and managed settings can restrict project hooks entirely.

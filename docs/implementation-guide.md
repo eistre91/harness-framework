@@ -503,6 +503,9 @@ Ownership:
 contract. Derive that contract from evidence. For Level 0, the default checks
 contract is lint, type checks, and tests.
 
+Keep repo-checks output quiet and actionable. A Stop hook consumer needs
+failures, missing setup, and next steps; routine pass banners just spend context.
+
 The Level 0 proposal should name the included test, lint, and type-check
 commands. If one is missing or unsuitable, record the omission reason,
 human-approved addition, or explicit human waiver.

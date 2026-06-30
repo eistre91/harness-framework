@@ -12,11 +12,14 @@ scripts/hooks/repo_checks_on_stop.py
 
 The shared runner is target-repo independent. It accepts the target repo root
 from the platform wrapper, runs `scripts/repo-checks.sh` from that root, and
-returns a neutral pass or block result. Platform wrappers decide how to express
-that result to the runtime.
+returns a neutral pass, block, or non-blocking report result. Platform wrappers
+decide how to express that result to the runtime.
 
 Keep repository verification behavior in `scripts/repo-checks.sh`. Do not add
 lint, type-check, test, or project policy commands to the hook runner.
+Keep repo-checks output actionable: failures, missing setup, or next steps are
+useful; pass banners and routine success chatter should stay out of Stop hook
+context.
 
 This adapter assumes the target environment can execute the POSIX shell script
 `scripts/repo-checks.sh`. Native Windows repos without Git Bash, WSL, or

@@ -16,20 +16,23 @@ class StopCheckResult:
     should_block: bool = False
     reason: str = ""
 
+    @property
+    def should_report(self) -> bool:
+        return bool(self.reason) and not self.should_block
+
 
 def run_repo_checks_on_stop(repo_root: Path, stdin_text: str) -> StopCheckResult:
     payload = load_payload(stdin_text)
-    if payload.get("stop_hook_active") is True:
-        return StopCheckResult()
+    recursive_stop = payload.get("stop_hook_active") is True
 
     checks = repo_root / "scripts" / "repo-checks.sh"
     if not checks.is_file():
-        return StopCheckResult(
-            should_block=True,
-            reason=(
-                "scripts/repo-checks.sh is missing. Restore the canonical repo "
-                "checks command before ending the turn."
+        return failure_result(
+            (
+                "scripts/repo-checks.sh is missing. Restore the canonical "
+                "repo checks command."
             ),
+            recursive_stop=recursive_stop,
         )
 
     try:
@@ -42,17 +45,17 @@ def run_repo_checks_on_stop(repo_root: Path, stdin_text: str) -> StopCheckResult
             text=True,
         )
     except OSError as exc:
-        return StopCheckResult(
-            should_block=True,
-            reason=f"Could not run scripts/repo-checks.sh: {exc}",
+        return failure_result(
+            f"Could not run scripts/repo-checks.sh: {exc}",
+            recursive_stop=recursive_stop,
         )
 
     if result.returncode == 0:
         return StopCheckResult()
 
-    return StopCheckResult(
-        should_block=True,
-        reason=format_failure(result.returncode, result.stdout),
+    return failure_result(
+        format_failure(result.returncode, result.stdout),
+        recursive_stop=recursive_stop,
     )
 
 
@@ -68,16 +71,25 @@ def load_payload(raw: str) -> dict[str, object]:
     return {}
 
 
+def failure_result(reason: str, *, recursive_stop: bool) -> StopCheckResult:
+    if not recursive_stop:
+        return StopCheckResult(should_block=True, reason=reason)
+    return StopCheckResult(
+        reason=(
+            f"{reason}\n\n"
+            "Reported without blocking because stop_hook_active=true; fix the "
+            "failure before relying on Stop hook verification."
+        ),
+    )
+
+
 def format_failure(returncode: int, output: str) -> str:
     output = output.strip()
     if len(output) > MAX_REASON_CHARS:
         output = output[-MAX_REASON_CHARS:]
         output = "[repo-checks output truncated]\n" + output
 
-    message = (
-        "scripts/repo-checks.sh failed at Stop. Fix the failures before "
-        "ending the turn."
-    )
+    message = "scripts/repo-checks.sh failed at Stop."
     if output:
         message = f"{message}\n\n{output}"
     else:

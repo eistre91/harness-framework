@@ -64,7 +64,7 @@ platform Stop hook declaration
   -> platform wrapper script
   -> shared scripts/hooks/repo_checks_on_stop.py
   -> scripts/repo-checks.sh
-  -> neutral pass or block result
+  -> neutral pass, block, or non-blocking report result
   -> platform wrapper maps result back to platform Stop output
 ```
 
@@ -76,7 +76,10 @@ The shared contract is deliberately narrow:
   its neutral result into platform Stop output.
 - `scripts/hooks/repo_checks_on_stop.py` runs only
   `scripts/repo-checks.sh` from the repo root and returns a neutral pass or
-  block result.
+  block result, or a non-blocking report when `stop_hook_active` indicates the
+  runtime is already in a Stop-hook continuation.
+- `scripts/repo-checks.sh` should be quiet when checks pass. Output should be
+  limited to actionable failures, missing setup, or next steps.
 - Broad hook policy, secret guards, destructive-action rules, tool policy, and
   CI or pre-commit parity remain later deterministic controls unless
   explicitly approved in current scope.
@@ -106,10 +109,13 @@ scope:
 | Claude Code | `adapters/claude/hooks/repo-checks-on-stop.py` | `.claude/hooks/repo-checks-on-stop.py` |
 
 The standard platform wrappers exit silently when `scripts/repo-checks.sh`
-passes. When checks fail, each wrapper emits Stop JSON with
-`decision: "block"` and a reason that tells the agent to fix the failures
-before ending the turn. For both Codex and Claude Code, a blocked Stop
-continues the agent session instead of accepting the turn as finished.
+passes. When checks fail on an ordinary Stop event, each wrapper emits Stop JSON
+with `decision: "block"` and a reason that tells the agent to fix the failures.
+For both Codex and Claude Code, a blocked Stop continues the agent session
+instead of accepting the turn as finished. When checks fail while
+`stop_hook_active` is true, wrappers emit a non-blocking `systemMessage` with
+the same actionable output instead of blocking again, so the agent does not get
+stuck in a Stop-hook loop.
 
 Keep platform differences at the adapter edge:
 
@@ -117,7 +123,7 @@ Keep platform differences at the adapter edge:
 | --- | --- | --- |
 | Config path | `.codex/hooks.json` or `.codex/config.toml` | `.claude/settings.json` |
 | Stop matcher | No matcher; Stop is turn-scoped | No matcher; Stop ignores matchers |
-| Repo-root command | Resolve from Git root because Codex may start in a subdirectory | Use `${CLAUDE_PROJECT_DIR}` for project paths |
+| Repo-root command | Resolve from Git root because Codex may start in a subdirectory | Use `${CLAUDE_PROJECT_DIR}` with exec-form `args` for project paths |
 | Trust/settings | Project `.codex` config and changed non-managed hooks must be trusted | Project settings can be disabled or limited by managed policy |
 | Windows command | `commandWindows` or TOML `command_windows` can call the wrapper, but the checks command still needs POSIX shell support | Use explicit shell or a Windows wrapper only when `scripts/repo-checks.sh` can run |
 

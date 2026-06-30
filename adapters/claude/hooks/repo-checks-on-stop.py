@@ -15,4 +15,6 @@ if __name__ == "__main__":
     result = run_repo_checks_on_stop(ROOT, sys.stdin.read())
     if result.should_block:
         print(json.dumps({"decision": "block", "reason": result.reason}))
+    elif result.should_report:
+        print(json.dumps({"systemMessage": result.reason}))
     raise SystemExit(0)

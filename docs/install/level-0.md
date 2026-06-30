@@ -68,6 +68,8 @@ Level 0 must install `scripts/repo-checks.sh`. For canonical Level 0
 completeness, that script must run actionable, repo-derived deterministic
 checks. The default Level 0 check set is lint, type checks, and tests. Include
 each command when repo evidence shows it exists and is reasonably actionable.
+Keep the command's output quiet and actionable: agents need failures, missing
+setup, and next steps, not routine pass banners.
 If one member of that set is missing, unclear, too slow, flaky, or
 inappropriate for the repo, raise that before editing and recommend whether to
 omit it with a recorded reason, add or adapt it with human approval, or record

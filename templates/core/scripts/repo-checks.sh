@@ -10,6 +10,8 @@ set -eu
 # Replace the placeholder below with commands derived from README, CI, existing
 # scripts, package/project config, or other repo evidence.
 # Keep this aligned with CI where practical.
+# Keep output quiet and actionable. The Stop hook consumer needs failures,
+# missing setup, and next steps, not routine pass banners.
 
 run() {
   echo "+ $*"

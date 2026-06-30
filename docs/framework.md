@@ -441,6 +441,9 @@ What deterministic checks should run before claiming repo work is complete?
 Hooks decide when checks run automatically. `repo-checks.sh` defines the repo's
 local lint, type-check, and test command set by default. Other deterministic
 checks are repo-specific additions, not part of the default Level 0 expectation.
+Keep the command quiet when checks pass. The Stop hook context should contain
+failures, missing setup, or next steps the agent can act on, not routine success
+output.
 
 Even if `repo-checks.sh` runs on a Stop hook, hooks cannot fully verify:
 

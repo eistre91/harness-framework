@@ -53,7 +53,7 @@ contract and keep platform-specific details at the edge.
 | `SessionStart` output | Plain text or `hookSpecificOutput.additionalContext` can add developer context. | `hookSpecificOutput.additionalContext` can add context at session start. | Emit the JSON `hookSpecificOutput` shape when practical. |
 | `PreToolUse` output | `deny` blocks supported tool calls, `additionalContext` adds model-visible context, and `allow` with `updatedInput` can rewrite supported calls. Some legacy/common fields are parsed but unsupported. | `permissionDecision` can allow, deny, ask, or defer; `updatedInput` can rewrite tool arguments. Some outcomes are mode-specific. | Use `deny` for portable enforcement and no output for no decision. Add platform-specific branches for rewrites or approval flows. |
 | Tool coverage | Codex `PreToolUse` currently covers Bash, file edits through `apply_patch`, and MCP tool calls; it does not cover every shell path or non-shell tool path. | Claude `PreToolUse` covers many named tools, including shell, file, web, agent, and MCP tools. | Do not assume identical coverage. Register useful matchers per platform and keep shared handlers defensive. |
-| Stop output | `decision: "block"` continues the session with the reason instead of accepting the turn as complete. | `decision: "block"` makes Claude continue instead of ending the turn. | Use Stop JSON only in platform wrappers; keep repo checks output platform-neutral. |
+| Stop output | `decision: "block"` continues the session with the reason instead of accepting the turn as complete. | `decision: "block"` makes Claude continue instead of ending the turn. | Use Stop JSON only in platform wrappers; keep repo checks output platform-neutral. When preventing a recursive Stop loop, report failures with a non-blocking platform message instead of blocking again. |
 | Trust model | Project hooks load only after the `.codex/` layer is trusted; changed non-managed hooks may need review. | Project hooks can be controlled by settings and enterprise policy; command hooks run with user permissions. | Make hook behavior transparent, fast, and auditable. |
 
 ## Layering
@@ -266,7 +266,10 @@ configuration with separate arguments where available:
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PROJECT_DIR}/.claude/hooks/session-start.py",
+            "command": "python3",
+            "args": [
+              "${CLAUDE_PROJECT_DIR}/.claude/hooks/session-start.py"
+            ],
             "timeout": 10
           }
         ]
@@ -278,7 +281,10 @@ configuration with separate arguments where available:
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PROJECT_DIR}/.claude/hooks/pre-tool-use.py",
+            "command": "python3",
+            "args": [
+              "${CLAUDE_PROJECT_DIR}/.claude/hooks/pre-tool-use.py"
+            ],
             "timeout": 10
           }
         ]
@@ -341,6 +347,9 @@ This pattern works best for deterministic, fast, local decisions:
 - enforcing repo-local conventions that do not require model judgment,
 - warning about generated files, read-only directories, or required test paths.
 
+Hook output should be quiet on pass and actionable on failure. Pass banners and
+routine success chatter spend context without telling the agent what to do next.
+
 Avoid using hooks as the only security boundary for policies that need complete
 coverage. Platform hook coverage differs, especially for tool interception. Use
 hooks as one layer alongside file permissions, repository permissions, CI
@@ -398,6 +407,8 @@ Test the shared code directly:
 - Shell command parsing handles quoting, environment assignments, command
   prefixes, and malformed commands.
 - Platform wrappers can import the shared runner from the repository root.
+- Recursive Stop payloads still run checks and report failures without blocking
+  again.
 
 Also keep one or two sample `stdin` fixtures per event. They let maintainers
 run the same payload through multiple wrappers:

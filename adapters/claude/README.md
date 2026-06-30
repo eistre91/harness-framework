@@ -30,14 +30,22 @@ scripts/hooks/repo_checks_on_stop.py
 ```
 
 The Claude files declare the `Stop` hook, call the shared runner, and map the
-neutral result to Claude Code Stop output. Verification behavior remains in the
-target repo's `scripts/repo-checks.sh`.
+neutral result to Claude Code Stop output. Normal failures become
+`decision: "block"`; recursive Stop failures with `stop_hook_active` become a
+non-blocking `systemMessage` so the agent does not get stuck in a Stop loop.
+Verification behavior remains in the target repo's `scripts/repo-checks.sh`.
 
-The provided settings command uses `${CLAUDE_PROJECT_DIR}` to reference the
-project wrapper. For Windows, the command can call the same wrapper, but the
-target environment must still be able to execute `scripts/repo-checks.sh`, for
-example through Git Bash or WSL. If it cannot, record an unsupported-runtime gap
-or add a target-specific Windows checks adapter with explicit approval.
+The provided settings command uses exec-form `args` with
+`${CLAUDE_PROJECT_DIR}` to reference the project wrapper without breaking on
+project paths that contain spaces. For Windows, the command can call the same
+wrapper, but the target environment must still be able to execute
+`scripts/repo-checks.sh`, for example through Git Bash or WSL. If it cannot,
+record an unsupported-runtime gap or add a target-specific Windows checks
+adapter with explicit approval.
+
+Keep `scripts/repo-checks.sh` quiet when checks pass. Its output should be
+limited to actionable failures, missing setup, or next steps the agent or human
+needs to act on.
 
 ## Native Skill Mirrors
 
