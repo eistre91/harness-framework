@@ -35,7 +35,7 @@ assets:
     asset_type: installable
     source: templates/optional/docs/harness/component-brief.md
     default_target: docs/harness/component-brief.md
-    maturity: level-1
+    maturity: level-0
     category: harness-governance
     install_when: The team expects to add or modify harness components over time.
   - id: maintainability-signals
@@ -65,7 +65,7 @@ assets:
     companion_files:
       - source: skills/optional/harness-diagnose/scripts/hitl-loop.template.sh
         default_target: .agents/skills/harness-diagnose/scripts/hitl-loop.template.sh
-    maturity: level-1
+    maturity: level-0
     install_when: Agents will debug bugs, failing tests, flaky behavior, regressions, or production-like incidents.
     adapt:
       - reproduction commands

@@ -188,6 +188,8 @@ Add Claude Code support when:
 - the repo needs the conditional `CLAUDE.md` pointer so Claude Code loads the
   shared `AGENTS.md` guidance.
 
-For a Claude Code Level 0 trial, a one-line `CLAUDE.md` pointer should be
+For Claude Code instruction loading, a one-line `CLAUDE.md` pointer should be
 enough. Keep it as `@AGENTS.md` unless there is a genuine Claude-specific
-behavior to document.
+behavior to document. If Claude Code is the target repo's primary agent
+runtime, Level 0 also needs the required `repo-checks-on-stop` behavior through
+a narrow Claude Code Stop hook adapter when supported.

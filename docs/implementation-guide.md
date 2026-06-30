@@ -30,12 +30,11 @@ context before the current stage needs it.
 - Maturity levels, installation modes, asset completeness, behavioral
   completeness, and level-specific signals: `docs/maturity-model.md`
 - Staged installation entrypoint: `docs/installer.md`
-- Stage checklists: `docs/install/level-0.md`,
-  `docs/install/level-1.md`, and `docs/install/level-2.md`
-- Bootstrap, Level 0, Level 1, Level 2, and optional asset lists:
+- Stage checklists: `docs/install/level-0.md` and
+  `docs/install/level-2.md`
+- Bootstrap, Level 0, Level 2, and optional asset lists:
   `manifests/bootstrap.yml`, `manifests/level-0.yml`,
-  `manifests/level-1.yml`, `manifests/level-2.yml`, and
-  `manifests/optional-assets.yml`
+  `manifests/level-2.yml`, and `manifests/optional-assets.yml`
 - Portable asset boundaries: `docs/portable-assets.md`
 - Platform support: `docs/platform-support.md`, then the relevant platform note
 - Harness Fit Proposal template:
@@ -60,9 +59,9 @@ Every stage proposal must state:
 When installation is partial, use precise wording:
 
 ```text
-Target maturity: Level 1 bounded work execution.
+Target maturity: Level 2 context routing.
 Installation mode: starter.
-Stage asset completeness: partial, not full canonical Level 1.
+Stage asset completeness: partial, not full canonical Level 2.
 Deferred manifest assets are listed below with reasons and revisit signals.
 ```
 
@@ -255,8 +254,10 @@ The proposal must include decisions for:
   acceptance criteria, communication audit, and context used.
 
 For Level 0, do not ask whether optional `docs/project/intent.md`, `SPEC-MAP.md`,
-`CONTEXT.md`, hooks, or adapters are useful now unless the human explicitly
-expanded the current stage.
+`CONTEXT.md`, broad hooks, or adapters are useful now unless the human
+explicitly expanded the current stage. The narrow `repo-checks-on-stop`
+behavior is required by the Level 0 manifest; handle the primary-runtime
+adapter path as current-stage scope.
 
 Persist the proposal to disk before editing. Ask for a preferred path only if
 the target repo already has a clear planning location or the human is likely to
@@ -292,10 +293,9 @@ already existing?
 Ask only questions that affect implementation.
 
 For Level 0, use the focused checkpoint in `docs/install/level-0.md`. For
-Level 1, use the focused checkpoint in `docs/install/level-1.md`. For Level 2,
-use the focused checkpoint in `docs/install/level-2.md`. The broader decision
-set below applies only when the current approved stage or human-approved
-pull-in needs those decisions.
+Level 2, use the focused checkpoint in `docs/install/level-2.md`. The broader
+decision set below applies only when the current approved stage or
+human-approved pull-in needs those decisions.
 
 Ask this minimum decision set unless the answer is both obvious from repo
 evidence and low-risk:
@@ -380,7 +380,7 @@ After implementation, check that a fresh agent could:
 
 ## Starter Acceptance Checklist
 
-A Level 0 or Level 1 starter harness is acceptable when:
+A Level 0 starter harness is acceptable when:
 
 - `AGENTS.md` tells agents where to start without becoming an encyclopedia,
 - `AGENTS.md` contains only instructions every agent needs for ordinary work,
@@ -633,18 +633,18 @@ guidance, or be disabled through user or project Claude Code settings such as
 
 ## Hooks
 
-Hooks are optional in the starter installation.
+The narrow `repo-checks-on-stop` behavior is required in Level 0.
 
 Default:
 
 ```text
-Start with scripts/repo-checks.sh as the contract. Add hooks only if the team
-wants automatic enforcement or repeated failures show that agents forget the
-command.
+Start with scripts/repo-checks.sh as the contract and install a narrow Stop
+hook, or equivalent primary-agent stop automation, that runs only that command.
+Add other hooks only if repeated failures justify them.
 ```
 
-A narrow Stop hook that runs `scripts/repo-checks.sh` is a common Level 1
-starter pull-in when checks are real, reasonably fast, and actionable. Treat
+A narrow Stop hook that runs `scripts/repo-checks.sh` is required Level 0
+behavior. Treat
 broader hook systems, secret guards, destructive-action policy, cross-platform
 hook runners, and CI/pre-commit parity as selected Level 3 deterministic
 controls. Level 3 safety policy should also cover protected paths, protected
@@ -658,7 +658,6 @@ The source-of-truth asset selections live in manifests:
 
 - `manifests/bootstrap.yml`
 - `manifests/level-0.yml`
-- `manifests/level-1.yml`
 - `manifests/level-2.yml`
 - `manifests/optional-assets.yml`
 
@@ -668,15 +667,16 @@ explain how to adapt assets; they are not separate asset lists.
 Common install shapes:
 
 - Tiny repo with no agent harness: usually Level 0 canonical or starter.
-- Jira-centered team with vague tickets: usually Level 1 bounded work
-  execution, with canonical briefs in Jira ticket/comment or a repo file.
-- Repo with useful but scattered docs: Level 1 plus selected Level 2 context
+- Jira-centered team with vague tickets: usually Level 0 canonical with
+  canonical briefs in Jira ticket/comment or a repo file.
+- Repo with useful but scattered docs: Level 0 plus selected Level 2 context
   routing; maybe `SPEC-MAP.md` if there are multiple areas.
-- Repo with repeated planning, scope, or value-tradeoff confusion: Level 1 plus
+- Repo with repeated planning, scope, or value-tradeoff confusion: Level 0 plus
   selected Level 2 project context; maybe `docs/project/intent.md` if humans can
   state a short shared north star.
-- Repo with repeated mechanical failures: Level 1 plus selected Level 3
-  deterministic controls; maybe a Stop hook running `scripts/repo-checks.sh`.
+- Repo with repeated mechanical failures: Level 0 plus selected Level 3
+  deterministic controls beyond the required Stop hook running
+  `scripts/repo-checks.sh`.
 
 Use these as later-stage examples, not as permission to combine stages during
 the first proposal. In all cases, defer assets that lack current-stage scope,

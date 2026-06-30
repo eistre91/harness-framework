@@ -18,12 +18,12 @@ Active owners:
 
 - Principles: `docs/principles.md`
 - Staged installer entrypoint: `docs/installer.md`
-- Stage installer checklists: `docs/install/level-0.md`,
-  `docs/install/level-1.md`, and `docs/install/level-2.md`
+- Stage installer checklists: `docs/install/level-0.md` and
+  `docs/install/level-2.md`
 - Maturity definitions and failure signals: `docs/maturity-model.md`
-- Bootstrap, Level 0, Level 1, Level 2, and optional assets:
+- Bootstrap, Level 0, Level 2, and optional assets:
   `manifests/bootstrap.yml`, `manifests/level-0.yml`,
-  `manifests/level-1.yml`, `manifests/level-2.yml`, and
+  `manifests/level-2.yml`, and
   `manifests/optional-assets.yml`
 - Broad installation reference: `docs/implementation-guide.md`
 - Portable versus repo-specific assets: `docs/portable-assets.md`
@@ -187,8 +187,8 @@ file.
 
 ## Starter Harness
 
-For an initial trial, the canonical Level 0 file-level asset list lives in
-`manifests/level-0.yml`.
+For an initial trial, the canonical Level 0 asset and behavior boundary lives
+in `manifests/level-0.yml`.
 
 Conceptually, Level 0 provides:
 
@@ -196,11 +196,10 @@ Conceptually, Level 0 provides:
 - a canonical deterministic repo checks command,
 - a work-brief skill bundle with a template,
 - a local harness owner manual,
-- lightweight review guidance.
-
-Level 1 adds bounded work execution. Its canonical additive asset and behavior
-list lives in `manifests/level-1.yml`; the prose definition lives in
-`docs/maturity-model.md`.
+- lightweight implementation guidance,
+- lightweight review guidance,
+- bounded work execution guidance for tiers, non-goals, boundaries,
+  acceptance evidence, progress/divergence, implementation, and review.
 
 Level 2 adds context routing. Its canonical additive asset and behavior list
 lives in `manifests/level-2.yml`; the prose definition lives in
@@ -217,7 +216,7 @@ personal, or team skills. Prefer names such as `harness-review`,
 ## Maturity And Completeness
 
 The maturity model is diagnostic. Higher maturity is not automatically better.
-A small repo may be healthiest at Level 0 or Level 1 for a long time.
+A small repo may be healthiest at Level 0 for a long time.
 
 `docs/maturity-model.md` owns:
 
@@ -228,14 +227,13 @@ A small repo may be healthiest at Level 0 or Level 1 for a long time.
 - behavioral completeness,
 - level-specific "Add when" and "Move beyond when" guidance.
 
-Do not describe a partial starter install as simply "Level 1" or "Level 2."
+Do not describe a partial starter install as simply "Level 2."
 Record the target maturity, install mode, installed asset completeness,
 behavioral completeness, deferrals, and revisit signals.
 
 The levels describe common growth pressure, not a strict installation order. A
-repo may add a narrow Stop hook during a Level 1 starter install, or add secret
-guards from Level 3 before it needs a Level 2 context router, when the proposal
-explains the evidence.
+repo may add secret guards from Level 3 before it needs a Level 2 context
+router, when the proposal explains the evidence.
 
 During target-repo installation, `docs/installer.md` stages this diagnostic
 model so agents install and validate the current layer before inspecting the
@@ -336,10 +334,9 @@ matters:
 - what human-required checkpoints exist,
 - what evidence will prove the task is complete.
 
-For most Level 0 and Level 1 work, the Agent Work Brief is the minimal plan. It
-is not a planning transcript. The planning agent should distill context into
-accepted decisions, constraints, source-of-truth references, and acceptance
-evidence.
+For most Level 0 work, the Agent Work Brief is the minimal plan. It is not a
+planning transcript. The planning agent should distill context into accepted
+decisions, constraints, source-of-truth references, and acceptance evidence.
 
 The canonical template lives at
 `skills/core/harness-work-brief/work-brief-template.md`. Do not maintain a
@@ -460,15 +457,18 @@ expected output or side effect, and evidence.
 
 ## Hooks
 
-The minimal hook posture is conservative. A starter install should not add
-hooks just because hook adapters exist.
+The minimal hook posture is conservative and opinionated: Level 0 includes one
+required narrow Stop hook, or equivalent primary-agent stop automation, that
+runs `scripts/repo-checks.sh`. A starter install should not add any other hooks
+just because hook adapters exist.
 
-Add hooks when a failure is common, cheap to detect, and expensive enough to
-prevent automatically. Start with narrow, high-signal checks:
+Add other hooks when a failure is common, cheap to detect, and expensive enough
+to prevent automatically. Beyond the required repo checks Stop hook, start with
+narrow, high-signal checks:
 
 - guard secrets or sensitive files,
 - warn or block destructive actions,
-- optionally run `scripts/repo-checks.sh` on Stop or pre-commit.
+- run `scripts/repo-checks.sh` on pre-commit.
 
 For broader Level 3 controls, the safety policy should also identify protected
 paths, protected command families, ask/warn/block behavior, and whether an
@@ -678,9 +678,10 @@ The agent harness framework starts from a small set of control surfaces:
 - a tiny repo entrypoint,
 - a local executable work brief,
 - a canonical deterministic repo checks command,
+- required Stop automation that runs the canonical repo checks command,
 - lightweight review guidance,
-- lightweight implementation guidance when Level 1 is selected,
-- optional safety hooks when signals justify them,
+- lightweight implementation guidance,
+- optional safety hooks beyond repo checks when signals justify them,
 - optional project context routing,
 - an optional maintainability feedback loop that starts manual.
 

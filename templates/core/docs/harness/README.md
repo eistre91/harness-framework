@@ -39,15 +39,7 @@ Why:
 Intentionally deferred:
 
 Use precise maturity wording. If this is a partial starter install, do not
-describe the repo as simply "Level 1" or "Level 2." Prefer:
-
-```text
-Target maturity: Level 1 bounded work execution.
-Installation mode: starter.
-Stage asset completeness: partial, not full canonical Level 1.
-```
-
-Or, for context routing:
+describe the repo as simply "Level 2." Prefer:
 
 ```text
 Target maturity: Level 2 context routing.
@@ -100,6 +92,11 @@ target repo.
 | Piece | Status | Purpose | Notes |
 | --- | --- | --- | --- |
 |  | installed / already satisfied / adapted / deferred / excluded |  |  |
+
+Record the required `repo-checks-on-stop` behavior explicitly, including the
+primary agent runtime, adapter path, command, and result. If no hook-capable
+primary runtime exists, record the unsupported-runtime gap and do not claim full
+canonical Level 0 completeness.
 
 ## Conditional Platform Pointers
 

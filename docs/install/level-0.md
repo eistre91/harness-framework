@@ -1,7 +1,7 @@
 # Level 0 Installer Checklist
 
-Audience: agents and maintainers installing the Level 0 foundation in a target
-repo.
+Audience: agents and maintainers installing the Level 0 bounded-work foundation
+in a target repo.
 
 Use when: the current approved installation stage is Level 0. Start from
 `docs/installer.md` first.
@@ -18,6 +18,9 @@ Always read:
 Read only if needed for this Level 0 stage:
 
 - `docs/portable-assets.md`, when adaptation boundaries are unclear
+- `docs/platform-support.md`, then only the relevant platform note, to install
+  the required `repo-checks-on-stop` adapter for the target repo's primary
+  agent runtime
 - the `claude-entrypoint` entry in `manifests/optional-assets.yml`, followed by
   `templates/core/CLAUDE.md`, when the repo uses Claude Code or the human asks
   for the minimal Claude Code pointer
@@ -25,7 +28,7 @@ Read only if needed for this Level 0 stage:
 Do not read by default:
 
 - `docs/maturity-model.md`
-- `manifests/level-1.yml`
+- `manifests/level-2.yml`
 - the full `manifests/optional-assets.yml`
 - platform adapter docs
 - `docs/level-5-orchestration.md`
@@ -36,26 +39,39 @@ handoff.
 
 ## Scope
 
-Level 0 installs the foundation that lets agents do ordinary work without
-reconstructing prior planning conversation.
+Level 0 installs the bounded-work foundation that lets agents do ordinary work
+without reconstructing prior planning conversation.
 
-Use `manifests/level-0.yml` as the canonical asset list. Do not maintain a
-second file list here.
+Use `manifests/level-0.yml` as the canonical Level 0 asset and behavior list.
+Do not maintain a second file list here.
 
 Conceptually, the Level 0 foundation should give the target repo:
 
 - a concise repo agent entrypoint,
 - a canonical deterministic repo checks command,
-- work-brief creation guidance,
+- work-brief creation guidance, including tiers, non-goals, ambiguity,
+  boundary/interface, acceptance evidence, and progress/divergence guidance,
+- lightweight implementation guidance,
 - lightweight review guidance,
 - a durable harness docs record.
 
 Minimal Claude Code support may be included when needed to expose the shared
 entrypoint. The `claude-entrypoint` optional manifest entry owns that asset
 boundary. In that case, keep `CLAUDE.md` as a thin pointer to `AGENTS.md`. Do
-not install platform hooks, native skill mirrors, `.codex/` config, or
-pre-commit adapters in Level 0 unless the human explicitly expands the current
-stage.
+not install native skill mirrors, broad platform hooks, or pre-commit adapters
+in Level 0 unless the human explicitly expands the current stage.
+
+Level 0 includes a required `repo-checks-on-stop` behavior: install or adapt a
+narrow Stop hook, or equivalent primary-agent stop automation, that runs only
+`scripts/repo-checks.sh` from the target repo root. This may require a thin
+platform adapter such as `.codex/` or `.claude/` hook config when that platform
+is the target repo's primary agent runtime. Broad hook policy, secret guards,
+destructive-action controls, shared hook runners, cross-platform enforcement,
+and CI or pre-commit parity remain selected deterministic controls beyond this
+stage unless explicitly approved as separate current-stage scope.
+
+If no hook-capable primary agent runtime is in scope, record that as a Level 0
+gap and do not claim full canonical Level 0 asset or behavioral completeness.
 
 ## Proposal
 
@@ -65,6 +81,7 @@ edits only.
 Include:
 
 - current stage: Level 0,
+- target maturity behavior: bounded work foundation,
 - installation mode: `canonical`, `starter`, or `overlay`,
 - Level 0 asset completeness,
 - expected Level 0 behavioral completeness,
@@ -72,7 +89,14 @@ Include:
 - files to create or edit,
 - work source and Agent Work Brief location,
 - local fallback brief location and commit policy,
+- work-brief behavior for tiers, non-goals, ambiguity, decisions, boundaries,
+  acceptance evidence, and progress/divergence notes,
+- acceptance evidence standards for boundary-changing or externally visible
+  behavior,
 - repo checks command or honest placeholder,
+- `repo-checks-on-stop` installation or already-satisfied decision, including
+  primary agent runtime, adapter files, hook command, and unsupported-runtime
+  gap when relevant,
 - project context path, or `none yet`,
 - existing entrypoint, skill, command, or harness-like component handling,
 - minimal platform pointer decision, when relevant,
@@ -96,6 +120,8 @@ The approval should cover only:
 - Level 0 files to create or edit,
 - work brief storage and fallback policy,
 - repo checks behavior,
+- acceptance evidence standards,
+- required `repo-checks-on-stop` adapter files and behavior,
 - existing component handling,
 - minimal platform pointer, when included,
 - durable location for the Level 0 decision log or stage handoff.
@@ -114,12 +140,35 @@ Check:
 - `AGENTS.md` stays concise enough to be a repo entrypoint, not an encyclopedia.
 - `scripts/repo-checks.sh` exists and either runs real inferred checks or
   clearly reports the missing-checks gap.
-- The installed `harness-work-brief` and `harness-review` guidance is
-  discoverable in the agreed skill location.
+- The installed `harness-work-brief`, `harness-implement`, and
+  `harness-review` guidance is discoverable in the agreed skill location.
+- `AGENTS.md` or the target repo's equivalent entrypoint tells agents to use
+  work-brief, implementation, and review guidance by phase rather than as one
+  combined reading list.
+- The canonical work source and brief location remain explicit, including the
+  local fallback and commit policy when a fallback exists.
+- Standard or complex work has a clear place to record non-goals, ambiguities,
+  accepted decisions, boundaries or interfaces, verification, and acceptance
+  evidence.
+- Work that spans sessions or diverges from the expected plan has a clear
+  place to record current status, accepted divergence, latest evidence,
+  blockers, and next action.
+- Boundary-changing or externally visible work requires acceptance evidence in
+  addition to mechanical verification.
+- Implementation guidance tells agents to keep scope narrow, respect non-goals,
+  use existing project patterns, run focused verification while iterating when
+  practical, and run the canonical repo checks before claiming done.
+- The review handoff names the brief or source, tier, changed files, behavior
+  boundary, test surface, and known risks.
 - `docs/harness/README.md` or the chosen durable decision log records
   provenance, installation mode, Level 0 stage completeness, installed pieces,
   existing component decisions, deferrals, and communication audit findings.
 - Any introduced local fallback brief directory is gitignored.
+- `repo-checks-on-stop` is installed, adapted, or explicitly satisfied by an
+  existing primary-agent Stop automation that runs only the canonical repo
+  checks command from the repo root. If no supported primary runtime exists,
+  the handoff records that gap and does not claim full canonical Level 0
+  completeness.
 - A fresh agent can do ordinary product work from the repo entrypoint, current
   work source, installed skills, project docs if any, and local code, without
   reading `docs/harness/` or framework internals.
@@ -141,9 +190,20 @@ stage state under `docs/harness/`. Use the canonical stage handoff fields in
 For Level 0, make sure the handoff also makes these details explicit:
 
 - repo checks command and result,
-- communication audit,
+- `repo-checks-on-stop` adapter path, command, and result, or unsupported
+  primary-runtime gap,
+- work-brief lifecycle and progress/divergence location,
+- acceptance evidence rules for boundary-changing or externally visible work,
+- representative communication audit result or reason it was not possible,
 - recommended next action: stop, revise Level 0, or ask the human whether to
-  begin next-stage inspection.
+  begin context-routing inspection.
 
-Do not inspect Level 1 guidance until the human chooses to begin the next
-stage.
+For communication evidence, use a representative standard or complex work item
+when one is available. Confirm that a fresh agent could identify the tier,
+brief location, implementation guidance, verification, acceptance evidence, and
+review handoff path. If no representative work item is available, record that
+the Level 0 communication audit is limited to installed-surface inspection.
+
+Do not inspect Level 2 guidance, deterministic controls, or optional pull-ins
+beyond this stage until the human chooses to begin that next stage or
+explicitly changes the current approved scope.

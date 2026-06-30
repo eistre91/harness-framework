@@ -14,13 +14,14 @@ The default path is:
 
 ```text
 inspect -> Level 0 proposal -> human approval -> Level 0 install ->
-validation and handoff -> human decision to stop or inspect the next stage
+validation and handoff -> human decision to stop or inspect context routing
 ```
 
 Do not turn eligibility for a later level into approval to install that later
-level. A target repo may show signs that Level 1, Level 2, or selected
+level. A target repo may show signs that Level 2 context routing or selected
 deterministic controls will be useful, but the installer should first install a
-clear Level 0 foundation and validate that ordinary agent work can start there.
+clear Level 0 bounded-work foundation and validate that ordinary agent work can
+start there.
 
 ## Always-Read Sources
 
@@ -145,24 +146,14 @@ without relying on chat history.
 Most installs should begin with Level 0. Use `docs/install/level-0.md` for the
 current Level 0 stage checklist.
 
-Do not inspect Level 1 guidance until Level 0 has been installed and validated,
-unless the human explicitly changes the current approved stage.
-
-## Level 1 Next
-
-After Level 0 has been installed and validated, ask whether to stop or inspect
-the next stage. If the human chooses Level 1 inspection, use
-`docs/install/level-1.md` for the current Level 1 stage checklist.
-
-Do not inspect Level 2 guidance, selected deterministic controls, or optional
-pull-ins during Level 1 unless the human explicitly changes the current
-approved stage or the Level 1 checklist routes to a narrow current-stage
-pull-in.
+Level 0 includes bounded work execution: work-brief shaping, implementation
+guidance, review guidance, verification expectations, and the skill-use rules
+for ordinary harness work. There is no separate Level 1 installer stage.
 
 ## Level 2 Context Routing
 
-After Level 1 has been installed and validated, ask whether to stop or inspect
-the next stage. If the human chooses Level 2 inspection, use
+After Level 0 has been installed and validated, ask whether to stop or inspect
+context routing. If the human chooses Level 2 inspection, use
 `docs/install/level-2.md` for the current Level 2 stage checklist.
 
 Do not inspect Level 3 deterministic controls, maintainability sensors, or

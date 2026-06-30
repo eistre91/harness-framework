@@ -87,14 +87,13 @@ Most first trials should install only the Level 0 assets from
 and explicitly defer anything else. Use `docs/install/level-0.md` as the Level
 0 stage checklist.
 
-After Level 0 validates, the agent should ask whether to stop or inspect the
-next stage. Use `docs/install/level-1.md` when the human chooses Level 1
-inspection. If a later stage targets Level 1 behavior without installing every
-canonical Level 1 manifest asset, describe the target and installation
-completeness separately. Do not describe the repo as having completed Level 1
-unless the manifest assets and behavior are actually complete.
+Level 0 includes bounded work execution: work-brief shaping, implementation
+guidance, review guidance, verification expectations, and the skill-use rules
+for ordinary harness work. It also requires narrow Stop automation for the
+target repo's primary agent runtime that runs `scripts/repo-checks.sh`.
 
-After Level 1 validates, use `docs/install/level-2.md` when the human chooses
+After Level 0 validates, the agent should ask whether to stop or inspect
+context routing. Use `docs/install/level-2.md` when the human chooses
 context-routing inspection.
 
 ## Asset Types
@@ -106,8 +105,9 @@ Installable assets are copied or adapted into the target repo only when the
 Harness Fit Proposal justifies them.
 
 Adapters are runtime-specific integrations for tools such as Codex, Claude,
-Cursor, pre-commit, or CI. Do not install adapters unless the target repo uses
-that environment or the human explicitly wants it.
+Cursor, pre-commit, or CI. Install only the narrow adapter needed for required
+Level 0 Stop automation unless the target repo uses another environment feature
+or the human explicitly wants it.
 
 `CLAUDE.md` is conditional on Claude Code support. When installed, it should
 remain a thin pointer to `AGENTS.md`:

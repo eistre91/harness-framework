@@ -1,5 +1,5 @@
 name: level-0
-description: Default starter asset set for an initial harness trial.
+description: Default bounded-work asset and behavior set for an initial harness trial.
 install_policy: Install only after a Harness Fit Proposal confirms the target repo needs these assets.
 assets:
   - id: agents-entrypoint
@@ -71,6 +71,17 @@ assets:
     adapt:
       - local fallback path
       - commit policy for work brief instances
+  - id: implement-skill
+    asset_type: installable
+    source: skills/core/harness-implement/SKILL.md
+    default_target: .agents/skills/harness-implement/SKILL.md
+    required: true
+    adapt:
+      - repo checks command
+      - project context paths
+      - test conventions
+      - project-specific implementation risks
+      - existing implementation skills or commands
   - id: review-guidance
     asset_type: installable
     source: skills/core/harness-review/SKILL.md
@@ -81,10 +92,25 @@ assets:
       - severity scale
       - project-specific review risks
       - existing review skills or platform review commands
+  - id: repo-checks-on-stop
+    asset_type: behavior
+    required: true
+    read_before_install:
+      - docs/platform-support.md
+    satisfy_by:
+      - Install or adapt a narrow Stop hook, or equivalent primary-agent stop automation, that runs only scripts/repo-checks.sh from the target repo root.
+      - Keep platform-specific hook config and adapters thin; the canonical command contract remains scripts/repo-checks.sh.
+      - If the target repo has no hook-capable primary agent runtime, record the unsupported-runtime gap and do not claim full canonical Level 0 completeness.
+    adapt:
+      - primary agent runtime
+      - platform hook config path
+      - adapter command or script path
+      - hook output and blocking behavior
+    notes: Broad hook policy, secret guards, destructive-action rules, shared hook runners, cross-platform enforcement, and CI/pre-commit parity remain selected Level 3 deterministic controls.
 defer_by_default:
-  - hooks
+  - broad hooks beyond the required repo-checks-on-stop behavior
   - platform pointer files for unused tools
-  - skills beyond work-brief and review
+  - skills beyond work-brief, implement, and review
   - project docs/routing
   - docs/harness/component-brief.md
   - docs/harness/maintainability.md

@@ -6,8 +6,9 @@ support.
 Use when: the target repo needs Codex, Claude Code, pre-commit, CI, or another
 runtime to load skills, settings, hooks, or other adapter-specific behavior.
 
-Do not read this for ordinary Level 0 installation unless platform-specific
-support is part of the requested harness shape. Start with `docs/installer.md`,
+Do not read this for ordinary Level 0 installation until the Level 0 checklist
+routes here for the required `repo-checks-on-stop` adapter or for another
+platform-specific behavior in current scope. Start with `docs/installer.md`,
 the current stage checklist, and the current stage manifest first.
 
 ## Read Next
@@ -47,9 +48,9 @@ specific runtime, not to become another copy of the harness.
 5. Record the adapter, its value, and its removal or expansion signal in the
    target repo's harness docs.
 
-If the repo uses Claude Code and no hooks or native skills are needed, support
-can often be just the conditional pointer file `CLAUDE.md` containing
-`@AGENTS.md`.
+If the repo uses Claude Code only for instruction loading and another primary
+runtime owns the required Stop automation, support can often be just the
+conditional pointer file `CLAUDE.md` containing `@AGENTS.md`.
 
 ## Hook Pattern
 
@@ -144,7 +145,8 @@ frontmatter or metadata without always loading the full instructions.
 
 - Copying full hook policy into `.codex/`, `.claude/`, pre-commit, and CI.
 - Maintaining separate review or implementation skill text for each runtime.
-- Adding hooks before `scripts/repo-checks.sh` defines the command contract.
+- Adding hooks beyond the required repo-checks Stop adapter before
+  `scripts/repo-checks.sh` defines the command contract.
 - Installing platform files for tools the team does not use.
 - Treating platform docs as always-loaded product context.
 
