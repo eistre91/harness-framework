@@ -21,6 +21,8 @@ Read only if needed for this Level 0 stage:
 - `docs/platform-support.md`, then only the relevant platform note, to install
   the required `repo-checks-on-stop` adapter for the target repo's desired
   hook-capable agent runtime(s) in current scope
+- `docs/hook-pattern.md`, only when current Level 0 scope includes custom hook
+  adapter design beyond copying or adapting the standard Stop adapter
 - the `claude-entrypoint` entry in `manifests/optional-assets.yml`, followed by
   `templates/core/CLAUDE.md`, when the repo uses Claude Code or the human asks
   for the minimal Claude Code pointer
@@ -31,6 +33,7 @@ Do not read by default:
 - `manifests/level-2.yml`
 - the full `manifests/optional-assets.yml`
 - platform adapter docs
+- `docs/hook-pattern.md`, unless custom hook adapter design is in current scope
 - `docs/level-5-orchestration.md`
 - `TODO.md`
 

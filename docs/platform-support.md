@@ -16,6 +16,8 @@ the current stage checklist, and the current stage manifest first.
 - Codex-specific support: `docs/platforms/codex.md`
 - Claude Code-specific support: `docs/platforms/claude-code.md`
 - Pre-commit support: `adapters/pre-commit/README.md`
+- Broad hook adapter reference: `docs/hook-pattern.md`, only when installing or
+  designing hooks beyond the required Level 0 Stop adapter.
 
 ## Principle
 
@@ -141,6 +143,10 @@ Validate the adapter before claiming Level 0 completeness:
    behavior, and validation result in `docs/harness/`.
 
 ## Hook Pattern
+
+This is the routing summary. For the full platform-independent hook reference,
+including event flows, shared entrypoint shape, testing strategy, and security
+guidance, read `docs/hook-pattern.md` only when hook design is in current scope.
 
 When multiple runtimes need the same hook behavior, use this shape:
 

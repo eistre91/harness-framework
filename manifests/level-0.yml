@@ -109,7 +109,7 @@ assets:
       - shared runner path
       - adapter command or script path
       - hook output and blocking behavior
-    notes: Broad hook policy, secret guards, destructive-action rules, shared hook runners, cross-platform enforcement, and CI/pre-commit parity remain selected Level 3 deterministic controls.
+    notes: Broad hook policy, secret guards, destructive-action rules, shared hook runners beyond the narrow Level 0 Stop runner, cross-platform enforcement, and CI/pre-commit parity remain selected Level 3 deterministic controls.
 defer_by_default:
   - broad hooks beyond the required repo-checks-on-stop behavior
   - platform pointer files for unused tools

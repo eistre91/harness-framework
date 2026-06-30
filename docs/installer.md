@@ -57,6 +57,9 @@ principles do not answer a harness-design question.
   repo-specific adaptation boundaries clarified.
 - Platform-specific support: `docs/platform-support.md`, then the specific
   platform note, only when the current approved stage includes that adapter.
+- Broad hook adapter design: `docs/hook-pattern.md`, only when the current
+  approved scope includes hooks beyond the narrow Level 0 Stop adapter or the
+  platform docs route there for a design question.
 - Mature or future-facing orchestration: do not read during ordinary Level 0
   installation.
 

@@ -15,7 +15,7 @@ Checked on 2026-06-30 against the OpenAI Codex manual:
 - `https://developers.openai.com/codex/skills.md`
 - `https://developers.openai.com/codex/guides/agents-md.md`
 - `https://developers.openai.com/codex/config-advanced.md`
-- `https://developers.openai.com/codex/hooks.md`
+- `https://developers.openai.com/codex/hooks`
 
 Re-check those docs before implementing a new adapter or hook schema.
 
