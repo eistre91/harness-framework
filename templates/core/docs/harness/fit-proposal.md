@@ -90,6 +90,22 @@ Use when project context or intent is in the current approved stage.
 | Lint |  | include / add / omit with reason / waiver |  |
 | Type check |  | include / add / omit with reason / waiver |  |
 
+## Level 0 Stop Automation
+
+Use when the current approved stage is Level 0. Keep this section separate from
+later deterministic controls because `repo-checks-on-stop` is required Level 0
+behavior.
+
+- Desired hook-capable runtime(s) in scope:
+- Decision: already satisfied / install / adapt / unsupported gap
+- Adapter files to create or edit:
+- Hook event and command:
+- Repo-root handling:
+- Output and blocking behavior:
+- Validation command and result:
+- Human decision or gap:
+- Revisit signal:
+
 ## Acceptance Evidence
 
 | Kind | Command or evidence | Status | Notes |

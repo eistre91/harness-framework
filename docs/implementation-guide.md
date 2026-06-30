@@ -390,12 +390,15 @@ A Level 0 starter harness is acceptable when:
   with phase-specific, product/domain, or rare-task guidance routed elsewhere,
 - the work-brief skill bundle can turn a tracker item, issue, or chat request
   into executable work,
-- `scripts/repo-checks.sh` exists and runs actionable repo-derived checks, or
-  clearly reports an honest gap without claiming full canonical repo-checks
-  completeness,
-- repo checks cover lint, type checks, and tests when those commands fit the
-  repo, and any omission has a recorded reason, human-approved addition, or
-  explicit waiver,
+- `scripts/repo-checks.sh` exists,
+- for full canonical Level 0 repo-checks completeness, `scripts/repo-checks.sh`
+  runs actionable repo-derived checks,
+- for full canonical Level 0 repo-checks completeness, repo checks cover lint,
+  type checks, and tests when those commands fit the repo, and any omission has
+  a recorded reason, human-approved addition, or explicit waiver,
+- a starter or overlay Level 0 install may pass with a placeholder-only
+  `scripts/repo-checks.sh` only when the handoff records the honest gap and does
+  not claim full canonical repo-checks completeness,
 - `docs/harness/README.md` records provenance, current stage, target maturity
   behavior for that stage, installation mode, completeness, installed files,
   and intentional deferrals,

@@ -153,14 +153,16 @@ Check:
   to verify, what skills exist, where project context is or is not, and where
   harness docs live for intentional harness maintenance.
 - `AGENTS.md` stays concise enough to be a repo entrypoint, not an encyclopedia.
-- `scripts/repo-checks.sh` exists and runs actionable deterministic checks
-  derived from repo evidence.
-- The repo checks cover lint, type checks, and tests when those commands exist
-  and fit the repo. Any missing, unclear, too slow, flaky, or inappropriate
-  member of that set has a recorded reason, human-approved addition, or
-  explicit human waiver.
-- A placeholder-only `scripts/repo-checks.sh` records an honest gap but does
-  not qualify as full canonical Level 0 repo-checks completeness.
+- `scripts/repo-checks.sh` exists.
+- For full canonical Level 0 repo-checks completeness, `scripts/repo-checks.sh`
+  runs actionable deterministic checks derived from repo evidence.
+- For full canonical Level 0 repo-checks completeness, the repo checks cover
+  lint, type checks, and tests when those commands exist and fit the repo. Any
+  missing, unclear, too slow, flaky, or inappropriate member of that set has a
+  recorded reason, human-approved addition, or explicit human waiver.
+- A starter or overlay Level 0 install may pass with a placeholder-only
+  `scripts/repo-checks.sh` only when the handoff records the honest gap and does
+  not claim full canonical Level 0 repo-checks completeness.
 - The installed `harness-work-brief`, `harness-implement`, and
   `harness-review` guidance is discoverable in the agreed skill location.
 - `AGENTS.md` or the target repo's equivalent entrypoint tells agents to use
@@ -198,11 +200,12 @@ Check:
   manifests, adapter docs, and future-facing TODOs were not used for this stage
   unless explicitly listed and justified.
 
-Missing lint, type-check, or test commands; unclear trackers; or absent project
-docs do not automatically fail a Level 0 install. They fail when hidden. Full
-canonical Level 0 repo-checks completeness requires actionable deterministic
-checks plus recorded reasons, additions, or explicit waivers for omitted
-lint/type/test commands.
+Missing lint, type-check, or test commands; placeholder repo checks; unclear
+trackers; or absent project docs do not automatically fail a starter or overlay
+Level 0 install. They fail when hidden or when the install claims full canonical
+completeness without the evidence to support that claim. Full canonical Level 0
+repo-checks completeness requires actionable deterministic checks plus recorded
+reasons, additions, or explicit waivers for omitted lint/type/test commands.
 
 ## Stage Handoff
 
