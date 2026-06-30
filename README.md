@@ -12,7 +12,7 @@ The harness is not meant to be installed wholesale. It is meant to be fitted to
 the target repo through inspection and collaboration:
 
 1. inspect the target repo,
-2. propose the next installation stage, starting with Level 0 by default,
+2. propose the next installation stage, starting with Level 1 by default,
 3. ask only the human questions that materially affect the harness shape,
 4. copy or adapt only the approved current-stage assets,
 5. validate the installed stage and leave a durable handoff,
@@ -56,7 +56,7 @@ Then ask an agent:
 
 ```text
 Use ../harness-framework/docs/installer.md to fit the smallest useful agent
-harness stage to this repo. Start with Level 0 unless I explicitly approve a
+harness stage to this repo. Start with Level 1 unless I explicitly approve a
 different current stage. Inspect this repo first, write and persist the current
 stage proposal under /tmp by default, present the exact proposal text before
 editing, ask for explicit approval or corrections, install only the approved
@@ -71,7 +71,7 @@ an agent:
 
 ```text
 Use .harness-bootstrap/docs/installer.md to fit the smallest useful agent
-harness stage to this repo. Start with Level 0 unless I explicitly approve a
+harness stage to this repo. Start with Level 1 unless I explicitly approve a
 different current stage. Inspect this repo first, write and persist the current
 stage proposal under /tmp by default, present the exact proposal text before
 editing, ask for explicit approval or corrections, install only the approved
@@ -82,18 +82,18 @@ after installation.
 
 ### Expected First Install
 
-Most first trials should install only the Level 0 assets from
-`manifests/level-0.yml`. The agent should adapt those files to the target repo
-and explicitly defer anything else. Use `docs/install/level-0.md` as the Level
-0 stage checklist.
+Most first trials should install only the Level 1 assets from
+`manifests/level-1.yml`. The agent should adapt those files to the target repo
+and explicitly defer anything else. Use `docs/install/level-1.md` as the Level
+1 stage checklist.
 
-Level 0 includes bounded work execution: work-brief shaping, implementation
+Level 1 includes bounded work execution: work-brief shaping, implementation
 guidance, review guidance, verification expectations, and the skill-use rules
 for ordinary harness work. It also requires narrow Stop automation for the
 target repo's desired hook-capable agent runtime(s), running
 `scripts/repo-checks.sh`.
 
-After Level 0 validates, the agent should ask whether to stop or inspect
+After Level 1 validates, the agent should ask whether to stop or inspect
 context routing. Use `docs/install/level-2.md` when the human chooses
 context-routing inspection.
 
@@ -107,7 +107,7 @@ Harness Fit Proposal justifies them.
 
 Adapters are runtime-specific integrations for tools such as Codex, Claude,
 Cursor, pre-commit, or CI. Install only the narrow adapter needed for required
-Level 0 Stop automation unless the target repo uses another environment feature
+Level 1 Stop automation unless the target repo uses another environment feature
 or the human explicitly wants it.
 
 `CLAUDE.md` is conditional on Claude Code support. When installed, it should
@@ -127,8 +127,8 @@ then only the platform note for the adapter being installed.
 
 ## Default Trial Target
 
-For an initial trial, prefer the Level 0 harness defined in
-`manifests/level-0.yml`. Add more only when repo evidence or human preference
+For an initial trial, prefer the Level 1 harness defined in
+`manifests/level-1.yml`. Add more only when repo evidence or human preference
 justifies it.
 
 ## Repository Checks

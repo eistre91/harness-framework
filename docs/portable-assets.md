@@ -56,8 +56,8 @@ installer path routes you there.
 
 ## Core Installable Assets
 
-The default Level 0 bounded-work assets and behavior are defined in
-`manifests/level-0.yml`. Treat that manifest as the canonical core asset and
+The default Level 1 bounded-work assets and behavior are defined in
+`manifests/level-1.yml`. Treat that manifest as the canonical core asset and
 behavior boundary.
 
 The additive Level 2 assets and behaviors are defined in

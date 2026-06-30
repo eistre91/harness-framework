@@ -3,7 +3,7 @@
 Audience: agents and maintainers installing product context routing in a target
 repo.
 
-Use when: Level 0 has been installed and validated, the human has chosen to
+Use when: Level 1 has been installed and validated, the human has chosen to
 inspect the next stage or selected context routing, and the current approved
 installation stage is Level 2. Start from `docs/installer.md` first.
 
@@ -18,7 +18,7 @@ Always read:
 - the Level 2 section of `docs/maturity-model.md`
 - `templates/level-2/SPEC-MAP.md`
 - `templates/level-2/docs/project/areas/README.md`
-- the target repo's durable Level 0 handoff under `docs/harness/`
+- the target repo's durable Level 1 handoff under `docs/harness/`
 - the target repo's installed `AGENTS.md`, canonical work source, existing
   project context index if any, and only enough repo evidence to identify ADR,
   decision-log, project-doc, or area-doc locations
@@ -97,7 +97,7 @@ Include:
 - current stage: Level 2,
 - target maturity behavior: context routing,
 - installation mode: `canonical`, `starter`, or `overlay`,
-- Level 0 bounded-work foundation status and any Level 0 gaps that affect
+- Level 1 bounded-work foundation status and any Level 1 gaps that affect
   Level 2,
 - repo signals that justify Level 2 now,
 - Level 2 asset completeness,
@@ -144,7 +144,7 @@ project context without bulk-reading broad docs.
 
 Check:
 
-- The durable Level 0 handoff exists and either remains accurate or is updated
+- The durable Level 1 handoff exists and either remains accurate or is updated
   by this stage.
 - `AGENTS.md` or the target repo's equivalent entrypoint tells agents where
   project context routing starts without turning the entrypoint into a broad

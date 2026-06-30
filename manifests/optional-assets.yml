@@ -5,7 +5,7 @@ assets:
     asset_type: installable
     source: templates/core/CLAUDE.md
     default_target: CLAUDE.md
-    maturity: level-0
+    maturity: level-1
     category: platform-pointer
     install_when: The target repo uses Claude Code or the human wants Claude Code support.
     adapt:
@@ -14,7 +14,7 @@ assets:
     asset_type: installable
     source: scripts/sync_claude_skills.py
     default_target: scripts/sync_claude_skills.py
-    maturity: level-0
+    maturity: level-1
     category: platform-skill-adapter
     install_when: The target repo uses Claude Code native skill discovery for harness-provided skills.
     satisfy_by:
@@ -35,7 +35,7 @@ assets:
     asset_type: installable
     source: templates/optional/docs/harness/component-brief.md
     default_target: docs/harness/component-brief.md
-    maturity: level-0
+    maturity: level-1
     category: harness-governance
     install_when: The team expects to add or modify harness components over time.
   - id: maintainability-signals
@@ -65,7 +65,7 @@ assets:
     companion_files:
       - source: skills/optional/harness-diagnose/scripts/hitl-loop.template.sh
         default_target: .agents/skills/harness-diagnose/scripts/hitl-loop.template.sh
-    maturity: level-0
+    maturity: level-1
     install_when: Agents will debug bugs, failing tests, flaky behavior, regressions, or production-like incidents.
     adapt:
       - reproduction commands

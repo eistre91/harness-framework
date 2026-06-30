@@ -1,9 +1,9 @@
-# Level 0 Installer Checklist
+# Level 1 Installer Checklist
 
-Audience: agents and maintainers installing the Level 0 bounded-work foundation
+Audience: agents and maintainers installing the Level 1 bounded-work foundation
 in a target repo.
 
-Use when: the current approved installation stage is Level 0. Start from
+Use when: the current approved installation stage is Level 1. Start from
 `docs/installer.md` first.
 
 ## Read For This Stage
@@ -12,16 +12,16 @@ Always read:
 
 - `docs/principles.md`
 - `docs/installer.md`
-- `manifests/level-0.yml`
-- the Level 0 templates, skills, and companion files named by the manifest
+- `manifests/level-1.yml`
+- the Level 1 templates, skills, and companion files named by the manifest
 
-Read only if needed for this Level 0 stage:
+Read only if needed for this Level 1 stage:
 
 - `docs/portable-assets.md`, when adaptation boundaries are unclear
 - `docs/platform-support.md`, then only the relevant platform note, to install
   the required `repo-checks-on-stop` adapter for the target repo's desired
   hook-capable agent runtime(s) in current scope
-- `docs/hook-pattern.md`, only when current Level 0 scope includes custom hook
+- `docs/hook-pattern.md`, only when current Level 1 scope includes custom hook
   adapter design beyond copying or adapting the standard Stop adapter
 - the `claude-entrypoint` entry in `manifests/optional-assets.yml`, followed by
   `templates/core/CLAUDE.md`, when the repo uses Claude Code or the human asks
@@ -42,13 +42,13 @@ handoff.
 
 ## Scope
 
-Level 0 installs the bounded-work foundation that lets agents do ordinary work
+Level 1 installs the bounded-work foundation that lets agents do ordinary work
 without reconstructing prior planning conversation.
 
-Use `manifests/level-0.yml` as the canonical Level 0 asset and behavior list.
+Use `manifests/level-1.yml` as the canonical Level 1 asset and behavior list.
 Do not maintain a second file list here.
 
-Conceptually, the Level 0 foundation should give the target repo:
+Conceptually, the Level 1 foundation should give the target repo:
 
 - a concise repo agent entrypoint,
 - an actionable canonical deterministic repo checks command,
@@ -62,11 +62,11 @@ Minimal Claude Code support may be included when needed to expose the shared
 entrypoint. The `claude-entrypoint` optional manifest entry owns that asset
 boundary. In that case, keep `CLAUDE.md` as a thin pointer to `AGENTS.md`. Do
 not install native skill mirrors, broad platform hooks, or pre-commit adapters
-in Level 0 unless the human explicitly expands the current stage.
+in Level 1 unless the human explicitly expands the current stage.
 
-Level 0 must install `scripts/repo-checks.sh`. For canonical Level 0
+Level 1 must install `scripts/repo-checks.sh`. For canonical Level 1
 completeness, that script must run actionable, repo-derived deterministic
-checks. The default Level 0 check set is lint, type checks, and tests. Include
+checks. The default Level 1 check set is lint, type checks, and tests. Include
 each command when repo evidence shows it exists and is reasonably actionable.
 Keep the command's output quiet and actionable: agents need failures, missing
 setup, and next steps, not routine pass banners.
@@ -75,11 +75,11 @@ inappropriate for the repo, raise that before editing and recommend whether to
 omit it with a recorded reason, add or adapt it with human approval, or record
 an explicit human waiver for this install.
 
-Do not invent a verification stack during Level 0 installation. A placeholder
+Do not invent a verification stack during Level 1 installation. A placeholder
 `scripts/repo-checks.sh` may honestly report a gap, but a placeholder-only
-script is not full canonical Level 0 repo-checks completeness.
+script is not full canonical Level 1 repo-checks completeness.
 
-Level 0 includes a required `repo-checks-on-stop` behavior: install or adapt a
+Level 1 includes a required `repo-checks-on-stop` behavior: install or adapt a
 narrow Stop hook, or equivalent stop automation, for each desired hook-capable
 agent runtime in current scope. The automation runs only `scripts/repo-checks.sh`
 from the target repo root. This may require a thin platform adapter such as
@@ -90,22 +90,22 @@ secret guards, destructive-action controls, and CI or pre-commit parity remain
 selected deterministic controls beyond this stage unless explicitly approved
 as separate current-stage scope.
 
-If no hook-capable desired agent runtime is in scope, record that as a Level 0
-gap and do not claim full canonical Level 0 asset or behavioral completeness.
+If no hook-capable desired agent runtime is in scope, record that as a Level 1
+gap and do not claim full canonical Level 1 asset or behavioral completeness.
 
 ## Proposal
 
-Prepare a Level 0 proposal before editing. The proposal authorizes Level 0
+Prepare a Level 1 proposal before editing. The proposal authorizes Level 1
 edits only.
 
 Include:
 
-- current stage: Level 0,
+- current stage: Level 1,
 - target maturity behavior: bounded work foundation,
 - installation mode: `canonical`, `starter`, or `overlay`,
-- Level 0 asset completeness,
-- expected Level 0 behavioral completeness,
-- target-repo signals needed to adapt Level 0 assets,
+- Level 1 asset completeness,
+- expected Level 1 behavioral completeness,
+- target-repo signals needed to adapt Level 1 assets,
 - files to create or edit,
 - work source and Agent Work Brief location,
 - local fallback brief location and commit policy,
@@ -128,7 +128,7 @@ Include:
 
 Out-of-stage observations may be recorded as plain observations. Do not map
 them to future levels, propose later-stage assets, or ask for approval to
-install them during the Level 0 stage.
+install them during the Level 1 stage.
 
 ## Human Checkpoint Before Editing
 
@@ -137,8 +137,8 @@ the human and wait for approval or corrections.
 
 The approval should cover only:
 
-- Level 0 installation mode,
-- Level 0 files to create or edit,
+- Level 1 installation mode,
+- Level 1 files to create or edit,
 - work brief storage and fallback policy,
 - repo checks behavior, including included lint, type-check, and test commands
   and any explicit omissions or waivers,
@@ -146,13 +146,13 @@ The approval should cover only:
 - required `repo-checks-on-stop` adapter files and behavior,
 - existing component handling,
 - minimal platform pointer, when included,
-- durable location for the Level 0 decision log or stage handoff.
+- durable location for the Level 1 decision log or stage handoff.
 
 Do not edit target-repo files before this checkpoint is resolved.
 
-## Level 0 Gate
+## Level 1 Gate
 
-Level 0 passes when the installed harness is honest, usable, and auditable.
+Level 1 passes when the installed harness is honest, usable, and auditable.
 
 Check:
 
@@ -161,15 +161,15 @@ Check:
   harness docs live for intentional harness maintenance.
 - `AGENTS.md` stays concise enough to be a repo entrypoint, not an encyclopedia.
 - `scripts/repo-checks.sh` exists.
-- For full canonical Level 0 repo-checks completeness, `scripts/repo-checks.sh`
+- For full canonical Level 1 repo-checks completeness, `scripts/repo-checks.sh`
   runs actionable deterministic checks derived from repo evidence.
-- For full canonical Level 0 repo-checks completeness, the repo checks cover
+- For full canonical Level 1 repo-checks completeness, the repo checks cover
   lint, type checks, and tests when those commands exist and fit the repo. Any
   missing, unclear, too slow, flaky, or inappropriate member of that set has a
   recorded reason, human-approved addition, or explicit human waiver.
-- A starter or overlay Level 0 install may pass with a placeholder-only
+- A starter or overlay Level 1 install may pass with a placeholder-only
   `scripts/repo-checks.sh` only when the handoff records the honest gap and does
-  not claim full canonical Level 0 repo-checks completeness.
+  not claim full canonical Level 1 repo-checks completeness.
 - The installed `harness-work-brief`, `harness-implement`, and
   `harness-review` guidance is discoverable in the agreed skill location.
 - `AGENTS.md` or the target repo's equivalent entrypoint tells agents to use
@@ -191,14 +191,14 @@ Check:
 - The review handoff names the brief or source, tier, changed files, behavior
   boundary, test surface, and known risks.
 - `docs/harness/README.md` or the chosen durable decision log records
-  provenance, installation mode, Level 0 stage completeness, installed pieces,
+  provenance, installation mode, Level 1 stage completeness, installed pieces,
   existing component decisions, deferrals, and communication audit findings.
 - Any introduced local fallback brief directory is gitignored.
 - `repo-checks-on-stop` is installed, adapted, or explicitly satisfied for each
   desired hook-capable agent runtime in current scope, and runs only the
   canonical repo checks command from the repo root. If no supported desired
   runtime exists, the handoff records that gap and does not claim full
-  canonical Level 0 completeness.
+  canonical Level 1 completeness.
 - A fresh agent can do ordinary product work from the repo entrypoint, current
   work source, installed skills, project docs if any, and local code, without
   reading `docs/harness/` or framework internals.
@@ -209,18 +209,18 @@ Check:
 
 Missing lint, type-check, or test commands; placeholder repo checks; unclear
 trackers; or absent project docs do not automatically fail a starter or overlay
-Level 0 install. They fail when hidden or when the install claims full canonical
-completeness without the evidence to support that claim. Full canonical Level 0
+Level 1 install. They fail when hidden or when the install claims full canonical
+completeness without the evidence to support that claim. Full canonical Level 1
 repo-checks completeness requires actionable deterministic checks plus recorded
 reasons, additions, or explicit waivers for omitted lint/type/test commands.
 
 ## Stage Handoff
 
-After installation and validation, report the Level 0 result and copy durable
+After installation and validation, report the Level 1 result and copy durable
 stage state under `docs/harness/`. Use the canonical stage handoff fields in
 `docs/installer.md`.
 
-For Level 0, make sure the handoff also makes these details explicit:
+For Level 1, make sure the handoff also makes these details explicit:
 
 - repo checks command and result,
 - included lint, type-check, and test commands, plus any omission reason,
@@ -230,14 +230,14 @@ For Level 0, make sure the handoff also makes these details explicit:
 - work-brief lifecycle and progress/divergence location,
 - acceptance evidence rules for boundary-changing or externally visible work,
 - representative communication audit result or reason it was not possible,
-- recommended next action: stop, revise Level 0, or ask the human whether to
+- recommended next action: stop, revise Level 1, or ask the human whether to
   begin context-routing inspection.
 
 For communication evidence, use a representative standard or complex work item
 when one is available. Confirm that a fresh agent could identify the tier,
 brief location, implementation guidance, verification, acceptance evidence, and
 review handoff path. If no representative work item is available, record that
-the Level 0 communication audit is limited to installed-surface inspection.
+the Level 1 communication audit is limited to installed-surface inspection.
 
 Do not inspect Level 2 guidance, deterministic controls, or optional pull-ins
 beyond this stage until the human chooses to begin that next stage or

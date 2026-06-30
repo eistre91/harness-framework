@@ -5,7 +5,7 @@ decision log. It is durable repo documentation. Do not record machine-local
 paths or temporary installation-session proposal paths here.
 
 Use this template for the current approved stage. Fill or keep only the
-sections that apply to that stage. Do not use a Level 0 proposal to approve
+sections that apply to that stage. Do not use a Level 1 proposal to approve
 later-stage assets.
 
 ## Repo Signals
@@ -54,7 +54,7 @@ Claude Code note, when relevant:
 ## Manifest Inclusion Table
 
 Use the current stage manifest as the source of truth. Do not use this table to
-preselect future-stage or optional assets during a Level 0 stage.
+preselect future-stage or optional assets during a Level 1 stage.
 
 | Stage | Asset or behavior | Status | Reason | Revisit signal |
 | --- | --- | --- | --- | --- |
@@ -90,10 +90,10 @@ Use when project context or intent is in the current approved stage.
 | Lint |  | include / add / omit with reason / waiver |  |
 | Type check |  | include / add / omit with reason / waiver |  |
 
-## Level 0 Stop Automation
+## Level 1 Stop Automation
 
-Use when the current approved stage is Level 0. Keep this section separate from
-later deterministic controls because `repo-checks-on-stop` is required Level 0
+Use when the current approved stage is Level 1. Keep this section separate from
+later deterministic controls because `repo-checks-on-stop` is required Level 1
 behavior.
 
 - Desired hook-capable runtime(s) in scope:
@@ -117,7 +117,7 @@ behavior.
 
 Use only when the current approved stage includes Level 3 deterministic
 controls or an explicit selected pull-in. Do not use this section to approve
-future-stage assets during Level 0.
+future-stage assets during Level 1.
 
 | Candidate | Existing command or evidence | Status | Notes |
 | --- | --- | --- | --- |

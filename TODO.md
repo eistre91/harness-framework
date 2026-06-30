@@ -2,7 +2,7 @@
 
 This is a work record for deferred framework ideas, not active implementation
 guidance. Use `docs/principles.md`, `docs/framework.md`,
-`docs/installer.md`, `docs/install/level-0.md`,
+`docs/installer.md`, `docs/install/level-1.md`,
 `docs/install/level-2.md`, `docs/implementation-guide.md`,
 `docs/maturity-model.md`, and the manifests as the current source of truth.
 
@@ -27,7 +27,7 @@ Clarification from 2026-06-28:
   project intent -> initiative -> work item -> work unit -> attempt
 
   harness installation flow:
-  Level 0 -> Level 2 -> selected higher-stage pull-ins
+  Level 1 -> Level 2 -> selected higher-stage pull-ins
   ```
 
 - `docs/project/intent.md` can be conceptually upstream of project work while
@@ -48,7 +48,7 @@ Why deferred:
 - The starter harness should prove the small execution loop before adding
   larger planning machinery.
 - PRD and technical design flows are likely higher on the maturity ladder,
-  closer to orchestration and automation than Level 0.
+  closer to orchestration and automation than Level 1.
 - Premature process here could create harness debt before the team has evidence
   about how work decomposition actually fails.
 
@@ -116,7 +116,7 @@ Potential future shape:
 
 - A small `evals/` directory with scenario prompts, target repo fixtures or
   fixture descriptions, expected installed assets, and expectations.
-- Cases for fitting Level 0 to a small repo, declining premature `SPEC-MAP.md`
+- Cases for fitting Level 1 to a small repo, declining premature `SPEC-MAP.md`
   or `CONTEXT.md`, deriving `scripts/repo-checks.sh` from README/CI evidence,
   turning a vague issue into an Agent Work Brief, reviewing a change against a
   brief, and recommending higher-level controls only when signals justify them.
@@ -141,7 +141,7 @@ questions, not active installation guidance.
 
 Why deferred:
 
-- Level 0 and Level 2 checklists need more real-install evidence before the
+- Level 1 and Level 2 checklists need more real-install evidence before the
   framework can know where they are too loose, too heavy, or missing acceptance
   gates.
 - Selected Level 3 pull-ins still need clear local acceptance criteria and
@@ -153,7 +153,7 @@ Why deferred:
 
 Potential future shape:
 
-- Tighten `docs/install/level-0.md` and `docs/install/level-2.md` from observed
+- Tighten `docs/install/level-1.md` and `docs/install/level-2.md` from observed
   install failures.
 - Add selected higher-level pull-in guidance without encouraging broad
   multi-level installs.
@@ -166,7 +166,7 @@ Potential future shape:
 
 Signal to revisit:
 
-- Level 0 or Level 2 installs still vary too much with the current checklists.
+- Level 1 or Level 2 installs still vary too much with the current checklists.
 - Harness installs pass structurally but leave behavior or completeness unclear.
 - Installing agents over-read higher-stage manifests, optional manifests,
   adapter docs, deterministic-control guidance, future-facing docs, or
@@ -446,7 +446,7 @@ Potential future shape:
 Signal to revisit:
 
 - Humans want a quick smoke test after applying the framework to a repo.
-- Repeated installations miss the same required Level 0 surfaces.
+- Repeated installations miss the same required Level 1 surfaces.
 - A future installer needs a post-install repo checks command.
 
 ## Deferred: Persistent Work State Model

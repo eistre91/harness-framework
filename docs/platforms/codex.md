@@ -80,7 +80,7 @@ trusted. User and system config remain separate.
 
 Do not add `.codex/` files during a starter install unless Codex is the target
 repo's desired hook-capable agent runtime in current scope for the required
-Level 0 `repo-checks-on-stop` behavior, or the target repo otherwise needs
+Level 1 `repo-checks-on-stop` behavior, or the target repo otherwise needs
 Codex-specific config, hooks, or policy.
 
 ## Hooks
@@ -115,9 +115,9 @@ If the same policy must also run in Claude Code, pre-commit, or CI, the Codex
 hook should dispatch to a shared runner and translate only Codex-specific input
 and output.
 
-## Level 0 Stop Adapter
+## Level 1 Stop Adapter
 
-For the required Level 0 `repo-checks-on-stop` behavior, use the standard
+For the required Level 1 `repo-checks-on-stop` behavior, use the standard
 shared runner from `adapters/common-hooks` plus the Codex declaration and
 wrapper from `adapters/codex`.
 
@@ -229,7 +229,7 @@ The shared runner should own:
 Add Codex support when:
 
 - the team actually uses Codex for repo work,
-- Codex is a desired hook-capable agent runtime for the required Level 0
+- Codex is a desired hook-capable agent runtime for the required Level 1
   `repo-checks-on-stop` behavior,
 - the repo needs Codex hooks or project config,
 - Codex needs a platform-specific path or setting to expose shared harness

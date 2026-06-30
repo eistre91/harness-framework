@@ -8,7 +8,9 @@ behavioral completeness, and deferrals for the current approved stage. For
 ordinary installation, start with `docs/installer.md`.
 
 Use this model diagnostically. Higher maturity is not automatically better. A
-small repo may be healthiest at Level 0 for a long time.
+repo may be healthiest at Level 0 when it has no recurring agent-work need, and
+a small repo may be healthiest at Level 1 for a long time once agents are doing
+ordinary work there.
 
 ## Harness Failure Signals
 
@@ -63,21 +65,45 @@ Deferred manifest assets are listed with reasons and revisit signals.
 This document is the shared prose definition of the levels. File-level starter
 assets are defined in manifests:
 
-- Level 0 required bounded-work assets and behavior:
-  `manifests/level-0.yml`
+- Level 1 required bounded-work assets and behavior:
+  `manifests/level-1.yml`
 - Level 2 additive assets and behaviors: `manifests/level-2.yml`
 - Other optional pull-ins and adapters: `manifests/optional-assets.yml`
 
-Historical note: bounded work execution was formerly a separate Level 1 stage.
-It is now part of Level 0. Later level numbers are preserved so context
-routing and higher-stage references do not need a broad renumbering migration.
+Historical note: the old orientation-only Level 0 and bounded-work Level 1
+stages have been collapsed. Level 0 now names the no-installed-harness baseline;
+Level 1 is the first installable maturity level and owns the bounded-work
+foundation.
 
-## Level 0: Bounded Work Foundation
+## Level 0: No Installed Harness
+
+Baseline for a repo with no installed harness assets or durable harness
+workflow.
+
+There is no Level 0 manifest or installer checklist. Use this label only to
+describe a repo before fitting the harness, or when the human decides not to
+install harness assets yet.
+
+This may be enough when:
+
+- agents are not expected to do recurring work in the repo,
+- work is rare enough that chat context and local code inspection are
+  sufficient,
+- adding durable harness files would not yet pay for their maintenance cost.
+
+Move beyond when:
+
+- agents are going to work in the repo at all,
+- recurring work needs a stable entrypoint, work source, verification command,
+  or review expectation,
+- handoff through chat history is already costing time or causing mistakes.
+
+## Level 1: Bounded Work Foundation
 
 Minimum for agents to receive, shape, implement, verify, and review ordinary
 work without reconstructing prior planning discussion.
 
-Default assets and behavior are defined in `manifests/level-0.yml`.
+Default assets and behavior are defined in `manifests/level-1.yml`.
 
 At this level, the harness should provide a repo agent entrypoint, canonical
 deterministic repo checks command, work-brief skill bundle with a template,
@@ -103,14 +129,14 @@ Definition:
 
 Asset boundary:
 
-- `harness-work-brief` is Level 0 because the template and source-shaping
+- `harness-work-brief` is Level 1 because the template and source-shaping
   guidance should travel together.
-- `harness-implement` is Level 0 because ordinary harness use should include
+- `harness-implement` is Level 1 because ordinary harness use should include
   focused implementation guidance alongside work shaping and review.
-- `harness-review` is Level 0 because every harness-managed change needs a
+- `harness-review` is Level 1 because every harness-managed change needs a
   reusable review lens.
-- `harness-diagnose` is an optional Level 0 pull-in for debugging work, not
-  part of the Level 0 required asset boundary.
+- `harness-diagnose` is an optional Level 1 pull-in for debugging work, not
+  part of the Level 1 required asset boundary.
 
 Value:
 
@@ -123,7 +149,7 @@ Value:
 - reviewers have a shared expectation for done and can compare the diff to a
   concrete brief or equivalent scope.
 
-The Level 0 work-brief template includes richer optional sections. For tiny
+The Level 1 work-brief template includes richer optional sections. For tiny
 work, the agent may only need source, goal, value target, context,
 verification, and done criteria. Use the boundary, ambiguity, and acceptance
 sections when scope or behavior could otherwise be misunderstood.
@@ -145,7 +171,7 @@ Required deterministic behavior:
   from the target repo root.
 
 This is still a deterministic control, but it is small and central enough to be
-part of the bounded-work foundation. It reinforces the Level 0 repo checks
+part of the bounded-work foundation. It reinforces the Level 1 repo checks
 contract without requiring a broader hook policy, shared runner, or
 cross-platform enforcement system.
 
@@ -224,13 +250,13 @@ Assets:
 - per-call safety decisions for operations that may be safe in one context but
   unsafe in another, including whether a command can run concurrently for this
   specific invocation,
-- broader repo checks beyond the Level 0 lint/type/test contract, such as
+- broader repo checks beyond the Level 1 lint/type/test contract, such as
   format, build/package, static analysis, generated-artifact validation, or
   adapter health checks when repo evidence justifies them,
 - focused subsystem checks and CI-only verification records when full local
   parity is not practical,
 - check performance, noise, and failure-clarity tuning,
-- broader Stop hook or pre-commit enforcement beyond the required Level 0
+- broader Stop hook or pre-commit enforcement beyond the required Level 1
   `repo-checks-on-stop` behavior,
 - CI parity with `scripts/repo-checks.sh`,
 - optional `.harness.yml` once multiple mechanisms need shared settings.
@@ -246,7 +272,7 @@ Add when:
 
 - agents forget verification,
 - contributors run different command sets,
-- the Level 0 lint/type/test contract misses recurring deterministic failures,
+- the Level 1 lint/type/test contract misses recurring deterministic failures,
 - full-repo checks are too slow, noisy, flaky, or unclear for agent-stop
   feedback,
 - secret, local-state, destructive-command, or production-affecting mistakes

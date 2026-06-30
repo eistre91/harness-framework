@@ -13,14 +13,14 @@ Install and validate the harness one maturity stage at a time.
 The default path is:
 
 ```text
-inspect -> Level 0 proposal -> human approval -> Level 0 install ->
+inspect -> Level 1 proposal -> human approval -> Level 1 install ->
 validation and handoff -> human decision to stop or inspect context routing
 ```
 
 Do not turn eligibility for a later level into approval to install that later
 level. A target repo may show signs that Level 2 context routing or selected
 deterministic controls will be useful, but the installer should first install a
-clear Level 0 bounded-work foundation and validate that ordinary agent work can
+clear Level 1 bounded-work foundation and validate that ordinary agent work can
 start there.
 
 ## Always-Read Sources
@@ -58,9 +58,9 @@ principles do not answer a harness-design question.
 - Platform-specific support: `docs/platform-support.md`, then the specific
   platform note, only when the current approved stage includes that adapter.
 - Broad hook adapter design: `docs/hook-pattern.md`, only when the current
-  approved scope includes hooks beyond the narrow Level 0 Stop adapter or the
+  approved scope includes hooks beyond the narrow Level 1 Stop adapter or the
   platform docs route there for a design question.
-- Mature or future-facing orchestration: do not read during ordinary Level 0
+- Mature or future-facing orchestration: do not read during ordinary Level 1
   installation.
 
 ## Stage Proposals
@@ -144,18 +144,19 @@ For large target repos, treat a stage boundary as a natural context-window
 split. A fresh agent should be able to continue from the durable stage handoff
 without relying on chat history.
 
-## Level 0 First
+## Level 1 First
 
-Most installs should begin with Level 0. Use `docs/install/level-0.md` for the
-current Level 0 stage checklist.
+Most installs should begin with Level 1. Use `docs/install/level-1.md` for the
+current Level 1 stage checklist.
 
-Level 0 includes bounded work execution: work-brief shaping, implementation
+Level 1 includes bounded work execution: work-brief shaping, implementation
 guidance, review guidance, verification expectations, and the skill-use rules
-for ordinary harness work. There is no separate Level 1 installer stage.
+for ordinary harness work. Level 0 is the no-installed-harness baseline, not an
+installer stage.
 
 ## Level 2 Context Routing
 
-After Level 0 has been installed and validated, ask whether to stop or inspect
+After Level 1 has been installed and validated, ask whether to stop or inspect
 context routing. If the human chooses Level 2 inspection, use
 `docs/install/level-2.md` for the current Level 2 stage checklist.
 

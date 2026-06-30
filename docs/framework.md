@@ -18,11 +18,11 @@ Active owners:
 
 - Principles: `docs/principles.md`
 - Staged installer entrypoint: `docs/installer.md`
-- Stage installer checklists: `docs/install/level-0.md` and
+- Stage installer checklists: `docs/install/level-1.md` and
   `docs/install/level-2.md`
 - Maturity definitions and failure signals: `docs/maturity-model.md`
-- Bootstrap, Level 0, Level 2, and optional assets:
-  `manifests/bootstrap.yml`, `manifests/level-0.yml`,
+- Bootstrap, Level 1, Level 2, and optional assets:
+  `manifests/bootstrap.yml`, `manifests/level-1.yml`,
   `manifests/level-2.yml`, and
   `manifests/optional-assets.yml`
 - Broad installation reference: `docs/implementation-guide.md`
@@ -187,10 +187,10 @@ file.
 
 ## Starter Harness
 
-For an initial trial, the canonical Level 0 asset and behavior boundary lives
-in `manifests/level-0.yml`.
+For an initial trial, the canonical Level 1 asset and behavior boundary lives
+in `manifests/level-1.yml`.
 
-Conceptually, Level 0 provides:
+Conceptually, Level 1 provides:
 
 - a repo agent entrypoint,
 - a canonical deterministic repo checks command,
@@ -216,7 +216,7 @@ personal, or team skills. Prefer names such as `harness-review`,
 ## Maturity And Completeness
 
 The maturity model is diagnostic. Higher maturity is not automatically better.
-A small repo may be healthiest at Level 0 for a long time.
+A small repo may be healthiest at Level 1 for a long time.
 
 `docs/maturity-model.md` owns:
 
@@ -334,7 +334,7 @@ matters:
 - what human-required checkpoints exist,
 - what evidence will prove the task is complete.
 
-For most Level 0 work, the Agent Work Brief is the minimal plan. It is not a
+For most Level 1 work, the Agent Work Brief is the minimal plan. It is not a
 planning transcript. The planning agent should distill context into accepted
 decisions, constraints, source-of-truth references, and acceptance evidence.
 
@@ -440,7 +440,7 @@ What deterministic checks should run before claiming repo work is complete?
 
 Hooks decide when checks run automatically. `repo-checks.sh` defines the repo's
 local lint, type-check, and test command set by default. Other deterministic
-checks are repo-specific additions, not part of the default Level 0 expectation.
+checks are repo-specific additions, not part of the default Level 1 expectation.
 Keep the command quiet when checks pass. The Stop hook context should contain
 failures, missing setup, or next steps the agent can act on, not routine success
 output.
@@ -460,7 +460,7 @@ expected output or side effect, and evidence.
 
 ## Hooks
 
-The minimal hook posture is conservative and opinionated: Level 0 includes one
+The minimal hook posture is conservative and opinionated: Level 1 includes one
 required narrow Stop hook, or equivalent stop automation, for each desired
 hook-capable agent runtime in current scope. It runs `scripts/repo-checks.sh`.
 A starter install should not add any other hooks just because hook adapters

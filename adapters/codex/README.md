@@ -12,9 +12,9 @@ Those files are the canonical source for Codex guidance. Keep this adapter
 directory limited to Codex-specific assets that cannot live in shared
 templates, such as config examples, hook adapters, or skill-loading wrappers.
 
-## Level 0 Stop Hook
+## Level 1 Stop Hook
 
-This adapter includes the narrow Codex side of the required Level 0
+This adapter includes the narrow Codex side of the required Level 1
 `repo-checks-on-stop` behavior. Copy these source files to the default targets:
 
 ```text

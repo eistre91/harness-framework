@@ -3,10 +3,10 @@
 Audience: agents and maintainers installing or designing hook behavior for
 multiple agent runtimes.
 
-Use when: a target repo needs hooks beyond the narrow Level 0
+Use when: a target repo needs hooks beyond the narrow Level 1
 `repo-checks-on-stop` adapter, or when the installer needs the full hook adapter
-pattern as a reference. Do not read this for ordinary Level 0 installation
-unless `docs/install/level-0.md` or the human-approved scope routes here.
+pattern as a reference. Do not read this for ordinary Level 1 installation
+unless `docs/install/level-1.md` or the human-approved scope routes here.
 
 This pattern keeps platform-specific files as thin adapters and puts shared
 behavior in testable repo-local code. The platform adapter receives runtime hook
@@ -88,7 +88,7 @@ Recommended layout for a target repo with broad shared hooks:
         +-- session_start.py
 ```
 
-The Level 0 Stop adapter is intentionally narrower than this layout. It uses
+The Level 1 Stop adapter is intentionally narrower than this layout. It uses
 only `scripts/hooks/repo_checks_on_stop.py` plus one wrapper per platform.
 
 Platform declaration files should only answer:

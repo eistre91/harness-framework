@@ -30,10 +30,10 @@ context before the current stage needs it.
 - Maturity levels, installation modes, asset completeness, behavioral
   completeness, and level-specific signals: `docs/maturity-model.md`
 - Staged installation entrypoint: `docs/installer.md`
-- Stage checklists: `docs/install/level-0.md` and
+- Stage checklists: `docs/install/level-1.md` and
   `docs/install/level-2.md`
-- Bootstrap, Level 0, Level 2, and optional asset lists:
-  `manifests/bootstrap.yml`, `manifests/level-0.yml`,
+- Bootstrap, Level 1, Level 2, and optional asset lists:
+  `manifests/bootstrap.yml`, `manifests/level-1.yml`,
   `manifests/level-2.yml`, and `manifests/optional-assets.yml`
 - Portable asset boundaries: `docs/portable-assets.md`
 - Platform support: `docs/platform-support.md`, then the relevant platform note
@@ -103,7 +103,7 @@ broad "carry it out" as approval of those decisions.
 
 ### Start Lower Than Feels Ambitious
 
-Most repos should start with Level 0. Adding a large harness too early creates
+Most repos should start with Level 1. Adding a large harness too early creates
 harness debt: too many docs, instructions, hooks, artifacts, and process
 surfaces that nobody maintains.
 
@@ -136,7 +136,7 @@ Future improvement:
 
 ### Argue For Complexity
 
-When proposing a component beyond Level 0, state:
+When proposing a component beyond Level 1, state:
 
 - what failure it prevents,
 - what signal proves the repo needs it,
@@ -216,8 +216,8 @@ Human decision needed:
 ### 3. Decide The Current Stage
 
 Use the current stage checklist and manifest to decide the smallest useful
-current-stage install. For ordinary first installs, this is Level 0. Do not
-read `docs/maturity-model.md` during Level 0 installation unless a human
+current-stage install. For ordinary first installs, this is Level 1. Do not
+read `docs/maturity-model.md` during Level 1 installation unless a human
 explicitly expands the current scope or a stage checklist routes you there.
 
 Include:
@@ -256,10 +256,10 @@ The proposal must include decisions for:
 - gaps, trade-offs, human decisions, deferred items, proposed files,
   acceptance criteria, communication audit, and context used.
 
-For Level 0, do not ask whether optional `docs/project/intent.md`, `SPEC-MAP.md`,
+For Level 1, do not ask whether optional `docs/project/intent.md`, `SPEC-MAP.md`,
 `CONTEXT.md`, broad hooks, or adapters are useful now unless the human
 explicitly expanded the current stage. The narrow `repo-checks-on-stop`
-behavior is required by the Level 0 manifest; handle adapter paths for desired
+behavior is required by the Level 1 manifest; handle adapter paths for desired
 hook-capable agent runtime(s) in current scope as current-stage scope.
 
 Persist the proposal to disk before editing. Ask for a preferred path only if
@@ -295,7 +295,7 @@ already existing?
 
 Ask only questions that affect implementation.
 
-For Level 0, use the focused checkpoint in `docs/install/level-0.md`. For
+For Level 1, use the focused checkpoint in `docs/install/level-1.md`. For
 Level 2, use the focused checkpoint in `docs/install/level-2.md`. The broader
 decision set below applies only when the current approved stage or
 human-approved pull-in needs those decisions.
@@ -383,7 +383,7 @@ After implementation, check that a fresh agent could:
 
 ## Starter Acceptance Checklist
 
-A Level 0 starter harness is acceptable when:
+A Level 1 starter harness is acceptable when:
 
 - `AGENTS.md` tells agents where to start without becoming an encyclopedia,
 - `AGENTS.md` contains only instructions every agent needs for ordinary work,
@@ -391,12 +391,12 @@ A Level 0 starter harness is acceptable when:
 - the work-brief skill bundle can turn a tracker item, issue, or chat request
   into executable work,
 - `scripts/repo-checks.sh` exists,
-- for full canonical Level 0 repo-checks completeness, `scripts/repo-checks.sh`
+- for full canonical Level 1 repo-checks completeness, `scripts/repo-checks.sh`
   runs actionable repo-derived checks,
-- for full canonical Level 0 repo-checks completeness, repo checks cover lint,
+- for full canonical Level 1 repo-checks completeness, repo checks cover lint,
   type checks, and tests when those commands fit the repo, and any omission has
   a recorded reason, human-approved addition, or explicit waiver,
-- a starter or overlay Level 0 install may pass with a placeholder-only
+- a starter or overlay Level 1 install may pass with a placeholder-only
   `scripts/repo-checks.sh` only when the handoff records the honest gap and does
   not claim full canonical repo-checks completeness,
 - `docs/harness/README.md` records provenance, current stage, target maturity
@@ -497,16 +497,16 @@ Ownership:
   the implementation introduces unacceptable risk or debt, including latent
   decisions that should return to human ownership.
 
-## Level 0 Repo Checks Discovery
+## Level 1 Repo Checks Discovery
 
 `scripts/repo-checks.sh` should encode the repo's current deterministic checks
-contract. Derive that contract from evidence. For Level 0, the default checks
+contract. Derive that contract from evidence. For Level 1, the default checks
 contract is lint, type checks, and tests.
 
 Keep repo-checks output quiet and actionable. A Stop hook consumer needs
 failures, missing setup, and next steps; routine pass banners just spend context.
 
-The Level 0 proposal should name the included test, lint, and type-check
+The Level 1 proposal should name the included test, lint, and type-check
 commands. If one is missing or unsuitable, record the omission reason,
 human-approved addition, or explicit human waiver.
 
@@ -551,7 +551,7 @@ If no reliable command can be inferred:
 2. create `scripts/repo-checks.sh` with an explicit placeholder,
 3. record the missing repo checks command as a gap,
 4. recommend the smallest next action,
-5. do not claim full canonical Level 0 repo-checks completeness.
+5. do not claim full canonical Level 1 repo-checks completeness.
 
 When the Claude Code generated skill mirror adapter is installed, add this
 adapter health check to the target repo's adapted `scripts/repo-checks.sh`
@@ -568,8 +568,8 @@ installed in the target repo.
 ## Level 3 Broader Repo Checks Discovery
 
 Use this when Level 3 deterministic controls are in current approved scope or
-repeated evidence shows the Level 0 lint/type/test contract is not enough.
-Do not use this broader discovery path during a basic Level 0 install.
+repeated evidence shows the Level 1 lint/type/test contract is not enough.
+Do not use this broader discovery path during a basic Level 1 install.
 
 Level 3 can revisit:
 
@@ -660,8 +660,8 @@ For hooks:
 
 If platform-specific support is in scope, read `docs/platform-support.md`, then
 the specific platform note for the adapter being installed. Do not load those
-docs for ordinary product work. During Level 0 installation, load them only
-when the Level 0 checklist routes you to the required `repo-checks-on-stop`
+docs for ordinary product work. During Level 1 installation, load them only
+when the Level 1 checklist routes you to the required `repo-checks-on-stop`
 adapter or another current-scope platform behavior.
 
 ## Skills
@@ -694,7 +694,7 @@ guidance, or be disabled through user or project Claude Code settings such as
 
 ## Hooks
 
-The narrow `repo-checks-on-stop` behavior is required in Level 0.
+The narrow `repo-checks-on-stop` behavior is required in Level 1.
 
 Default:
 
@@ -705,7 +705,7 @@ in current scope, that runs only that command.
 Add other hooks only if repeated failures justify them.
 ```
 
-A narrow Stop hook that runs `scripts/repo-checks.sh` is required Level 0
+A narrow Stop hook that runs `scripts/repo-checks.sh` is required Level 1
 behavior. Treat
 broader hook systems, secret guards, destructive-action policy, cross-platform
 hook runners, and CI/pre-commit parity as selected Level 3 deterministic
@@ -719,7 +719,7 @@ current context.
 The source-of-truth asset selections live in manifests:
 
 - `manifests/bootstrap.yml`
-- `manifests/level-0.yml`
+- `manifests/level-1.yml`
 - `manifests/level-2.yml`
 - `manifests/optional-assets.yml`
 
@@ -728,15 +728,15 @@ explain how to adapt assets; they are not separate asset lists.
 
 Common install shapes:
 
-- Tiny repo with no agent harness: usually Level 0 canonical or starter.
-- Jira-centered team with vague tickets: usually Level 0 canonical with
+- Tiny repo with no agent harness: usually Level 1 canonical or starter.
+- Jira-centered team with vague tickets: usually Level 1 canonical with
   canonical briefs in Jira ticket/comment or a repo file.
-- Repo with useful but scattered docs: Level 0 plus selected Level 2 context
+- Repo with useful but scattered docs: Level 1 plus selected Level 2 context
   routing; maybe `SPEC-MAP.md` if there are multiple areas.
-- Repo with repeated planning, scope, or value-tradeoff confusion: Level 0 plus
+- Repo with repeated planning, scope, or value-tradeoff confusion: Level 1 plus
   selected Level 2 project context; maybe `docs/project/intent.md` if humans can
   state a short shared north star.
-- Repo with repeated mechanical failures: Level 0 plus selected Level 3
+- Repo with repeated mechanical failures: Level 1 plus selected Level 3
   deterministic controls beyond the required Stop hook running
   `scripts/repo-checks.sh`.
 

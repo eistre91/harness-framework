@@ -12,9 +12,9 @@ Those files are the canonical source for Claude Code guidance. Keep this
 adapter directory limited to Claude-specific assets that cannot live in shared
 templates, such as settings examples, hook adapters, or skill-loading notes.
 
-## Level 0 Stop Hook
+## Level 1 Stop Hook
 
-This adapter includes the narrow Claude Code side of the required Level 0
+This adapter includes the narrow Claude Code side of the required Level 1
 `repo-checks-on-stop` behavior. Copy these source files to the default targets:
 
 ```text
