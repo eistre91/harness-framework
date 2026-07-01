@@ -56,12 +56,9 @@ installer path routes you there.
 
 ## Core Installable Assets
 
-The default Level 0 trial assets are defined in `manifests/level-0.yml`.
-Treat that manifest as the canonical file-level list.
-
-The additive Level 1 assets and behaviors are defined in
-`manifests/level-1.yml`. Treat that manifest as the canonical Level 1 asset
-boundary.
+The default Level 1 bounded-work assets and behavior are defined in
+`manifests/level-1.yml`. Treat that manifest as the canonical core asset and
+behavior boundary.
 
 The additive Level 2 assets and behaviors are defined in
 `manifests/level-2.yml`. Treat that manifest as the canonical Level 2 asset

@@ -9,14 +9,10 @@ assets:
     asset_type: bootstrap
     source: docs/installer.md
     use_when: Starting the default staged installation workflow.
-  - id: level-0-installer-checklist
-    asset_type: bootstrap
-    source: docs/install/level-0.md
-    use_when: Installing and validating the Level 0 foundation.
   - id: level-1-installer-checklist
     asset_type: bootstrap
     source: docs/install/level-1.md
-    use_when: Installing and validating Level 1 bounded work execution.
+    use_when: Installing and validating the Level 1 bounded-work foundation.
   - id: level-2-installer-checklist
     asset_type: bootstrap
     source: docs/install/level-2.md
@@ -53,14 +49,10 @@ assets:
     asset_type: bootstrap
     source: scripts/sync_claude_skills.py
     use_when: Installing generated Claude Code skill mirrors from canonical .agents/skills sources.
-  - id: level-0-manifest
-    asset_type: bootstrap
-    source: manifests/level-0.yml
-    use_when: Selecting default installable starter assets.
   - id: level-1-manifest
     asset_type: bootstrap
     source: manifests/level-1.yml
-    use_when: Selecting additive assets and behaviors for bounded work execution.
+    use_when: Selecting default bounded-work starter assets.
   - id: level-2-manifest
     asset_type: bootstrap
     source: manifests/level-2.yml

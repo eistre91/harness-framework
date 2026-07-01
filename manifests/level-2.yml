@@ -1,7 +1,7 @@
 name: level-2
 description: Additive asset and behavior set for product context routing.
 base: manifests/level-1.yml
-install_policy: Install after Level 1 when repo evidence shows agents need stronger routing to product areas, domain context, ADRs, or deep project docs.
+install_policy: Install after the Level 1 bounded-work foundation when repo evidence shows agents need stronger routing to product areas, domain context, ADRs, or deep project docs.
 level_definition_source: docs/maturity-model.md#level-2-context-routing
 assets:
   - id: spec-map

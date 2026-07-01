@@ -5,7 +5,7 @@ decision log. It is durable repo documentation. Do not record machine-local
 paths or temporary installation-session proposal paths here.
 
 Use this template for the current approved stage. Fill or keep only the
-sections that apply to that stage. Do not use a Level 0 proposal to approve
+sections that apply to that stage. Do not use a Level 1 proposal to approve
 later-stage assets.
 
 ## Repo Signals
@@ -54,7 +54,7 @@ Claude Code note, when relevant:
 ## Manifest Inclusion Table
 
 Use the current stage manifest as the source of truth. Do not use this table to
-preselect future-stage or optional assets during a Level 0 stage.
+preselect future-stage or optional assets during a Level 1 stage.
 
 | Stage | Asset or behavior | Status | Reason | Revisit signal |
 | --- | --- | --- | --- | --- |
@@ -82,22 +82,50 @@ Use when project context or intent is in the current approved stage.
 - Durability rationale:
 - Stale brief mitigation when briefs are committed:
 
-## Verification And Validation
-
-| Kind | Command or evidence | Status | Notes |
-| --- | --- | --- | --- |
-| Full-repo verification |  | include / already exists / missing / opt out |  |
-| Focused subsystem validation |  | include / already exists / missing / opt out |  |
-| CI-only verification |  | include / already exists / missing / opt out |  |
-| Manual acceptance evidence |  | include / not applicable |  |
-
 ## Tests, Lint, And Type Checking
 
 | Capability | Existing command | Decision | Reason / future default |
 | --- | --- | --- | --- |
-| Tests |  | include / add / opt out |  |
-| Lint / format |  | include / add / opt out |  |
-| Type check |  | include / add / opt out |  |
+| Tests |  | include / add / omit with reason / waiver |  |
+| Lint |  | include / add / omit with reason / waiver |  |
+| Type check |  | include / add / omit with reason / waiver |  |
+
+## Level 1 Stop Automation
+
+Use when the current approved stage is Level 1. Keep this section separate from
+later deterministic controls because `repo-checks-on-stop` is required Level 1
+behavior.
+
+- Desired hook-capable runtime(s) in scope:
+- Decision: already satisfied / install / adapt / unsupported gap
+- Adapter source and files to create or edit:
+- Hook event and command:
+- Repo-root handling:
+- Output and blocking behavior:
+- Validation command and result:
+- Runtime Stop event tested or wrapper smoke-tested:
+- Human decision or gap:
+- Revisit signal:
+
+## Acceptance Evidence
+
+| Kind | Command or evidence | Status | Notes |
+| --- | --- | --- | --- |
+| Manual acceptance evidence |  | include / not applicable |  |
+
+## Later Deterministic Controls
+
+Use only when the current approved stage includes Level 3 deterministic
+controls or an explicit selected pull-in. Do not use this section to approve
+future-stage assets during Level 1.
+
+| Candidate | Existing command or evidence | Status | Notes |
+| --- | --- | --- | --- |
+| Focused subsystem validation |  | observation / include now / defer |  |
+| CI-only verification |  | observation / include now / defer |  |
+| Format checks |  | observation / include now / defer |  |
+| Build/package checks |  | observation / include now / defer |  |
+| Static analysis |  | observation / include now / defer |  |
 
 ## Gaps Surfaced
 

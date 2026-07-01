@@ -1,8 +1,5 @@
 # Codex Adapter
 
-This adapter is intentionally a guidance placeholder, not a complete install
-package.
-
 Use when the target repo wants Codex-specific hooks or local configuration.
 
 Before implementing Codex-specific hooks, project config, skill loading, or
@@ -15,15 +12,42 @@ Those files are the canonical source for Codex guidance. Keep this adapter
 directory limited to Codex-specific assets that cannot live in shared
 templates, such as config examples, hook adapters, or skill-loading wrappers.
 
-Unclear until a target repo needs it:
+## Level 1 Stop Hook
 
-- which hooks are worth adding,
-- whether project-local `.codex/` config should be committed,
-- how hook output should be shaped against current Codex docs.
+This adapter includes the narrow Codex side of the required Level 1
+`repo-checks-on-stop` behavior. Copy these source files to the default targets:
 
-Potential future assets:
+```text
+adapters/codex/hooks.json -> .codex/hooks.json
+adapters/codex/hooks/repo-checks-on-stop.py -> .codex/hooks/repo-checks-on-stop.py
+```
 
-- Stop hook wrapper for `scripts/repo-checks.sh`,
-- secret or sensitive-file guard,
-- destructive shell warning rules,
-- bounded hook output formatting.
+Install the shared runner from `adapters/common-hooks` at the same time:
+
+```text
+scripts/hooks/__init__.py
+scripts/hooks/repo_checks_on_stop.py
+```
+
+The Codex files declare the `Stop` hook, call the shared runner, and map the
+neutral result to Codex Stop output. Normal failures become
+`decision: "block"`; recursive Stop failures with `stop_hook_active` become a
+non-blocking `systemMessage` so the agent does not get stuck in a Stop loop.
+Verification behavior remains in the target repo's `scripts/repo-checks.sh`.
+
+The provided `hooks.json` command is POSIX-oriented and resolves the wrapper
+from the Git root so it works when Codex starts in a subdirectory. For Windows,
+`commandWindows` or TOML `command_windows` can call the same wrapper, but the
+target environment must still be able to execute `scripts/repo-checks.sh`, for
+example through Git Bash or WSL. If it cannot, record an unsupported-runtime gap
+or add a target-specific Windows checks adapter with explicit approval.
+
+Keep `scripts/repo-checks.sh` quiet when checks pass. Its output should be
+limited to actionable failures, missing setup, or next steps the agent or human
+needs to act on.
+
+## Not Included
+
+Broader hook policies are not part of this adapter. Add secret guards,
+destructive shell warning rules, tool policy, or bounded hook output formatting
+only when the current approved scope includes those deterministic controls.

@@ -27,9 +27,9 @@ def test_validate_manifests_accepts_existing_sources_and_targets(tmp_path: Path)
     source.write_text("# Agents\n", encoding="utf-8")
     companion.write_text("# Extra\n", encoding="utf-8")
     read_before.write_text("# Principles\n", encoding="utf-8")
-    (manifests / "level-0.yml").write_text(
+    (manifests / "level-1.yml").write_text(
         """\
-name: level-0
+name: level-1
 assets:
   - id: agents-entrypoint
     asset_type: installable
@@ -55,9 +55,9 @@ def test_validate_manifests_reports_objective_drift(tmp_path: Path) -> None:
     module = load_verify_manifests()
     manifests = tmp_path / "manifests"
     manifests.mkdir()
-    (manifests / "level-0.yml").write_text(
+    (manifests / "level-1.yml").write_text(
         """\
-name: level-0
+name: level-1
 assets:
   - id: duplicate
     asset_type: installable

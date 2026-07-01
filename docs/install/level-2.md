@@ -97,7 +97,8 @@ Include:
 - current stage: Level 2,
 - target maturity behavior: context routing,
 - installation mode: `canonical`, `starter`, or `overlay`,
-- Level 1 foundation status and any Level 1 gaps that affect Level 2,
+- Level 1 bounded-work foundation status and any Level 1 gaps that affect
+  Level 2,
 - repo signals that justify Level 2 now,
 - Level 2 asset completeness,
 - expected Level 2 behavioral completeness,

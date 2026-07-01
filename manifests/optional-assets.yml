@@ -5,7 +5,7 @@ assets:
     asset_type: installable
     source: templates/core/CLAUDE.md
     default_target: CLAUDE.md
-    maturity: level-0
+    maturity: level-1
     category: platform-pointer
     install_when: The target repo uses Claude Code or the human wants Claude Code support.
     adapt:
@@ -14,7 +14,7 @@ assets:
     asset_type: installable
     source: scripts/sync_claude_skills.py
     default_target: scripts/sync_claude_skills.py
-    maturity: level-0
+    maturity: level-1
     category: platform-skill-adapter
     install_when: The target repo uses Claude Code native skill discovery for harness-provided skills.
     satisfy_by:
@@ -87,6 +87,12 @@ assets:
       - doc routing maps
       - approval rules for removal
 adapters:
+  - id: common-hooks
+    asset_type: adapter
+    source: adapters/common-hooks
+    install_when: The target repo uses the framework-provided Codex or Claude Code Stop adapters for shared repo checks behavior.
+    read_before_install:
+      - docs/platform-support.md
   - id: codex
     asset_type: adapter
     source: adapters/codex

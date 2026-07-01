@@ -10,7 +10,7 @@ behavior to work across multiple platforms.
 
 ## Current Public Docs Checked
 
-Checked on 2026-06-17 against Anthropic Claude Code docs:
+Checked on 2026-06-30 against Anthropic Claude Code docs:
 
 - `https://code.claude.com/docs/en/memory`
 - `https://code.claude.com/docs/en/skills`
@@ -154,6 +154,95 @@ If the same policy must also run in Codex, pre-commit, or CI, the Claude hook
 should dispatch to a shared runner and translate only Claude-specific input and
 output.
 
+## Level 1 Stop Adapter
+
+For the required Level 1 `repo-checks-on-stop` behavior, use the standard
+shared runner from `adapters/common-hooks` plus the Claude Code declaration and
+wrapper from `adapters/claude`.
+
+Default target paths:
+
+```text
+scripts/hooks/repo_checks_on_stop.py
+.claude/settings.json
+.claude/hooks/repo-checks-on-stop.py
+```
+
+The Claude Code declaration should be a single `Stop` command hook. Do not add
+a matcher; Claude Code ignores matchers for `Stop`.
+
+Minimal project settings shape:
+
+```json
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3",
+            "args": [
+              "${CLAUDE_PROJECT_DIR}/.claude/hooks/repo-checks-on-stop.py"
+            ],
+            "timeout": 600,
+            "statusMessage": "Running repo checks"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Claude Code passes one JSON object on stdin to command hooks. The shared fields
+include `session_id`, `cwd`, and `hook_event_name`; `Stop` also includes
+`stop_hook_active`. The standard wrapper leaves payload interpretation to the
+shared runner, which uses `stop_hook_active` to avoid recursive Stop blocking
+while still reporting check failures, then maps the neutral result to Claude
+Code Stop output.
+
+The standard Claude Code wrapper exits `0` with no output when
+`scripts/repo-checks.sh` passes. Keep that script quiet on pass; Stop hook
+output should be limited to actionable failures, missing setup, or next steps.
+When the command fails on an ordinary Stop event, the wrapper exits `0` with
+Stop JSON:
+
+```json
+{
+  "decision": "block",
+  "reason": "scripts/repo-checks.sh failed at Stop..."
+}
+```
+
+For Claude Code `Stop`, `decision: "block"` makes Claude continue instead of
+ending the turn. Do not make `scripts/repo-checks.sh` emit Claude hook JSON;
+keep all Claude output mapping in the hook adapter.
+
+When Claude Code sends `stop_hook_active: true`, the standard wrapper still
+runs `scripts/repo-checks.sh`, but maps failures to non-blocking JSON:
+
+```json
+{
+  "systemMessage": "scripts/repo-checks.sh failed at Stop..."
+}
+```
+
+That reports the actionable check output without starting another Stop-hook
+continuation loop.
+
+Project `.claude/settings.json` is team-shared. Personal settings can disable
+or override hooks, and managed settings can restrict project hooks entirely.
+Record an unsupported-runtime gap if the target environment cannot load project
+Stop hooks.
+
+For Windows support, the project settings command can invoke the same
+`.claude/hooks/repo-checks-on-stop.py` wrapper, but the shared runner still
+executes `scripts/repo-checks.sh`. Use this adapter on Windows only when the
+target repo has POSIX shell support such as Git Bash or WSL, or record an
+unsupported-runtime gap until the target repo approves a Windows-specific
+checks adapter.
+
 ## Adapter Pattern
 
 Prefer this shape:
@@ -188,6 +277,8 @@ Add Claude Code support when:
 - the repo needs the conditional `CLAUDE.md` pointer so Claude Code loads the
   shared `AGENTS.md` guidance.
 
-For a Claude Code Level 0 trial, a one-line `CLAUDE.md` pointer should be
+For Claude Code instruction loading, a one-line `CLAUDE.md` pointer should be
 enough. Keep it as `@AGENTS.md` unless there is a genuine Claude-specific
-behavior to document.
+behavior to document. If Claude Code is a desired hook-capable agent runtime in
+current scope, Level 1 also needs the required `repo-checks-on-stop` behavior
+through a narrow Claude Code Stop hook adapter when supported.

@@ -6,8 +6,9 @@ support.
 Use when: the target repo needs Codex, Claude Code, pre-commit, CI, or another
 runtime to load skills, settings, hooks, or other adapter-specific behavior.
 
-Do not read this for ordinary Level 0 installation unless platform-specific
-support is part of the requested harness shape. Start with `docs/installer.md`,
+Do not read this for ordinary Level 1 installation until the Level 1 checklist
+routes here for the required `repo-checks-on-stop` adapter or for another
+platform-specific behavior in current scope. Start with `docs/installer.md`,
 the current stage checklist, and the current stage manifest first.
 
 ## Read Next
@@ -15,6 +16,8 @@ the current stage checklist, and the current stage manifest first.
 - Codex-specific support: `docs/platforms/codex.md`
 - Claude Code-specific support: `docs/platforms/claude-code.md`
 - Pre-commit support: `adapters/pre-commit/README.md`
+- Broad hook adapter reference: `docs/hook-pattern.md`, only when installing or
+  designing hooks beyond the required Level 1 Stop adapter.
 
 ## Principle
 
@@ -47,11 +50,109 @@ specific runtime, not to become another copy of the harness.
 5. Record the adapter, its value, and its removal or expansion signal in the
    target repo's harness docs.
 
-If the repo uses Claude Code and no hooks or native skills are needed, support
-can often be just the conditional pointer file `CLAUDE.md` containing
-`@AGENTS.md`.
+If the repo uses Claude Code only for instruction loading and another primary
+runtime owns the required Stop automation, support can often be just the
+conditional pointer file `CLAUDE.md` containing `@AGENTS.md`.
+
+## Level 1 Repo Checks Stop Hook
+
+Level 1 requires `repo-checks-on-stop` for each desired hook-capable agent
+runtime in current scope. The canonical behavior is:
+
+```text
+platform Stop hook declaration
+  -> platform wrapper script
+  -> shared scripts/hooks/repo_checks_on_stop.py
+  -> scripts/repo-checks.sh
+  -> neutral pass, block, or non-blocking report result
+  -> platform wrapper maps result back to platform Stop output
+```
+
+The shared contract is deliberately narrow:
+
+- `scripts/repo-checks.sh` owns verification behavior.
+- Platform hook files only declare when and how the runtime calls the hook.
+- Platform wrappers resolve the repo root, import the shared runner, and map
+  its neutral result into platform Stop output.
+- `scripts/hooks/repo_checks_on_stop.py` runs only
+  `scripts/repo-checks.sh` from the repo root and returns a neutral pass or
+  block result, or a non-blocking report when `stop_hook_active` indicates the
+  runtime is already in a Stop-hook continuation.
+- `scripts/repo-checks.sh` should be quiet when checks pass. Output should be
+  limited to actionable failures, missing setup, or next steps.
+- Broad hook policy, secret guards, destructive-action rules, tool policy, and
+  CI or pre-commit parity remain later deterministic controls unless
+  explicitly approved in current scope.
+
+Copy the target-independent shared runner from:
+
+```text
+adapters/common-hooks/scripts/hooks/__init__.py
+adapters/common-hooks/scripts/hooks/repo_checks_on_stop.py
+```
+
+to:
+
+```text
+scripts/hooks/__init__.py
+scripts/hooks/repo_checks_on_stop.py
+```
+
+Then copy or adapt the platform declaration and wrapper for each runtime in
+scope:
+
+| Runtime | Adapter source | Default target |
+| --- | --- | --- |
+| Codex | `adapters/codex/hooks.json` | `.codex/hooks.json` |
+| Codex | `adapters/codex/hooks/repo-checks-on-stop.py` | `.codex/hooks/repo-checks-on-stop.py` |
+| Claude Code | `adapters/claude/settings.json` | `.claude/settings.json` |
+| Claude Code | `adapters/claude/hooks/repo-checks-on-stop.py` | `.claude/hooks/repo-checks-on-stop.py` |
+
+The standard platform wrappers exit silently when `scripts/repo-checks.sh`
+passes. When checks fail on an ordinary Stop event, each wrapper emits Stop JSON
+with `decision: "block"` and a reason that tells the agent to fix the failures.
+For both Codex and Claude Code, a blocked Stop continues the agent session
+instead of accepting the turn as finished. When checks fail while
+`stop_hook_active` is true, wrappers emit a non-blocking `systemMessage` with
+the same actionable output instead of blocking again, so the agent does not get
+stuck in a Stop-hook loop.
+
+Keep platform differences at the adapter edge:
+
+| Difference | Codex | Claude Code |
+| --- | --- | --- |
+| Config path | `.codex/hooks.json` or `.codex/config.toml` | `.claude/settings.json` |
+| Stop matcher | No matcher; Stop is turn-scoped | No matcher; Stop ignores matchers |
+| Repo-root command | Resolve from Git root because Codex may start in a subdirectory | Use `${CLAUDE_PROJECT_DIR}` with exec-form `args` for project paths |
+| Trust/settings | Project `.codex` config and changed non-managed hooks must be trusted | Project settings can be disabled or limited by managed policy |
+| Windows command | `commandWindows` or TOML `command_windows` can call the wrapper, but the checks command still needs POSIX shell support | Use explicit shell or a Windows wrapper only when `scripts/repo-checks.sh` can run |
+
+The shared hook behavior is portable across Codex and Claude Code, but the
+Level 1 checks command is `scripts/repo-checks.sh`. The provided declarations
+are POSIX-oriented examples and require an environment that can execute that
+script, such as POSIX shell, Git Bash, or WSL. On native Windows without that
+support, changing only `commandWindows`, `command_windows`, or the Claude
+settings command is not enough. Record an unsupported-runtime gap, or add a
+target-specific Windows check adapter with explicit approval.
+
+Validate the adapter before claiming Level 1 completeness:
+
+1. Run `scripts/repo-checks.sh` directly from the target repo root.
+2. Run each wrapper from the repo root with a Stop-shaped payload, for example
+   `printf '%s\n' '{"hook_event_name":"Stop"}' | python3 .codex/hooks/repo-checks-on-stop.py`.
+3. Run each wrapper from a subdirectory using the same repo-root command form
+   declared in the platform config, for example
+   `python3 "$(git rev-parse --show-toplevel)/.codex/hooks/repo-checks-on-stop.py"`.
+4. Record whether an actual runtime Stop event was tested or only the wrapper
+   was smoke-tested.
+5. Record the adapter path, hook command, repo-root handling, blocking
+   behavior, and validation result in `docs/harness/`.
 
 ## Hook Pattern
+
+This is the routing summary. For the full platform-independent hook reference,
+including event flows, shared entrypoint shape, testing strategy, and security
+guidance, read `docs/hook-pattern.md` only when hook design is in current scope.
 
 When multiple runtimes need the same hook behavior, use this shape:
 
@@ -144,7 +245,8 @@ frontmatter or metadata without always loading the full instructions.
 
 - Copying full hook policy into `.codex/`, `.claude/`, pre-commit, and CI.
 - Maintaining separate review or implementation skill text for each runtime.
-- Adding hooks before `scripts/repo-checks.sh` defines the command contract.
+- Adding hooks beyond the required repo-checks Stop adapter before
+  `scripts/repo-checks.sh` defines the command contract.
 - Installing platform files for tools the team does not use.
 - Treating platform docs as always-loaded product context.
 
