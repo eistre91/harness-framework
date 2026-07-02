@@ -18,12 +18,12 @@ Active owners:
 
 - Principles: `docs/principles.md`
 - Staged installer entrypoint: `docs/installer.md`
-- Stage installer checklists: `docs/install/level-1.md` and
-  `docs/install/level-2.md`
+- Stage installer checklists: `docs/install/level-1.md`,
+  `docs/install/level-2.md`, and `docs/install/level-3.md`
 - Maturity definitions and failure signals: `docs/maturity-model.md`
-- Bootstrap, Level 1, Level 2, and optional assets:
+- Bootstrap, Level 1, Level 2, Level 3, and optional assets:
   `manifests/bootstrap.yml`, `manifests/level-1.yml`,
-  `manifests/level-2.yml`, and
+  `manifests/level-2.yml`, `manifests/level-3.yml`, and
   `manifests/optional-assets.yml`
 - Broad installation reference: `docs/implementation-guide.md`
 - Portable versus repo-specific assets: `docs/portable-assets.md`
@@ -205,6 +205,10 @@ Level 2 adds context routing. Its canonical additive asset and behavior list
 lives in `manifests/level-2.yml`; the prose definition lives in
 `docs/maturity-model.md`.
 
+Level 3 adds selected deterministic controls for agent action bounds. Its
+canonical control-family menu and protocol lives in `manifests/level-3.yml`;
+the install path lives in `docs/install/level-3.md`.
+
 Optional pull-ins should not be installed just because they exist. Use
 `manifests/optional-assets.yml` and the Harness Fit Proposal to justify their
 value, cost, and revisit signal.
@@ -232,8 +236,9 @@ Record the target maturity, install mode, installed asset completeness,
 behavioral completeness, deferrals, and revisit signals.
 
 The levels describe common growth pressure, not a strict installation order. A
-repo may add secret guards from Level 3 before it needs a Level 2 context
-router, when the proposal explains the evidence.
+repo may add selected deterministic controls from Level 3 before it needs a
+Level 2 context router, when the proposal explains the evidence and the
+operator accepts the friction trade-off.
 
 During target-repo installation, `docs/installer.md` stages this diagnostic
 model so agents install and validate the current layer before inspecting the
@@ -468,16 +473,18 @@ exist.
 
 Add other hooks when a failure is common, cheap to detect, and expensive enough
 to prevent automatically. Beyond the required repo checks Stop hook, start with
-narrow, high-signal checks:
+narrow, high-signal controls:
 
 - guard secrets or sensitive files,
-- warn or block destructive actions,
+- guide or block destructive actions,
 - run `scripts/repo-checks.sh` on pre-commit.
 
 For broader Level 3 controls, the safety policy should also identify protected
-paths, protected command families, ask/warn/block behavior, and whether an
-operation is safe for the specific call, including whether a command can run
-concurrently in the current context.
+paths, protected command families, the selected mode such as observe, guide,
+block, or verify, and whether an operation is safe for the specific call,
+including whether a command can run concurrently in the current context.
+Selected controls should record known limits rather than claiming complete
+coverage.
 
 Do not add hooks that encode judgment better handled by review, are noisy, or
 will be bypassed quickly.

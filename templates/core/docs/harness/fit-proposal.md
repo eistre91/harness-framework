@@ -113,19 +113,17 @@ behavior.
 | --- | --- | --- | --- |
 | Manual acceptance evidence |  | include / not applicable |  |
 
-## Later Deterministic Controls
+## Selected Deterministic Controls
 
 Use only when the current approved stage includes Level 3 deterministic
 controls or an explicit selected pull-in. Do not use this section to approve
 future-stage assets during Level 1.
 
-| Candidate | Existing command or evidence | Status | Notes |
-| --- | --- | --- | --- |
-| Focused subsystem validation |  | observation / include now / defer |  |
-| CI-only verification |  | observation / include now / defer |  |
-| Format checks |  | observation / include now / defer |  |
-| Build/package checks |  | observation / include now / defer |  |
-| Static analysis |  | observation / include now / defer |  |
+Mode: observe / guide / block / verify.
+
+| Control | Why now | Event | Mode | Mechanism | Files | Validation | Friction risk | Known limits | Revisit / removal signal |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+|  |  |  |  |  |  |  |  |  |  |
 
 ## Gaps Surfaced
 

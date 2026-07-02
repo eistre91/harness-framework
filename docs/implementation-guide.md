@@ -34,9 +34,12 @@ procedure here.
   `docs/install/level-1.md`
 - Level 2 context-routing installation procedure, gate, and handoff details:
   `docs/install/level-2.md`
-- Bootstrap, Level 1, Level 2, and optional asset boundaries:
+- Level 3 selected-control installation procedure, gate, and handoff details:
+  `docs/install/level-3.md`
+- Bootstrap, Level 1, Level 2, Level 3, and optional asset boundaries:
   `manifests/bootstrap.yml`, `manifests/level-1.yml`,
-  `manifests/level-2.yml`, and `manifests/optional-assets.yml`
+  `manifests/level-2.yml`, `manifests/level-3.yml`, and
+  `manifests/optional-assets.yml`
 - Portable asset and adapter boundaries: `docs/portable-assets.md`
 - Platform support: `docs/platform-support.md`, then only the relevant
   platform note routed by the current stage
@@ -133,7 +136,7 @@ Where do hook decisions live?
 Level 1 owns only the narrow `repo-checks-on-stop` behavior described in
 `docs/install/level-1.md` and `manifests/level-1.yml`. Broader hook policy,
 secret guards, destructive-action controls, and CI or pre-commit parity require
-separate approved scope.
+separate approved Level 3 scope through `docs/install/level-3.md`.
 
 Where do final report and handoff fields come from?
 

@@ -17,6 +17,10 @@ assets:
     asset_type: bootstrap
     source: docs/install/level-2.md
     use_when: Installing and validating Level 2 context routing.
+  - id: level-3-installer-checklist
+    asset_type: bootstrap
+    source: docs/install/level-3.md
+    use_when: Installing and validating selected Level 3 deterministic controls.
   - id: framework-doc
     asset_type: bootstrap
     source: docs/framework.md
@@ -57,6 +61,10 @@ assets:
     asset_type: bootstrap
     source: manifests/level-2.yml
     use_when: Selecting additive assets and behaviors for context routing.
+  - id: level-3-manifest
+    asset_type: bootstrap
+    source: manifests/level-3.yml
+    use_when: Selecting deterministic control families and protocol for Level 3.
   - id: optional-assets-manifest
     asset_type: bootstrap
     source: manifests/optional-assets.yml

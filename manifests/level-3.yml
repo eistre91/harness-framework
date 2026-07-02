@@ -1,0 +1,135 @@
+name: level-3
+description: Selected deterministic controls for agent action bounds.
+base: manifests/level-1.yml
+install_policy: Install after Level 1 when repo evidence or operator decision justifies selected deterministic controls. Do not install every control family by default.
+level_definition_source: docs/maturity-model.md#level-3-deterministic-controls
+assets:
+  - id: selected-control-protocol
+    asset_type: behavior
+    required: true
+    satisfy_by:
+      - Use docs/install/level-3.md to inspect only the selected control families in current approved scope.
+      - Propose compact selected-control rows before editing target-repo files.
+      - Install only controls explicitly approved by the operator for this Level 3 pass.
+      - Record selected controls, known limits, validation evidence, friction risk, deferrals, and revisit or removal signals in the durable harness record.
+    adapt:
+      - selected control families
+      - lifecycle events or mechanisms where controls fire
+      - "enforcement mode: observe, guide, block, or verify"
+      - target repo validation command or smoke test
+      - known coverage limits
+      - revisit or removal signal
+  - id: secret-sensitive-file-controls
+    asset_type: behavior
+    install_when: Secret, credential, sensitive-file, local-state, or private-operator-state exposure is plausible or has happened.
+    satisfy_by:
+      - Block or guide common direct reads of sensitive paths when the selected agent runtime supports it.
+      - Block committing secret-looking values or sensitive files when a staged-file or pre-commit mechanism is the cheapest useful control.
+      - Validate secret wiring by names, declarations, aliases, and permissions without reading, printing, or persisting secret values.
+      - Record known limits instead of claiming complete prevention.
+    adapt:
+      - sensitive path patterns
+      - secret declaration and alias sources
+      - commit-time or runtime mechanism
+      - redaction or evidence policy
+  - id: destructive-command-controls
+    asset_type: behavior
+    install_when: Destructive shell commands, data removal, history rewriting, production-affecting commands, or local-state mutation would cause expensive cleanup or confusing state.
+    satisfy_by:
+      - Guide or block selected command families at the lifecycle point where risk appears.
+      - Keep matches narrow enough that agents and humans will not routinely bypass them.
+      - Give actionable output that names the risk and expected next step.
+    adapt:
+      - protected command families
+      - allowlisted safe forms
+      - block or guide policy
+      - human-approval wording when needed
+  - id: protected-path-controls
+    asset_type: behavior
+    install_when: Certain paths, generated files, vendored files, migrations, deployment files, or harness surfaces require extra trust before agent reads or writes.
+    satisfy_by:
+      - Guide, block, or verify access to selected paths through the cheapest useful mechanism.
+      - Record whether the control covers reads, writes, commits, or handoff only.
+      - Record known platform or shell-level bypass limits.
+    adapt:
+      - protected paths
+      - protected action types
+      - approved mutation path
+      - existing owners or review requirements
+  - id: commit-and-handoff-controls
+    asset_type: behavior
+    install_when: Agents repeatedly produce poor commits, missing handoff evidence, incomplete final reports, or confusing closeout state.
+    satisfy_by:
+      - Use Git hooks, Stop hooks, final-response checks, or existing repo tools to guide or verify commit and handoff standards.
+      - Keep checks focused on evidence that helps humans and future agents continue work.
+    adapt:
+      - commit message or staged-change standards
+      - final report or handoff expectations
+      - tracker or work-brief sync policy
+  - id: harness-config-artifact-validation
+    asset_type: behavior
+    install_when: Harness-owned configs, prompts, skills, workflows, schedules, adapters, generated mirrors, or routing artifacts can drift or become malformed.
+    satisfy_by:
+      - Add deterministic validation for selected harness-owned artifacts.
+      - Prefer existing repo-local validators or focused scripts over broad bespoke checks.
+      - Route validation through the lifecycle point where malformed artifacts cause harm.
+    adapt:
+      - artifact types
+      - schema or validator source
+      - validation command
+      - generated mirror or sync policy
+  - id: generated-artifact-freshness-controls
+    asset_type: behavior
+    install_when: Agents or tools apply generated previews, migrations, snapshots, codegen output, or bulk changes where stale artifacts would be harmful.
+    satisfy_by:
+      - Verify freshness or reviewed-snapshot evidence before apply, commit, or handoff.
+      - Prefer dry-run or preview modes when available.
+      - Record that freshness does not prove semantic correctness.
+    adapt:
+      - generated artifact source
+      - freshness evidence
+      - preview, dry-run, or apply command
+      - stale-artifact handling
+  - id: runtime-readiness-controls
+    asset_type: behavior
+    install_when: Agent runtime setup, workspace roots, local dependencies, permissions, or integration state repeatedly block or misdirect work.
+    satisfy_by:
+      - Add diagnostic readiness checks that report blockers and next actions without mutating the target repo.
+      - Avoid credentialed or remote checks as default local gates unless the operator explicitly approves them.
+    adapt:
+      - runtime prerequisites
+      - workspace-root checks
+      - local dependency checks
+      - unsupported-runtime gaps
+  - id: agent-command-execution-bounds
+    asset_type: behavior
+    install_when: Agent-executed commands need path containment, timeout expectations, output bounds, declared working directories, or per-call safety policy.
+    satisfy_by:
+      - Bound selected command execution through wrappers, hooks, or existing tool policy.
+      - Keep shared command policy in a source-owned script or doc rather than duplicating it in platform adapters.
+      - Record known coverage gaps for shell aliases, script wrappers, or unsupported tool paths.
+    adapt:
+      - working-directory policy
+      - timeout or output policy
+      - safe command families
+      - platform adapter coverage
+  - id: repo-checks-extensions
+    asset_type: behavior
+    install_when: The Level 1 lint/type/test contract misses recurring deterministic failures or selected agent actions need broader verification at a lifecycle point.
+    satisfy_by:
+      - Add focused checks only when they provide actionable harness feedback.
+      - Avoid turning scripts/repo-checks.sh into a dumping ground for broad CI/CD maturity.
+      - Preserve quiet pass output and clear failure remediation.
+    adapt:
+      - check command
+      - lifecycle event or manual invocation path
+      - expected runtime and noise
+      - omission, waiver, or CI-only reason
+excluded_from_level_asset_boundary:
+  - full CI/CD modernization
+  - broad static-analysis or maintainability sensors unless used to constrain a specific agent action
+  - remote credentialed checks as default local gates
+  - full task or issue orchestration
+  - PRD-specific controller loops
+  - app-specific state machines
+  - reusable control implementations before a concrete target-repo need proves the shape

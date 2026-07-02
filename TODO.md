@@ -3,8 +3,9 @@
 This is a work record for deferred framework ideas, not active implementation
 guidance. Use `docs/principles.md`, `docs/framework.md`,
 `docs/installer.md`, `docs/install/level-1.md`,
-`docs/install/level-2.md`, `docs/implementation-guide.md`,
-`docs/maturity-model.md`, and the manifests as the current source of truth.
+`docs/install/level-2.md`, `docs/install/level-3.md`,
+`docs/implementation-guide.md`, `docs/maturity-model.md`, and the manifests as
+the current source of truth.
 
 ## Deferred: Project Intent / PRD / Technical Design To Issue Pipeline
 
@@ -144,8 +145,9 @@ Why deferred:
 - Level 1 and Level 2 checklists need more real-install evidence before the
   framework can know where they are too loose, too heavy, or missing acceptance
   gates.
-- Selected Level 3 pull-ins still need clear local acceptance criteria and
-  stage boundaries.
+- Selected Level 3 controls now have an initial stage path, but the framework
+  still needs real-install evidence to refine control-family boundaries,
+  validation expectations, and friction trade-offs.
 - Durable stage logging under `docs/harness/` has flexible guidance, but the
   framework needs more install examples before prescribing a stronger shape.
 - A docs-only installer path may be enough; add an installer skill or evals only
@@ -153,9 +155,9 @@ Why deferred:
 
 Potential future shape:
 
-- Tighten `docs/install/level-1.md` and `docs/install/level-2.md` from observed
-  install failures.
-- Add selected higher-level pull-in guidance without encouraging broad
+- Tighten `docs/install/level-1.md`, `docs/install/level-2.md`, and
+  `docs/install/level-3.md` from observed install failures.
+- Refine selected higher-level pull-in guidance without encouraging broad
   multi-level installs.
 - Strengthen recommendations for durable stage logs once several install shapes
   are observed.
@@ -166,7 +168,8 @@ Potential future shape:
 
 Signal to revisit:
 
-- Level 1 or Level 2 installs still vary too much with the current checklists.
+- Level 1, Level 2, or Level 3 installs still vary too much with the current
+  checklists.
 - Harness installs pass structurally but leave behavior or completeness unclear.
 - Installing agents over-read higher-stage manifests, optional manifests,
   adapter docs, deterministic-control guidance, future-facing docs, or
@@ -174,6 +177,37 @@ Signal to revisit:
   by stage scope.
 - Humans repeatedly correct proposals that conflate out-of-stage observations
   with approval to install later-stage assets.
+
+## Deferred: Fit Proposal Scaling
+
+`templates/core/docs/harness/fit-proposal.md` currently acts as the durable
+proposal and decision-log template for multiple installation stages. As later
+levels gain richer proposal surfaces, the template may become too long or too
+easy for agents to treat as one large universal form.
+
+Why deferred:
+
+- Level 3 currently needs only a compact selected-control table.
+- Splitting proposal templates too early could create routing overhead and
+  duplicate common proposal fields.
+- Real install examples should show whether teams prefer one durable decision
+  log, per-stage proposal sections, or stage-specific templates that roll up
+  into `docs/harness/`.
+
+Potential future shape:
+
+- Keep a short top-level fit proposal as a stage router and decision log.
+- Move detailed proposal fields into stage-specific templates, such as Level 1,
+  Level 2, and Level 3 appendices.
+- Let `docs/install/*.md` own proposal field requirements and keep the template
+  mostly empty, with links to stage sections.
+
+Signal to revisit:
+
+- The template becomes hard to scan during installs.
+- Agents fill out irrelevant future-stage sections.
+- New maturity levels need enough proposal detail that the shared template
+  starts duplicating stage checklists.
 
 ## Deferred: Skill Adaptation Guidance
 

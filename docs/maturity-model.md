@@ -32,8 +32,9 @@ Use the level-specific "Add when" and "Move beyond when" sections below to
 choose the smallest next harness change.
 
 Maturity level is not the same as installation completeness. A target repo can
-be aimed at Level 2 behavior without installing every canonical Level 2 asset.
-Every stage proposal or install record should state three separate claims:
+be aimed at a level's behavior without installing every canonical asset or
+control family for that level. Every stage proposal or install record should
+state three separate claims:
 
 - target maturity: the behavior the repo is being fitted toward,
 - asset completeness: whether the canonical manifest assets for that level are
@@ -52,7 +53,7 @@ Use these installation modes:
 - `overlay`: apply harness principles through existing repo conventions with
   little or no new asset creation.
 
-When an install is partial, do not describe the repo as simply "Level 2."
+When an install is partial, do not describe the repo as simply at that level.
 Prefer:
 
 ```text
@@ -68,6 +69,7 @@ assets are defined in manifests:
 - Level 1 required bounded-work assets and behavior:
   `manifests/level-1.yml`
 - Level 2 additive assets and behaviors: `manifests/level-2.yml`
+- Level 3 selected-control families and protocol: `manifests/level-3.yml`
 - Other optional pull-ins and adapters: `manifests/optional-assets.yml`
 
 Historical note: the old orientation-only Level 0 and bounded-work Level 1
@@ -239,53 +241,93 @@ Move beyond when:
 
 ## Level 3: Deterministic Controls
 
-Moves repeatable checks from agent memory into tools.
+Narrows agent outcomes with selected deterministic controls.
 
-Assets:
+Default control families and the selected-control protocol are defined in
+`manifests/level-3.yml`. The install path is `docs/install/level-3.md`.
 
-- secret and sensitive-file guards,
-- destructive-action warnings or blocks,
-- tool-safety checklist for protected paths, protected commands, and
-  ask/warn/block policy,
-- per-call safety decisions for operations that may be safe in one context but
-  unsafe in another, including whether a command can run concurrently for this
-  specific invocation,
-- broader repo checks beyond the Level 1 lint/type/test contract, such as
-  format, build/package, static analysis, generated-artifact validation, or
-  adapter health checks when repo evidence justifies them,
-- focused subsystem checks and CI-only verification records when full local
-  parity is not practical,
-- check performance, noise, and failure-clarity tuning,
-- broader Stop hook or pre-commit enforcement beyond the required Level 1
-  `repo-checks-on-stop` behavior,
-- CI parity with `scripts/repo-checks.sh`,
-- optional `.harness.yml` once multiple mechanisms need shared settings.
+Level 3 is a menu, not a required bundle. A repo may install one selected
+control, several selected controls, or none after inspection. Every control
+adds friction, and the operator owns the trade-off between friction, value, and
+risk reduction.
+
+Level 1 already owns the canonical repo checks command and the narrow
+`repo-checks-on-stop` behavior. Level 3 begins when controls become selected
+agent-action bounds, broader lifecycle gates, or deterministic steering beyond
+the Level 1 lint, type-check, test, and Stop-hook contract.
+
+Candidate control families include the following examples. The live
+control-family menu is owned by `manifests/level-3.yml`.
+
+- secret and sensitive-file controls,
+- destructive or high-risk command controls,
+- protected path or boundary controls,
+- commit and handoff standards,
+- harness config and artifact validation,
+- generated artifact freshness or preview/apply guards,
+- runtime readiness and setup checks,
+- agent command execution bounds,
+- focused repo-checks extensions when a selected agent-action risk justifies
+  them.
+
+Enforcement modes:
+
+- `observe`: record or report signal only,
+- `guide`: inject just-in-time guidance and allow continuation,
+- `block`: prevent the action or transition until the condition changes,
+- `verify`: run a deterministic check and use pass/fail as evidence.
+
+Do not treat human approval as a portable core mode. Use `block` with guidance
+to seek human approval, or use a platform-native approval flow only when the
+selected adapter explicitly supports one. Do not use `warn` as a separate mode;
+it is a tone or severity inside `guide`.
+
+Useful mechanisms may include agent-runtime hooks, Git hooks, pre-commit,
+focused scripts, existing validators, repo-checks additions, wrappers, or
+adapter config. Choose the cheapest useful lifecycle point for the risk.
+
+Record known limits for selected controls that can be bypassed, depend on
+platform coverage, or intentionally cover only common cases. For example,
+blocking common direct `.env*` reads is a useful guardrail, but it does not
+prevent every shell-level read path. Pair read guards with commit-time scanning
+when the durable risk is secret exposure in repo history, logs, or persisted
+evidence.
+
+Broad static analysis, architecture fitness checks, coverage trends, dead-code
+detection, complexity reports, and documentation drift checks usually belong to
+Level 4 maintainability sensors unless they are used to constrain a specific
+agent action at a Level 3 lifecycle point.
 
 Value:
 
-- common failures are caught automatically,
-- verification does not depend on agent memory,
-- humans and agents share one command contract,
-- safety boundaries are enforced consistently.
+- high-cost agent mistakes are blocked or guided at the moment of risk,
+- recurring human corrections move from memory into deterministic controls,
+- important repo conventions can be upheld before review,
+- safety boundaries are more consistent without pretending they are complete,
+- verification and guidance happen where agents can act on them.
 
 Add when:
 
-- agents forget verification,
-- contributors run different command sets,
-- the Level 1 lint/type/test contract misses recurring deterministic failures,
-- full-repo checks are too slow, noisy, flaky, or unclear for agent-stop
-  feedback,
-- secret, local-state, destructive-command, or production-affecting mistakes
-  are plausible,
-- the same mechanical failure appears in review or CI,
-- scripts and hooks start duplicating configuration.
+- secret, local-state, destructive-command, broken-history, or
+  production-affecting mistakes are plausible,
+- agents repeatedly need the same just-in-time steering,
+- humans repeatedly correct the same agent action or missing convention,
+- files, paths, commands, or generated artifacts need extra trust before
+  mutation,
+- stale state causes agents to continue from the wrong premise,
+- the Level 1 lint/type/test contract misses recurring deterministic failures
+  that should be caught at a specific lifecycle point,
+- an existing fast, clear, deterministic tool can constrain a useful agent
+  action without creating more friction than value,
+- scripts, hooks, adapters, or docs start duplicating policy.
 
 This may be enough when:
 
-- hooks are fast and quiet,
-- failures are actionable,
-- people do not routinely bypass the checks,
-- mechanical defects are caught before review.
+- selected controls are fast, quiet, and actionable,
+- operators and agents do not routinely bypass the controls,
+- known limits are recorded and understood,
+- the controls catch or steer the intended failures before review or handoff,
+- deferred control families have revisit signals.
 
 Move beyond when:
 

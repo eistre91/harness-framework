@@ -39,10 +39,10 @@ the current stage checklist or human-approved scope explicitly requires them.
 
 If the human asks to inspect a next stage and no checklist exists for that
 stage, do not infer the path silently. Say that the stage checklist is missing,
-then use the stage manifest, `docs/maturity-model.md`, and
+then use the stage manifest if one exists, `docs/maturity-model.md`, and
 `docs/implementation-guide.md` as provisional references only after the human
 confirms that next-stage inspection should proceed. Record the missing checklist
-as a framework follow-up in the stage handoff.
+or manifest as a framework follow-up in the stage handoff.
 
 If you need a broad conceptual answer while installing, prefer the smallest
 relevant source. Use `docs/framework.md` only when the staged installer docs and
@@ -167,3 +167,21 @@ Do not inspect Level 3 deterministic controls, maintainability sensors, or
 future orchestration guidance during Level 2 unless the human explicitly
 changes the current approved stage or the Level 2 checklist routes to a narrow
 current-stage pull-in.
+
+## Level 3 Selected Deterministic Controls
+
+Selected deterministic controls may be inspected after Level 1 has been
+installed and validated when the human chooses that stage or when the human
+explicitly approves a selected Level 3 pull-in as the current scope. Use
+`docs/install/level-3.md` for the current Level 3 stage checklist.
+
+Level 3 is a selected-control menu, not a required bundle. Do not treat a
+signal that one control family may help as approval to inspect or install every
+Level 3 family. Each selected control needs its own proposal row, human
+approval, validation, known limits, friction risk, and revisit or removal
+signal.
+
+Level 3 does not replace Level 1 repo checks. Level 1 owns
+`scripts/repo-checks.sh` and the narrow `repo-checks-on-stop` behavior. Level 3
+owns separately approved deterministic controls that constrain risky or
+repeatedly missed agent actions beyond that foundation.
