@@ -1,857 +1,162 @@
 # Agent Harness Implementation Reference
 
-Audience: agents and maintainers needing broad reference while fitting this
+Audience: agents and maintainers needing broad orientation while fitting this
 framework to a target repo.
 
-Use when: `docs/installer.md` or a stage checklist routes you here for deeper
-installation detail. For ordinary installation, start with
-`docs/installer.md`.
+Use when: `docs/installer.md` or a stage checklist routes you here for context
+that the current source-of-truth file does not answer.
 
-This reference supports the staged installation process. The central rule is:
+For ordinary installation, start with `docs/installer.md`, then the current
+stage checklist and manifest. This file is a map, not an installation
+checklist. Do not use it to approve edits, define completion, select assets, or
+override a stage checklist, manifest, template, or skill.
 
-```text
+## Rule
+
 Harness implementation is repo diagnosis plus collaborative workflow design,
 not blind template installation.
-```
 
-The framework explains what the harness is and why it is shaped that way:
-`docs/framework.md`.
-
-The principles are the decision lens for installing, adapting, deferring, or
-rejecting components: `docs/principles.md`.
-
-The staged installer entrypoint is `docs/installer.md`. It is the default
-installation workflow. This file is broad reference material and should not
-cause installers to load later-level, optional, adapter, or future-facing
-context before the current stage needs it.
+Install the smallest current-stage harness that lets humans and agents work
+better now. Record gaps and revisit signals instead of expanding scope because
+a later-stage asset exists.
 
 ## Source Of Truth Map
 
-- Maturity levels, installation modes, asset completeness, behavioral
-  completeness, and level-specific signals: `docs/maturity-model.md`
-- Staged installation entrypoint: `docs/installer.md`
-- Stage checklists: `docs/install/level-1.md` and
+When sources conflict, update or trust the owner below rather than copying its
+procedure here.
+
+- Principles and maintenance decision lens: `docs/principles.md`
+- Framework concepts and maturity language: `docs/framework.md`
+- Maturity definitions and level capabilities: `docs/maturity-model.md`
+- Staged installation workflow, human checkpoints, stage handoff fields, and
+  post-stage sequencing: `docs/installer.md`
+- Level 1 bounded-work installation procedure, gate, and handoff details:
+  `docs/install/level-1.md`
+- Level 2 context-routing installation procedure, gate, and handoff details:
   `docs/install/level-2.md`
-- Bootstrap, Level 1, Level 2, and optional asset lists:
+- Bootstrap, Level 1, Level 2, and optional asset boundaries:
   `manifests/bootstrap.yml`, `manifests/level-1.yml`,
   `manifests/level-2.yml`, and `manifests/optional-assets.yml`
-- Portable asset boundaries: `docs/portable-assets.md`
-- Platform support: `docs/platform-support.md`, then the relevant platform note
-- Harness Fit Proposal template:
+- Portable asset and adapter boundaries: `docs/portable-assets.md`
+- Platform support: `docs/platform-support.md`, then only the relevant
+  platform note routed by the current stage
+- Broad hook adapter design: `docs/hook-pattern.md`, only when current approved
+  scope includes hook design beyond the narrow Level 1 Stop adapter
+- Proposal and durable decision-log schema:
   `templates/core/docs/harness/fit-proposal.md`
 - Installed harness docs template: `templates/core/docs/harness/README.md`
 - Target-repo checks template: `templates/core/scripts/repo-checks.sh`
-- Work brief skill and template: `skills/core/harness-work-brief/`
+- Work brief storage, fallback, sync, and progress guidance:
+  `skills/core/harness-work-brief/`
+- Implementation and review phase guidance:
+  `skills/core/harness-implement/` and `skills/core/harness-review/`
 - Level 2 routing templates: `templates/level-2/`
 
-Do not maintain second copies of those assets or schemas in this guide.
+Do not maintain second copies of those assets, schemas, file lists, proposal
+fields, checklists, commands, gates, or report formats in this guide.
 
-## Installation Modes
+## Installation Routing
 
-Every stage proposal must state:
-
-- current stage and target behavior for that stage,
-- installation mode: `canonical`, `starter`, or `overlay`,
-- asset completeness for the current stage: full / partial / mostly existing,
-- behavioral completeness expected after the current stage,
-- deferred current-stage assets and why they are not installed now.
-
-When installation is partial, use precise wording:
+Use this sequence:
 
 ```text
-Target maturity: Level 2 context routing.
-Installation mode: starter.
-Stage asset completeness: partial, not full canonical Level 2.
-Deferred manifest assets are listed below with reasons and revisit signals.
+principles -> staged installer -> current stage checklist -> current stage
+manifest -> manifest-named templates and skills -> narrow routed references
 ```
 
-Do not describe a repo as having completed a level unless the manifest assets
-and intended behavior for that claim are actually complete or already
-satisfied.
+Read broader or later-stage sources only when the current checklist or
+human-approved scope routes to them. If a later-stage signal appears during a
+current-stage install, record it as a plain out-of-stage observation unless the
+human chooses to begin that stage or approve a selected pull-in.
 
-Install level by level by default. Later-level evidence found during a current
-stage may be recorded as plain out-of-stage observations, but do not classify
-it into future maturity levels, load future manifests, or propose later-stage
-edits until the human chooses to begin that stage.
+The current stage proposal owns authorization to edit target-repo files. The
+stage checklist owns what that proposal, checkpoint, gate, and handoff must
+cover.
 
-## Operating Rules
+## Decision Lens
 
-### Collaborate Before Editing
+Use this lens when the source-of-truth procedure leaves room for judgment.
 
-Before creating or changing target-repo files, write a current-stage Harness
-Fit Proposal or equivalent stage proposal and present the exact proposal text
-to the human. Do not edit the repo until the human explicitly approves the
-current-stage shape or corrects the proposal.
+### Start Small
 
-The proposal should explain:
-
-- repo signals,
-- current stage and the behavior it should establish,
-- installation mode and completeness,
-- files to create or edit,
-- defaults inferred from repo evidence,
-- gaps found,
-- intentional deferrals,
-- questions that require human judgment.
-
-Do not ask questions whose answers can be discovered from the repo. Inspect
-first, infer defaults, and ask only questions that materially affect the
-harness shape.
-
-If unresolved trade-offs remain, do not treat silence, branch creation, or a
-broad "carry it out" as approval of those decisions.
-
-### Start Lower Than Feels Ambitious
-
-Most repos should start with Level 1. Adding a large harness too early creates
-harness debt: too many docs, instructions, hooks, artifacts, and process
-surfaces that nobody maintains.
-
-A small harness that is used is more valuable than a complete harness that
-people work around.
+Most target repos should begin with the Level 1 bounded-work foundation. A
+small harness that is used is more valuable than a broad harness that becomes
+ignored process.
 
 ### Surface Gaps Without Owning Every Gap
 
-Harness installation may reveal missing engineering hygiene, such as no test
-command, no CI, no linting, no clear work tracker, stale README instructions,
-or no sensitive-file policy.
-
-Surface those gaps, but do not turn harness installation into a broad
-modernization project unless the human explicitly chooses that scope.
-
-Tests, linting, and type checking are important for agent performance. The
-proposal should either include existing commands in `scripts/repo-checks.sh` or
-explicitly record an omission reason, human-approved addition, or human waiver
-for missing or unsuitable ones.
-
-Separate gaps into:
-
-```text
-Affects harness now:
-  must be resolved or explicitly defaulted to install the starter harness
-
-Future improvement:
-  worth recording, but not part of this installation
-```
+Harness installation may reveal missing tests, unclear CI, stale README
+commands, no tracker convention, weak secret handling, or scattered project
+docs. Surface those gaps in the current-stage proposal or handoff, but do not
+turn harness installation into a broad modernization project unless the human
+approves that scope.
 
 ### Argue For Complexity
 
-When proposing a component beyond Level 1, state:
+When proposing a component beyond the current stage, state the concrete
+failure or coordination cost it addresses, the evidence that the repo needs it
+now, the maintenance cost it adds, the simpler option considered, and the
+signal that would justify removing or simplifying it later.
 
-- what failure it prevents,
-- what signal proves the repo needs it,
-- what maintenance cost it adds,
-- what simpler option was considered,
-- what would justify removing or simplifying it later.
+### Preserve Ownership
 
-Deferring a component is a design decision, not neglect. Record the reason and
-the signal that should trigger reconsideration.
+Keep universal operating guidance in the repo entrypoint, deterministic checks
+in `scripts/repo-checks.sh`, phase-specific workflow in harness skills and
+work-brief guidance, durable harness decisions in `docs/harness/`, and
+tool-specific behavior in thin adapters.
 
-## Implementation Flow
+## Common Routing Questions
 
-Follow the staged sequence in `docs/installer.md`. The flow below is reference
-material for the stage currently being installed.
+Where do proposal fields come from?
 
-### 1. Inspect The Repo
+Use the current stage checklist and
+`templates/core/docs/harness/fit-proposal.md`.
 
-Read enough to understand workflow and verification without consuming
-unnecessary context.
+Where do acceptance and completion checks come from?
 
-Suggested inspection targets:
+Use the current stage gate and handoff sections in `docs/install/`.
 
-- repo root listing,
-- `README*`,
-- existing `AGENTS.md`, `CLAUDE.md`, `.cursor/`, `.codex/`, `.agents/`,
-- platform skills or commands such as `.claude/skills/`,
-  `.claude/commands/`, `.agents/skills/`, Cursor rules, or local team command
-  directories,
-- CI workflows such as `.github/workflows/*`,
-- package, build, or project config files,
-- existing task runners and scripts,
-- test directories,
-- docs directories,
-- tracker references in README, CONTRIBUTING, or issue templates,
-- `.gitignore` for local state and secret patterns.
+Where do lint, type-check, and test commands come from?
 
-Do not read every source file. The goal is harness fit, not full codebase
-comprehension.
+Use `docs/install/level-1.md` for discovery expectations and adapt
+`templates/core/scripts/repo-checks.sh`. Keep actual command details in the
+target repo's `scripts/repo-checks.sh`, not in docs.
 
-### 2. Identify Existing Signals
+Where does work-brief storage and progress guidance live?
 
-Classify what already exists:
-
-- agent entrypoint: present / absent / stale / unclear,
-- entrypoint fit: universal and concise / too broad / too long / over-routed,
-- work source: Jira / GitHub Issues / Linear / chat / docs / unknown,
-- verification: documented / inferred from CI / inferred from config / missing,
-- project docs: none / small / useful but unrouted / large enough to route,
-- sensitive files: obvious / not obvious / existing policy,
-- agent tools: Codex / Claude / Cursor / mixed / unknown,
-- existing harness components: none / entrypoint / skills / repo checks /
-  hooks / work docs / other,
-- skill or command conflicts: review-like / implement-like / work-brief-like /
-  diagnose-debug-like / run-checks-like / unknown,
-- CI: present / absent / not inspected.
-
-Treat existing components as evidence first. For each overlapping component,
-record:
-
-```text
-Component:
-  <path or platform feature>
-
-Appears to do:
-  <summary>
-
-Harness principle it already satisfies:
-  <entrypoint / verification / brief / review / context routing / safety / other>
-
-Recommended handling:
-  thread through / adapt / supersede / leave alone / defer
-
-Human decision needed:
-  <none or concrete decision>
-```
-
-### 3. Decide The Current Stage
-
-Use the current stage checklist and manifest to decide the smallest useful
-current-stage install. For ordinary first installs, this is Level 1. Do not
-read `docs/maturity-model.md` during Level 1 installation unless a human
-explicitly expands the current scope or a stage checklist routes you there.
-
-Include:
-
-- current stage, evidence, and gaps,
-- installation mode,
-- current-stage asset completeness claim,
-- current-stage behavioral completeness claim,
-- components intentionally not added,
-- why this stage fits,
-- plain out-of-stage observations, when incidentally found.
-
-### 4. Prepare A Stage Proposal
-
-Before editing, prepare a current-stage Harness Fit Proposal or equivalent
-stage proposal. Use `templates/core/docs/harness/fit-proposal.md` as the
-durable decision-log schema when it fits the target repo.
-
-The proposal must include decisions for:
-
-- repo signals and existing harness components,
-- entrypoint fit, including any recommendation to split non-universal
-  `AGENTS.md` content into skills, scripts, project docs, hooks, or review
-  guidance,
-- skill and command conflicts,
-- current stage and target behavior for the stage,
-- installation mode and completeness,
-- current-stage manifest inclusion or deferral,
-- project context needed for the current stage,
-- work brief storage, durability rationale, local fallback, commit policy,
-  stale brief mitigation, and sync rule,
-- tests, linting, and type checking,
-- manual acceptance evidence,
-- focused verification, CI-only checks, and broader deterministic controls only
-  when the current approved stage includes them,
-- gaps, trade-offs, human decisions, deferred items, proposed files,
-  acceptance criteria, communication audit, and context used.
-
-For Level 1, do not ask whether optional `docs/project/intent.md`, `SPEC-MAP.md`,
-`CONTEXT.md`, broad hooks, or adapters are useful now unless the human
-explicitly expanded the current stage. The narrow `repo-checks-on-stop`
-behavior is required by the Level 1 manifest; handle adapter paths for desired
-hook-capable agent runtime(s) in current scope as current-stage scope.
-
-Persist the proposal to disk before editing. Ask for a preferred path only if
-the target repo already has a clear planning location or the human is likely to
-care. Otherwise use a temp path such as:
-
-```text
-/tmp/<target-repo-name>-harness-fit-proposal.md
-```
-
-After writing the temporary proposal, present the exact proposal text to the
-human. A short summary is fine, but it must not replace the full proposal.
-
-`/tmp` is not durable repo documentation. After installation, record only the
-final proposal, equivalent decision log, or stage handoff under
-`docs/harness/`, either as `docs/harness/fit-proposal.md`, an install log, or
-embedded in `docs/harness/README.md`. Do not copy temporary proposal paths into
+Use `skills/core/harness-work-brief/` and the current stage checklist. Record
+target-repo storage, fallback, and sync decisions in the stage proposal and
 durable harness docs.
 
-If the proposal changes after human questions are answered, update the
-persisted plan before editing files.
+Where do hook decisions live?
 
-Use recommendations instead of open-ended questions where possible:
+Level 1 owns only the narrow `repo-checks-on-stop` behavior described in
+`docs/install/level-1.md` and `manifests/level-1.yml`. Broader hook policy,
+secret guards, destructive-action controls, and CI or pre-commit parity require
+separate approved scope.
 
-```text
-I found a test command in CI and no lint command. I recommend
-scripts/repo-checks.sh run the existing test command only for now and record
-linting as a future improvement. Do you want linting added now despite it not
-already existing?
-```
+Where do final report and handoff fields come from?
 
-### 5. Ask Focused Human Questions
-
-Ask only questions that affect implementation.
-
-For Level 1, use the focused checkpoint in `docs/install/level-1.md`. For
-Level 2, use the focused checkpoint in `docs/install/level-2.md`. The broader
-decision set below applies only when the current approved stage or
-human-approved pull-in needs those decisions.
-
-Ask this minimum decision set unless the answer is both obvious from repo
-evidence and low-risk:
-
-- Should this install mode be `canonical`, `starter`, or `overlay`?
-- Where should canonical Agent Work Briefs live?
-- Why is that durability choice the right trade-off for this repo now?
-- What local fallback should agents use when the canonical brief store is
-  unavailable?
-- Should brief instances live only in the external tracker, in a durable repo
-  path, or as gitignored local fallback drafts?
-- If briefs are committed, how should stale or completed briefs be audited,
-  archived, or removed?
-- Is there already a short project intent source? If not, are repeated planning,
-  scope, or value-sensitive review decisions causing enough friction to justify
-  `docs/project/intent.md` now?
-- Should missing test, lint, or type-check tools be added now, omitted with a
-  recorded reason, or waived for this install?
-- Are any files, directories, services, or data sources off limits to agents?
-- How should existing platform skills, commands, or review flows be merged,
-  namespaced, documented, or deferred?
-- Should the final fit proposal be committed under `docs/harness/`, or should
-  equivalent decisions be embedded in `docs/harness/README.md`?
-
-For each question, provide:
-
-```text
-Recommended default:
-Why:
-Trade-off:
-When to revisit:
-```
-
-Before editing, use a final checkpoint:
-
-```md
-I have written the current-stage proposal and will not edit the repo until you
-confirm the stage shape. Please review:
-
-- current stage and installation mode,
-- included and excluded current-stage assets,
-- work brief storage and fallback,
-- repo checks command,
-- existing component merge/defer decisions,
-- skill or command conflict decisions,
-- durable location for the final proposal or stage handoff.
-
-Reply with corrections, or say "approved to install" and I will make only the
-listed changes.
-```
-
-### 6. Implement The Agreed Starter
-
-Create or edit only the agreed files. Use the manifests to select assets and
-the templates as starting points.
-
-Keep installed content short. The starter harness should make the next agent
-more effective without making the repo feel process-heavy.
-
-Do not add a new tool, dependency, hook system, tracker adapter, or platform
-adapter unless the proposal records human approval or clear repo evidence.
-
-### 7. Validate The Harness
-
-After implementation, check that a fresh agent could:
-
-- find the repo entrypoint,
-- find the durable Harness Fit Proposal or equivalent decision log under
-  `docs/harness/`,
-- understand where work comes from,
-- create or read an Agent Work Brief,
-- understand that harness skills are used by phase and not as one combined
-  reading list,
-- find relevant context or know that no context router exists yet,
-- run `scripts/repo-checks.sh`,
-- produce mechanical and acceptance evidence,
-- know what review should check,
-- know what was intentionally deferred,
-- understand whether the repo has a canonical install, starter install, or
-  overlay,
-- avoid mistaking deferred manifest assets for completed maturity.
-
-## Starter Acceptance Checklist
-
-A Level 1 starter harness is acceptable when:
-
-- `AGENTS.md` tells agents where to start without becoming an encyclopedia,
-- `AGENTS.md` contains only instructions every agent needs for ordinary work,
-  with phase-specific, product/domain, or rare-task guidance routed elsewhere,
-- the work-brief skill bundle can turn a tracker item, issue, or chat request
-  into executable work,
-- `scripts/repo-checks.sh` exists,
-- for full canonical Level 1 repo-checks completeness, `scripts/repo-checks.sh`
-  runs actionable repo-derived checks,
-- for full canonical Level 1 repo-checks completeness, repo checks cover lint,
-  type checks, and tests when those commands fit the repo, and any omission has
-  a recorded reason, human-approved addition, or explicit waiver,
-- a starter or overlay Level 1 install may pass with a placeholder-only
-  `scripts/repo-checks.sh` only when the handoff records the honest gap and does
-  not claim full canonical repo-checks completeness,
-- `docs/harness/README.md` records provenance, current stage, target maturity
-  behavior for that stage, installation mode, completeness, installed files,
-  and intentional deferrals,
-- the final proposal or equivalent decision log is durable under
-  `docs/harness/`,
-- acceptance evidence is required for externally visible or boundary-changing
-  behavior,
-- `AGENTS.md` tells agents to use work-brief, implementation, and review skills
-  by phase,
-- non-trivial work can get independent review in a separate context when
-  practical,
-- secrets management evidence does not imply agents should print, reveal,
-  inspect, or directly handle secret values,
-- review guidance checks bugs, scope, tests, maintainability, and
-  over-engineering,
-- existing platform skills or commands that overlap with the harness are
-  recorded with a merge, adapt, leave-alone, or defer decision,
-- tests, linting, and type checking are either included or explicitly opted out
-  with a future default where useful,
-- a post-install communication audit records what fresh agents can understand
-  and what they may still misunderstand,
-- optional components are explicitly deferred with signals for later adoption,
-- the human can explain why the chosen stage target fits the repo.
-
-## Work Brief Lifecycle
-
-The Agent Work Brief is the central work artifact. Do not leave its location or
-durability implicit.
-
-Supported patterns:
-
-- External durable store: the brief lives in Jira, GitHub Issues, Linear, or
-  another team source of truth.
-- Repo durable store: the brief lives in a committed repo path such as
-  `docs/work/<ticket-id>.md`.
-- Local temporary store: the brief lives in a gitignored local path such as
-  `.agent/work/`.
-
-Recommended default: use an external durable store when the team already has a
-reliable tracker workflow and agents can read and update it. This keeps work
-context visible to the team without turning the code repo into a planning
-archive.
-
-Repo durable storage is reasonable when the team wants shared agent-readable
-work records, tracker access is weak, or a small repo benefits more from
-visible collaboration than from minimizing documentation surface. The cost is
-long-term maintenance: committed briefs can go stale, duplicate tracker truth,
-and confuse future agents. If committed briefs are used, record status, source,
-owner, and supersession/archive state.
-
-Local temporary storage is convenient for drafting and for sessions that
-cannot access the canonical store. It is not shared provenance. Use it only as
-a fallback or for tiny work where losing continuity is acceptable. Copy durable
-progress, evidence, blockers, and accepted plan changes back to the canonical
-location before handoff.
-
-When the canonical brief location is external, choose a local fallback:
-
-```text
-Canonical work brief location: <tracker>.
-Local fallback: .agent/work/ or another gitignored directory.
-Commit policy: do not commit local fallback brief instances.
-Sync rule: if local fallback state changes, copy the durable summary back to
-the tracker before considering the work handed off.
-```
-
-Add the fallback directory to `.gitignore` when it is introduced.
-
-Use PR descriptions to summarize the brief and evidence, not as the canonical
-planning surface. Use chat-only briefs only for tiny work where loss of
-continuity is acceptable.
-
-A simple lifecycle is enough:
-
-```text
-Draft -> Ready For Implementation -> Implemented -> Verified -> Reviewed
-```
-
-Do not add more states until the team needs them.
-
-For work that spans sessions, the canonical brief should capture:
-
-- current status,
-- plan changes,
-- divergences from the expected approach and why they were accepted,
-- blockers,
-- latest evidence,
-- next action.
-
-Ownership:
-
-- the human owns product intent, trade-offs, and the risk of delegated choices,
-- the planning agent owns converting intent into an executable brief,
-- the implementation agent owns carrying out the brief and producing evidence,
-- the reviewer owns checking whether the change satisfies the brief and whether
-  the implementation introduces unacceptable risk or debt, including latent
-  decisions that should return to human ownership.
-
-## Level 1 Repo Checks Discovery
-
-`scripts/repo-checks.sh` should encode the repo's current deterministic checks
-contract. Derive that contract from evidence. For Level 1, the default checks
-contract is lint, type checks, and tests.
-
-Keep repo-checks output quiet and actionable. A Stop hook consumer needs
-failures, missing setup, and next steps; routine pass banners just spend context.
-
-The Level 1 proposal should name the included test, lint, and type-check
-commands. If one is missing or unsuitable, record the omission reason,
-human-approved addition, or explicit human waiver.
-
-Prefer reusing or wrapping existing commands over replacing them.
-
-Discovery order:
-
-1. Inspect documented setup, lint, type-check, and test commands in README or
-   CONTRIBUTING.
-2. Inspect CI workflows only for existing lint, type-check, and test commands
-   when local docs are absent or unclear.
-3. Inspect project config and task runners only for existing lint, type-check,
-   and test entries.
-4. Inspect test directories and naming conventions when the test command is
-   unclear.
-5. Prefer commands the repo already uses over commands the agent happens to
-   prefer.
-6. If commands conflict, surface the conflict in the Harness Fit Proposal.
-7. If tests, linting, or type checking are missing, unclear, too slow, flaky,
-   or inappropriate for the repo, surface that before editing and record an
-   explicit omission reason, human-approved addition, or human waiver rather
-   than silently deferring it.
-
-Selection rules:
-
-- prefer the highest-level command the repo already uses when it covers lint,
-  type checks, and tests,
-- use a single CI or project checks command when one exists and is practical
-  locally,
-- use README-documented local lint, type-check, and test commands when CI is
-  absent or unsuitable,
-- propose the smallest lint/type/test command derived from config when no
-  wrapper exists,
-- do not add a new tool during harness installation unless the human agrees.
-
-Use `templates/core/scripts/repo-checks.sh` as the target-repo template. Do not
-copy this framework repo's own `scripts/repo-checks.sh` into target repos.
-
-If no reliable command can be inferred:
-
-1. do not invent a full verification stack,
-2. create `scripts/repo-checks.sh` with an explicit placeholder,
-3. record the missing repo checks command as a gap,
-4. recommend the smallest next action,
-5. do not claim full canonical Level 1 repo-checks completeness.
-
-When the Claude Code generated skill mirror adapter is installed, add this
-adapter health check to the target repo's adapted `scripts/repo-checks.sh`
-unless the fit proposal records a deliberate reason not to:
-
-```sh
-python3 -m scripts.sync_claude_skills --check
-```
-
-Do not add that Claude mirror check to the base template by default. It applies
-only when `scripts/sync_claude_skills.py` and `.claude/skills` mirrors are
-installed in the target repo.
-
-## Level 3 Broader Repo Checks Discovery
-
-Use this when Level 3 deterministic controls are in current approved scope or
-repeated evidence shows the Level 1 lint/type/test contract is not enough.
-Do not use this broader discovery path during a basic Level 1 install.
-
-Level 3 can revisit:
-
-- canonical full-repo deterministic checks beyond lint, type checks, and tests,
-- focused verification for a subsystem, package, agent, or component,
-- CI-only verification that is not practical locally,
-- format checks, build/package checks, static analysis, generated-artifact
-  validation, and adapter health checks,
-- check performance, noise, and failure clarity,
-- CI parity, pre-commit parity, shared runners, or `.harness.yml` when
-  multiple mechanisms need the same settings.
-
-Broader discovery order:
-
-1. Inspect CI workflows.
-2. Inspect documented setup and verification commands in README or
-   CONTRIBUTING.
-3. Inspect project config.
-4. Inspect existing task runners, scripts, and package/build entrypoints.
-5. Inspect test directories and naming conventions.
-6. Prefer commands the repo already uses over commands the agent happens to
-   prefer.
-7. If commands conflict, surface the conflict in the Harness Fit Proposal or
-   Level 3 handoff.
-
-Broader selection rules:
-
-- prefer the highest-level command the repo already uses when it is practical
-  locally,
-- use a single CI or project checks command when it provides useful local
-  feedback,
-- keep CI-only checks recorded as CI-only instead of forcing them into local
-  Stop automation,
-- add new tools only when the human approves the maintenance cost,
-- record checks that are too slow, flaky, noisy, or unclear as deterministic
-  control gaps instead of making them required agent-stop feedback.
-
-Keep command details in `scripts/repo-checks.sh`; do not maintain a second
-command list in docs.
-
-## Portability And Adapters
-
-The harness should separate concepts from adapters.
-
-Portable concepts:
-
-- repo entrypoint,
-- work brief,
-- repo checks command,
-- review guidance,
-- acceptance evidence,
-- maturity model,
-- maintainability feedback.
-
-Adapters depend on the team's tools:
-
-- Codex hooks,
-- Claude Code settings,
-- Cursor rules,
-- GitHub Actions,
-- tracker APIs, CLIs, or MCP tools,
-- GitHub CLI,
-- pre-commit,
-- repowise,
-- unattended runners.
-
-Do not require an adapter unless the repo already uses that environment or the
-human explicitly wants it.
-
-When a repo uses multiple agentic coding tools, preserve the same behavior
-where practical:
-
-```text
-Keep universal operating guidance in AGENTS.md, deterministic checks in
-scripts/repo-checks.sh, and phase-specific workflow in work-brief bundles and
-portable skill guidance. Make adapters thin mirrors, wrappers, or callers
-around those shared contracts.
-```
-
-For hooks:
-
-- prefer one shared script for verification, secret checks, or destructive
-  action checks,
-- have Codex, Claude Code, pre-commit, and CI call that shared script where
-  possible,
-- keep output shape and failure meaning consistent across tools,
-- document unavoidable divergence in the adapter README.
-
-If platform-specific support is in scope, read `docs/platform-support.md`, then
-the specific platform note for the adapter being installed. Do not load those
-docs for ordinary product work. During Level 1 installation, load them only
-when the Level 1 checklist routes you to the required `repo-checks-on-stop`
-adapter or another current-scope platform behavior.
-
-## Skills
-
-Install harness-provided skill source files to:
-
-```text
-.agents/skills/harness-<skill-name>/SKILL.md
-```
-
-Adapt that path only when the target repo has a stronger convention.
-
-Keep shared skill guidance portable. Use adapters only for tool-specific
-loading behavior or limitations. If the target repo already has review,
-implementation, work-brief, run, verify, debug, or diagnose skills or
-commands, record whether the harness skill is added, adapted, merged,
-supersedes the existing skill, or is deferred.
-
-If Claude Code native skills are installed, follow
-`docs/platforms/claude-code.md` and the `claude-skill-mirrors` optional asset
-manifest entry. Record the mirror path, shared source path, sync command,
-preserved Claude frontmatter fields, and any deliberate wrapper-import
-exception in the fit proposal.
-
-When Claude Code is in scope, mention bundled Claude Code skills and workflows
-such as `/code-review`, `/debug`, `/run`, and `/verify`. Ask whether they
-should stay enabled and documented, be treated as secondary to repo-specific
-guidance, or be disabled through user or project Claude Code settings such as
-`disableBundledSkills` or `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS`.
-
-## Hooks
-
-The narrow `repo-checks-on-stop` behavior is required in Level 1.
-
-Default:
-
-```text
-Start with scripts/repo-checks.sh as the contract and install a narrow Stop
-hook, or equivalent stop automation for each desired hook-capable agent runtime
-in current scope, that runs only that command.
-Add other hooks only if repeated failures justify them.
-```
-
-A narrow Stop hook that runs `scripts/repo-checks.sh` is required Level 1
-behavior. Treat
-broader hook systems, secret guards, destructive-action policy, cross-platform
-hook runners, and CI/pre-commit parity as selected Level 3 deterministic
-controls. Level 3 safety policy should also cover protected paths, protected
-command families, ask/warn/block behavior, and whether an operation is safe for
-the specific tool call, including whether a command can run concurrently in the
-current context.
-
-## Starter Assets
-
-The source-of-truth asset selections live in manifests:
-
-- `manifests/bootstrap.yml`
-- `manifests/level-1.yml`
-- `manifests/level-2.yml`
-- `manifests/optional-assets.yml`
-
-Use those files to decide what to copy or adapt. The examples in this guide
-explain how to adapt assets; they are not separate asset lists.
-
-Common install shapes:
-
-- Tiny repo with no agent harness: usually Level 1 canonical or starter.
-- Jira-centered team with vague tickets: usually Level 1 canonical with
-  canonical briefs in Jira ticket/comment or a repo file.
-- Repo with useful but scattered docs: Level 1 plus selected Level 2 context
-  routing; maybe `SPEC-MAP.md` if there are multiple areas.
-- Repo with repeated planning, scope, or value-tradeoff confusion: Level 1 plus
-  selected Level 2 project context; maybe `docs/project/intent.md` if humans can
-  state a short shared north star.
-- Repo with repeated mechanical failures: Level 1 plus selected Level 3
-  deterministic controls beyond the required Stop hook running
-  `scripts/repo-checks.sh`.
-
-Use these as later-stage examples, not as permission to combine stages during
-the first proposal. In all cases, defer assets that lack current-stage scope,
-evidence, or human preference, and record the revisit signal.
-
-## Done Criteria
-
-The installation is done when:
-
-- the chosen stage target, provenance, and deferrals are recorded in
-  `docs/harness/README.md`,
-- installation mode, stage asset completeness, and stage behavioral
-  completeness claims are recorded,
-- the final Harness Fit Proposal or equivalent decision log is durable under
-  `docs/harness/`,
-- temporary proposal paths are not copied into durable harness docs,
-- the human has agreed to the starter shape or explicitly delegated the choice,
-- all agreed starter files exist,
-- `scripts/repo-checks.sh` runs actionable repo-derived checks, or clearly
-  reports an honest gap without claiming full canonical repo-checks
-  completeness,
-- the Agent Work Brief has a chosen placement and lifecycle,
-- any local work-brief fallback is gitignored,
-- any durable in-repo briefs use an explicit canonical repo path,
-- the final report separates mechanical verification from acceptance evidence,
-- side-effect evidence covers external systems, secrets management, schedules,
-  deployment behavior, integrations, and runtime boundaries when relevant,
-  without exposing sensitive values,
-- existing harness-like components and platform skills have recorded handling
-  decisions,
-- tests, linting, and type checking are included when they fit the repo, or
-  omitted only with a recorded reason, human-approved addition, or explicit
-  waiver,
-- optional components are deferred with reasons and future signals,
-- the post-install communication audit is recorded,
-- a fresh agent can read `AGENTS.md` and know how to proceed,
-- the final report lists files changed, commands run, acceptance evidence,
-  gaps surfaced, and deferred work.
-
-## Final Report
-
-After installation, report:
-
-```md
-## Harness Installed
-
-Current stage:
-
-Target maturity:
-
-Installation mode:
-
-Stage asset completeness:
-
-Stage behavioral completeness:
-
-Harness Fit Proposal / decision log:
-- Durable post-install path:
-
-Files changed:
--
-
-Work brief:
-- Canonical location:
-- Allowed temporary draft location:
-- Lifecycle/status updates:
-
-Mechanical verification:
--
-
-Acceptance evidence:
-- <evidence or "not applicable; behavior did not change">
-
-Existing component decisions:
--
-
-Skill or command conflict decisions:
--
-
-Tests / lint / type check:
--
-
-Communication audit:
--
-
-Gaps surfaced:
--
-
-Deferred:
--
-
-How to expand later:
--
-```
+Use `docs/installer.md` plus the current stage checklist. The durable target
+repo record belongs under `docs/harness/`.
 
 ## Wording Check
 
-Before finishing installed docs, check:
+Before finishing installed docs, verify that wording does not:
 
-- Does any phrase claim a maturity level that is only a target?
-- Does any phrase imply agents should access, print, inspect, or directly
-  handle sensitive values instead of validating secrets management wiring?
-- Does durable documentation point to a machine-local path such as
-  `../harness-framework` instead of the portable source name
-  `harness-framework`?
-- Does any durable doc record `/tmp` state or another machine-local path?
-- Does the doc distinguish required behavior from optional guidance?
-- Does `AGENTS.md` include only guidance that is broadly applicable to ordinary
-  repo work, rather than product strategy, one-off standards, historical notes,
-  or phase-specific instructions better owned by skills or focused docs?
-- Does the doc tell ordinary implementers to read `docs/harness/` when they
-  only need the work brief, project docs, and code?
+- claim a maturity level that is only a target,
+- describe partial starter or overlay completeness as full canonical
+  completeness,
+- imply agents should access, print, inspect, or directly handle sensitive
+  values instead of validating secrets-management wiring,
+- record machine-local paths such as a framework checkout path or `/tmp`
+  proposal file in durable docs,
+- blur required current-stage behavior with optional or later-stage guidance,
+- turn `AGENTS.md` into a product strategy document, historical note, or
+  phase-specific procedure,
+- tell ordinary implementers to read `docs/harness/` when they only need the
+  work brief, project docs, and code.
 
-The goal is not to maximize harness maturity. The goal is to install the
-smallest harness that makes agents and humans more effective now, while making
-the next useful layer obvious when the project earns it.
+The goal is not maximum harness maturity. The goal is the smallest installed
+harness that improves current human-agent work and makes the next useful layer
+obvious when the project earns it.

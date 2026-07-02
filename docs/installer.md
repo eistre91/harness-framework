@@ -76,6 +76,9 @@ Before editing target-repo files:
 3. Present the exact proposal text to the human.
 4. Wait for explicit approval or corrections.
 
+Inspect first, infer low-risk defaults from repo evidence, and ask only
+questions that materially affect the current-stage harness shape.
+
 The proposal should include:
 
 - current stage,
