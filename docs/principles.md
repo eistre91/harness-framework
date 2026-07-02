@@ -35,7 +35,8 @@ Defer, simplify, or remove them.
 The harness exists to make humans and agents together more capable than either
 alone.
 
-Humans own trajectory: intent, priorities, product judgment, and risk acceptance.
+Humans own trajectory: intent, priorities, product judgment, trade-off decisions
+and risk acceptance.
 
 Agents drive progress: bounded investigation, implementation, verification, and
 synthesis within delegated intent, explicit constraints, and reviewable evidence.
