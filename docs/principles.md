@@ -143,3 +143,22 @@ evidence is missing or trade-offs remain.
 
 Review does not make judgment deterministic. It makes judgment explicit,
 inspectable, and easier to correct.
+
+### Good Systems Are Easy To Change
+
+Software development is ongoing discovery. Good systems preserve the ability to
+change as the problem and context become clearer.
+
+A system is easy to change when its shape is fit to purpose, understandable,
+and backed by fast, visible feedback. Abstraction, configuration, and
+flexibility help only when they reduce real change cost.
+
+Changes can harden decisions. Stable, valuable decisions can earn stronger
+structure; uncertain decisions should stay malleable, local, and easy to
+reverse.
+
+When changing the system, ask: if we learn something important later, how hard
+will this be to change? When a change makes a decision harder to reverse, name
+why that cost is worth accepting and what feedback will show whether the
+decision still holds. Simplify, localize, or defer structure that locks in
+understanding the system has not earned.

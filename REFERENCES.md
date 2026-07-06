@@ -55,6 +55,15 @@ the ideas in this repo.
   subagent-assisted research, and high-leverage human review of research and
   plans before implementation.
 
+## Videos
+
+- [You're Using Ralph Wiggum Loops WRONG](https://www.youtube.com/watch?v=I7azCAgoUHc)
+  by Agentic Lab.
+
+- [Software Architecture's Biggest Enemy (Not What You Think)](https://www.youtube.com/watch?v=grPtnrOTP_4)
+  by Modern Software Engineering.
+
+
 ## Commercial Use Posture
 
 As of 2026-06-15, the three reference repositories above are listed on GitHub
