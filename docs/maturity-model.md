@@ -195,16 +195,26 @@ Move beyond when:
 
 Adds product-context routing.
 
-Default additive assets and behaviors are defined in `manifests/level-2.yml`.
+The authoritative additive asset and behavior boundary is
+`manifests/level-2.yml`.
 
-Assets:
+Required boundary:
 
 - `SPEC-MAP.md`,
-- project-area briefs under `docs/project/areas/`,
-- optional short `docs/project/intent.md` from
-  `templates/optional/docs/project/intent.md`,
-- optional `CONTEXT.md`,
-- ADR or decision-log pointers.
+- the project-area brief guide,
+- justified project-area briefs or equivalent existing docs for the areas that
+  caused the Level 2 install.
+
+Common optional pull-ins or routed existing context:
+
+- short `docs/project/intent.md` from
+  `templates/optional/docs/project/intent.md`, when repeated planning,
+  exploratory, scope, or value-sensitive review decisions need a shared project
+  north star,
+- a glossary such as `CONTEXT.md`, when agents or humans repeatedly
+  misunderstand domain terms,
+- ADR or decision-log pointers, when they are needed as routed durable context
+  for the areas being installed.
 
 Value:
 
