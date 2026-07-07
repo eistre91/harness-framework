@@ -66,7 +66,7 @@ The required additive installable assets are:
 - target-specific project-area briefs or equivalent existing docs for the
   areas that justified Level 2.
 
-`SPEC-MAP.md` should route implementation intent. It is not a live roadmap,
+`SPEC-MAP.md` is a current-state orientation map, not a live roadmap, plan,
 historical index, broad product encyclopedia, or substitute for the work brief.
 It should point agents to the first useful area brief and then to optional deep
 references only when a trigger matches the current change.
@@ -108,8 +108,6 @@ Include:
 - project-area brief path decision, defaulting to `docs/project/areas/` unless
   the repo has a better existing equivalent,
 - initial task intents and area briefs to create or adapt,
-- source-of-truth order for code, tests, work briefs, ADRs, project docs, and
-  historical records,
 - optional `project-intent` or glossary decision, when relevant,
 - files to create or edit,
 - current-stage deferrals,
@@ -132,7 +130,7 @@ The approval should cover only:
 - `SPEC-MAP.md` installation or existing-router handling,
 - project-area brief location and initial briefs,
 - optional `project-intent` or glossary inclusion, when proposed,
-- source-of-truth order and historical-doc routing,
+- historical-doc routing,
 - durable location for the Level 2 decision log or stage handoff.
 
 Do not edit target-repo files before this checkpoint is resolved.
@@ -149,9 +147,11 @@ Check:
 - `AGENTS.md` or the target repo's equivalent entrypoint tells agents where
   project context routing starts without turning the entrypoint into a broad
   project encyclopedia.
-- `SPEC-MAP.md` exists, is adapted to target-repo task intents, and includes
-  how to use it, source-of-truth order, task-intent routing, trigger-matched
-  deep references, and update triggers.
+- `SPEC-MAP.md` exists, is adapted to target-repo task intents, and preserves
+  the template's `Boundary` section or records an approved equivalent
+  existing-router boundary.
+- `SPEC-MAP.md` includes how to use it, task-intent routing, trigger-matched
+  deep references, missing or stale route handling, and update triggers.
 - `docs/project/areas/README.md` or an approved equivalent area-brief guide
   exists and includes the brief size and shape guidance.
 - Each installed project-area brief is short enough to scan, names its audience
@@ -195,7 +195,6 @@ For Level 2, make sure the handoff also makes these details explicit:
 - `SPEC-MAP.md` install or existing-router handling,
 - project-area brief location,
 - installed or adapted area briefs,
-- source-of-truth order,
 - optional `project-intent`, glossary, ADR, or decision-log routing decisions,
 - representative routing audit result or reason it was not possible,
 - broken or missing route cleanup,

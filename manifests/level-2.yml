@@ -13,7 +13,7 @@ assets:
       - task intents and terms used by the target repo's issues, briefs, code, tests, or user workflows
       - primary project-area brief paths
       - trigger-matched deep project references
-      - source-of-truth order for code, tests, work briefs, ADRs, project docs, and historical records
+      - missing-route reporting
       - update triggers for route drift or missing project areas
   - id: project-area-brief-guide
     asset_type: installable
@@ -23,7 +23,7 @@ assets:
     adapt:
       - current project-area brief list
       - preferred project-area path if the repo already has an equivalent docs structure
-      - source-of-truth hierarchy
+      - area-brief drift and stale-brief reporting
       - area-specific brief shape and doc update triggers
   - id: project-area-briefs
     asset_type: behavior

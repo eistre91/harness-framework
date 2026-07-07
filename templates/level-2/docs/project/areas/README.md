@@ -6,15 +6,15 @@ Use when: creating or reading short implementer briefs for one product area,
 module family, user workflow, CLI, integration, file format, or other repeated
 implementation concept.
 
-Project area briefs are routing and compression docs. They name the relevant
-behavior, modules, invariants, caveats, and verification sources for a task.
-They do not replace code, tests, schemas, the Agent Work Brief, ADRs, or deeper
-project references.
+Project area briefs are current-state routing and compression docs. They name
+the relevant behavior, modules, invariants, caveats, and verification sources
+for a task. They do not record planned work or replace code, tests, schemas,
+the Agent Work Brief, ADRs, or deeper project references.
 
 ## Route Ownership
 
-`../../../SPEC-MAP.md` owns the project-area inventory, task-intent routing,
-and source-of-truth order. This README owns only the area-brief shape.
+`../../../SPEC-MAP.md` owns the project-area inventory and task-intent routing.
+This README owns only the area-brief shape.
 
 Briefs should point to executable checks and focused searches instead of
 repeating exact schema columns, route labels, UI copy, parser internals, or
@@ -60,7 +60,7 @@ Do not:
 - <deferred behavior that should not be implemented accidentally>
 
 Implementation notes:
-- <best practices, source-of-truth caveats, repair evidence, module seams>
+- <best practices, current-state caveats, repair evidence, module seams>
 
 Useful tests and searches:
 - `<command or rg pattern>`

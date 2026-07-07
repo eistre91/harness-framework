@@ -5,8 +5,8 @@ Status: draft / active / stale
 Audience: agents and maintainers changing product or project behavior.
 
 Use when: deciding which project-area brief and deep reference docs to read
-before changing code. This map routes implementation intent; it does not
-replace the work brief, source code, tests, schemas, ADRs, or project docs.
+before changing code. This map compresses current-state orientation; it does
+not replace the work brief, source code, tests, schemas, ADRs, or project docs.
 
 ## How To Use
 
@@ -26,17 +26,20 @@ glossary, use its canonical terms in task intents and area briefs. Do not
 redefine glossary terms in this map; route to the glossary when term meaning is
 the context an agent needs.
 
-## Source-Of-Truth Order
+## Boundary
 
-For implementation decisions, prefer sources in this order:
+This map describes current system orientation: where important areas live,
+what agents will find there, and which local mental models, invariants, and
+gotchas matter before editing. It does not record planned work, roadmaps, or
+desired future behavior.
 
-1. Code, tests, schemas, scripts, and generated runtime or setup output.
-2. Agent Work Brief or accepted work-source decisions for the current task.
-3. ADRs, decision logs, or project-intent docs for durable decisions when the
-   route or brief names them.
-4. Project-area briefs under `docs/project/areas/`.
-5. Deep project reference docs routed by the area brief or this map.
-6. Plans, discussions, historical notes, and provenance records.
+The current Agent Work Brief or equivalent work source owns the requested
+change. Use this map only to find the current-state context needed to execute
+that work.
+
+Code, tests, schemas, scripts, and runtime behavior are authoritative for what
+the system currently does. If this map conflicts with those artifacts, trust
+the executable artifact and update or report the stale route.
 
 Area briefs compress where to look and what invariants to preserve. They should
 not duplicate exact schemas, route labels, generated output, or implementation
@@ -56,8 +59,8 @@ details that code and tests already own.
 - A deep reference stops being the first useful next source for its trigger.
 - A new product area, module boundary, CLI, integration, file format, or user
   workflow becomes common enough that agents need routing help.
-- An ADR or durable project decision changes the source-of-truth order or route
-  for an area.
+- An ADR, durable project decision, or code change alters the current-state
+  orientation or route for an area.
 
 ## Maintenance Notes
 
