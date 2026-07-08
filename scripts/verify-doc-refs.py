@@ -24,6 +24,10 @@ EXCLUDED_PARTS = {".git", "__pycache__", "node_modules"}
 EXCLUDED_PREFIXES = (Path("docs") / "ignored",)
 LOCAL_SCHEMES = {"", "file"}
 
+# These are target-repo install destinations, optional target-repo surfaces, or
+# deferred external provenance paths. They are intentionally not required to
+# exist in this framework repo; this validator checks framework-local
+# references, not every portable template destination.
 INTENTIONAL_TARGET_PREFIXES = (
     ".agent/work/",
     ".agents/skills/",

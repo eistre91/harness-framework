@@ -15,7 +15,8 @@ harness itself.
 ## Provenance
 
 Source framework: harness-framework
-Source version or commit, if known:
+Source version or commit: record the framework commit/tag, or `unknown`
+Source version unknown reason: required only when source version is `unknown`
 Installed on:
 Installed by:
 Durable Harness Fit Proposal or decision log:
@@ -86,8 +87,9 @@ canonical asset list.
 
 Populate this table from the final Harness Fit Proposal or decision log. If the
 source framework manifests are needed later, use the provenance above to locate
-the same framework version; do not assume bootstrap manifest files remain in the
-target repo.
+the same framework version. If the source version is `unknown`, treat that as a
+comparison gap; do not assume bootstrap manifest files remain in the target
+repo.
 
 | Piece | Status | Purpose | Notes |
 | --- | --- | --- | --- |

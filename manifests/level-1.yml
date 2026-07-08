@@ -31,7 +31,7 @@ assets:
     default_target: docs/harness/README.md
     required: true
     adapt:
-      - source framework provenance
+      - source framework provenance, including source version or commit, or unknown with a short reason
       - current stage and target maturity behavior
       - installation mode and stage completeness
       - installed files

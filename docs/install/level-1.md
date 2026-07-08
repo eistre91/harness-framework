@@ -105,6 +105,9 @@ Include:
 - installation mode: `canonical`, `starter`, or `overlay`,
 - Level 1 asset completeness,
 - expected Level 1 behavioral completeness,
+- source framework provenance to record in the durable harness docs; when the
+  framework source is a Git checkout, use `git rev-parse HEAD`, otherwise
+  record source version `unknown` and a short reason,
 - target-repo signals needed to adapt Level 1 assets,
 - files to create or edit,
 - work source and Agent Work Brief location,
@@ -190,9 +193,11 @@ Check:
   practical, and run the canonical repo checks before claiming done.
 - The review handoff names the brief or source, tier, changed files, behavior
   boundary, test surface, and known risks.
-- `docs/harness/README.md` or the chosen durable decision log records
-  provenance, installation mode, Level 1 stage completeness, installed pieces,
-  existing component decisions, deferrals, and communication audit findings.
+- `docs/harness/README.md` or the chosen durable decision log records source
+  framework provenance, including source version or commit, or `unknown` with a
+  short reason; installation mode; Level 1 stage completeness; installed
+  pieces; existing component decisions; deferrals; and communication audit
+  findings.
 - Any introduced local fallback brief directory is gitignored.
 - `repo-checks-on-stop` is installed, adapted, or explicitly satisfied for each
   desired hook-capable agent runtime in current scope, and runs only the
@@ -222,6 +227,8 @@ stage state under `docs/harness/`. Use the canonical stage handoff fields in
 
 For Level 1, make sure the handoff also makes these details explicit:
 
+- source framework version or commit, or `unknown` with the reason it could not
+  be recovered,
 - repo checks command and result,
 - included lint, type-check, and test commands, plus any omission reason,
   human-approved addition, or explicit waiver,
