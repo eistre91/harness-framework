@@ -5,6 +5,9 @@ import shutil
 import subprocess
 import sys
 from pathlib import Path
+from types import SimpleNamespace
+
+import pytest
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -320,3 +323,262 @@ def test_black_box_counts_and_redacted_failure_match_clean_export(
     assert clean_result.returncode == 1
     assert checkout_result.stderr == clean_result.stderr
     assert sentinel not in checkout_result.stdout + checkout_result.stderr
+
+
+@pytest.mark.parametrize("tracked", [True, False])
+def test_yaml_symlink_is_rejected_without_opening_ignored_target(
+    tmp_path: Path,
+    monkeypatch,
+    capsys,
+    tracked: bool,
+) -> None:
+    module = load_verify_yaml()
+    repo = tmp_path / ("tracked repo" if tracked else "untracked repo")
+    init_repo(repo, "secrets/\n")
+
+    target = repo / "secrets" / "local.yaml"
+    target.parent.mkdir()
+    target.write_text("token: YAML_SYMLINK_TARGET_SENTINEL\n", encoding="utf-8")
+    link = repo / "public.yaml"
+    link.symlink_to(target)
+    if tracked:
+        git_add(repo, link)
+
+    original_read_text = Path.read_text
+
+    def guarded_read_text(path: Path, *args, **kwargs):
+        if path == target:
+            raise AssertionError("the symlink target was opened")
+        return original_read_text(path, *args, **kwargs)
+
+    monkeypatch.setattr(Path, "read_text", guarded_read_text)
+
+    count, errors = module.validate_yaml_files(repo)
+
+    assert count == 1
+    assert errors == [
+        "public.yaml: symbolic-link YAML inputs are not supported",
+    ]
+    assert target not in module.repo_files(repo)
+    assert str(target.relative_to(repo)) not in "\n".join(errors)
+
+    assert module.main(repo) == 1
+    captured = capsys.readouterr()
+    output = captured.out + captured.err
+    assert "YAML_SYMLINK_TARGET_SENTINEL" not in output
+
+
+def test_markdown_symlink_is_rejected_without_opening_frontmatter_target(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    module = load_verify_yaml()
+    repo = tmp_path / "repo"
+    init_repo(repo, "ignored/\n")
+
+    target = repo / "ignored" / "target.md"
+    target.parent.mkdir()
+    target.write_text(
+        "---\ntitle: MARKDOWN_SYMLINK_TARGET_SENTINEL\n---\n",
+        encoding="utf-8",
+    )
+    link = repo / "public.md"
+    link.symlink_to(target)
+    git_add(repo, link)
+
+    original_read_text = Path.read_text
+
+    def guarded_read_text(path: Path, *args, **kwargs):
+        if path == target:
+            raise AssertionError("the Markdown symlink target was opened")
+        return original_read_text(path, *args, **kwargs)
+
+    monkeypatch.setattr(Path, "read_text", guarded_read_text)
+
+    count, errors = module.validate_frontmatter(repo)
+
+    assert count == 1
+    assert errors == [
+        "public.md: symbolic-link Markdown inputs are not supported",
+    ]
+    assert str(target.relative_to(repo)) not in "\n".join(errors)
+
+
+def test_exported_symlinks_and_dangling_links_are_rejected_without_target_reads(
+    tmp_path: Path,
+    monkeypatch,
+    capsys,
+) -> None:
+    module = load_verify_yaml()
+    repo = tmp_path / "clean export"
+    repo.mkdir()
+
+    target_dir = repo / "secrets"
+    target_dir.mkdir()
+    yaml_target = target_dir / "secret.yaml"
+    yaml_target.write_text(
+        "token: EXPORT_SYMLINK_TARGET_SENTINEL\n",
+        encoding="utf-8",
+    )
+    yaml_link = repo / "public.yaml"
+    yaml_link.symlink_to(yaml_target)
+
+    markdown_target = target_dir / "guide-target.md"
+    markdown_target.write_text(
+        "---\ntitle: EXPORT_MARKDOWN_TARGET_SENTINEL\n---\n",
+        encoding="utf-8",
+    )
+    markdown_link = repo / "guide.md"
+    markdown_link.symlink_to(markdown_target)
+
+    dangling = repo / "dangling.yaml"
+    dangling.symlink_to(repo / "does-not-exist.yaml")
+
+    original_read_text = Path.read_text
+
+    def guarded_read_text(path: Path, *args, **kwargs):
+        if path in {yaml_target, markdown_target}:
+            raise AssertionError("an exported symlink target was opened")
+        return original_read_text(path, *args, **kwargs)
+
+    monkeypatch.setattr(Path, "read_text", guarded_read_text)
+
+    assert module.main(repo) == 1
+    captured = capsys.readouterr()
+    output = captured.out + captured.err
+    assert "public.yaml: symbolic-link YAML inputs are not supported" in output
+    assert "dangling.yaml: symbolic-link YAML inputs are not supported" in output
+    assert "guide.md: symbolic-link Markdown inputs are not supported" in output
+    assert "EXPORT_SYMLINK_TARGET_SENTINEL" not in output
+    assert "EXPORT_MARKDOWN_TARGET_SENTINEL" not in output
+    assert str(yaml_target.relative_to(repo)) not in output
+    assert str(markdown_target.relative_to(repo)) not in output
+
+
+def _ignored_fixture(repo: Path) -> Path:
+    ignored = repo / ".agents" / "ignored.yaml"
+    ignored.parent.mkdir(parents=True, exist_ok=True)
+    ignored.write_text("token: GIT_FAILURE_IGNORED_SENTINEL\n", encoding="utf-8")
+    return ignored
+
+
+def test_git_rev_parse_failure_does_not_walk_ignored_files(
+    tmp_path: Path,
+    monkeypatch,
+    capsys,
+) -> None:
+    module = load_verify_yaml()
+    repo = tmp_path / "checkout"
+    init_repo(repo, ".agents/\n")
+    ignored = _ignored_fixture(repo)
+
+    def fail_git(*args, **kwargs):
+        raise subprocess.CalledProcessError(128, args[0])
+
+    monkeypatch.setattr(module.subprocess, "run", fail_git)
+    original_read_text = Path.read_text
+
+    def guarded_read_text(path: Path, *args, **kwargs):
+        if path == ignored:
+            raise AssertionError("ignored content was opened after Git failure")
+        return original_read_text(path, *args, **kwargs)
+
+    monkeypatch.setattr(Path, "read_text", guarded_read_text)
+
+    assert module.main(repo) == 1
+    captured = capsys.readouterr()
+    output = captured.out + captured.err
+    assert "Git source discovery failed" in output
+    assert "git rev-parse --show-toplevel" in output
+    assert "GIT_FAILURE_IGNORED_SENTINEL" not in output
+    assert "Traceback" not in output
+
+
+def test_git_ls_files_failure_does_not_walk_ignored_files(
+    tmp_path: Path,
+    monkeypatch,
+    capsys,
+) -> None:
+    module = load_verify_yaml()
+    repo = tmp_path / "checkout"
+    init_repo(repo, ".venv/\n")
+    ignored = repo / ".venv" / "ignored.md"
+    ignored.parent.mkdir()
+    ignored.write_text(
+        "---\ntitle: GIT_LS_FILES_IGNORED_SENTINEL\n---\n",
+        encoding="utf-8",
+    )
+
+    def fail_ls_files(command, **kwargs):
+        if command[1] == "rev-parse":
+            return SimpleNamespace(stdout=f"{repo}\n")
+        raise subprocess.CalledProcessError(128, command)
+
+    monkeypatch.setattr(module.subprocess, "run", fail_ls_files)
+    original_read_text = Path.read_text
+
+    def guarded_read_text(path: Path, *args, **kwargs):
+        if path == ignored:
+            raise AssertionError("ignored content was opened after Git failure")
+        return original_read_text(path, *args, **kwargs)
+
+    monkeypatch.setattr(Path, "read_text", guarded_read_text)
+
+    assert module.main(repo) == 1
+    captured = capsys.readouterr()
+    output = captured.out + captured.err
+    assert "git ls-files source discovery" in output
+    assert "GIT_LS_FILES_IGNORED_SENTINEL" not in output
+    assert "Traceback" not in output
+
+
+def test_mismatched_git_top_level_fails_closed(
+    tmp_path: Path,
+    monkeypatch,
+    capsys,
+) -> None:
+    module = load_verify_yaml()
+    repo = tmp_path / "checkout"
+    init_repo(repo, ".agents/\n")
+    ignored = _ignored_fixture(repo)
+
+    monkeypatch.setattr(
+        module.subprocess,
+        "run",
+        lambda command, **kwargs: SimpleNamespace(stdout=f"{tmp_path}\n"),
+    )
+    original_read_text = Path.read_text
+
+    def guarded_read_text(path: Path, *args, **kwargs):
+        if path == ignored:
+            raise AssertionError("ignored content was opened after top-level mismatch")
+        return original_read_text(path, *args, **kwargs)
+
+    monkeypatch.setattr(Path, "read_text", guarded_read_text)
+
+    assert module.main(repo) == 1
+    captured = capsys.readouterr()
+    output = captured.out + captured.err
+    assert "different top level" in output
+    assert "GIT_FAILURE_IGNORED_SENTINEL" not in output
+
+
+def test_metadata_free_export_under_unrelated_parent_repository_uses_export_walk(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    module = load_verify_yaml()
+    parent = tmp_path / "parent checkout"
+    init_repo(parent)
+    export = parent / "source export"
+    export.mkdir()
+    source = export / "manifest.yaml"
+    source.write_text("name: export\n", encoding="utf-8")
+
+    def unexpected_git_call(*args, **kwargs):
+        raise AssertionError("metadata-free export attempted Git discovery")
+
+    monkeypatch.setattr(module.subprocess, "run", unexpected_git_call)
+
+    assert module.main(export) == 0
+    assert list(module.repo_files(export)) == [source]

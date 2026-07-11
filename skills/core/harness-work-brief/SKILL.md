@@ -1,6 +1,8 @@
 ---
 name: harness-work-brief
 description: Converts external work from a tracker, issue, chat, or planning notes into an Agent Work Brief that agents can execute. Use when turning user intent or a work item into implementation-ready scope.
+metadata:
+  agent-harness-framework/claude-sync: agents-to-claude
 ---
 
 # Harness Work Brief

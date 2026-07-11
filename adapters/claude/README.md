@@ -51,14 +51,24 @@ needs to act on.
 
 When Claude Code should discover harness skills natively, prefer the generated
 mirror pattern documented in `docs/platforms/claude-code.md`:
-`.agents/skills/<skill>/SKILL.md` owns the portable workflow body and support
-files, while `.claude/skills/<skill>/SKILL.md` owns Claude Code frontmatter.
+`.agents/skills/<skill>/SKILL.md` owns the portable workflow body, support
+files, and portable frontmatter. Mark a canonical skill for this adapter with:
 
-Install `scripts/sync_claude_skills.py` when using generated mirrors. Do not
-let install overwrite Claude-specific fields such as model choices or tool
-permissions like `allowed-tools` with shared `.agents` frontmatter. Thin
-wrappers with `@` imports remain an explicit exception when the target repo
-chooses that adapter shape deliberately.
+```yaml
+metadata:
+  agent-harness-framework/claude-sync: agents-to-claude
+```
+
+`.claude/skills/<skill>/SKILL.md` preserves Claude-specific fields such as
+model choices and tool permissions like `allowed-tools`. Install
+`scripts/sync_claude_skills.py` when using generated mirrors. The tool repairs
+managed drift only after validating the complete plan and never deletes
+orphaned mirrors or support files. If it finds an orphan or malformed managed
+mirror, the agent must ask the human operator whether to remove it or restore
+the canonical source.
+
+Thin wrappers with `@` imports remain an explicit exception when the target
+repo chooses that adapter shape deliberately.
 
 ## Not Included
 

@@ -8,7 +8,7 @@ import re
 import subprocess
 import sys
 from pathlib import Path
-from typing import Iterable
+from typing import Iterable, Literal
 
 try:
     import yaml
@@ -42,6 +42,29 @@ class DuplicateKeyError(yaml.YAMLError):
         self.problem_mark = duplicate_mark
         self.first_mark = first_mark
         super().__init__(self.problem)
+
+
+class GitDiscovery:
+    """The result of attempting Git-aware source discovery."""
+
+    __slots__ = ("state", "files", "reason")
+
+    def __init__(
+        self,
+        state: Literal["absent", "success", "failed"],
+        files: tuple[Path, ...] = (),
+        reason: str | None = None,
+    ) -> None:
+        self.state = state
+        self.files = files
+        self.reason = reason
+
+
+class SourceDiscoveryError(RuntimeError):
+    """Git metadata exists but the authoritative source set was unavailable."""
+
+    def __init__(self, reason: str) -> None:
+        super().__init__(f"Git source discovery failed: {reason}")
 
 
 def construct_mapping_without_duplicates(loader: UniqueKeyLoader, node, deep=False):
@@ -85,8 +108,44 @@ def _sort_paths(paths: Iterable[Path], root: Path) -> list[Path]:
     return sorted(paths, key=lambda path: path.relative_to(root).as_posix())
 
 
-def _git_source_files(root: Path) -> list[Path] | None:
-    """Return tracked and non-ignored untracked files, or None without Git."""
+def _root_has_git_metadata(root: Path) -> bool:
+    """Return whether the selected root has local Git metadata."""
+
+    metadata = root / ".git"
+    try:
+        metadata.lstat()
+    except FileNotFoundError:
+        return False
+    except OSError:
+        # An inaccessible .git path is still local metadata. Fail closed rather
+        # than treating it as permission for an exported-tree walk.
+        return True
+    return True
+
+
+def _source_candidate(path: Path, root: Path) -> Path | None:
+    """Return a safe source candidate without following a file symlink."""
+
+    if is_sensitive_path(path, root):
+        return None
+
+    if path.is_symlink():
+        # Keep eligible symlinks in the source set so the validator can report a
+        # deterministic rejection. Never ask a symlink whether it is a file.
+        if path.suffix.lower() in YAML_SUFFIXES or path.suffix.lower() == ".md":
+            return path
+        return None
+
+    if path.is_file():
+        return path
+    return None
+
+
+def _git_source_files(root: Path) -> GitDiscovery:
+    """Return the Git discovery state and, on success, its authoritative files."""
+
+    if not _root_has_git_metadata(root):
+        return GitDiscovery("absent")
 
     try:
         top_level_result = subprocess.run(
@@ -97,12 +156,24 @@ def _git_source_files(root: Path) -> list[Path] | None:
             stderr=subprocess.DEVNULL,
             text=True,
         )
-    except (OSError, subprocess.CalledProcessError):
-        return None
+    except (OSError, subprocess.SubprocessError, UnicodeError):
+        return GitDiscovery(
+            "failed",
+            reason="git rev-parse --show-toplevel could not complete",
+        )
 
-    top_level = Path(top_level_result.stdout.strip()).resolve()
+    try:
+        top_level = Path(top_level_result.stdout.strip()).resolve()
+    except (OSError, RuntimeError):
+        return GitDiscovery(
+            "failed",
+            reason="git rev-parse --show-toplevel returned an unusable top level",
+        )
     if top_level != root:
-        return None
+        return GitDiscovery(
+            "failed",
+            reason="git rev-parse --show-toplevel resolved a different top level",
+        )
 
     try:
         result = subprocess.run(
@@ -121,8 +192,11 @@ def _git_source_files(root: Path) -> list[Path] | None:
             stderr=subprocess.DEVNULL,
             text=True,
         )
-    except (OSError, subprocess.CalledProcessError):
-        return None
+    except (OSError, subprocess.SubprocessError, UnicodeError):
+        return GitDiscovery(
+            "failed",
+            reason="git ls-files source discovery could not complete",
+        )
 
     files = []
     for name in result.stdout.split("\0"):
@@ -134,10 +208,11 @@ def _git_source_files(root: Path) -> list[Path] | None:
             continue
 
         path = root / relative
-        if path.is_file() and not is_sensitive_path(path, root):
-            files.append(path)
+        candidate = _source_candidate(path, root)
+        if candidate is not None:
+            files.append(candidate)
 
-    return _sort_paths(files, root)
+    return GitDiscovery("success", tuple(_sort_paths(files, root)))
 
 
 def _walk_exported_source(root: Path) -> list[Path]:
@@ -150,18 +225,47 @@ def _walk_exported_source(root: Path) -> list[Path]:
     """
 
     files = []
-    for dirpath, dirnames, filenames in os.walk(root):
-        dirnames[:] = sorted(
-            dirname
-            for dirname in dirnames
-            if dirname not in EXCLUDED_DIRS
-            and not is_sensitive_path(Path(dirpath) / dirname, root)
-        )
 
-        for filename in sorted(filenames):
-            path = Path(dirpath) / filename
-            if path.is_file() and not is_sensitive_path(path, root):
-                files.append(path)
+    def visit(directory: Path) -> None:
+        try:
+            with os.scandir(directory) as entries:
+                entries = sorted(entries, key=lambda entry: entry.name)
+                for entry in entries:
+                    path = Path(entry.path)
+
+                    # Check the directory entry itself before asking whether it
+                    # is a directory or file. This keeps symlink targets out of
+                    # exported-tree discovery as well as validation.
+                    if entry.is_symlink():
+                        candidate = _source_candidate(path, root)
+                        if candidate is not None:
+                            files.append(candidate)
+                        continue
+
+                    try:
+                        is_directory = entry.is_dir(follow_symlinks=False)
+                    except OSError:
+                        continue
+                    if is_directory:
+                        if entry.name in EXCLUDED_DIRS or is_sensitive_path(
+                            path, root
+                        ):
+                            continue
+                        visit(path)
+                        continue
+
+                    try:
+                        is_file = entry.is_file(follow_symlinks=False)
+                    except OSError:
+                        continue
+                    if is_file:
+                        candidate = _source_candidate(path, root)
+                        if candidate is not None:
+                            files.append(candidate)
+        except OSError:
+            return
+
+    visit(root)
 
     return _sort_paths(files, root)
 
@@ -170,10 +274,24 @@ def repo_files(root: Path | None = None) -> Iterable[Path]:
     """Return the deterministic, hermetic source set for a repository."""
 
     root = _resolved_root(root)
-    files = _git_source_files(root)
-    if files is None:
-        files = _walk_exported_source(root)
-    return files
+    discovery = _git_source_files(root)
+    # Keep compatibility with focused callers that stub the old list/None
+    # result while the concrete implementation uses an explicit state model.
+    if discovery is None:
+        if _root_has_git_metadata(root):
+            raise SourceDiscoveryError(
+                "Git source discovery returned no state for a checkout"
+            )
+        return _walk_exported_source(root)
+    if isinstance(discovery, (list, tuple)):
+        return list(discovery)
+    if discovery.state == "absent":
+        return _walk_exported_source(root)
+    if discovery.state == "failed":
+        raise SourceDiscoveryError(
+            discovery.reason or "Git source discovery returned no source set"
+        )
+    return list(discovery.files)
 
 
 def parse_yaml(label: str, text: str) -> list[str]:
@@ -217,6 +335,9 @@ def _redact_parser_text(value: object) -> str | None:
 
 def frontmatter_block(path: Path, root: Path | None = None) -> tuple[str, int] | None:
     root = _resolved_root(root)
+    if path.is_symlink():
+        rel = path.relative_to(root)
+        raise ValueError(f"{rel}: symbolic-link Markdown inputs are not supported")
     text = path.read_text(encoding="utf-8")
     lines = text.splitlines()
 
@@ -243,6 +364,9 @@ def validate_yaml_files(root: Path | None = None) -> tuple[int, list[str]]:
 
         count += 1
         rel = path.relative_to(root)
+        if path.is_symlink():
+            errors.append(f"{rel}: symbolic-link YAML inputs are not supported")
+            continue
         text = path.read_text(encoding="utf-8")
         errors.extend(parse_yaml(str(rel), text))
 
@@ -259,6 +383,11 @@ def validate_frontmatter(root: Path | None = None) -> tuple[int, list[str]]:
             continue
 
         rel = path.relative_to(root)
+
+        if path.is_symlink():
+            count += 1
+            errors.append(f"{rel}: symbolic-link Markdown inputs are not supported")
+            continue
 
         try:
             block = frontmatter_block(path, root)
@@ -278,8 +407,13 @@ def validate_frontmatter(root: Path | None = None) -> tuple[int, list[str]]:
 
 def main(root: Path | None = None) -> int:
     root = _resolved_root(root)
-    yaml_count, yaml_errors = validate_yaml_files(root)
-    frontmatter_count, frontmatter_errors = validate_frontmatter(root)
+    try:
+        yaml_count, yaml_errors = validate_yaml_files(root)
+        frontmatter_count, frontmatter_errors = validate_frontmatter(root)
+    except SourceDiscoveryError as exc:
+        print("YAML validation failed:", file=sys.stderr)
+        print(f"- {exc}", file=sys.stderr)
+        return 1
     errors = yaml_errors + frontmatter_errors
 
     if errors:

@@ -52,7 +52,7 @@ assets:
   - id: claude-skill-sync-script
     asset_type: bootstrap
     source: scripts/sync_claude_skills.py
-    use_when: Installing generated Claude Code skill mirrors from canonical .agents/skills sources.
+    use_when: Installing generated Claude Code skill mirrors from explicitly marked canonical .agents/skills sources.
   - id: level-1-manifest
     asset_type: bootstrap
     source: manifests/level-1.yml

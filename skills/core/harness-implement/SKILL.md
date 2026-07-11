@@ -1,6 +1,8 @@
 ---
 name: harness-implement
 description: Implements an Agent Work Brief with narrow scope, boundary-level tests where practical, and explicit mechanical and acceptance evidence. Use when coding from a brief, ticket, or agreed implementation scope.
+metadata:
+  agent-harness-framework/claude-sync: agents-to-claude
 ---
 
 # Harness Implement

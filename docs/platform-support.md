@@ -217,10 +217,11 @@ runtime-specific discovery fields, keep that metadata in the platform adapter
 instead of stripping it or copying it into the shared skill body.
 
 For repos that use both `.agents/skills` and Claude Code native skills, the
-standard harness adapter is a generated Claude mirror: `.agents/skills` owns
-the reusable body and support files, while `.claude/skills` owns
-Claude-specific frontmatter. Read `docs/platforms/claude-code.md` for the
-sync command, drift check, and wrapper-import exception.
+standard harness adapter is a generated Claude mirror: marked
+`.agents/skills` entries own the reusable body, support files, and portable
+frontmatter, while `.claude/skills` preserves Claude-specific frontmatter.
+Read `docs/platforms/claude-code.md` for the marker, sync command, drift check,
+human-decision behavior, and wrapper-import exception.
 
 Harness-provided skills should use self-explaining names such as
 `harness-review`, `harness-implement`, `harness-work-brief`, and

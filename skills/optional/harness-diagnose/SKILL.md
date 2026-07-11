@@ -1,6 +1,8 @@
 ---
 name: harness-diagnose
 description: "Runs a disciplined diagnosis loop for bugs, failing tests, regressions, and unclear behavior: reproduce, minimize, hypothesize, instrument, fix, regression-test. Use when something is broken, flaky, slow, throwing, or behaving unexpectedly."
+metadata:
+  agent-harness-framework/claude-sync: agents-to-claude
 support_files:
   - scripts/hitl-loop.template.sh
 ---

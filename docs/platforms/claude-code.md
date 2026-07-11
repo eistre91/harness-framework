@@ -54,12 +54,53 @@ Claude Code native skills for the same harness skills that live in
 Do not manually maintain separate Claude and Codex skill bodies unless a real
 platform limitation requires it.
 
-The generated mirror pattern treats `.agents/skills/<skill>/SKILL.md` as the
-source of truth for the skill body and support files. The corresponding
-`.claude/skills/<skill>/SKILL.md` owns Claude-specific frontmatter. The sync
-script preserves existing Claude frontmatter, replaces the body with the
-`.agents` body, copies support files, and rejects orphaned Claude files that no
-longer have a `.agents` source.
+### Managed mirror contract
+
+A skill enters the generated mirror set only when its canonical
+`.agents/skills/<skill>/SKILL.md` contains this frontmatter metadata:
+
+```yaml
+metadata:
+  agent-harness-framework/claude-sync: agents-to-claude
+```
+
+The canonical `.agents` marker is authoritative. A matching
+`.claude/skills/<skill>/SKILL.md` is managed even when its Claude-side
+provenance marker is missing; the sync restores that marker. Generated Claude
+mirrors carry the same marker so a former mirror can be identified after its
+canonical source is removed or unmarked.
+
+Unmarked `.agents` skills, Claude-native skills, and their support files are
+outside this adapter and remain untouched. Synchronization manages only the
+repository-root `.agents/skills` and `.claude/skills` directories. Use
+`--root` to run the adapter for another explicit repository root.
+
+For a managed skill:
+
+- `.agents` owns the body, support files, and portable frontmatter fields:
+  `name`, `description`, `license`, `compatibility`, and the sync marker.
+- `.claude` may preserve Claude-specific fields such as `model`,
+  `allowed-tools`, `context`, `hooks`, and invocation controls.
+- Unknown existing Claude frontmatter is preserved. Unknown `.agents`
+  frontmatter is not copied unless an explicit mapping exists.
+- An explicit Codex policy at
+  `.agents/skills/<skill>/agents/openai.yaml` maps
+  `policy.allow_implicit_invocation` to Claude's
+  `disable-model-invocation`. When no Codex policy exists, an existing Claude
+  invocation choice is preserved.
+
+Apply repairs missing or stale managed mirrors, but never deletes files.
+Orphaned generated mirrors, extra managed support files, malformed frontmatter,
+and other human-decision conditions block the complete plan. The command
+reports the exact paths and instructs an agent to ask its human operator
+whether to remove the file or restore the canonical source. No files are
+changed until every managed-plan validation succeeds.
+
+Existing target repositories migrate explicitly: add the marker to each
+canonical `.agents` skill the maintainer chooses, run `--check`, review the
+plan, and then run apply. Removing a canonical marker stops future
+synchronization but does not delete the Claude mirror; if its provenance marker
+remains, the next check reports that human decision is required.
 
 When a shared skill includes Codex invocation policy at
 `.agents/skills/<skill>/agents/openai.yaml`, the sync script translates
@@ -79,6 +120,10 @@ Run this after changing `.agents/skills` or adding a Claude skill mirror:
 ```sh
 python3 -m scripts.sync_claude_skills
 ```
+
+Use `--check` in the target repository's canonical checks. Check and apply
+build the same plan; check reports planned create/update operations without
+writing, while apply commits only an entirely valid plan.
 
 Thin wrapper skills with `@` imports remain acceptable only when the target
 repo deliberately chooses wrappers over generated mirrors. When using a thin

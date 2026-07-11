@@ -1,6 +1,8 @@
 ---
 name: harness-review
 description: Reviews implementation against an Agent Work Brief with findings-led focus on bugs, scope, evidence, maintainability, and over-engineering. Use when reviewing a completed change, PR, commit, or working tree against a brief.
+metadata:
+  agent-harness-framework/claude-sync: agents-to-claude
 ---
 
 # Harness Review
