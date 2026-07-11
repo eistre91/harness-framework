@@ -14,7 +14,7 @@ try:
     import yaml
 except ImportError:
     print(
-        "PyYAML is required. Install it with: python3 -m pip install PyYAML",
+        "PyYAML is required. Run 'uv sync' from the repository root.",
         file=sys.stderr,
     )
     sys.exit(2)

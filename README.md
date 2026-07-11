@@ -142,20 +142,24 @@ manifests, docs, scripts, or skills:
 
 The script is the source of truth for this framework repo's checks. In this
 repo it validates YAML/frontmatter, manifest references, local documentation
-references, and runs the Python tests. It requires Python 3 with PyYAML and
-pytest available.
+references, and runs the Python tests. It requires Python 3.14 or newer and
+uv 0.11.x (0.11.28 is pinned in CI). The direct development dependency floors
+are recorded in `pyproject.toml`; `uv.lock` records the exact resolved
+versions used by local checks and CI.
 
-Install the lightweight development dependencies in a local virtual
-environment:
+Install uv using its official installation instructions, then create the
+locked development environment:
 
 ```sh
-python3 -m venv .venv
-. .venv/bin/activate
-python -m pip install -r requirements-dev.txt
+uv sync --locked
 ```
 
-`scripts/repo-checks.sh` automatically uses `.venv/bin/python` when that
-environment exists; otherwise it falls back to `python3`.
+`scripts/repo-checks.sh` runs all Python checks through `uv run --locked`, so
+local checks and CI use the same interpreter and dependency policy. To
+deliberately update dependency resolution, edit the direct dependency floors
+or run `uv lock --upgrade`, review the resulting `uv.lock`, and rerun the
+canonical checks. CI uses `uv sync --locked` and will fail if the lockfile is
+out of date.
 
 Do not copy this framework repo's `scripts/repo-checks.sh` into target repos.
 The installable target-repo template is
