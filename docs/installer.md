@@ -37,6 +37,15 @@ skills, or reference docs to read. Do not load higher-level manifests, optional
 asset manifests, adapter docs, future-facing TODOs, or exploratory docs unless
 the current stage checklist or human-approved scope explicitly requires them.
 
+A current maturity-stage manifest is additive and is the only maturity-stage
+manifest the installing agent reads for that stage. `prerequisite_manifest`
+records required prior state and validator compatibility; it is not an
+instruction to recursively open the prerequisite checklist or manifest. Use
+the durable handoff from the completed prerequisite stage to establish prior
+completion. Bounded reads of `optional-assets.yml` or other additional sources
+remain valid when the current checklist or human-approved scope explicitly
+routes to them.
+
 If the human asks to inspect a next stage and no checklist exists for that
 stage, do not infer the path silently. Say that the stage checklist is missing,
 then use the stage manifest if one exists, `docs/maturity-model.md`, and

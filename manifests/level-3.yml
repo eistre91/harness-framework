@@ -1,6 +1,6 @@
 name: level-3
 description: Selected deterministic controls for agent action bounds.
-base: manifests/level-1.yml
+prerequisite_manifest: manifests/level-1.yml
 install_policy: Install after Level 1 when repo evidence or operator decision justifies selected deterministic controls. Do not install every control family by default.
 level_definition_source: docs/maturity-model.md#level-3-deterministic-controls
 assets:

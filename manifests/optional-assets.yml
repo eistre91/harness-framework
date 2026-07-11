@@ -1,5 +1,8 @@
 name: optional-assets
 description: Optional harness assets. Install only when repo evidence or human preference justifies them.
+install_policy: >-
+  Install only entries justified by target-repo evidence or human preference
+  and explicitly approved in the current-stage proposal.
 assets:
   - id: claude-entrypoint
     asset_type: installable
