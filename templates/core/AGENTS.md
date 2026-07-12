@@ -36,13 +36,14 @@ workflow. If the canonical source is external and unavailable, use the local
 fallback only as temporary state. Copy durable progress, evidence, blockers, and
 accepted plan changes back to the canonical location before handoff.
 
-Lifecycle/status updates: <where Draft -> Ready For Implementation ->
-Implemented -> Verified -> Reviewed is recorded>.
+Lifecycle/status updates: <where the work item or work unit, work brief,
+implementation, validation (including verification, review, and human
+checkpoints as needed), and closeout or feedback are recorded>.
 
 Before implementation, make sure the work has an Agent Work Brief or enough
 equivalent detail to answer:
 
-- goal,
+- problem or outcome,
 - smallest valuable outcome,
 - non-goals,
 - context to read,
@@ -50,7 +51,7 @@ equivalent detail to answer:
 - acceptance evidence for behavior changes.
 
 For tiny work, a ticket, issue, or chat request can be enough when it states the
-source, goal, context, verification, and done criteria.
+source, problem or outcome, context, verification, and done criteria.
 
 Work brief skill/template: `.agents/skills/harness-work-brief/`
 
@@ -92,6 +93,12 @@ separate context windows when practical.
 For standard or complex work, prefer an independent review in a separate context
 window or by a separate agent. If the implementer reviews the same change, label
 it as a self-review and treat it as lower-confidence.
+
+Scale review depth to the work and its ambient risk: Tiny checks outcome, diff,
+obvious regressions, evidence, and scope; Standard also checks requirements,
+design fit, boundaries, tests, security implications, and conventions; Complex
+or elevated-risk work also challenges premises and relevant consumers,
+dependencies, migration or negative cases, and cross-boundary effects.
 
 ## Project Context
 

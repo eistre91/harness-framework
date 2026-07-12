@@ -42,17 +42,21 @@ boundary/interface-changing work.
 
 Use `work-brief-template.md` as the starting template for Agent Work Brief
 content. Fill only the sections that reduce risk for the current task. For tiny
-work, source, goal, value target, context, verification, and done criteria may be
-enough. Use the non-goals, ambiguity, boundary/interface, and acceptance
+work, source, problem/outcome, value target, context, verification, and done
+criteria may be enough. Use the non-goals, ambiguity, boundary/interface, and acceptance
 sections when scope or behavior could otherwise be misunderstood.
 
 Small, contained edits can use the ticket, issue, or chat request directly when
-it already names the source, goal, scope, context, verification, and done
+it already names the source, problem/outcome, scope, context, verification, and done
 criteria clearly. Do not create a brief just because the template exists.
 
 ## Tiers
 
-Classify by implementation risk, not by estimated lines changed.
+Classify by work shape, not estimated lines changed or ambient risk. Shape
+includes ambiguity, boundaries, affected areas, sequencing, migration, and
+context or coordination needs. Ambient risk may strengthen planning,
+verification, review, or human checkpoints regardless of tier; it does not add
+a risk score, field, or required taxonomy.
 
 - Tiny: contained bug fix, docs tweak, prompt copy change, or test-only cleanup.
   No public contract changes, one obvious owner or area, clear verification, and
@@ -62,8 +66,8 @@ Classify by implementation risk, not by estimated lines changed.
   does not require sequencing, migration, or new boundary design.
 - Complex: changes or depends on a boundary/interface, crosses multiple owners
   or areas, needs multiple dependent steps or sessions, requires explicit
-  sequencing/backcompat/migration thinking, or has product/design ambiguity that
-  materially affects implementation.
+  sequencing/backcompat/migration thinking, has context or coordination needs,
+  or has product/design ambiguity that materially affects implementation.
 
 Boundary/interface examples include public APIs, CLIs, modules, jobs, file
 formats, external API use, schedules, configuration or schema contracts, secret
@@ -115,7 +119,7 @@ Convert the shaped scope into a handoff artifact.
 
 1. Use `work-brief-template.md` as the starting template.
 2. Fill only the sections that reduce implementation or review risk.
-3. Record tier, goal, value target, non-goals, context, implementation guidance,
+3. Record tier, problem/outcome, value target, non-goals, context, implementation guidance,
    verification, docs impact, and done criteria.
 4. Record only accepted decisions and trade-offs that affect implementation or
    review. Do not preserve the planning transcript.
@@ -154,6 +158,14 @@ Check that another agent could execute the brief without guessing.
 - Complex work is sliced into independently verifiable units when needed.
 - The brief avoids speculative structure, broad cleanup, and new dependencies
   unless the trade-off is explicit.
+
+## Plan-Only Work
+
+When the request is explicitly plan-only or work-brief-only, edit only the
+requested planning artifact, brief, or tracker state; do not modify product
+code. A contained request may combine planning and implementation, but begin
+implementation only after the scope is executable and required human
+checkpoints are clear.
 
 ## Work Source
 
