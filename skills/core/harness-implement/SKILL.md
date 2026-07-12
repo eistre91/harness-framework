@@ -1,6 +1,8 @@
 ---
 name: harness-implement
 description: Implements an Agent Work Brief with narrow scope, boundary-level tests where practical, and explicit mechanical and acceptance evidence. Use when coding from a brief, ticket, or agreed implementation scope.
+metadata:
+  agent-harness-framework/claude-sync: agents-to-claude
 ---
 
 # Harness Implement
@@ -31,10 +33,11 @@ that contains enough executable detail.
    scope, interface, verification, or acceptance.
 3. Identify the behavior boundary: API, CLI, function, component, job, file
    format, integration, or user-visible workflow.
-4. For behavior changes, use a vertical red-green loop where practical:
+4. For observable behavior with a fast, reliable test surface, use vertical
+   red-green-refactor as the expected default:
    - write one failing test for one observable behavior,
    - add only enough code to pass it,
-   - repeat for the next behavior.
+   - repeat for the next behavior, then refactor while tests are green.
 5. Avoid horizontal slicing: do not write a large batch of imagined tests and
    then a large batch of implementation.
 6. Keep each cycle narrow:
@@ -43,17 +46,25 @@ that contains enough executable detail.
    - no refactor while the suite is red.
 7. Refactor only after tests are green; keep tests on public behavior so
    internal refactors do not break them.
-8. Run focused verification for the touched area while iterating when the repo has
-   a clear focused command or test surface.
-9. Run the repo's canonical checks command before claiming done.
-10. Provide mechanical evidence and acceptance evidence.
-11. Prepare a handoff for an independent reviewer.
-12. Call out any scope, design, or verification gaps.
+8. Run fast focused checks for the touched area while iterating when the repo
+   has a clear focused command or test surface.
+9. Run the repo's canonical checks command before claiming completion.
+10. Run required slow or environmental checks before acceptance. If a required
+    check is unavailable, say that validation is incomplete and make the
+    residual risk visible.
+11. Provide mechanical evidence and acceptance evidence.
+12. Prepare a handoff for an independent reviewer.
+13. Call out any scope, design, or verification gaps.
 
 For tiny work, do not create extra process when the ticket, issue, or chat
-request already states the source, goal, context, verification, and done
+request already states the source, problem/outcome, context, verification, and done
 criteria. For standard or complex work, expect a concrete Agent Work Brief or
 equivalent executable scope before coding.
+
+For non-behavioral changes, or when a fast, reliable test surface is
+impractically slow or unavailable, use proportionate alternative evidence
+instead of forcing red-green-refactor. State the alternative and any residual
+risk visibly.
 
 ## Guardrails
 
@@ -61,13 +72,20 @@ equivalent executable scope before coding.
 - Do not add dependencies unless the brief or human approves the trade-off.
 - Do not continue coding from a brief that lacks a necessary interface,
   behavior, or acceptance decision.
-- If no meaningful test surface exists, say so and explain the residual risk.
-- Do not commit unless the human explicitly approves after reviewing the changed
-  files summary.
+- Keep only maintenance indispensable to delivering the approved outcome
+  correctly and safely. General clarity improvement, material expansion, and
+  unrelated cleanup remain outside the authorized scope.
+- Follow the target repo's existing commit policy and explicit user delegation;
+  this portable skill adds no separate commit-approval rule.
+- Escalate material scope, design, and residual-risk decisions to the human as
+  required by the brief or current delegation. A commit is not that approval.
 
 ## Final Evidence
 
-Report:
+Make the handoff easy for a human to scan. In concise wording, explain as
+applicable what changed, why, affected behavior, the evidence, and remaining
+risk. These are examples, not a second mandatory field list. Include the
+following evidence when relevant:
 
 - files changed,
 - mechanical verification commands and results,

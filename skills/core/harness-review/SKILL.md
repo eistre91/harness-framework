@@ -1,6 +1,8 @@
 ---
 name: harness-review
 description: Reviews implementation against an Agent Work Brief with findings-led focus on bugs, scope, evidence, maintainability, and over-engineering. Use when reviewing a completed change, PR, commit, or working tree against a brief.
+metadata:
+  agent-harness-framework/claude-sync: agents-to-claude
 ---
 
 # Harness Review
@@ -34,11 +36,24 @@ project's stated problem, audience, direction, or value proposition.
 
 Before reviewing, state one of:
 
-- Independent review: I did not implement this change in this context.
+- Independent review: I am reviewing in a fresh context and did not implement
+  this change.
 - Self-review: I implemented this change or share the implementation context.
 
 Self-review is allowed, but lower-confidence. For standard or complex work,
 recommend an independent review before merge or handoff when practical.
+
+## Review Depth
+
+Scale review depth to work shape and ambient risk without creating a new gate or
+rerun protocol:
+
+- Tiny: check the outcome, diff, obvious regressions, evidence, and scope.
+- Standard: also check requirements, design fit, boundaries, tests, security
+  implications, and project conventions.
+- Complex or elevated risk: also inspect broader consumers and dependencies,
+  challenge premises, consider negative or migration cases, and examine relevant
+  cross-boundary effects.
 
 ## Check
 

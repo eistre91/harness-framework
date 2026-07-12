@@ -1,5 +1,9 @@
 name: bootstrap
 description: Assets used while fitting this framework to a target repo. These usually should not remain installed in the target repo.
+install_policy: >-
+  These entries are installer inputs only and do not authorize copying them
+  into a target repo. Install a source only when a current-stage or optional
+  manifest separately selects it.
 assets:
   - id: principles-doc
     asset_type: bootstrap
@@ -52,7 +56,7 @@ assets:
   - id: claude-skill-sync-script
     asset_type: bootstrap
     source: scripts/sync_claude_skills.py
-    use_when: Installing generated Claude Code skill mirrors from canonical .agents/skills sources.
+    use_when: Installing generated Claude Code skill mirrors from explicitly marked canonical .agents/skills sources.
   - id: level-1-manifest
     asset_type: bootstrap
     source: manifests/level-1.yml

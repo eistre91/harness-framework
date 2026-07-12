@@ -8,9 +8,9 @@ repo_root=$(CDPATH= cd -- "$script_dir/.." && pwd)
 
 cd "$repo_root"
 
-python_bin="python3"
-if [ -x "$repo_root/.venv/bin/python" ]; then
-  python_bin="$repo_root/.venv/bin/python"
+if ! command -v uv >/dev/null 2>&1; then
+  echo "uv is required; run 'uv sync --locked' after installing uv" >&2
+  exit 2
 fi
 
 run() {
@@ -18,7 +18,7 @@ run() {
   "$@"
 }
 
-run env PYTHONDONTWRITEBYTECODE=1 "$python_bin" -B scripts/verify-yaml.py
-run env PYTHONDONTWRITEBYTECODE=1 "$python_bin" -B scripts/verify-manifests.py
-run env PYTHONDONTWRITEBYTECODE=1 "$python_bin" -B scripts/verify-doc-refs.py
-run env PYTHONDONTWRITEBYTECODE=1 "$python_bin" -B -m pytest tests
+run env PYTHONDONTWRITEBYTECODE=1 uv run --locked python -B scripts/verify-yaml.py
+run env PYTHONDONTWRITEBYTECODE=1 uv run --locked python -B scripts/verify-manifests.py
+run env PYTHONDONTWRITEBYTECODE=1 uv run --locked python -B scripts/verify-doc-refs.py
+run env PYTHONDONTWRITEBYTECODE=1 uv run --locked python -B -m pytest tests

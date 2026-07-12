@@ -12,30 +12,27 @@ the current source of truth.
 The current starter harness intentionally focuses on getting small loops right:
 
 ```text
-work brief -> implementation -> verification -> review -> feedback
+work item -> work brief -> implementation -> validation -> closeout or feedback
 ```
+
+Here, validation includes verification, review, and human checkpoints as needed;
+the active lifecycle owner is `docs/framework.md`.
 
 We have not yet designed a longer-horizon pipeline from product requirements
 documents or technical design documents into individual issues and Agent Work
 Briefs.
 
-Clarification from 2026-06-28:
+Clarification from 2026-06-28, refined on 2026-07-11:
 
-- There are two related but distinct flows:
-
-  ```text
-  product intent flow:
-  project intent -> initiative -> work item -> work unit -> attempt
-
-  harness installation flow:
-  Level 1 -> Level 2 -> selected higher-stage pull-ins
-  ```
-
+- The active definitions of project intent, initiative, source work item, and
+  work unit live in [the framework Intent And Work Model](docs/framework.md#intent-and-work-model).
+  They are storage-neutral and do not form a mandatory hierarchy. A source work
+  item may already be the work unit; attempts remain deferred.
+- There are two related but distinct flows: product/project work follows the
+  active model, while harness installation remains `Level 1 -> Level 2 ->
+  selected higher-stage pull-ins`.
 - `docs/project/intent.md` can be conceptually upstream of project work while
   remaining an optional Level 2 project-context asset for harness installation.
-- The initiative layer needs a clearer future shape. It likely includes PRDs,
-  technical designs, epics, or larger outcome documents, but should stay
-  outcome-oriented rather than becoming a waterfall hierarchy.
 - Work-item to work-unit decomposition is the high-risk translation point from
   semantic intent into executable work. Future guidance should emphasize
   acceptance criteria, non-goals, vertical slices, and concrete executable
@@ -58,9 +55,8 @@ Potential future shape:
 - A short project-intent artifact as the durable alignment anchor when repeated
   planning, scope, or value judgments need one.
 - PRD or technical design document as the upstream intent artifact.
-- Initiative guidance that defines outcomes, user or system stories,
-  acceptance criteria, non-goals, and evidence expectations without requiring
-  subinitiatives by default.
+- Mechanisms for expressing or decomposing the active initiative definition
+  when real coordination needs justify them.
 - Issue decomposition as human/team coordination.
 - Agent Work Briefs as the executable unit for individual implementation loops.
 - Vertical-slice work units that satisfy a meaningful subset of the initiative
@@ -333,8 +329,10 @@ Potential future shape:
 - Define a validation result schema, likely starting with `pass`,
   `pass with risks`, and `fail`, while deciding whether `blocked` and
   `needs human decision` are validation results, work-unit states, or both.
-- Decide how human-required checkpoints are represented in briefs, validation
-  reports, tracker comments, PRs, or orchestration stores.
+- The existing Agent Work Brief template already represents human checkpoints.
+  Cross-surface checkpoint ownership, write-back, mirroring, and synchronization
+  across validation reports, tracker comments, PRs, or orchestration stores
+  remain deferred.
 
 Signal to revisit:
 

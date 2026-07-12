@@ -350,6 +350,12 @@ Move beyond when:
 
 Observes entropy without gating every change.
 
+Entropy is informal accumulated drift without enough trustworthy feedback, not
+an inevitability or a numerical score. Technical, harness, cognitive, and
+semantic debt are observable drift signals. Resteering can come from human
+judgment, deterministic checks, review, runtime evidence, or environmental
+change.
+
 Assets:
 
 - maintainability checklist,

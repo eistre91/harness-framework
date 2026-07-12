@@ -63,10 +63,11 @@ supersedes the existing skill, or is deferred.
 
 If the same shared skill also needs a Claude Code native skill, keep
 `.agents/skills/<skill>/SKILL.md` as the source of truth and sync
-`.claude/skills/<skill>/SKILL.md` as a Claude mirror. Preserve Claude-specific
-frontmatter in the mirror. The `.agents` skill source should not absorb
-Claude-only metadata such as `model`, `allowed-tools`, or other Claude-only
-frontmatter.
+`.claude/skills/<skill>/SKILL.md` as a Claude mirror only after marking the
+canonical skill with `metadata.agent-harness-framework/claude-sync:
+agents-to-claude`. Portable fields remain aligned in the mirror, while
+Claude-specific metadata such as `model`, `allowed-tools`, or other
+Claude-only frontmatter remains platform-owned.
 
 ## Project Config
 

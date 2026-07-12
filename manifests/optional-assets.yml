@@ -1,5 +1,8 @@
 name: optional-assets
 description: Optional harness assets. Install only when repo evidence or human preference justifies them.
+install_policy: >-
+  Install only entries justified by target-repo evidence or human preference
+  and explicitly approved in the current-stage proposal.
 assets:
   - id: claude-entrypoint
     asset_type: installable
@@ -19,15 +22,22 @@ assets:
     install_when: The target repo uses Claude Code native skill discovery for harness-provided skills.
     satisfy_by:
       - Install shared skill source under .agents/skills/<skill>/SKILL.md.
+      - >-
+        Mark each harness-owned canonical skill with
+        metadata.agent-harness-framework/claude-sync: agents-to-claude; add the
+        marker only after human review for existing skills.
       - Install this script at scripts/sync_claude_skills.py.
       - Create or adapt .claude/skills/<skill>/SKILL.md as the generated Claude Code mirror.
-      - Keep valid Claude Code frontmatter in the mirror, including model, allowed-tools, or other Claude-specific fields when used by the target repo.
+      - Keep portable name, description, license, and compatibility fields aligned while preserving Claude-specific frontmatter such as model, allowed-tools, or invocation controls.
       - Run python3 -m scripts.sync_claude_skills after changing .agents/skills.
       - Add python3 -m scripts.sync_claude_skills --check to the target repo's canonical checks unless the fit proposal records a deliberate reason not to.
-      - Do not replace existing Claude skill frontmatter with the shared .agents skill frontmatter unless the human explicitly approves that metadata loss.
-      - Remove orphaned Claude mirrors or restore their .agents sources before considering the adapter healthy.
+      - Review the complete --check plan before applying it; a validation or human-decision issue leaves every destination byte-for-byte unchanged.
+      - >-
+        Resolve orphaned Claude mirrors or extra managed support files by human
+        decision: remove them or restore and mark their .agents sources. The
+        sync tool never deletes them.
     adapt:
-      - Claude skill names and descriptions
+      - portable skill names and descriptions
       - Claude-specific model, allowed-tools, or other frontmatter fields
       - existing Claude skill conflicts
       - target repo's canonical checks command

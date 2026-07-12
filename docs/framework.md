@@ -99,22 +99,16 @@ framework starts smaller. It should help the human-agent system:
 The harness should not require the project to adopt a specific tracker,
 language, framework, unattended runner, or mature domain-doc structure.
 
-The core lifecycle is:
+The canonical lifecycle for a work item is:
 
 ```text
-bootstrap -> work brief -> implementation -> validation -> feedback
+work item -> work brief -> implementation -> validation -> closeout or feedback
 ```
 
-A fuller lifecycle is:
-
-```text
-external work item
-  -> agent work brief
-  -> scoped implementation
-  -> validation: verification, review, and human checkpoints as needed
-  -> closeout or follow-up work
-  -> maintainability feedback when patterns repeat
-```
+A source work item may already be the executable work unit, and a work unit may
+begin without a distinct source work item. Validation contains verification,
+review, and human checkpoints as needed. Repeated patterns from closeout or
+feedback can become maintainability work.
 
 ## Primitive Agent Work Verbs
 
@@ -128,7 +122,10 @@ These verbs are primitives for reasoning about agent work, not mandatory
 ceremony. Tiny work may collapse all four into one short context. Standard work
 may combine research and planning, then implement from the resulting brief.
 Complex work often benefits from isolating each phase into separate context
-windows with explicit handoff artifacts.
+windows with explicit handoff artifacts. Any primitive may use lightweight
+research, planning, or validation internally when that improves its output.
+Excessive recursive phase work signals unclear intent, scope, or next decision;
+simplify rather than adding nested ceremony.
 
 Each phase can be understood as an input/output function:
 
@@ -136,7 +133,8 @@ Each phase can be understood as an input/output function:
   references needed to act on the intent.
 - Plan shapes intent and research into executable scope: what will change, what
   will not change, what boundary is affected, and how completion will be
-  checked.
+  checked. Explicitly plan-only work may edit only its requested planning
+  artifact, brief, or tracker state, not product code.
 - Implement produces the requested artifact inside the delegated scope. When
   reality falsifies the plan, the implementer should record the divergence or
   return to planning or human decision rather than silently changing direction.
@@ -149,6 +147,9 @@ Human intent is the initial input, but it is not assumed to be complete. Any
 phase may discover ambiguity, missing context, or a decision that requires a new
 injection of human intent or another source artifact.
 
+Contained work may combine planning and implementation, but implementation
+begins only when the scope is executable and any required checkpoints are clear.
+
 For complex work, human review belongs as far left as practical. Wrong research
 or a bad plan can fan out into many low-quality implementation changes, so
 research notes and Agent Work Briefs should be inspectable enough for a human
@@ -157,33 +158,57 @@ begins. Reviewing generated code still matters, but it is usually less
 leveraged than catching incorrect context, missing constraints, or a weak plan
 before they shape the implementation.
 
-## Intent Layers
+## Intent And Work Model
 
-Semantic intent may live at several layers. The framework should name these
-layers without prescribing one storage system:
+Semantic intent may live at several layers. The framework names these terms
+without prescribing a storage system, mandatory hierarchy, or artifact format:
 
 - Project intent: the high-level direction, audience, constraints, and value
   proposition for the product or system.
-- Initiative intent: feature, PRD, design, or larger body-of-work intent that
-  decomposes into work units.
-- Work item: the external source of requested work, such as a tracker ticket,
-  issue, PRD section, or human request. In simple repos this may be the same
-  artifact as the work unit; in larger repos it often needs shaping first.
-- Work-unit intent: the local goal, scope, non-goals, acceptance evidence, and
-  constraints for an agent-executable task.
+- Initiative: one coherent, evaluable, larger desired outcome that spans
+  multiple work units. It may be represented by a feature, PRD, design, epic,
+  or another source, but requires no fields, roles, or artifact format.
+- Source work item: an optional external input, such as a tracker ticket,
+  issue, PRD section, or human request. It may need shaping, or it may already
+  be the executable work unit.
+- Work unit: the bounded, agent-executable outcome, normally expressed by an
+  Agent Work Brief or equivalent executable scope. It records the local problem
+  or outcome, scope, non-goals, acceptance evidence, and constraints needed to
+  act.
 - Implementation intent: local design choices inside the approved work unit,
   such as the immediate boundary, test surface, and code path.
 
 The storage can be a tracker, repo docs, PRD, issue, Agent Work Brief, or other
 durable project source. The important property is that future agents and humans
-can recover the relevant intent without relying on chat history.
+can recover the relevant intent without relying on chat history. A work unit
+does not require project intent, an initiative, or a distinct source work item.
 
-These intent layers describe the product or project work flow, not the harness
-installation order. A project may define `docs/project/intent.md` before any
-agent work begins, but the harness still treats that document as an optional
-Level 2 project-context asset during staged installation because many repos can
-start with work items and Agent Work Briefs without a durable project-intent
-file.
+This model describes product or project work, not harness installation order. A
+project may define `docs/project/intent.md` before any agent work begins, but
+the harness still treats that document as an optional Level 2 project-context
+asset during staged installation because many repos can start with an executable
+work item or work unit without a durable project-intent file.
+
+## Intent Shaping
+
+Greenfield projects normally benefit from establishing project intent early,
+while that context is still cheap to shape. It remains an optional installation
+asset: install or maintain a durable project-intent document only when the
+project needs a shared north star for repeated planning, exploration, scope, or
+value-sensitive review decisions.
+
+Bidirectional prompting is the iterative human-agent shaping of intent: agents
+surface ambiguity, options, evidence, and consequences; humans clarify intent,
+priorities, trade-offs, and risk acceptance. Continue until the outcome,
+non-goals, acceptance evidence, important trade-offs, and unresolved human
+decisions are explicit enough for the next work unit. It does not require a
+separate skill or workflow artifact.
+
+A long-living decision is one that creates a meaningful future constraint or
+would be costly to reverse. Humans retain ownership of such product, priority,
+trade-off, and risk decisions unless they explicitly delegate one. Agents may
+still make the ordinary local choices already delegated by the approved scope,
+project policy, or established patterns.
 
 ## Starter Harness
 
@@ -347,13 +372,17 @@ The canonical template lives at
 `skills/core/harness-work-brief/work-brief-template.md`. Do not maintain a
 second copy here.
 
-Use tiers to avoid overloading small tasks:
+Use tiers to describe work shape, not estimated size or ambient risk. Shape
+includes ambiguity, boundaries, affected areas, sequencing, migration, and
+context or coordination needs. Ambient risk can strengthen planning,
+verification, review, or checkpoints independently of tier; it adds no score,
+required field, or taxonomy.
 
 - Tiny: contained bug fix, docs tweak, prompt copy change, or test-only
-  cleanup. It may only need source, goal, context, verification, and done
+  cleanup. It may only need source, problem/outcome, context, verification, and done
   criteria.
 - Standard: behavior change inside an existing pattern or interface. It should
-  include goal, non-goals, context, verification, and done criteria.
+  include problem/outcome, non-goals, context, verification, and done criteria.
 - Complex: boundary/interface change, cross-area work, multi-session work,
   sequencing, migration/backcompat concern, or product/design ambiguity. It
   should include interface notes, accepted decisions, trade-offs, and
@@ -436,6 +465,11 @@ Mechanical verification should be automated as much as practical. Acceptance
 evidence should be concrete enough for humans and review agents to evaluate
 whether the change satisfies the intended behavior.
 
+Risk judgment is qualitative and proportional. Consequence, recovery cost,
+affected consumers, evidence quality, environmental uncertainty, reversibility,
+and review independence can inform it. These are illustrative factors, not a
+required checklist, taxonomy, score, or work-brief field.
+
 `scripts/repo-checks.sh` is the canonical deterministic checks entrypoint for a
 target repo. It answers:
 
@@ -510,6 +544,18 @@ A minimal review skill should be findings-led. It should prioritize:
 - abstractions that are premature,
 - implementation that exceeds or misses the brief.
 
+Independent review means review in a fresh context by an agent that did not
+implement the change. Prefer it for standard or complex work when practical;
+self-review remains allowed but is lower-confidence, not a waiver protocol or a
+new gate.
+
+Review depth is proportional. Tiny work checks outcome, diff, obvious
+regressions, evidence, and scope. Standard work also checks requirements,
+design fit, boundaries, tests, security implications, and project conventions.
+Complex or elevated-risk work also checks broader consumers and dependencies,
+challenged premises, negative or migration cases, and relevant cross-boundary
+effects.
+
 Review is where many inferential checks belong. The harness should not force
 every engineering principle into implementation instructions. Some standards
 are better applied after the agent has produced a concrete change. Review
@@ -530,9 +576,9 @@ design review, or product evaluation that changes the plan, creates follow-up
 work, or updates durable intent.
 
 Resteering should inject enough new information to correct the trajectory
-without flooding the active context. The goal is not perfection; it is enough
-confidence that the work is complete for the current risk tolerance, with
-residual risks made visible to the humans who own them.
+without flooding the active context. The goal is not perfect assurance; it is
+enough reviewable evidence that the work is complete for the current risk
+tolerance, with residual risks made visible to the humans who own them.
 
 ## Maintainability Lifecycle
 

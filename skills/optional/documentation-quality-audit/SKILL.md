@@ -1,6 +1,8 @@
 ---
 name: documentation-quality-audit
 description: "Audits docs for semantic debt: stale, misleading, duplicated, over-routed, too historical, or no longer useful to agents and humans. Use when checking whether documentation still helps current work or is misleading agents."
+metadata:
+  agent-harness-framework/claude-sync: agents-to-claude
 ---
 
 # Documentation Quality Audit

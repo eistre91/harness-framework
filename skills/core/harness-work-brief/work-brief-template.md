@@ -6,9 +6,13 @@ Status: Draft
 Tier: Tiny / Standard / Complex
 Agent-runnable: yes / no / blocked by human decision
 
-## Goal (All tiers)
+## Problem / Outcome (All tiers)
 
-What user or system outcome should change?
+What problem is solved or what user or system outcome is delivered? Who or what
+is better off?
+
+Editorial guidance only: normally state this concisely in one or two sentences.
+Concision does not determine whether the work is ready to implement.
 
 ## Value / Scope Discipline (All tiers)
 

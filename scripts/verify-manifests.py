@@ -12,7 +12,7 @@ try:
     import yaml
 except ImportError:
     print(
-        "PyYAML is required. Install it with: python3 -m pip install PyYAML",
+        "PyYAML is required. Run 'uv sync' from the repository root.",
         file=sys.stderr,
     )
     sys.exit(2)
@@ -24,7 +24,7 @@ ALLOWED_TOP_LEVEL_KEYS = {
     "name",
     "description",
     "install_policy",
-    "base",
+    "prerequisite_manifest",
     "level_definition_source",
     "assets",
     "adapters",
@@ -64,9 +64,36 @@ ALLOWED_MATURITY_VALUES = {
     "level-4",
     "level-5",
 }
+SECTION_ALLOWED_ASSET_TYPES = {
+    "assets": {"bootstrap", "installable", "behavior"},
+    "adapters": {"adapter"},
+    "common_starter_pull_ins": {"optional-reference", "behavior"},
+}
+SELECTION_FIELDS = ("required", "required_when", "install_when", "use_when")
 ITEM_TEXT_FIELDS = ("required_when", "install_when", "use_when", "category", "notes")
 ITEM_LIST_FIELDS = ("adapt", "satisfy_by")
 TOP_LEVEL_LIST_FIELDS = ("defer_by_default", "excluded_from_level_asset_boundary")
+
+
+class AssetOwner:
+    def __init__(self, manifest: Path, section: str, asset_id: str) -> None:
+        self.manifest = manifest
+        self.section = section
+        self.asset_id = asset_id
+
+
+class OutputOwner:
+    def __init__(
+        self,
+        manifest: Path,
+        section: str,
+        asset_id: str,
+        companion_index: int | None = None,
+    ) -> None:
+        self.manifest = manifest
+        self.section = section
+        self.asset_id = asset_id
+        self.companion_index = companion_index
 
 
 def manifest_files(root: Path) -> Iterable[Path]:
@@ -143,11 +170,18 @@ def validate_string_list(
     label: str,
     key: str,
     value: Any,
+    *,
+    non_empty: bool = False,
 ) -> list[str]:
     if not isinstance(value, list):
         return [f"{manifest_path}: {label}: {key} must be a list"]
 
     errors = []
+    if non_empty and not value:
+        errors.append(
+            f"{manifest_path}: {label}: {key} must be a non-empty list"
+        )
+
     for index, entry in enumerate(value):
         if not isinstance(entry, str) or not entry:
             errors.append(
@@ -205,16 +239,17 @@ def validate_markdown_reference(
     return []
 
 
-def validate_manifest_base(
+def validate_prerequisite_manifest(
     root: Path,
     manifest_path: Path,
     manifest: dict[str, Any],
 ) -> list[str]:
-    if "base" not in manifest:
+    key = "prerequisite_manifest"
+    if key not in manifest:
         return []
 
-    value = manifest["base"]
-    errors = validate_source_path(root, manifest_path, "manifest", manifest, "base")
+    value = manifest[key]
+    errors = validate_portable_repo_path(manifest_path, "manifest", key, value)
     if errors:
         return errors
 
@@ -222,11 +257,18 @@ def validate_manifest_base(
         not value.startswith("manifests/") or not value.endswith(".yml")
     ):
         return [
-            f"{manifest_path}: manifest: base must reference a manifest yml: {value}"
+            f"{manifest_path}: manifest: {key} must reference a manifest yml: {value}"
+        ]
+
+    if isinstance(value, str) and not (root / value).exists():
+        return [
+            f"{manifest_path}: manifest: {key} path does not exist: {value}"
         ]
 
     if isinstance(value, str) and (root / value).resolve() == manifest_path.resolve():
-        return [f"{manifest_path}: manifest: base must not reference itself: {value}"]
+        return [
+            f"{manifest_path}: manifest: {key} must not reference itself: {value}"
+        ]
 
     return []
 
@@ -237,12 +279,19 @@ def validate_source_path(
     section: str,
     item: Any,
     key: str,
+    *,
+    required: bool = False,
 ) -> list[str]:
-    if not isinstance(item, dict) or key not in item:
+    if not isinstance(item, dict):
+        return []
+
+    label = item_label(section, item)
+    if key not in item:
+        if required:
+            return [f"{manifest_path}: {label}: missing {key}"]
         return []
 
     value = item[key]
-    label = item_label(section, item)
     path_errors = validate_portable_repo_path(manifest_path, label, key, value)
     if path_errors:
         return path_errors
@@ -282,16 +331,28 @@ def validate_read_before_install(
     manifest_path: Path,
     section: str,
     item: Any,
+    *,
+    required: bool = False,
 ) -> list[str]:
-    if not isinstance(item, dict) or "read_before_install" not in item:
+    if not isinstance(item, dict):
         return []
 
     label = item_label(section, item)
+    if "read_before_install" not in item:
+        if required:
+            return [f"{manifest_path}: {label}: missing read_before_install"]
+        return []
+
     value = item["read_before_install"]
     if not isinstance(value, list):
         return [f"{manifest_path}: {label}: read_before_install must be a list"]
 
     errors = []
+    if not value:
+        errors.append(
+            f"{manifest_path}: {label}: read_before_install must be a non-empty list"
+        )
+
     for index, entry in enumerate(value):
         entry_key = f"read_before_install[{index}]"
         path_errors = validate_portable_repo_path(
@@ -314,17 +375,29 @@ def validate_read_before_install(
 def validate_companion_files(
     root: Path,
     manifest_path: Path,
+    section: str,
     asset: Any,
 ) -> list[str]:
     if not isinstance(asset, dict) or "companion_files" not in asset:
         return []
 
-    label = item_label("asset", asset)
+    label = item_label(section, asset)
     companions = asset["companion_files"]
-    if not isinstance(companions, list):
-        return [f"{manifest_path}: {label}: companion_files must be a list"]
-
     errors = []
+    if asset.get("asset_type") != "installable":
+        errors.append(
+            f"{manifest_path}: {label}: companion_files is only valid on installable entries"
+        )
+
+    if not isinstance(companions, list):
+        errors.append(f"{manifest_path}: {label}: companion_files must be a list")
+        return errors
+
+    if not companions:
+        errors.append(
+            f"{manifest_path}: {label}: companion_files must be a non-empty list"
+        )
+
     for index, companion in enumerate(companions):
         companion_label = f"{label} companion_files[{index}]"
         if not isinstance(companion, dict):
@@ -344,6 +417,7 @@ def validate_companion_files(
                 companion_label,
                 companion,
                 "source",
+                required=True,
             )
         )
         errors.extend(
@@ -351,8 +425,53 @@ def validate_companion_files(
                 manifest_path,
                 companion_label,
                 companion,
-                required=False,
+                required=True,
             )
+        )
+
+    return errors
+
+
+def validate_selection(
+    manifest_path: Path,
+    section: str,
+    item: dict[str, Any],
+) -> list[str]:
+    asset_type = item.get("asset_type")
+    if asset_type not in ALLOWED_ASSET_TYPES:
+        return []
+
+    if asset_type == "bootstrap":
+        permitted = ("use_when",)
+    elif asset_type in {"installable", "behavior"}:
+        permitted = ("required", "required_when", "install_when")
+    else:
+        permitted = ("install_when",)
+
+    label = item_label(section, item)
+    present = [key for key in SELECTION_FIELDS if key in item]
+    errors = []
+    if len(present) == 0:
+        errors.append(
+            f"{manifest_path}: {label}: must define exactly one selection field "
+            f"from {permitted}"
+        )
+    elif len(present) > 1:
+        errors.append(
+            f"{manifest_path}: {label}: selection fields are mutually exclusive; "
+            f"found {present}"
+        )
+
+    disallowed = [key for key in present if key not in permitted]
+    if disallowed:
+        errors.append(
+            f"{manifest_path}: {label}: selection field(s) {disallowed} "
+            f"not permitted for asset_type {asset_type!r}"
+        )
+
+    if item.get("required") is False:
+        errors.append(
+            f"{manifest_path}: {label}: required: false is not a valid selection"
         )
 
     return errors
@@ -377,10 +496,13 @@ def validate_item_contract(
             f"{sorted(ALLOWED_ASSET_TYPES)}"
         )
 
-    if section == "adapters" and asset_type != "adapter":
-        errors.append(
-            f"{manifest_path}: {label}: adapters entries must use asset_type adapter"
-        )
+    if asset_type in ALLOWED_ASSET_TYPES:
+        allowed_types = SECTION_ALLOWED_ASSET_TYPES[section]
+        if asset_type not in allowed_types:
+            errors.append(
+                f"{manifest_path}: {label}: {section} entries must use one of "
+                f"{sorted(allowed_types)}"
+            )
 
     if "maturity" in item and item["maturity"] not in ALLOWED_MATURITY_VALUES:
         errors.append(
@@ -397,19 +519,25 @@ def validate_item_contract(
 
     for key in ITEM_LIST_FIELDS:
         if key in item:
-            errors.extend(validate_string_list(manifest_path, label, key, item[key]))
+            errors.extend(
+                validate_string_list(
+                    manifest_path,
+                    label,
+                    key,
+                    item[key],
+                    non_empty=key == "satisfy_by",
+                )
+            )
+
+    errors.extend(validate_selection(manifest_path, section, item))
+
+    if asset_type == "behavior" and "satisfy_by" not in item:
+        errors.append(f"{manifest_path}: {label}: missing satisfy_by")
+
+    if asset_type == "optional-reference" and "notes" not in item:
+        errors.append(f"{manifest_path}: {label}: missing notes")
 
     return errors
-
-
-def required_installable_with_source(item: Any) -> bool:
-    if not isinstance(item, dict):
-        return False
-    return (
-        item.get("asset_type") == "installable"
-        and item.get("required") is True
-        and "source" in item
-    )
 
 
 def validate_asset_list(
@@ -446,17 +574,35 @@ def validate_asset_list(
             )
 
         errors.extend(validate_item_contract(manifest_path, section, item))
-        errors.extend(validate_source_path(root, manifest_path, section, item, "source"))
+        asset_type = item.get("asset_type")
+        errors.extend(
+            validate_source_path(
+                root,
+                manifest_path,
+                section,
+                item,
+                "source",
+                required=asset_type in {"bootstrap", "installable", "adapter"},
+            )
+        )
         errors.extend(
             validate_default_target(
                 manifest_path,
                 section,
                 item,
-                required=required_installable_with_source(item),
+                required=asset_type == "installable",
             )
         )
-        errors.extend(validate_read_before_install(root, manifest_path, section, item))
-        errors.extend(validate_companion_files(root, manifest_path, item))
+        errors.extend(
+            validate_read_before_install(
+                root,
+                manifest_path,
+                section,
+                item,
+                required=asset_type == "adapter",
+            )
+        )
+        errors.extend(validate_companion_files(root, manifest_path, section, item))
 
     return errors
 
@@ -472,21 +618,13 @@ def validate_top_level_contract(
     for key in unexpected_keys:
         errors.append(f"{path}: manifest: unexpected key: {key}")
 
-    for key in ("name", "description"):
-        if key in manifest:
+    for key in ("name", "description", "install_policy"):
+        if key not in manifest:
+            errors.append(f"{path}: manifest: missing {key}")
+        else:
             errors.extend(validate_text_field(path, "manifest", key, manifest[key]))
 
-    if "install_policy" in manifest:
-        errors.extend(
-            validate_text_field(
-                path,
-                "manifest",
-                "install_policy",
-                manifest["install_policy"],
-            )
-        )
-
-    errors.extend(validate_manifest_base(root, path, manifest))
+    errors.extend(validate_prerequisite_manifest(root, path, manifest))
 
     if "level_definition_source" in manifest:
         errors.extend(
@@ -501,6 +639,15 @@ def validate_top_level_contract(
     for key in TOP_LEVEL_LIST_FIELDS:
         if key in manifest:
             errors.extend(validate_string_list(path, "manifest", key, manifest[key]))
+
+    if not any(
+        isinstance(manifest.get(section), list) and manifest[section]
+        for section in ASSET_SECTIONS
+    ):
+        errors.append(
+            f"{path}: manifest must own at least one entry in "
+            f"{', '.join(ASSET_SECTIONS)}"
+        )
 
     return errors
 
@@ -523,12 +670,248 @@ def validate_manifest(root: Path, path: Path) -> list[str]:
     return errors
 
 
+def load_manifest_mappings(
+    paths: Iterable[Path],
+) -> dict[Path, dict[str, Any]]:
+    manifests: dict[Path, dict[str, Any]] = {}
+    for path in paths:
+        manifest, errors = load_manifest(path)
+        if not errors and isinstance(manifest, dict):
+            manifests[path.resolve()] = manifest
+    return manifests
+
+
+def prerequisite_path(
+    root: Path,
+    path: Path,
+    manifest: dict[str, Any],
+    manifests: dict[Path, dict[str, Any]],
+) -> Path | None:
+    value = manifest.get("prerequisite_manifest")
+    if not isinstance(value, str) or not value:
+        return None
+    if validate_portable_repo_path(path, "manifest", "prerequisite_manifest", value):
+        return None
+    if not value.startswith("manifests/") or not value.endswith(".yml"):
+        return None
+
+    candidate = (root / value).resolve()
+    if candidate == path.resolve() or candidate not in manifests:
+        return None
+    return candidate
+
+
+def display_manifest_path(path: Path, path_by_key: dict[Path, Path]) -> Path:
+    return path_by_key.get(path, path)
+
+
+def validate_prerequisite_cycles(
+    root: Path,
+    paths: list[Path],
+    manifests: dict[Path, dict[str, Any]],
+) -> list[str]:
+    path_by_key = {path.resolve(): path for path in paths}
+    states: dict[Path, int] = {}
+    stack: list[Path] = []
+    errors: list[str] = []
+
+    def visit(path: Path) -> None:
+        states[path] = 1
+        stack.append(path)
+        target = prerequisite_path(root, path, manifests[path], manifests)
+        if target is not None:
+            target_state = states.get(target, 0)
+            if target_state == 0:
+                visit(target)
+            elif target_state == 1:
+                cycle = stack[stack.index(target) :] + [target]
+                rendered = " -> ".join(
+                    str(display_manifest_path(entry, path_by_key)) for entry in cycle
+                )
+                errors.append(
+                    f"{display_manifest_path(path, path_by_key)}: "
+                    f"prerequisite cycle: {rendered}"
+                )
+        stack.pop()
+        states[path] = 2
+
+    for path in sorted(manifests):
+        if states.get(path, 0) == 0:
+            visit(path)
+
+    return errors
+
+
+def prerequisite_closure(
+    root: Path,
+    path: Path,
+    manifests: dict[Path, dict[str, Any]],
+) -> list[Path]:
+    ordered: list[Path] = []
+    visited: set[Path] = set()
+
+    def visit(current: Path) -> None:
+        if current in visited:
+            return
+        visited.add(current)
+        target = prerequisite_path(root, current, manifests[current], manifests)
+        if target is not None:
+            visit(target)
+        ordered.append(current)
+
+    visit(path)
+    return ordered
+
+
+def format_asset_owner(owner: AssetOwner) -> str:
+    return f"{owner.manifest}: {owner.section} {owner.asset_id!r}"
+
+
+def format_output_owner(owner: OutputOwner) -> str:
+    suffix = ""
+    if owner.companion_index is not None:
+        suffix = f" companion_files[{owner.companion_index}]"
+    return f"{owner.manifest}: {owner.section} {owner.asset_id!r}{suffix}"
+
+
+def closure_asset_owners(
+    closure: list[Path],
+    manifests: dict[Path, dict[str, Any]],
+) -> list[AssetOwner]:
+    owners: list[AssetOwner] = []
+    for path in closure:
+        manifest = manifests[path]
+        for section in ASSET_SECTIONS:
+            items = manifest.get(section)
+            if not isinstance(items, list):
+                continue
+            for item in items:
+                if not isinstance(item, dict):
+                    continue
+                asset_id = item.get("id")
+                if isinstance(asset_id, str) and asset_id:
+                    owners.append(AssetOwner(path, section, asset_id))
+    return owners
+
+
+def closure_output_owners(
+    root: Path,
+    closure: list[Path],
+    manifests: dict[Path, dict[str, Any]],
+) -> dict[str, list[OutputOwner]]:
+    del root
+    outputs: dict[str, list[OutputOwner]] = {}
+    for path in closure:
+        manifest = manifests[path]
+        for section in ASSET_SECTIONS:
+            items = manifest.get(section)
+            if not isinstance(items, list):
+                continue
+            for item in items:
+                if not isinstance(item, dict) or item.get("asset_type") != "installable":
+                    continue
+                asset_id = item.get("id")
+                if not isinstance(asset_id, str) or not asset_id:
+                    continue
+
+                target = item.get("default_target")
+                if is_portable_target(target):
+                    canonical = str(PurePosixPath(target))
+                    outputs.setdefault(canonical, []).append(
+                        OutputOwner(path, section, asset_id)
+                    )
+
+                companions = item.get("companion_files")
+                if not isinstance(companions, list):
+                    continue
+                for index, companion in enumerate(companions):
+                    if not isinstance(companion, dict):
+                        continue
+                    companion_target = companion.get("default_target")
+                    if not is_portable_target(companion_target):
+                        continue
+                    canonical = str(PurePosixPath(companion_target))
+                    outputs.setdefault(canonical, []).append(
+                        OutputOwner(path, section, asset_id, index)
+                    )
+
+    return outputs
+
+
+def validate_prerequisite_compatibility(
+    root: Path,
+    paths: list[Path],
+    manifests: dict[Path, dict[str, Any]],
+) -> list[str]:
+    path_by_key = {path.resolve(): path for path in paths}
+    errors: list[str] = []
+    reported_ids: set[tuple[str, str, str]] = set()
+    reported_targets: set[tuple[str, str, str, str]] = set()
+
+    for path in sorted(manifests):
+        closure = prerequisite_closure(root, path, manifests)
+        owners_by_id: dict[str, list[AssetOwner]] = {}
+        for owner in closure_asset_owners(closure, manifests):
+            owners_by_id.setdefault(owner.asset_id, []).append(
+                AssetOwner(
+                    display_manifest_path(owner.manifest, path_by_key),
+                    owner.section,
+                    owner.asset_id,
+                )
+            )
+
+        for asset_id in sorted(owners_by_id):
+            owners = owners_by_id[asset_id]
+            first = owners[0]
+            for other in owners[1:]:
+                if first.manifest == other.manifest:
+                    continue
+                pair = tuple(sorted((str(first.manifest), str(other.manifest))))
+                conflict_key = (asset_id, pair[0], pair[1])
+                if conflict_key in reported_ids:
+                    continue
+                reported_ids.add(conflict_key)
+                errors.append(
+                    f"{display_manifest_path(path, path_by_key)}: "
+                    f"prerequisite closure duplicate id {asset_id!r}: "
+                    f"{format_asset_owner(first)} conflicts with "
+                    f"{format_asset_owner(other)}"
+                )
+                break
+
+        outputs = closure_output_owners(root, closure, manifests)
+        for target in sorted(outputs):
+            owners = outputs[target]
+            if len(owners) < 2:
+                continue
+            first = owners[0]
+            for other in owners[1:]:
+                first_key = format_output_owner(first)
+                other_key = format_output_owner(other)
+                pair = tuple(sorted((first_key, other_key)))
+                conflict_key = (target, pair[0], pair[1], str(path))
+                if conflict_key in reported_targets:
+                    continue
+                reported_targets.add(conflict_key)
+                errors.append(
+                    f"{display_manifest_path(path, path_by_key)}: copied target "
+                    f"collision for {target!r}: {first_key} conflicts with "
+                    f"{other_key}"
+                )
+
+    return errors
+
+
 def validate_manifests(root: Path) -> tuple[int, list[str]]:
     errors = []
     paths = list(manifest_files(root))
 
     for path in paths:
         errors.extend(validate_manifest(root, path))
+
+    manifests = load_manifest_mappings(paths)
+    errors.extend(validate_prerequisite_cycles(root, paths, manifests))
+    errors.extend(validate_prerequisite_compatibility(root, paths, manifests))
 
     return len(paths), errors
 
