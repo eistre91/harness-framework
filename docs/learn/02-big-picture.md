@@ -1,4 +1,4 @@
-## The Mental Model for Using LLMs
+# The Mental Model for Using LLMs
 
 Don't think of LLMs or agents primarily as things you talk to. Think of them as tools that you use to achieve an outcome. Approach an LLM-powered tool as a photographer approaches their camera: the camera is powerful, but the photographer must learn how it works and how to shape the conditions around it to reliably produce a good shot. Engineers must develop the same kind of skill with agentic tools.
 

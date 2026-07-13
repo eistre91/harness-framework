@@ -1,9 +1,15 @@
+# Prompt Engineering in 2026
 
-## A Note on Prompt Engineering
+In 2023 and 2024, prompt engineering was a sort of esoteric magical art. If you wanted an LLM to perform well, you had to string together just the right words and just the right structure. It was vague and imprecise, required a lot of iteration and everyone had a special "technique" to get the model to do exactly the right things.
 
-Sophisticated prompt engineering is largely irrelevant now for frontier models. The current frontier reasoning models have largely displaced the need for this. It used to be that you had to walk a model through the exact magical formula and choose the exact right words to get it to do the thing you wanted. You could seemingly say the same thing but with synonyms and the output would be dramatically different.
+Now though, advances in the models due to introduction of reinforcement learning and reasoning capabilities have displaced the need for this. When using recent, frontier reasoning models most of the old prompt engineering techniques are now largely irrelevant, a waste of time and energy, and in some cases are actively harmful.
 
-What has changed is that models are a lot better now at aligning themselves with the communicated intent. But "communicated intent" is also where the new challenge lies.
+Specifically what has happened is that models have gotten a lot better at understanding the communicated intent in a prompt. Everything that remains for being a good prompt engineer is about being good at communicating your intent.
+
+
+
+
+This is a harder problem than you might think. 
 
 The focus is thus "what is the best way for you to communicate your intent?" To be a good prompt engineer today is to effectively and clearly communicate your intent to ensure the agent is truly in alignment with what you want.
 
@@ -25,3 +31,6 @@ Saying what you want is usually better than saying what you don't want. You can'
 
 "roles" vs attention focusing
 Playing house - tell an LLM what to do not what to be. (What does it MEAN to be an expert backend engineer? Scalable? Availability? etc.)
+
+
+It can be useful to give an agent the why. "
