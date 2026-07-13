@@ -63,6 +63,19 @@ the ideas in this repo.
 - [Software Architecture's Biggest Enemy (Not What You Think)](https://www.youtube.com/watch?v=grPtnrOTP_4)
   by Modern Software Engineering.
 
+- [Understanding is the new bottleneck](https://www.youtube.com/watch?v=WkBPX-oDMnA)
+  by Geoffrey Litt.
+  A talk about why humans still need to understand agent-written code and how
+  explainer documents, quizzes, and interactive examples can build that
+  understanding.
+
+## Books
+
+- [Modern Software Engineering: Doing What Works to Build Better Software Faster](https://modernsoftwareengineering.co.uk/)
+  by David Farley, published by Addison-Wesley Professional in 2021.
+  A practical approach to software engineering centered on learning and
+  exploration, managing complexity, small steps, experiments, and feedback.
+
 
 ## Commercial Use Posture
 
