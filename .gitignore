@@ -7,6 +7,7 @@ docs/ignored/
 # Repo-local development helpers. Portable framework skills live in skills/.
 .agents/
 .venv/
+site/
 .env*
 secrets/
 *.key
