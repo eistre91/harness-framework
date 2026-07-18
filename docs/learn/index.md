@@ -1,17 +1,8 @@
 # Working with LLMs and Agents
 
-A concise learning path for software engineers who want to understand LLMs,
-work effectively with agents, and shape the conditions that lead to useful
-outcomes.
+Software engineers are navigating a fast-changing landscape of agentic tools, techniques, and hype without a durable framework for judging what is useful to their work.
 
-No machine-learning background is required. Read the lessons in order: first
-build the vocabulary, then develop the mental model for putting it to work.
-
-<ul class="learning-meta" aria-label="Learning path overview">
-  <li>For software engineers</li>
-  <li>Two short lessons</li>
-  <li>No ML background required</li>
-</ul>
+This course takes a principles-first approach to developing an engineer's judgment so that they can own and deliberately shape their agentic engineering practice.
 
 ## Learning Path
 
