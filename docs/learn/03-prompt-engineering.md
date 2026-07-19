@@ -1,10 +1,10 @@
-# Prompt Engineering: Intent and Attention
+# Prompt Engineering: Intent and Priorities
 
 In 2023 and 2024, prompt engineering often felt like an esoteric magical art. If you wanted an LLM to perform well, you had to find the right words and the right structure. The process was vague, imprecise, and iterative, and everyone seemed to have a special technique for making the model do exactly the right thing.
 
 Capable reasoning models need much less of that choreography. Many techniques designed around the limitations of earlier models are no longer necessary. Many of them simply waste time and context, and some can even make results worse.
 
-Effective prompt engineering can be boiled down to two concepts: intent and attention. Intent answers, "What should the agent accomplish?" Attention answers, "What should the agent consider while doing it?" Together, they provide a framework for shaping prompts even as models and techniques change.
+Effective prompt engineering can be boiled down to two concepts: intent and priorities. Intent answers, "What should the agent accomplish?" Priorities answer, "What should guide its decisions along the way?" Together, they provide a framework for shaping prompts even as models and techniques change.
 
 ## Intent
 
@@ -50,55 +50,73 @@ Finally, I want to stress that the goal in communicating intent is not to specif
 
 ### Bidirectional Prompting
 
-Luckily there's a prompt technique which will help you clarify, understand and communicate your intent with an agent.
+When your intent is still unclear, you do not have to clarify it alone. You can use an agent to help surface ambiguities, assumptions and decisions that you have not yet considered.
 
-Bidirectional prompting is one of the best prompt techniques introduced in recent memory and I expect it to stick around for a long time. It is the collaborative shaping and discovery of intent with an agent.
+*Bidirectional prompting* refers to this collaborative shaping and discovery of intent. In practice, this means prompting an agent to engage in a deliberately structured, interview-style discussion.
 
-The idea of bidirectional prompting is that you indicate to the agent it should ask you questions until the next valuable slice of work is clear and that both you and the human are sufficiently confident that your understanding is aligned and you share a design concept.
+Bidirectional prompting is most useful when unanswered questions could materially change the outcome, plan or implementation. A small, well-bounded task doesn't need it. The goal is not to discuss every possible decision; it is to make the next valuable slice of work clear enough for both you and the agent to begin.
 
-Note that I did not say certain. Attempting to achieve certain alignment is a way to madness. It doesn't work with other humans and it certainly won't work with agents. But what you can do is get yourself and the agent aligned enough that the chance of big surprises in its plan and implementation are minimal.
+Bidirectional prompting can also help with broad, high-level design discussions, but those discussions require care and restraint. It is easy to design too large a slice upfront and later discover that much of that effort was unnecessary or wasted.
 
-There are various examples out there of how to approach this but I encourage you to consider and refine your own over time.
+An example prompt for using this technique might look like the following. The exact wording matters less than achieving the desired behavior.
 
-"Ask me questions until you're confident we're on the same page. Only ask me one question at a time and wait for my response before asking another one. The goal is to narrow ambiguities, clarify my intent, and surface important decisions that will materially affect our plan or implementation.
+> Ask me one question at a time to surface ambiguities, clarify my intent and identify decisions that could materially affect the plan or implementation. Once you believe the next valuable slice of work is clear, summarize your understanding and any remaining assumptions so that I can confirm or correct them and identify anything that still needs discussion.
 
-A downside to bidirectional prompting is it's difficult and exhausting. It's easy for your eyes to glaze over and just start giving half or empty answers, or just agreeing with what the agent suggests. If you're not an active and engaged participant in the process, your own understanding will drift.
+Bidirectional prompting is not about achieving certainty and resolving every possible implementation decision in advance. Trying to micromanage that way is terrible for humans and it's terrible for agents. You want enough alignment to narrow the space of plausible outcomes so that the agent is unlikely to drift into an implementation that seems reasonable but misses your intent.
 
-### Few Shot Prompting
+A downside to bidirectional prompting is that it's difficult and exhausting. The technique will rapidly consume your attention and a long interview will tire you out. If the conversation drags on, it is easy for your eyes to glaze over and for you to start giving empty answers or to cede ownership to the agent. At that point you are no longer shaping shared intent; you are letting the agent shape yours.
 
-Few shot prompting is where you provide examples of what you want the outcome to look like. Most obviously useful when you want an LLM to adhere to some document template, but it can be also be useful when planning code tasks. For example, describe what you want the data flow to look like. That lets you provide a high level example without resorting to writing the implementation yourself.
+### Examples and Templates
 
-Examples communicate your intent with concretes.
+Sometimes the clearest way to communicate your intent is to show the agent the shape of what you want. That shape can be a complete example or a stub that leaves task-specific details open. Providing several examples in a prompt is commonly called few-shot prompting.
+
+Complete examples communicate structure, content and level of detail. Stubs and templates communicate structure without anchoring the agent as strongly to one particular result, making them especially useful in reusable prompts and skills where the shape should remain consistent while the details change.
+
+Examples make abstract intent concrete, but be warned: every included detail may attract the agent's attention. Highlight the aspects you want it to follow, or remove incidental details entirely.
 
 ### Prompt Positively
 
-You generally want to spend more time and effort on specifying what you do want rather than what you don't want. Where possible "I want X" is always preferred to "I don't want Y".
+Lead with what you want. Positive requirements such as "I want X" give the agent a target to pursue. Negative requirements such as "I don't want Y" primarily rule out part of the space of possible outcomes.
 
-One, it's better communication. Eliminating possiblities from a complex space barely trims down the space of acceptable answers.
+Start by telling the agent what it should accomplish. Then add negative requirements that rule out plausible but unacceptable interpretations.
 
-Two, the agent will, whether you like it or not, always give some weight to every token in its context window. Agents really hate to leave any information behind. It's like telling a human to "not think about an elephant".
+Consider this requirement:
 
-The preferred shape of intent is always going to be stating positively the thing you want, then spending some limited time on eliminating adjacent possible answers. (INSERT SIMPLE EXAMPLE)
+> Don't spread validation logic throughout the service.
 
-The goal is not to avoid negative requirements. It's often impossible. But focus your own attention and energy on the positive requirements. It also force you to understand your own intent better.
+A stronger version provides a target as well as a boundary:
 
-(really can't decide if this belongs in intent or attention)
+> Validate requests at the API boundary and return the existing validation error type. Do not introduce validation inside the domain model.
 
-## Attention
+The goal is not to avoid negative requirements. Use them to protect important boundaries, but do not use a list of exclusions as a substitute for describing the outcome you want. Leading with the positive also forces you to understand your own intent instead of describing it only by exclusion.
 
-The other primary consideration when prompting is attention. You need to tell an agent not only what to do, but what it should be focused on while it does that thing.
+## Priorities
 
-Agents seem to be uniquely bad at zooming out. When a human might be working on implementing some spec, they may come across decisions they didn't anticipate or start to feel like something isn't going well. They'll stop and re-evaluate whether the original plan needs to be revised. Agents don't tend to have this behavior in the right sort of way and its why agents left to their own devices on a codebase end up causing it to become incomprehensible spaghetti.
+Intent tells the agent what outcome to pursue. Priorities tell it what matters along the way.
 
-Agents will get blind to anything that wasn't specified, they don't stop to think. They get hyperfocused on a task. You can try to fight this with prompting and there is limited success to be had. But another approach is to see this limitation as a strength.
+A good prompt makes those priorities explicit and frames the agent's attention.
 
-Agents are relentless task completion machines. Which means if you give them precise leading words about what matters, they will find things that satsify that task.
+When a human is working, they may come across decisions or ambiguities they didn't anticipate. In that case, they may stop and re-evaluate their current task. On the other hand, agents tend to hold the current task tightly. That persistence helps them make progress, but it can also keep them pursuing a local objective after new evidence should cause the plan to change.
 
-This is a double edged sword. Ask them to find performance issues, and more likely than not they'll suggest some even in the most finely tuned codebase that ever existed. They want to come up with an answer and abhor saying "there's nothing to do here". But careful prompting and keeping yourself engaged means you can turn this to your advantage.
+That persistence makes agents relentless, hyperfocused task-completion machines. That focus is a liability when aimed at an assumption instead of an open question, and a strength when the task and its priorities are well framed.
 
-(We'll touch on this later, but you can use one agent to find things and then another to pare down. I still think judgement LLMs won't make the right call but they are useful filters.) (This note might move to a later chapter. Not sure it fits here or distracts from the section/lesson. Right now I think we're scoped on "how do I interact with one agent process well" vs "how do you layer agents into effective workflows and collaborative structures".)
+Let's say we're looking for performance issues in a codebase. Consider providing an agent with the following prompt.
+
+> Find the performance issues in the service.
+
+This is a bit like "leading the witness." You have told the agent that performance issues exist; its task is now to produce them. That framing makes it more likely to report issues without first deciding whether any are material.
+
+Contrast that with the following.
+
+> Assess whether this service has material performance risks. Ground each finding in a concrete code path and either measurements or explicit workload assumptions. If the evidence does not support a material issue, say so.
+
+The first prompt implicitly makes producing findings the priority. The second makes materiality the priority and gives the agent a standard for deciding whether anything is worth reporting.
+
+Effective communication of priorities gives the agent a lens: what to notice, what matters most and how to decide.
 
 ### Role Prompting
+
+Role prompting is an indirect way of communicating priorities.
 
 Role prompting is perhaps one of the most well known prompt techniques. And it's precisely an example of focusing the attention of the agent. Telling the agent to "act as a senior backend engineer" primes the agent to focus on things that might be relevant to a backend engineer and to use "backend engineer" language.
 
@@ -171,3 +189,7 @@ I do think it's my unique sauce and perspective.
 
 
 Might want to split Prompt Engineering into two or more pages. Not sure. Will see how long it looks when done. But there might be an introductory quick read, high level. Then one on intent and then one on attention. What page length is easy for people to consume but still gives them enough to take away something valuable.
+
+
+
+(We'll touch on this later, but you can use one agent to find things and then another to pare down. I still think judgement LLMs won't make the right call but they are useful filters.) (This note might move to a later chapter. Not sure it fits here or distracts from the section/lesson. Right now I think we're scoped on "how do I interact with one agent process well" vs "how do you layer agents into effective workflows and collaborative structures".)
