@@ -60,7 +60,7 @@ Bidirectional prompting can also help with broad, high-level design discussions,
 
 An example prompt for using this technique might look like the following. The exact wording matters less than achieving the desired behavior.
 
-> Ask me one question at a time to surface ambiguities, clarify my intent and identify decisions that could materially affect the plan or implementation. Once you believe the next valuable slice of work is clear, summarize your understanding and any remaining assumptions so that I can confirm or correct them and identify anything that still needs discussion.
+> Ask me one question at a time to surface ambiguities, clarify my intent and identify decisions that could materially affect the plan or implementation. Ground questions in the codebase and documentation when what already exists might answer or impact the decision. Once you believe the next valuable slice of work is clear, summarize your understanding and any remaining assumptions so that I can confirm or correct them and identify anything that still needs discussion.
 
 Bidirectional prompting is not about achieving certainty and resolving every possible implementation decision in advance. Trying to micromanage that way is terrible for humans and it's terrible for agents. You want enough alignment to narrow the space of plausible outcomes so that the agent is unlikely to drift into an implementation that seems reasonable but misses your intent.
 
@@ -112,33 +112,47 @@ Contrast that with the following.
 
 The first prompt implicitly makes producing findings the priority. The second makes materiality the priority and gives the agent a standard for deciding whether anything is worth reporting.
 
-Effective communication of priorities gives the agent a lens: what to notice, what matters most and how to decide.
+Communicating priorities gives an agent a lens: what to notice, what matters most and how to decide.
 
 ### Role Prompting
 
-Role prompting is an indirect way of communicating priorities.
+Role prompting is an indirect way of communicating priorities. Telling an agent to "act as a senior backend engineer" is a compact way to suggest the perspective you want it to take.
 
-Role prompting is perhaps one of the most well known prompt techniques. And it's precisely an example of focusing the attention of the agent. Telling the agent to "act as a senior backend engineer" primes the agent to focus on things that might be relevant to a backend engineer and to use "backend engineer" language.
+That shorthand can be useful, but it's also ambiguous. "Senior backend engineer" bundles together many possible priorities, practices, and assumptions. That still leaves the agent with a lot of latitude to decide which of those matter, and its plausible interpretation may not match yours.
 
-That said, role prompting is often a prompt crutch that people lean on and promotes bad practices. A good prompt is specific. "Act as a senior backend engineer" is far from specific. Tell the agent what it means to be a senior backend engineer for your company or problem.
+When those possible interpretations could change the result, unpack the role and be specific. Instead of:
 
-"Focus on whether this service is scalable, maintainable, and highly available. We want the API to be clear and intuitive." etc. etc. (maybe expand on this a bit)
+> Review this API as a senior backend engineer.
 
-This is partly about communicating your intent as well. What does it MEAN to you to act like a senior backend engineer? Why do you want a senior backend engineer lens on this?
+Tell the agent what you want that engineer to care about:
 
-Spending a bit of time on getting straight on that will dramatically improve the output and ensure its tailored to what you need.
+> Review whether clients can use this API correctly without understanding its internal implementation. Focus on naming, request and response consistency, error behavior and compatibility with existing clients. Ground each concern in a concrete example.
+
+The role itself is not the important part. The important part is the lens you wanted the role to provide. If a role could reasonably imply different or broader priorities than what you need from that agent, make the priorities explicit.
 
 ### Meta Prompting
 
-Don't know what it means to be a backend engineer? That's fine. Talk to an LLM about that. Then have it help you write a prompt. Bidirectional prompting used to help you generate a prompt for a future agent is incredibly powerful.
+Sometimes you know the outcome but don't know how to express the priorities that should guide the agent. For example, what if you don't have significant experience as a backend engineer? You may not know what concerns are hidden inside that role.
 
-### Chain of Thought
+In that case, ask an agent to help you write a prompt for a future agent. This is *meta prompting*. The first agent can combine its general domain knowledge with investigation of your codebase to surface relevant vocabulary, assumptions and questions for an initial prompt.
 
-How do you want the agent to reason through the problem?
+Bidirectional prompting is especially useful here. Let the agent ask questions that help you explore what a backend engineer might care about and determine which of those concerns matter for your task.
 
-This is hard to get right. Reasoning models are pretty good at figuring out what they should do now. So this technique has become more about making sure that the agent doesn't overlook important sources of information and gathers relevant evidence first before coming to a conclusion.
+> Help me prepare a prompt for an agent that will review this API. I do not have backend engineering experience, so ask me one question at a time to identify which backend concerns matter for this service. Ground your questions in the codebase and documentation when possible. Once the task is clear enough, draft the prompt and identify any assumptions I should verify.
 
-"Make sure to check these logs, look at them for anomalous signals like X, Y, Z." (EXPAND EXAMPLE PROBABLY)
+Treat the resulting prompt as a starting point. As you learn which backend concerns matter in your situation, update its priorities in later collaborative sessions.
+
+### Guiding Reasoning
+
+Chain-of-thought prompting is an older technique that asks a model to reason through a problem step by step before answering. It can still help some models and tasks, but it is not a good default for models trained to reason internally. Prescribing a detailed reasoning path can constrain the model to a worse approach than it would find on its own.
+
+This doesn't mean leaving reasoning entirely unframed. If there are sources the agent must inspect, alternatives it should consider or checks it should perform before concluding, say so. Tell the agent what should inform its decision and what should validate its conclusion.
+
+> Investigate the latency spike. Check the application logs, traces, deployment history and saturation metrics. Compare plausible explanations against those signals before concluding. Report the evidence supporting your conclusion and any uncertainty that remains.
+
+This prompt directs the agent toward relevant evidence and makes the result reviewable, but it does not decide the order of investigation or require the agent to narrate its private reasoning.
+
+When you need to understand a result, ask for the evidence that supports it, the assumptions behind it and the checks that were performed. Ask yourself: Am I prescribing these steps because the work must include them, or because I am trying to micromanage how the model thinks?
 
 # Writing Notes
 
@@ -193,3 +207,6 @@ Might want to split Prompt Engineering into two or more pages. Not sure. Will se
 
 
 (We'll touch on this later, but you can use one agent to find things and then another to pare down. I still think judgement LLMs won't make the right call but they are useful filters.) (This note might move to a later chapter. Not sure it fits here or distracts from the section/lesson. Right now I think we're scoped on "how do I interact with one agent process well" vs "how do you layer agents into effective workflows and collaborative structures".)
+
+
+Calling the section Priorities vs Perspective. Perspective might be better. Perspective implies priorities.
