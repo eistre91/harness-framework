@@ -22,3 +22,4 @@ run env PYTHONDONTWRITEBYTECODE=1 uv run --locked python -B scripts/verify-yaml.
 run env PYTHONDONTWRITEBYTECODE=1 uv run --locked python -B scripts/verify-manifests.py
 run env PYTHONDONTWRITEBYTECODE=1 uv run --locked python -B scripts/verify-doc-refs.py
 run env PYTHONDONTWRITEBYTECODE=1 uv run --locked python -B -m pytest tests
+run env PYTHONDONTWRITEBYTECODE=1 uv run --locked mkdocs build --strict
