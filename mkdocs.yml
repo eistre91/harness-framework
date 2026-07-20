@@ -10,9 +10,9 @@ nav:
   - Home: index.md
   - Foundations: 01-foundations.md
   - The Mental Model: 02-mental-model.md
+  - Prompt Engineering: 03-prompt-engineering.md
 
 draft_docs: |
-  03-prompt-engineering.md
   04-context-engineering.md
   notes.md
   where-are-we-going.md

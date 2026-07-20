@@ -16,9 +16,9 @@ When using it as a tool to achieve an outcome, instead ask, "How do I shape the 
 
 To understand how to shape those conditions, we first look at the LLM itself. One useful way to understand an LLM call is as a function. It accepts a sequence of input tokens, the model processes those tokens, and then it produces a sequence of output tokens as a response. That said, an LLM call is an unusual function because it is both stateless and nondeterministic.
 
-LLM calls are stateless because the model does not remember previous calls; anything it needs from the past must be supplied again as input. They are nondeterministic because the same input can produce different outputs.
+LLM calls are stateless because the model does not remember previous calls. A chat application or agent harness creates continuity by supplying the relevant history again as input. Calls are nondeterministic because the same input can produce different outputs.
 
-Thus the skill in using an LLM is learning how to shape its inputs so it is likely to produce the output you need. Note that the goal isn't to guarantee you get the exact output you want. With LLMs, you can't. But you can get them to deliver outputs that satisfy a given set of constraints reliably enough that using them outperforms producing those outputs yourself.
+Thus the skill in using an LLM is learning how to shape its inputs so it is likely to produce the output you need. Note that the goal isn't to guarantee you get the exact output you want. With LLMs, you can't. The practical question is whether the model can satisfy the relevant constraints reliably enough that using it creates more value than doing the work without it.
 
 ## From Outputs to Outcomes
 
@@ -66,4 +66,6 @@ The skill in using agents evolves from shaping the output of a single call to st
 
 This changes the engineer's relationship to the work. To use another metaphor, consider a bricklayer versus a potter. When writing code directly, you place many of the individual bricks yourself. When directing an agent, the work is often more like shaping clay: inspect what is taking form, apply pressure where it is needed, and repeat until the result meets your intent.
 
-All of this is to stress that effective use of LLMs and agents is an intentional, focused activity. You define the outcome, shape the conditions, observe what the system produces, and deliberately use that feedback to steer what happens next. The agent may perform implementation, but it does not remove the engineer from the process. It shifts where the engineer applies their experience and judgment: from producing every part directly to shaping the trajectory and judging the result.
+All of this is to stress that effective use of LLMs and agents is an intentional, focused activity. You define the outcome, shape the conditions, observe what the system produces, and deliberately use that feedback to steer what happens next.
+
+The agent may perform implementation, but it does not remove the engineer from the process. Together, you and the agent form a human-agent system. The agent drives progress, but you own the trajectory: the intent, priorities, trade-offs and judgment applied to the result. This shifts where the engineer applies their experience and judgment: from producing every part directly to shaping the trajectory and judging the result.

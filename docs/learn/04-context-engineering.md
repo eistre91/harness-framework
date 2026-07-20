@@ -57,6 +57,5 @@ Take advantage of latent knowledge.
 
 The mental frame for writing software shifts. Draft and refine.
 
-Just not a big fan of spec driven development in most of its forms
 
 https://github.com/humanlayer/advanced-context-engineering-for-coding-agents/blob/main/ace-fca.md

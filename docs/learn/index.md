@@ -21,4 +21,11 @@ This course takes a principles-first approach to developing an engineer's judgme
     <p class="lesson-card__outcome"><strong>Outcome:</strong> Shape the inputs, constraints, and evidence that steer an agent's trajectory.</p>
     <a class="lesson-card__link" href="02-mental-model/">Continue to the Mental Model <span aria-hidden="true">→</span></a>
   </article>
+  <article class="lesson-card">
+    <p class="lesson-card__eyebrow">Lesson 3</p>
+    <h3><a href="03-prompt-engineering/">Prompt Engineering</a></h3>
+    <p>Replace prompt choreography with a durable framework for communicating intent and guiding an agent's decisions.</p>
+    <p class="lesson-card__outcome"><strong>Outcome:</strong> Communicate the outcome and priorities that should guide an agent's work.</p>
+    <a class="lesson-card__link" href="03-prompt-engineering/">Continue to Prompt Engineering <span aria-hidden="true">→</span></a>
+  </article>
 </div>

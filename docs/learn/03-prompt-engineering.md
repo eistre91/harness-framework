@@ -1,10 +1,14 @@
 # Prompt Engineering: Intent and Priorities
 
-In 2023 and 2024, prompt engineering often felt like an esoteric magical art. If you wanted an LLM to perform well, you had to find the right words and the right structure. The process was vague, imprecise, and iterative, and everyone seemed to have a special technique for making the model do exactly the right thing.
+If you own the agent's trajectory, the prompt is the first place you shape it: by communicating the outcome and what should guide decisions along the way.
+
+Early prompt engineering often felt like an esoteric magical art. If you wanted an LLM to perform well, you had to find the right words and the right structure. The process was vague, imprecise, and iterative, and everyone seemed to have a special technique for making the model do exactly the right thing.
 
 Capable reasoning models need much less of that choreography. Many techniques designed around the limitations of earlier models are no longer necessary. Many of them simply waste time and context, and some can even make results worse.
 
 Effective prompt engineering can be boiled down to two concepts: intent and priorities. Intent answers, "What should the agent accomplish?" Priorities answer, "What should guide its decisions along the way?" Together, they provide a framework for shaping prompts even as models and techniques change.
+
+The techniques in this lesson are applications of this framework, not rules to memorize. Use a technique when it helps communicate intent or direct the agent's priorities. If it does neither, it is probably just choreography.
 
 ## Intent
 
@@ -44,7 +48,7 @@ Consider these two prompts.
 
 > Move report generation to a background job because large reports are timing out web requests, and users need to be able to close the page and return later for the result.
 
-The second prompt reveals that durability is part of the desired outcome: the job and its result must outlive the original request. Without that why, an agent could plausibly choose an in-process background task that disappears when the process stops. The why becomes a decision rule the agent can apply as implementation unfolds.
+The second prompt reveals a requirement implicit in the desired outcome: durability. The job and its result must outlive the original request. Without that why, an agent could plausibly choose an in-process background task that disappears when the process stops. The purpose behind the outcome exposes durability as a priority the agent can apply as implementation unfolds.
 
 Finally, I want to stress that the goal in communicating intent is not to specify every decision in advance. Intent is communicated well enough when the agent can act, recognize success, avoid adjacent wrong outcomes, and make ordinary local decisions without losing sight of what matters.
 
@@ -64,13 +68,15 @@ An example prompt for using this technique might look like the following. The ex
 
 Bidirectional prompting is not about achieving certainty and resolving every possible implementation decision in advance. Trying to micromanage that way is terrible for humans and it's terrible for agents. You want enough alignment to narrow the space of plausible outcomes so that the agent is unlikely to drift into an implementation that seems reasonable but misses your intent.
 
-A downside to bidirectional prompting is that it's difficult and exhausting. The technique will rapidly consume your attention and a long interview will tire you out. If the conversation drags on, it is easy for your eyes to glaze over and for you to start giving empty answers or to cede ownership to the agent. At that point you are no longer shaping shared intent; you are letting the agent shape yours.
+A downside to bidirectional prompting is that it's difficult and exhausting. The technique will rapidly consume your attention and a long interview will tire you out. If the conversation drags on, it is easy for your eyes to glaze over and for you to start giving empty answers or to cede ownership to the agent. At that point you are no longer building a shared understanding of your intent; you are letting the agent shape it for you.
 
 ### Examples and Templates
 
 Sometimes the clearest way to communicate your intent is to show the agent the shape of what you want. That shape can be a complete example or a stub that leaves task-specific details open. Providing several examples in a prompt is commonly called few-shot prompting.
 
 Complete examples communicate structure, content and level of detail. Stubs and templates communicate structure without anchoring the agent as strongly to one particular result, making them especially useful in reusable prompts and skills where the shape should remain consistent while the details change.
+
+You do not always need an example. When the required shape is easy to describe, state it directly: who the result is for, what information it must contain and what form it should take. Specify only what serves the outcome; incidental formatting can constrain the agent just as strongly as incidental details in an example.
 
 Examples make abstract intent concrete, but be warned: every included detail may attract the agent's attention. Highlight the aspects you want it to follow, or remove incidental details entirely.
 
@@ -140,7 +146,7 @@ Bidirectional prompting is especially useful here. Let the agent ask questions t
 
 > Help me prepare a prompt for an agent that will review this API. I do not have backend engineering experience, so ask me one question at a time to identify which backend concerns matter for this service. Ground your questions in the codebase and documentation when possible. Once the task is clear enough, draft the prompt and identify any assumptions I should verify.
 
-Treat the resulting prompt as a starting point. As you learn which backend concerns matter in your situation, update its priorities in later collaborative sessions.
+Treat the resulting prompt as a starting point. The agent can surface candidate priorities, but you still decide which serve your outcome. Update them as you learn which backend concerns matter in your situation.
 
 ### Guiding Reasoning
 
@@ -154,59 +160,4 @@ This prompt directs the agent toward relevant evidence and makes the result revi
 
 When you need to understand a result, ask for the evidence that supports it, the assumptions behind it and the checks that were performed. Ask yourself: Am I prescribing these steps because the work must include them, or because I am trying to micromanage how the model thinks?
 
-# Writing Notes
-
-What lies below are my thoughts of what I might want to include in this article, or thoughts that maybe need to be stored to be incorporated later.
-
-The practice of "spec-driven development" was developed out of these struggles. The thought was if only you had considered every possible branch of the design tree and made every possible decision, then surely the LLM would do exactly what you wanted. (Not really a big fan of current forms of SDD and we'll circle back to this later.) Is this worth having here or too much of a deter this early on?
-
-
-The framework explicitly says that human intent is the initial input but must not be assumed complete. Research,
-planning, implementation, or validation can reveal ambiguity, missing context, or decisions requiring another injection
-of human intent.
-
-
-With LLMs you need to be aware of all of this background information and communicate enough of it that the LLM is sufficiently aligned. You can lean on their latent knowledge to help here and should, but if the LLM confidently produces an incorrect output, most of the time the failure was in what you failed to communicate.
-
-
-meta prompting (agents prompting agents) but maybe that belongs later as well if what we're doing right now is "how do I use one agent effectively"
-
-
-As you learn more about how to use these tools effectively, both here in prompt engineering and the later lessons, you'll understand that an LLM producing bad outputs is rarely the fault of the model or the agent. It's all entirely within your control and responsibility and if you own that you'll be able to achieve a lot more.
-
-  > Human intent begins incomplete. Prompting helps expose and shape it into an executable outcome; context supplies what
-  > is needed to act; constraints and boundaries limit drift; evidence tests the interpretation; feedback resteers the
-  > trajectory.
-
-• The central questions are:
-
-  - What outcome do I want?
-  - Why do I want it—what problem am I solving?
-  - What would prove I got it?
-  - What plausible outcome would still be wrong?
-  - What must not change?
-  - What am I assuming that may not be obvious?
-  - Which decisions can the agent make, and which should come back to me?
-
-  Intent is communicated well enough when the agent can act, recognize success, avoid adjacent wrong outcomes,
-  and know when to ask.
-
-It might be later thing to expand on the other central questions of intent. I think for now, what do I want, what do I not want, and why do I want it is the meat. Things like "how do I recognize I have it?" or "What does it look like" are more like acceptance criteria questions and I think a practice in defining things effectively for a complex ask.
-
-
-Should I spend a beat somewhere on "technique" vs "engineering"? It's like back in math class when you'd have a method, vs understanding the method. A technique is there to achieve an outcome, but on its own without understanding, it doesn't advance you anything. I'm trying to teach both here.
-
-
-Bidirectional prompting is the iterative human-agent collaborative shaping and discovery of shared intent.
-I haven't introduced the "human-agent" system concept yet. Should I introduce that framing earlier or is it okay to do later?
-I do think it's my unique sauce and perspective.
-
-
-Might want to split Prompt Engineering into two or more pages. Not sure. Will see how long it looks when done. But there might be an introductory quick read, high level. Then one on intent and then one on attention. What page length is easy for people to consume but still gives them enough to take away something valuable.
-
-
-
-(We'll touch on this later, but you can use one agent to find things and then another to pare down. I still think judgement LLMs won't make the right call but they are useful filters.) (This note might move to a later chapter. Not sure it fits here or distracts from the section/lesson. Right now I think we're scoped on "how do I interact with one agent process well" vs "how do you layer agents into effective workflows and collaborative structures".)
-
-
-Calling the section Priorities vs Perspective. Perspective might be better. Perspective implies priorities.
+The durable skill is not memorizing prompting techniques. It is making the outcome and priorities clear enough for the agent to act, then asking for evidence that lets you judge the result. A prompt begins that work, but it is only one part of the context shaping the agent.
