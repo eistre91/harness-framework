@@ -2,17 +2,23 @@
 
 ## Start Here
 
-This is the source repo for the Agent Harness Framework. Work in this repo is
-framework maintenance, not target-repo harness installation.
+This is the source repo for the Agent Harness Framework and its learning
+course. Work in this repo is framework maintenance or course development, not
+target-repo harness installation.
 
-Keep context focused. Read only what the current framework change requires, and
-prefer source-of-truth files over broad background docs.
+Keep context focused. Read only what the current work requires, and prefer
+source-of-truth files over broad background docs.
 
 ## Required Reading
 
-For any framework change, read `docs/principles.md` first.
+For framework changes, read `docs/principles.md` first.
 
-Then route by task:
+For learning-course development or intentional course/framework
+reconciliation, read `docs/course-maintenance.md`, then only the relevant
+lesson or framework sources it identifies. Do not load course material for
+ordinary framework maintenance, or framework sources for ordinary course work.
+
+Then route framework work by task:
 
 - Installer workflow changes: `docs/installer.md`, then the relevant
   `docs/install/*.md` checklist.
@@ -31,6 +37,8 @@ the task is about that topic.
 ## Source Of Truth
 
 - Principles live in `docs/principles.md`.
+- Course purpose and its relationship to the framework live in
+  `docs/course-maintenance.md`.
 - Installer routing lives in `docs/installer.md` and `docs/install/`.
 - Maturity definitions live in `docs/maturity-model.md`.
 - Asset lists live in `manifests/`.
