@@ -4,8 +4,8 @@ This is a work record for deferred framework ideas, not active implementation
 guidance. Use `docs/principles.md`, `docs/framework.md`,
 `docs/installer.md`, `docs/install/level-1.md`,
 `docs/install/level-2.md`, `docs/install/level-3.md`,
-`docs/implementation-guide.md`, `docs/maturity-model.md`, and the manifests as
-the current source of truth.
+`docs/install/level-4.md`, `docs/implementation-guide.md`,
+`docs/maturity-model.md`, and the manifests as the current source of truth.
 
 ## Deferred: Project Intent / PRD / Technical Design To Issue Pipeline
 
@@ -183,7 +183,8 @@ easy for agents to treat as one large universal form.
 
 Why deferred:
 
-- Level 3 currently needs only a compact selected-control table.
+- Level 3 currently needs only a compact selected-control table, and Level 4
+  adds a compact selected-sensor summary with short per-sensor details.
 - Splitting proposal templates too early could create routing overhead and
   duplicate common proposal fields.
 - Real install examples should show whether teams prefer one durable decision
@@ -194,7 +195,7 @@ Potential future shape:
 
 - Keep a short top-level fit proposal as a stage router and decision log.
 - Move detailed proposal fields into stage-specific templates, such as Level 1,
-  Level 2, and Level 3 appendices.
+  Level 2, Level 3, and Level 4 appendices.
 - Let `docs/install/*.md` own proposal field requirements and keep the template
   mostly empty, with links to stage sections.
 
@@ -204,6 +205,42 @@ Signal to revisit:
 - Agents fill out irrelevant future-stage sections.
 - New maturity levels need enough proposal detail that the shared template
   starts duplicating stage checklists.
+- Level 4 install evidence shows its compact sensor surface makes the shared
+  proposal hard to scan or causes agents to fill irrelevant stage sections.
+
+## Deferred: Maturity Levels Versus Capability Profiles
+
+The implemented taxonomy uses numbered maturity levels, while Level 4 requires
+only the Level 1 bounded-work foundation and installs independently selectable
+maintainability capabilities. That strain does not block Level 4: the active
+model already says higher is not universally better, Level 4 does not certify
+Levels 2 or 3, and its completeness claim is limited to approved sensor scope.
+
+Why deferred:
+
+- Replacing the taxonomy during Level 4 implementation would broaden a bounded
+  sensor package into a framework-wide migration.
+- The framework lacks target-repo evidence that capability profiles would make
+  selection, installation, or communication clearer than the current levels.
+- Maintaining parallel level and profile taxonomies would violate the single
+  source-of-truth principle before a replacement earns its cost.
+
+Potential future shape:
+
+- Keep Level 1 as the common bounded-work foundation.
+- Represent context routing, deterministic controls, maintainability sensing,
+  and later capabilities as independently selected profiles.
+- Preserve explicit prerequisites and selected-scope completeness without
+  implying that every repo should climb one universal ladder.
+
+Signal to revisit:
+
+- Multiple target repos select capabilities out of numeric order and operators
+  repeatedly misread the level number as certification or required progression.
+- Installer proposals need awkward exceptions to explain valid capability
+  combinations.
+- Evidence shows a profile model would remove more confusion and duplicated
+  guidance than the migration would create.
 
 ## Deferred: Skill Adaptation Guidance
 
@@ -348,8 +385,17 @@ Signal to revisit:
 ## Deferred: Human Mental Alignment And System Comprehension
 
 The framework treats human intent, checkpoints, review, cognitive debt, and
-semantic debt as important, but it does not yet define a positive workflow for
-keeping humans oriented as agent-assisted systems evolve quickly.
+semantic debt as important. Level 4 now includes an explicitly experimental
+human-agent comprehension sensor for bounded evidence such as repeated
+clarification, conflicting explanations, unrecoverable recent intent,
+context-routing failures, recent durable work records, and short operator
+review. The live sensor boundary is owned by `manifests/level-4.yml`.
+
+What remains deferred is a positive synthesis workflow, metrics, periodic
+artifacts, synthetic experiments, and a mature method for keeping humans
+oriented as agent-assisted systems evolve quickly. The initial sensor names the
+need and records uncertainty; it does not claim to measure comprehension
+objectively.
 
 This is a bidirectional context problem. Agents need enough human and system
 context to act well, but humans also need compressed, trustworthy feedback from
@@ -358,8 +404,8 @@ changed, what decisions were made, and what risks or trade-offs now exist.
 
 Why deferred:
 
-- The starter harness should first make individual work units executable and
-  reviewable.
+- Initial Level 4 trials should show whether the bounded experimental sensor
+  produces useful evidence before the framework adds a broader method.
 - Human comprehension mechanisms can easily become stale dashboards,
   duplicated docs, or status theater if they are not tied to real work,
   decisions, and review signals.
@@ -385,8 +431,9 @@ Potential future shape:
 - Distinguish human-facing comprehension artifacts from agent-facing execution
   artifacts. A work brief makes work executable; a synthesis artifact helps
   humans understand the evolving system.
-- Explore whether cognitive debt should have explicit signals, severity, and
-  repair work separate from documentation drift.
+- Explore a mature comprehension method, including whether any metrics add
+  signal without false precision, only after bounded evidence shows stable
+  seams distinct from documentation drift.
 
 Signal to revisit:
 

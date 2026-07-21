@@ -14,14 +14,14 @@ The default path is:
 
 ```text
 inspect -> Level 1 proposal -> human approval -> Level 1 install ->
-validation and handoff -> human decision to stop or inspect context routing
+validation and handoff -> human decision to stop or inspect one selected next stage
 ```
 
 Do not turn eligibility for a later level into approval to install that later
-level. A target repo may show signs that Level 2 context routing or selected
-deterministic controls will be useful, but the installer should first install a
-clear Level 1 bounded-work foundation and validate that ordinary agent work can
-start there.
+level. A target repo may show signs that Level 2 context routing, selected
+deterministic controls, or maintainability sensors will be useful, but the
+installer should first install a clear Level 1 bounded-work foundation and
+validate that ordinary agent work can start there.
 
 ## Always-Read Sources
 
@@ -194,3 +194,21 @@ Level 3 does not replace Level 1 repo checks. Level 1 owns
 `scripts/repo-checks.sh` and the narrow `repo-checks-on-stop` behavior. Level 3
 owns separately approved deterministic controls that constrain risky or
 repeatedly missed agent actions beyond that foundation.
+
+## Level 4 Selected Maintainability Sensors
+
+Selected maintainability sensors may be inspected after Level 1 has been
+installed and validated when the human chooses that stage or explicitly
+approves a selected Level 4 pull-in as the current scope. Use
+`docs/install/level-4.md` for the current Level 4 stage checklist.
+
+Level 4 is a selected-sensor menu, not a required bundle or certification that
+Levels 2 and 3 are installed. Each exact sensor needs a proposal, human
+approval, supervised trial, durable run record, operator disposition, known
+limits, cost/noise assessment, and revisit or removal signal. Completeness is
+stated only for the approved selected scope.
+
+Level 4 observations feed later triage; they do not repair findings or become
+gates without separate explicit delegation. After the Level 4 handoff,
+recommend stopping. Do not inspect exploratory Level 5 guidance unless the
+human explicitly requests it and confirms use of the missing-stage fallback.

@@ -16,7 +16,7 @@ the target repo through inspection and collaboration:
 3. ask only the human questions that materially affect the harness shape,
 4. copy or adapt only the approved current-stage assets,
 5. validate the installed stage and leave a durable handoff,
-6. ask whether to stop or inspect the next stage,
+6. ask whether to stop or explicitly select another stage,
 7. remove temporary bootstrap material after installation.
 
 ## Start Here
@@ -93,9 +93,12 @@ for ordinary harness work. It also requires narrow Stop automation for the
 target repo's desired hook-capable agent runtime(s), running
 `scripts/repo-checks.sh`.
 
-After Level 1 validates, the agent should ask whether to stop or inspect
-context routing. Use `docs/install/level-2.md` when the human chooses
-context-routing inspection.
+After Level 1 validates, the default is to stop. When repo evidence and the
+human justify another capability, use `docs/install/level-2.md` for context
+routing, `docs/install/level-3.md` for selected deterministic controls, or
+`docs/install/level-4.md` for selected maintainability sensors. Level 4 does not
+certify that Levels 2 or 3 are installed, and none of these stages should be
+adopted wholesale merely because they exist.
 
 ## Asset Types
 

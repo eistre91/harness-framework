@@ -19,12 +19,13 @@ Active owners:
 - Principles: `docs/principles.md`
 - Staged installer entrypoint: `docs/installer.md`
 - Stage installer checklists: `docs/install/level-1.md`,
-  `docs/install/level-2.md`, and `docs/install/level-3.md`
+  `docs/install/level-2.md`, `docs/install/level-3.md`, and
+  `docs/install/level-4.md`
 - Maturity definitions and failure signals: `docs/maturity-model.md`
-- Bootstrap, Level 1, Level 2, Level 3, and optional assets:
+- Bootstrap, Level 1, Level 2, Level 3, Level 4, and optional assets:
   `manifests/bootstrap.yml`, `manifests/level-1.yml`,
-  `manifests/level-2.yml`, `manifests/level-3.yml`, and
-  `manifests/optional-assets.yml`
+  `manifests/level-2.yml`, `manifests/level-3.yml`,
+  `manifests/level-4.yml`, and `manifests/optional-assets.yml`
 - Broad installation reference: `docs/implementation-guide.md`
 - Portable versus repo-specific assets: `docs/portable-assets.md`
 - Platform adapter guidance: `docs/platform-support.md` and
@@ -36,6 +37,10 @@ Active owners:
   `templates/level-2/docs/project/areas/README.md`
 - Harness fit proposal template:
   `templates/core/docs/harness/fit-proposal.md`
+- Level 4 target policy and coordinator/specialist sources:
+  `templates/level-4/docs/harness/maintainability.md`,
+  `skills/core/harness-maintainability/`, and
+  `skills/optional/harness-documentation-audit/`
 - Component brief template:
   `templates/optional/docs/harness/component-brief.md`
 
@@ -80,7 +85,7 @@ product code can.
 
 Large agent harnesses can include issue lifecycle conventions, PRD flows,
 validation loops, context routers, hooks, review patterns, unattended
-runners, maintainability reports, and documentation-quality-audit workflows.
+runners, maintainability reports, and harness documentation-audit workflows.
 
 Those systems can be valuable when a repo has grown enough to need them. This
 framework starts smaller. It should help the human-agent system:
@@ -582,14 +587,21 @@ tolerance, with residual risks made visible to the humans who own them.
 
 ## Maintainability Lifecycle
 
-Maintainability should start as a periodic sensor, not a gate on every change.
-Its purpose is to detect rot and turn recurring drag into bounded improvement
-work.
+Maintainability should start as a selected, human-invoked or manually scheduled
+sensor, not a gate on every change. Its purpose is to observe accumulated drift
+and turn operator-approved findings into bounded improvement work.
 
 The lightweight cycle is:
 
 ```text
-observe signal -> classify debt -> decide whether to act -> create bounded repair work
+authorize a run
+  -> select the highest-value approved exact sensor
+  -> observe and gather evidence
+  -> classify findings
+  -> leave a durable maintainability record
+  -> review dispositions with the operator
+  -> shape approved bounded follow-up work
+  -> stop
 ```
 
 The debt categories are:
@@ -609,18 +621,41 @@ Semantic debt:
   docs, tickets, decisions, or requirements no longer match reality
 ```
 
-Use the Level 4 guidance in `docs/maturity-model.md` to decide when a target
-repo has enough repeated maintainability, harness, cognitive, or semantic debt
-signals to add maintainability checks.
+Use the Level 4 definition in `docs/maturity-model.md`, family menu in
+`manifests/level-4.yml`, and staged checklist in `docs/install/level-4.md` to
+decide whether target-repo evidence or an approved bounded experiment justifies
+an exact sensor. Completeness applies to the approved sensor scope, not the
+whole menu.
 
-Tools such as repowise can help detect code smells, dead code, duplicate code,
-or dependency issues. Treat their output as signal for inspection, not
-automatic proof that refactoring is needed.
+The portable `harness-maintainability` skill coordinates selected repo tools,
+human checks, and specialist skills. Sensor-specific procedures remain in the
+repo-owned mechanism or specialist; `harness-documentation-audit` is the first
+portable specialist. Normal runs are findings-only and do not repair product
+code or documentation, reconfigure tools, create external issues, or turn
+observations into gates without separate explicit delegation.
+
+Every run leaves its evidence and operator dispositions on the durable work
+surface that authorized it or another approved persistent surface. Reuse an
+issue, ticket, Agent Work Brief, audit record, review record, or existing
+engineering-health system rather than require a centralized ledger or second
+backlog. A chat result or gitignored local draft alone is not durable enough.
+
+Existing deterministic tools, review, runtime evidence, work records, and
+operator experience may all provide signal. Treat their output as evidence for
+inspection and disposition, not automatic proof that refactoring or other
+repair is needed. Classify the mechanism as Level 4 when its purpose is broader
+health observation and later triage; a use that guides, verifies, or blocks a
+particular action is Level 3.
 
 ## Harness Governance
 
 Every harness component should justify itself. The component brief template
 lives at `templates/optional/docs/harness/component-brief.md`.
+
+For a selected Level 4 sensor, the approved proposal and installed policy entry
+normally provide the component brief's value, scope, cost, limits, and removal
+reasoning. Use a separate component brief only when the sensor has an unusually
+complex lifecycle, dependencies, or governance; do not duplicate the decision.
 
 Use a component brief for new or evolving harness surfaces such as:
 

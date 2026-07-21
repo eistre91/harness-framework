@@ -42,6 +42,9 @@ the task is about that topic.
 - Installer routing lives in `docs/installer.md` and `docs/install/`.
 - Maturity definitions live in `docs/maturity-model.md`.
 - Asset lists live in `manifests/`.
+- Level 4 selected-sensor installation behavior lives in
+  `docs/install/level-4.md`; its asset and sensor-family boundary lives in
+  `manifests/level-4.yml`.
 - Installable templates live in `templates/`.
 - Reusable skill bodies live in `skills/`.
 - Mechanical verification for this repo lives in `scripts/repo-checks.sh`.

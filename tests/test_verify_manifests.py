@@ -123,12 +123,12 @@ assets:
     assert errors == []
 
 
-def test_production_manifests_validate_and_keep_count_of_five() -> None:
+def test_production_manifests_validate_and_keep_count_of_six() -> None:
     module = load_verify_manifests()
 
     count, errors = module.validate_manifests(module.ROOT)
 
-    assert count == 5
+    assert count == 6
     assert errors == []
 
 
