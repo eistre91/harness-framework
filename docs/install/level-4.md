@@ -248,9 +248,12 @@ Level 4 passes only for the approved selected scope. Check:
   satisfied.
 - Every selected sensor completed a supervised trial in the target environment.
 - Every trial left a durable record and received operator review.
-- Each record includes scope, observation window, exact sensor, evidence,
-  findings or clean result, debt classifications, limits, operator
-  dispositions, and approved follow-up links.
+- Each record includes scope and observation window; selected family and exact
+  sensor; mechanisms and evidence sources; findings and evidence pointers, or
+  a clean result or unresolved gap when no actionable finding is retained; debt
+  classifications; concrete impact and affected surface; known limits,
+  uncertainty, and likely false positives; operator dispositions; and approved
+  follow-up links.
 - Runtime, cognitive cost, noise, false positives, and known limits are
   acceptable and recorded.
 - The runs remained investigative and did not perform repairs, create

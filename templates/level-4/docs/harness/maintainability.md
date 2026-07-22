@@ -28,9 +28,7 @@ inventing values.
 
 ### <Sensor name>
 
-- Family: <recurring work-friction, code health, architecture and dependency
-  fitness, documentation and semantic drift, harness health, or human-agent
-  comprehension>
+- Family: <approved family ID from `manifests/level-4.yml`>
 - Why now and beneficiary: <current evidence, risk, or bounded experiment; who
   is better off and how>
 - Intended debt categories: <one likely primary category and any possible
@@ -70,7 +68,8 @@ Record:
 - run scope and observation window,
 - selected family and exact sensor,
 - mechanisms and evidence sources,
-- findings and evidence pointers, or a clean result,
+- findings and evidence pointers, or a clean result or unresolved gap when no
+  actionable finding is retained,
 - one primary and optional secondary debt categories per finding,
 - concrete impact and affected surface,
 - known limits, uncertainty, and likely false positives,
