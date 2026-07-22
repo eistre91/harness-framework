@@ -14,7 +14,7 @@ The default path is:
 
 ```text
 inspect -> Level 1 proposal -> human approval -> Level 1 install ->
-validation and handoff -> human decision to stop or inspect one selected next stage
+validation and handoff -> human decision to stop or explicitly select another stage
 ```
 
 Do not turn eligibility for a later level into approval to install that later
@@ -46,11 +46,11 @@ completion. Bounded reads of `optional-assets.yml` or other additional sources
 remain valid when the current checklist or human-approved scope explicitly
 routes to them.
 
-If the human asks to inspect a next stage and no checklist exists for that
+If the human asks to inspect another stage and no checklist exists for that
 stage, do not infer the path silently. Say that the stage checklist is missing,
 then use the stage manifest if one exists, `docs/maturity-model.md`, and
 `docs/implementation-guide.md` as provisional references only after the human
-confirms that next-stage inspection should proceed. Record the missing checklist
+confirms that stage inspection should proceed. Record the missing checklist
 or manifest as a framework follow-up in the stage handoff.
 
 If you need a broad conceptual answer while installing, prefer the smallest
@@ -122,7 +122,7 @@ Post-stage decision:
 - The installer reports validation results, context used, installed files,
   placeholders, gaps, deferrals, communication audit findings, and out-of-stage
   observations.
-- The human decides whether to stop or begin inspection for the next stage.
+- The human decides whether to stop or explicitly select another stage.
 
 ## Stage Validation And Handoff
 

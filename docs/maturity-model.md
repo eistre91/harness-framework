@@ -106,7 +106,8 @@ Move beyond when:
 Minimum for agents to receive, shape, implement, verify, and review ordinary
 work without reconstructing prior planning discussion.
 
-Default assets and behavior are defined in `manifests/level-1.yml`.
+Default assets and behavior are defined in `manifests/level-1.yml`. The install
+path is `docs/install/level-1.md`.
 
 At this level, the harness should provide a repo agent entrypoint, canonical
 deterministic repo checks command, work-brief skill bundle with a template,
@@ -197,7 +198,7 @@ Move beyond when:
 Adds product-context routing.
 
 The authoritative additive asset and behavior boundary is
-`manifests/level-2.yml`.
+`manifests/level-2.yml`. The install path is `docs/install/level-2.md`.
 
 Required boundary:
 

@@ -236,8 +236,12 @@ lives in `manifests/level-2.yml`; the prose definition lives in
 `docs/maturity-model.md`.
 
 Level 3 adds selected deterministic controls for agent action bounds. Its
-canonical control-family menu and protocol lives in `manifests/level-3.yml`;
+canonical control-family menu and protocol live in `manifests/level-3.yml`;
 the install path lives in `docs/install/level-3.md`.
+
+Level 4 adds selected maintainability sensors for observing accumulated drift.
+Its canonical sensor-family menu and protocol live in
+`manifests/level-4.yml`; the install path lives in `docs/install/level-4.md`.
 
 Optional pull-ins should not be installed just because they exist. Use
 `manifests/optional-assets.yml` and the Harness Fit Proposal to justify their
@@ -266,13 +270,13 @@ Record the target maturity, install mode, installed asset completeness,
 behavioral completeness, deferrals, and revisit signals.
 
 The levels describe common growth pressure, not a strict installation order. A
-repo may add selected deterministic controls from Level 3 before it needs a
-Level 2 context router, when the proposal explains the evidence and the
-operator accepts the friction trade-off.
+repo may add selected deterministic controls from Level 3 or selected
+maintainability sensors from Level 4 before it needs a Level 2 context router,
+when the proposal explains the evidence and the operator accepts the trade-off.
 
 During target-repo installation, `docs/installer.md` stages this diagnostic
-model so agents install and validate the current layer before inspecting the
-next one.
+model so agents install and validate the current stage before the human selects
+another.
 
 ## Documentation Boundaries
 

@@ -4,8 +4,8 @@ Audience: agents and maintainers installing product context routing in a target
 repo.
 
 Use when: Level 1 has been installed and validated, the human has chosen to
-inspect the next stage or selected context routing, and the current approved
-installation stage is Level 2. Start from `docs/installer.md` first.
+inspect context routing, and the current approved installation stage is Level
+2. Start from `docs/installer.md` first.
 
 ## Read For This Stage
 
@@ -198,9 +198,9 @@ For Level 2, make sure the handoff also makes these details explicit:
 - optional `project-intent`, glossary, ADR, or decision-log routing decisions,
 - representative routing audit result or reason it was not possible,
 - broken or missing route cleanup,
-- recommended next action: stop, revise Level 2, or ask the human whether to
-  begin selected next-stage inspection.
+- recommended next action: stop, revise Level 2, or ask whether repo evidence
+  justifies inspecting another stage.
 
 Do not inspect Level 3 deterministic controls, maintainability sensors, or
-optional pull-ins beyond this stage until the human chooses to begin that next
-stage or explicitly changes the current approved scope.
+optional pull-ins beyond this stage until the human explicitly selects that
+stage or changes the current approved scope.

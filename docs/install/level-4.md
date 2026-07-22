@@ -4,8 +4,8 @@ Audience: agents and maintainers installing selected maintainability sensors in
 a target repo.
 
 Use when: Level 1 has been installed and validated, the human has chosen to
-inspect maintainability sensing, and the current approved installation stage is
-Level 4. Start from `docs/installer.md` first.
+inspect selected maintainability sensors, and the current approved installation
+stage is Level 4. Start from `docs/installer.md` first.
 
 ## Read For This Stage
 
@@ -47,7 +47,7 @@ Do not read by default:
 If you read an out-of-stage source, record why in the proposal and stage
 handoff.
 
-## Scope And Level 3 Boundary
+## Scope
 
 Level 4 installs a selected operating protocol for observing accumulated drift
 across work or sessions, leaving durable evidence, and helping the operator
@@ -81,7 +81,7 @@ does not repair findings, perform broad cleanup, install or reconfigure tools,
 create or edit external issues, change enforcement, or inspect unrelated repo
 areas without separate explicit delegation.
 
-## Discovery And Eligibility
+## Discovery
 
 A repo is eligible for a selected sensor only when it has either:
 
@@ -123,7 +123,7 @@ context-routing failures, recent durable work records, and a short operator
 review. Record uncertainty prominently; do not propose scores, dashboards,
 synthetic probes, or claims of objective comprehension measurement.
 
-## Selected-Sensor Proposal
+## Proposal
 
 Prepare and persist a Level 4 proposal before editing. It authorizes only the
 exact sensors and portable assets listed for this pass.
@@ -268,7 +268,7 @@ gate when it lacks approval, trial evidence, a durable record, operator review,
 or honest limits, or when it mutates or gates the target repo during a normal
 run.
 
-## Stage Handoff And Default Stop
+## Stage Handoff
 
 After installation and trials, copy durable stage state under `docs/harness/`
 using the canonical handoff fields in `docs/installer.md`.

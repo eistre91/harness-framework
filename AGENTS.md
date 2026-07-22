@@ -42,9 +42,6 @@ the task is about that topic.
 - Installer routing lives in `docs/installer.md` and `docs/install/`.
 - Maturity definitions live in `docs/maturity-model.md`.
 - Asset lists live in `manifests/`.
-- Level 4 selected-sensor installation behavior lives in
-  `docs/install/level-4.md`; its asset and sensor-family boundary lives in
-  `manifests/level-4.yml`.
 - Installable templates live in `templates/`.
 - Reusable skill bodies live in `skills/`.
 - Mechanical verification for this repo lives in `scripts/repo-checks.sh`.
@@ -59,8 +56,8 @@ failure signal. Avoid speculative process, optional assets, adapters, or
 automation.
 
 When changing installer docs, preserve staged installation: current stage first,
-human approval before edits, validation and handoff before next-stage
-inspection.
+human approval before edits, validation and handoff before another stage is
+inspected.
 
 When changing target-repo templates or skills, keep them portable. Repo-specific
 commands, paths, trackers, and policies should be adaptation points, not baked

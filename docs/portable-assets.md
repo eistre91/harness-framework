@@ -64,7 +64,7 @@ The additive Level 2 assets and behaviors are defined in
 `manifests/level-2.yml`. Treat that manifest as the canonical Level 2 asset
 boundary.
 
-## Selected Higher-Stage Assets
+## Selected Capability Assets
 
 The Level 3 selected-control behaviors are defined in
 `manifests/level-3.yml`. The Level 4 selected-sensor behaviors and installable
