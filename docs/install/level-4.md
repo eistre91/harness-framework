@@ -38,7 +38,8 @@ Read only if needed for this Level 4 stage:
 Do not read by default:
 
 - Level 5 guidance
-- `TODO.md` or `docs/ignored/`
+- `TODO.md` or internal planning and progress records that are not active
+  framework guidance
 - the full `manifests/optional-assets.yml`
 - broad product, historical, or provenance docs outside the selected scope
 - every candidate tool for a selected sensor family
