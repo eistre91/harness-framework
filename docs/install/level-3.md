@@ -234,8 +234,8 @@ For Level 3, make sure the handoff also makes these details explicit:
   deferred out of Level 3,
 - recommended next action: stop, revise selected controls, inspect another
   selected Level 3 control family, or ask whether repo evidence justifies
-  inspecting Level 4 maintainability sensors.
+  inspecting another implemented stage.
 
-Do not inspect Level 4 maintainability sensors or future orchestration guidance
-beyond this stage until the human explicitly selects that stage or changes the
-current approved scope.
+Do not inspect another stage's guidance or unapproved optional pull-ins beyond
+this stage until the human explicitly selects that stage or changes the current
+approved scope.

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import re
 from pathlib import Path
 
 
@@ -23,12 +24,34 @@ def write_file(root: Path, relative_path: str, content: str = "# Fixture\n") -> 
 def write_manifest(root: Path, name: str, body: str) -> Path:
     path = root / "manifests" / name
     path.parent.mkdir(parents=True, exist_ok=True)
+    definition_metadata = ""
+    level_match = re.fullmatch(r"level-(\d+)\.yml", name)
+    if level_match and "level_definition_source:" not in body:
+        level_number = level_match.group(1)
+        maturity_model = root / "docs" / "maturity-model.md"
+        maturity_model.parent.mkdir(parents=True, exist_ok=True)
+        heading = f"## Level {level_number}\n"
+        existing = (
+            maturity_model.read_text(encoding="utf-8")
+            if maturity_model.exists()
+            else "# Maturity Model\n"
+        )
+        if heading not in existing:
+            maturity_model.write_text(
+                f"{existing.rstrip()}\n\n{heading}",
+                encoding="utf-8",
+            )
+        definition_metadata = (
+            "level_definition_source: "
+            f"docs/maturity-model.md#level-{level_number}"
+        )
     path.write_text(
         "\n".join(
             (
                 f"name: {name.removesuffix('.yml')}",
                 "description: Fixture manifest.",
                 "install_policy: Validate this fixture only.",
+                definition_metadata,
                 body.rstrip(),
                 "",
             )
@@ -121,6 +144,33 @@ assets:
 
     assert count == 2
     assert errors == []
+
+
+def test_level_manifest_requires_definition_source(tmp_path: Path) -> None:
+    module = load_verify_manifests()
+    manifest = tmp_path / "manifests" / "level-1.yml"
+    manifest.parent.mkdir(parents=True)
+    manifest.write_text(
+        """\
+name: level-1
+description: Fixture manifest.
+install_policy: Validate this fixture only.
+assets:
+  - id: foundation
+    asset_type: behavior
+    required: true
+    satisfy_by:
+      - Satisfy the foundation.
+""",
+        encoding="utf-8",
+    )
+
+    _count, errors = module.validate_manifests(tmp_path)
+
+    assert (
+        f"{manifest}: manifest: missing level_definition_source"
+        in errors
+    )
 
 
 def test_production_manifests_validate_and_keep_count_of_six() -> None:

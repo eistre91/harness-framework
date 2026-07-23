@@ -12,6 +12,7 @@ Always read:
 
 - `docs/principles.md`
 - `docs/installer.md`
+- the Level 1 section of `docs/maturity-model.md`
 - `manifests/level-1.yml`
 - the Level 1 templates, skills, and companion files named by the manifest
 
@@ -29,8 +30,7 @@ Read only if needed for this Level 1 stage:
 
 Do not read by default:
 
-- `docs/maturity-model.md`
-- `manifests/level-2.yml`
+- other stage manifests and installer checklists
 - the full `manifests/optional-assets.yml`
 - platform adapter docs
 - `docs/hook-pattern.md`, unless custom hook adapter design is in current scope

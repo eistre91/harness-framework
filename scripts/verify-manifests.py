@@ -626,7 +626,10 @@ def validate_top_level_contract(
 
     errors.extend(validate_prerequisite_manifest(root, path, manifest))
 
-    if "level_definition_source" in manifest:
+    is_level_manifest = re.fullmatch(r"level-\d+\.yml", path.name) is not None
+    if is_level_manifest and "level_definition_source" not in manifest:
+        errors.append(f"{path}: manifest: missing level_definition_source")
+    elif "level_definition_source" in manifest:
         errors.extend(
             validate_markdown_reference(
                 root,

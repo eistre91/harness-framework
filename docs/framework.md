@@ -215,10 +215,12 @@ trade-off, and risk decisions unless they explicitly delegate one. Agents may
 still make the ordinary local choices already delegated by the approved scope,
 project policy, or established patterns.
 
-## Starter Harness
+## Implemented Harness Levels
 
-For an initial trial, the canonical Level 1 asset and behavior boundary lives
-in `manifests/level-1.yml`.
+For every implemented level, `docs/maturity-model.md` owns the definition, the
+matching manifest owns the canonical asset and behavior boundary, and the
+matching checklist under `docs/install/` owns installation procedure, gate, and
+handoff behavior.
 
 Conceptually, Level 1 provides:
 
@@ -231,17 +233,11 @@ Conceptually, Level 1 provides:
 - bounded work execution guidance for tiers, non-goals, boundaries,
   acceptance evidence, progress/divergence, implementation, and review.
 
-Level 2 adds context routing. Its canonical additive asset and behavior list
-lives in `manifests/level-2.yml`; the prose definition lives in
-`docs/maturity-model.md`.
+Level 2 adds context routing.
 
-Level 3 adds selected deterministic controls for agent action bounds. Its
-canonical control-family menu and protocol live in `manifests/level-3.yml`;
-the install path lives in `docs/install/level-3.md`.
+Level 3 adds selected deterministic controls for agent action bounds.
 
 Level 4 adds selected maintainability sensors for observing accumulated drift.
-Its canonical sensor-family menu and protocol live in
-`manifests/level-4.yml`; the install path lives in `docs/install/level-4.md`.
 
 Optional pull-ins should not be installed just because they exist. Use
 `manifests/optional-assets.yml` and the Harness Fit Proposal to justify their
