@@ -1,12 +1,13 @@
 name: level-4
 description: Selected maintainability sensors for observing accumulated drift and shaping bounded repair work.
-prerequisite_manifest: manifests/level-1.yml
+dependency_manifests:
+  - manifests/level-1.yml
 install_policy: >-
   Install after Level 1 only when repo evidence or an operator-approved bounded
   experiment justifies one or more exact maintainability sensors. Install and
   validate only the approved sensor scope; do not install every family by
   default or treat Level 4 as certification of Levels 2 or 3.
-level_definition_source: docs/maturity-model.md#level-4-maintainability-sensors
+capability_definition_source: docs/capability-map.md#maintainability-feedback
 assets:
   - id: selected-sensor-protocol
     asset_type: behavior
@@ -155,7 +156,7 @@ assets:
       - operator approval rules for cleanup
       - existing documentation-audit skills or commands
 
-excluded_from_level_asset_boundary:
+excluded_from_capability_scope:
   - mandatory third-party maintainability tools
   - a centralized finding database or required ledger file
   - framework-wide schedules or thresholds

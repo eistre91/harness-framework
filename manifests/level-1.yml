@@ -1,7 +1,8 @@
 name: level-1
 description: Default bounded-work asset and behavior set for an initial harness trial.
 install_policy: Install only after a Harness Fit Proposal confirms the target repo needs these assets.
-level_definition_source: docs/maturity-model.md#level-1-bounded-work-foundation
+capability_definition_source: docs/capability-map.md#bounded-work
+dependency_manifests: []
 assets:
   - id: agents-entrypoint
     asset_type: installable

@@ -8,7 +8,8 @@ assets:
     asset_type: installable
     source: templates/core/CLAUDE.md
     default_target: CLAUDE.md
-    maturity: level-1
+    supports_capability_domains:
+      - Bounded Work
     category: platform-pointer
     install_when: The target repo uses Claude Code or the human wants Claude Code support.
     adapt:
@@ -17,7 +18,8 @@ assets:
     asset_type: installable
     source: scripts/sync_claude_skills.py
     default_target: scripts/sync_claude_skills.py
-    maturity: level-1
+    supports_capability_domains:
+      - Bounded Work
     category: platform-skill-adapter
     install_when: The target repo uses Claude Code native skill discovery for harness-provided skills.
     satisfy_by:
@@ -45,14 +47,16 @@ assets:
     asset_type: installable
     source: templates/optional/docs/harness/component-brief.md
     default_target: docs/harness/component-brief.md
-    maturity: level-1
+    supports_capability_domains:
+      - Bounded Work
     category: harness-governance
     install_when: The team expects to add or modify harness components over time.
   - id: project-intent
     asset_type: installable
     source: templates/optional/docs/project/intent.md
     default_target: docs/project/intent.md
-    maturity: level-2
+    supports_capability_domains:
+      - Focused Context
     category: project-context
     install_when: >-
       Repeated planning, exploratory, scope, or value-sensitive review decisions
@@ -69,7 +73,8 @@ assets:
     companion_files:
       - source: skills/optional/harness-diagnose/scripts/hitl-loop.template.sh
         default_target: .agents/skills/harness-diagnose/scripts/hitl-loop.template.sh
-    maturity: level-1
+    supports_capability_domains:
+      - Bounded Work
     install_when: Agents will debug bugs, failing tests, flaky behavior, regressions, or production-like incidents.
     adapt:
       - reproduction commands

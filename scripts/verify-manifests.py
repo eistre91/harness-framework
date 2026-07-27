@@ -24,13 +24,13 @@ ALLOWED_TOP_LEVEL_KEYS = {
     "name",
     "description",
     "install_policy",
-    "prerequisite_manifest",
-    "level_definition_source",
+    "dependency_manifests",
+    "capability_definition_source",
     "assets",
     "adapters",
     "common_starter_pull_ins",
     "defer_by_default",
-    "excluded_from_level_asset_boundary",
+    "excluded_from_capability_scope",
 }
 ALLOWED_ITEM_KEYS = {
     "id",
@@ -41,7 +41,7 @@ ALLOWED_ITEM_KEYS = {
     "required_when",
     "install_when",
     "use_when",
-    "maturity",
+    "supports_capability_domains",
     "category",
     "read_before_install",
     "companion_files",
@@ -57,13 +57,6 @@ ALLOWED_ASSET_TYPES = {
     "installable",
     "optional-reference",
 }
-ALLOWED_MATURITY_VALUES = {
-    "level-1",
-    "level-2",
-    "level-3",
-    "level-4",
-    "level-5",
-}
 SECTION_ALLOWED_ASSET_TYPES = {
     "assets": {"bootstrap", "installable", "behavior"},
     "adapters": {"adapter"},
@@ -72,7 +65,8 @@ SECTION_ALLOWED_ASSET_TYPES = {
 SELECTION_FIELDS = ("required", "required_when", "install_when", "use_when")
 ITEM_TEXT_FIELDS = ("required_when", "install_when", "use_when", "category", "notes")
 ITEM_LIST_FIELDS = ("adapt", "satisfy_by")
-TOP_LEVEL_LIST_FIELDS = ("defer_by_default", "excluded_from_level_asset_boundary")
+TOP_LEVEL_LIST_FIELDS = ("defer_by_default", "excluded_from_capability_scope")
+CAPABILITY_MAP_PATH = PurePosixPath("docs/capability-map.md")
 
 
 class AssetOwner:
@@ -200,15 +194,15 @@ def markdown_anchor(value: str) -> str:
     return anchor.strip("-")
 
 
-def markdown_anchors(path: Path) -> set[str]:
-    anchors = set()
+def markdown_headings(path: Path) -> dict[str, str]:
+    headings = {}
     for line in path.read_text(encoding="utf-8").splitlines():
         if not line.startswith("#"):
             continue
         heading = line.lstrip("#").strip()
         if heading:
-            anchors.add(markdown_anchor(heading))
-    return anchors
+            headings[markdown_anchor(heading)] = heading
+    return headings
 
 
 def validate_markdown_reference(
@@ -233,44 +227,64 @@ def validate_markdown_reference(
     if separator and not anchor:
         return [f"{manifest_path}: {label}: {key} anchor must be non-empty: {value}"]
 
-    if anchor and anchor not in markdown_anchors(resolved):
+    if anchor and anchor not in markdown_headings(resolved):
         return [f"{manifest_path}: {label}: {key} anchor does not exist: {value}"]
 
     return []
 
 
-def validate_prerequisite_manifest(
+def validate_dependency_manifests(
     root: Path,
     manifest_path: Path,
     manifest: dict[str, Any],
 ) -> list[str]:
-    key = "prerequisite_manifest"
+    key = "dependency_manifests"
     if key not in manifest:
         return []
 
     value = manifest[key]
-    errors = validate_portable_repo_path(manifest_path, "manifest", key, value)
-    if errors:
-        return errors
+    if not isinstance(value, list):
+        return [f"{manifest_path}: manifest: {key} must be a list"]
 
-    if isinstance(value, str) and (
-        not value.startswith("manifests/") or not value.endswith(".yml")
-    ):
-        return [
-            f"{manifest_path}: manifest: {key} must reference a manifest yml: {value}"
-        ]
+    errors = []
+    seen: set[str] = set()
+    for index, entry in enumerate(value):
+        entry_key = f"{key}[{index}]"
+        path_errors = validate_portable_repo_path(
+            manifest_path,
+            "manifest",
+            entry_key,
+            entry,
+        )
+        if path_errors:
+            errors.extend(path_errors)
+            continue
+        if not isinstance(entry, str):
+            continue
+        if entry in seen:
+            errors.append(
+                f"{manifest_path}: manifest: {entry_key} duplicates {entry!r}"
+            )
+            continue
+        seen.add(entry)
+        if not entry.startswith("manifests/") or not entry.endswith(".yml"):
+            errors.append(
+                f"{manifest_path}: manifest: {entry_key} must reference a "
+                f"manifest yml: {entry}"
+            )
+            continue
+        candidate = (root / entry).resolve()
+        if not (root / entry).exists():
+            errors.append(
+                f"{manifest_path}: manifest: {entry_key} path does not exist: {entry}"
+            )
+        elif candidate == manifest_path.resolve():
+            errors.append(
+                f"{manifest_path}: manifest: {entry_key} must not reference "
+                f"itself: {entry}"
+            )
 
-    if isinstance(value, str) and not (root / value).exists():
-        return [
-            f"{manifest_path}: manifest: {key} path does not exist: {value}"
-        ]
-
-    if isinstance(value, str) and (root / value).resolve() == manifest_path.resolve():
-        return [
-            f"{manifest_path}: manifest: {key} must not reference itself: {value}"
-        ]
-
-    return []
+    return errors
 
 
 def validate_source_path(
@@ -504,11 +518,27 @@ def validate_item_contract(
                 f"{sorted(allowed_types)}"
             )
 
-    if "maturity" in item and item["maturity"] not in ALLOWED_MATURITY_VALUES:
-        errors.append(
-            f"{manifest_path}: {label}: maturity must be one of "
-            f"{sorted(ALLOWED_MATURITY_VALUES)}"
+    if "supports_capability_domains" in item:
+        errors.extend(
+            validate_string_list(
+                manifest_path,
+                label,
+                "supports_capability_domains",
+                item["supports_capability_domains"],
+            )
         )
+        domains = item["supports_capability_domains"]
+        if isinstance(domains, list):
+            seen_domains: set[str] = set()
+            for index, domain in enumerate(domains):
+                if not isinstance(domain, str) or not domain:
+                    continue
+                if domain in seen_domains:
+                    errors.append(
+                        f"{manifest_path}: {label}: "
+                        f"supports_capability_domains[{index}] duplicates {domain!r}"
+                    )
+                seen_domains.add(domain)
 
     if "required" in item and not isinstance(item["required"], bool):
         errors.append(f"{manifest_path}: {label}: required must be a boolean")
@@ -624,20 +654,30 @@ def validate_top_level_contract(
         else:
             errors.extend(validate_text_field(path, "manifest", key, manifest[key]))
 
-    errors.extend(validate_prerequisite_manifest(root, path, manifest))
+    errors.extend(validate_dependency_manifests(root, path, manifest))
 
-    is_level_manifest = re.fullmatch(r"level-\d+\.yml", path.name) is not None
-    if is_level_manifest and "level_definition_source" not in manifest:
-        errors.append(f"{path}: manifest: missing level_definition_source")
-    elif "level_definition_source" in manifest:
+    has_definition = "capability_definition_source" in manifest
+    has_dependencies = "dependency_manifests" in manifest
+    if has_dependencies and not has_definition:
+        errors.append(f"{path}: manifest: missing capability_definition_source")
+
+    if has_definition:
+        definition_source = manifest["capability_definition_source"]
         errors.extend(
             validate_markdown_reference(
                 root,
                 path,
-                "level_definition_source",
-                manifest["level_definition_source"],
+                "capability_definition_source",
+                definition_source,
             )
         )
+        if isinstance(definition_source, str) and "#" not in definition_source:
+            errors.append(
+                f"{path}: manifest: capability_definition_source must include "
+                "a heading anchor"
+            )
+        if not has_dependencies:
+            errors.append(f"{path}: manifest: missing dependency_manifests")
 
     for key in TOP_LEVEL_LIST_FIELDS:
         if key in manifest:
@@ -684,31 +724,37 @@ def load_manifest_mappings(
     return manifests
 
 
-def prerequisite_path(
+def dependency_paths(
     root: Path,
     path: Path,
     manifest: dict[str, Any],
     manifests: dict[Path, dict[str, Any]],
-) -> Path | None:
-    value = manifest.get("prerequisite_manifest")
-    if not isinstance(value, str) or not value:
-        return None
-    if validate_portable_repo_path(path, "manifest", "prerequisite_manifest", value):
-        return None
-    if not value.startswith("manifests/") or not value.endswith(".yml"):
-        return None
+) -> list[Path]:
+    values = manifest.get("dependency_manifests")
+    if not isinstance(values, list):
+        return []
 
-    candidate = (root / value).resolve()
-    if candidate == path.resolve() or candidate not in manifests:
-        return None
-    return candidate
+    dependencies = []
+    for index, value in enumerate(values):
+        key = f"dependency_manifests[{index}]"
+        if validate_portable_repo_path(path, "manifest", key, value):
+            continue
+        if not isinstance(value, str):
+            continue
+        if not value.startswith("manifests/") or not value.endswith(".yml"):
+            continue
+
+        candidate = (root / value).resolve()
+        if candidate != path.resolve() and candidate in manifests:
+            dependencies.append(candidate)
+    return dependencies
 
 
 def display_manifest_path(path: Path, path_by_key: dict[Path, Path]) -> Path:
     return path_by_key.get(path, path)
 
 
-def validate_prerequisite_cycles(
+def validate_dependency_cycles(
     root: Path,
     paths: list[Path],
     manifests: dict[Path, dict[str, Any]],
@@ -721,8 +767,7 @@ def validate_prerequisite_cycles(
     def visit(path: Path) -> None:
         states[path] = 1
         stack.append(path)
-        target = prerequisite_path(root, path, manifests[path], manifests)
-        if target is not None:
+        for target in dependency_paths(root, path, manifests[path], manifests):
             target_state = states.get(target, 0)
             if target_state == 0:
                 visit(target)
@@ -733,7 +778,7 @@ def validate_prerequisite_cycles(
                 )
                 errors.append(
                     f"{display_manifest_path(path, path_by_key)}: "
-                    f"prerequisite cycle: {rendered}"
+                    f"dependency cycle: {rendered}"
                 )
         stack.pop()
         states[path] = 2
@@ -745,7 +790,7 @@ def validate_prerequisite_cycles(
     return errors
 
 
-def prerequisite_closure(
+def dependency_closure(
     root: Path,
     path: Path,
     manifests: dict[Path, dict[str, Any]],
@@ -757,13 +802,180 @@ def prerequisite_closure(
         if current in visited:
             return
         visited.add(current)
-        target = prerequisite_path(root, current, manifests[current], manifests)
-        if target is not None:
+        for target in dependency_paths(root, current, manifests[current], manifests):
             visit(target)
         ordered.append(current)
 
     visit(path)
     return ordered
+
+
+def load_canonical_prerequisites(
+    root: Path,
+) -> tuple[dict[str, set[str]], list[str]]:
+    path = root / CAPABILITY_MAP_PATH
+    if not path.exists():
+        return {}, [f"{path}: canonical capability map does not exist"]
+
+    prerequisites: dict[str, set[str]] = {}
+    in_table_section = False
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if line.startswith("#"):
+            heading = line.lstrip("#").strip()
+            if markdown_anchor(heading) == "canonical-prerequisites":
+                in_table_section = True
+                continue
+            if in_table_section:
+                break
+        if not in_table_section or not line.strip().startswith("|"):
+            continue
+
+        cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
+        if len(cells) != 2:
+            continue
+        domain, required = cells
+        if domain == "Capability domain" or set(domain) <= {"-", ":"}:
+            continue
+        if not domain:
+            continue
+
+        if required == "None":
+            dependencies: set[str] = set()
+        else:
+            dependencies = {
+                entry.strip()
+                for entry in re.split(r"\s*(?:,|<br\s*/?>)\s*", required)
+                if entry.strip()
+            }
+        if domain in prerequisites:
+            return {}, [f"{path}: duplicate canonical capability domain {domain!r}"]
+        prerequisites[domain] = dependencies
+
+    if not prerequisites:
+        return {}, [f"{path}: canonical prerequisite table is missing or empty"]
+
+    errors = []
+    for domain, dependencies in prerequisites.items():
+        for dependency in sorted(dependencies):
+            if dependency not in prerequisites:
+                errors.append(
+                    f"{path}: capability {domain!r} has unknown canonical "
+                    f"prerequisite {dependency!r}"
+                )
+    return prerequisites, errors
+
+
+def capability_domain_from_reference(
+    root: Path,
+    manifest: dict[str, Any],
+) -> str | None:
+    value = manifest.get("capability_definition_source")
+    if not isinstance(value, str) or not value:
+        return None
+
+    path_part, separator, anchor = value.partition("#")
+    if not separator or not anchor:
+        return None
+    resolved = root / path_part
+    if not resolved.exists():
+        return None
+    return markdown_headings(resolved).get(anchor)
+
+
+def validate_capability_projection(
+    root: Path,
+    paths: list[Path],
+    manifests: dict[Path, dict[str, Any]],
+) -> list[str]:
+    capability_paths = {
+        path: capability_domain_from_reference(root, manifest)
+        for path, manifest in manifests.items()
+        if "capability_definition_source" in manifest
+    }
+    has_domain_support = any(
+        "supports_capability_domains" in item
+        for manifest in manifests.values()
+        for section in ASSET_SECTIONS
+        for item in (
+            manifest.get(section)
+            if isinstance(manifest.get(section), list)
+            else []
+        )
+        if isinstance(item, dict)
+    )
+    if not capability_paths and not has_domain_support:
+        return []
+
+    canonical, errors = load_canonical_prerequisites(root)
+    if errors:
+        return errors
+
+    path_by_key = {path.resolve(): path for path in paths}
+    manifests_by_domain: dict[str, list[Path]] = {}
+    for path, domain in capability_paths.items():
+        display_path = display_manifest_path(path, path_by_key)
+        if domain is None:
+            continue
+        if domain not in canonical:
+            errors.append(
+                f"{display_path}: capability definition identifies unknown "
+                f"domain {domain!r}"
+            )
+            continue
+        manifests_by_domain.setdefault(domain, []).append(display_path)
+
+    for domain, owners in sorted(manifests_by_domain.items()):
+        if len(owners) > 1:
+            rendered = ", ".join(str(owner) for owner in sorted(owners))
+            errors.append(
+                f"capability domain {domain!r} is implemented by multiple "
+                f"manifests: {rendered}"
+            )
+
+    for path, domain in capability_paths.items():
+        if domain not in canonical:
+            continue
+        actual_domains: set[str] = set()
+        for dependency in dependency_paths(root, path, manifests[path], manifests):
+            dependency_domain = capability_paths.get(dependency)
+            if dependency_domain is None:
+                errors.append(
+                    f"{display_manifest_path(path, path_by_key)}: dependency "
+                    f"{display_manifest_path(dependency, path_by_key)} does not "
+                    "identify an implemented capability domain"
+                )
+                continue
+            actual_domains.add(dependency_domain)
+
+        expected_domains = canonical[domain]
+        if actual_domains != expected_domains:
+            errors.append(
+                f"{display_manifest_path(path, path_by_key)}: capability {domain!r} "
+                "dependency projection mismatch: expected "
+                f"{sorted(expected_domains)}, found {sorted(actual_domains)}"
+            )
+
+    known_domains = set(canonical)
+    for path, manifest in manifests.items():
+        for section in ASSET_SECTIONS:
+            items = manifest.get(section)
+            if not isinstance(items, list):
+                continue
+            for item in items:
+                if not isinstance(item, dict):
+                    continue
+                domains = item.get("supports_capability_domains")
+                if not isinstance(domains, list):
+                    continue
+                for domain in domains:
+                    if isinstance(domain, str) and domain and domain not in known_domains:
+                        errors.append(
+                            f"{display_manifest_path(path, path_by_key)}: "
+                            f"{item_label(section, item)}: unknown supported "
+                            f"capability domain {domain!r}"
+                        )
+
+    return errors
 
 
 def format_asset_owner(owner: AssetOwner) -> str:
@@ -841,7 +1053,7 @@ def closure_output_owners(
     return outputs
 
 
-def validate_prerequisite_compatibility(
+def validate_dependency_compatibility(
     root: Path,
     paths: list[Path],
     manifests: dict[Path, dict[str, Any]],
@@ -852,7 +1064,7 @@ def validate_prerequisite_compatibility(
     reported_targets: set[tuple[str, str, str, str]] = set()
 
     for path in sorted(manifests):
-        closure = prerequisite_closure(root, path, manifests)
+        closure = dependency_closure(root, path, manifests)
         owners_by_id: dict[str, list[AssetOwner]] = {}
         for owner in closure_asset_owners(closure, manifests):
             owners_by_id.setdefault(owner.asset_id, []).append(
@@ -876,7 +1088,7 @@ def validate_prerequisite_compatibility(
                 reported_ids.add(conflict_key)
                 errors.append(
                     f"{display_manifest_path(path, path_by_key)}: "
-                    f"prerequisite closure duplicate id {asset_id!r}: "
+                    f"dependency closure duplicate id {asset_id!r}: "
                     f"{format_asset_owner(first)} conflicts with "
                     f"{format_asset_owner(other)}"
                 )
@@ -913,8 +1125,9 @@ def validate_manifests(root: Path) -> tuple[int, list[str]]:
         errors.extend(validate_manifest(root, path))
 
     manifests = load_manifest_mappings(paths)
-    errors.extend(validate_prerequisite_cycles(root, paths, manifests))
-    errors.extend(validate_prerequisite_compatibility(root, paths, manifests))
+    errors.extend(validate_dependency_cycles(root, paths, manifests))
+    errors.extend(validate_dependency_compatibility(root, paths, manifests))
+    errors.extend(validate_capability_projection(root, paths, manifests))
 
     return len(paths), errors
 

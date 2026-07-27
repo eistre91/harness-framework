@@ -35,9 +35,11 @@ when reading or editing manifests:
 - `adapter`: platform-specific support that exposes shared harness behavior to
   a tool such as Codex, Claude Code, pre-commit, CI, or another runtime.
 
-Fields such as `maturity`, `category`, `common_starter_pull_ins`, and
-`excluded_from_level_asset_boundary` qualify selection or grouping. They are
-not asset types.
+Fields such as `supports_capability_domains`, `category`,
+`common_starter_pull_ins`, and `excluded_from_capability_scope` qualify support,
+selection, or grouping. An asset may support zero, one, or multiple capability
+domains without becoming a capability domain itself. These fields are not asset
+types.
 
 ## Bootstrap Assets
 

@@ -3,9 +3,9 @@
 Audience: agents and maintainers replacing the implemented numbered maturity
 model with the accepted Harness Capability Map.
 
-Status: planned. No migration phase beyond recording the target model and this
-plan has begun. `docs/maturity-model.md` and the numbered installation sources
-remain active until cutover.
+Status: migration in progress. See the Phase Completion Ledger for current
+state. `docs/maturity-model.md` and the numbered installation sources remain
+active until cutover.
 
 Decision: `docs/adr/0001-replace-maturity-levels-with-capability-map.md`
 
@@ -73,6 +73,76 @@ implying that every repo should climb one universal ladder.
 - Keep current historical labels truthful during migration; do not rewrite a
   past Level 4 record as though it certified Focused Context or Agent Action
   Boundaries.
+
+## How To Execute One Phase
+
+Run each phase as a separate bounded work unit in a fresh primary-agent
+context. Apply this loop to the current phase only; for the first run, "current
+phase" means Phase 1. Do not begin the next phase in the same run.
+
+1. Read `AGENTS.md`, `docs/principles.md`, `docs/capability-map.md`, the
+   architectural decision, this plan, and the current phase's sources. Read
+   earlier completion records for handoff evidence, but load later-phase
+   sources only when the current phase explicitly requires them.
+2. Confirm that every earlier phase is marked complete in the Phase Completion
+   Ledger. If an earlier phase is incomplete or its evidence is insufficient
+   for the current work, stop and report that dependency rather than silently
+   repairing or combining phases.
+3. Restate the current phase outcome, files or source owners likely to change,
+   acceptance evidence, and explicit non-goals. Keep the work a semantic
+   refactor and clarification. Do not introduce new framework behavior merely
+   because the migration exposes an opportunity.
+4. Implement only the current phase. Preserve one active installer taxonomy,
+   the source-of-truth boundaries, and all Migration Invariants above.
+5. Run focused verification while working and then run
+   `./scripts/repo-checks.sh`. Gather concise evidence for the phase's
+   mechanical and behavioral outcomes.
+6. Draft the Phase Completion Ledger entry, but leave its status incomplete
+   until independent review and finding resolution finish.
+7. Spawn one fresh, non-forked `gpt-5.6-sol` subagent with high reasoning for a
+   read-only completion review of the current phase. Give it a self-contained
+   prompt containing:
+   - the current phase number and full phase contract,
+   - the target model, decision, Migration Invariants, and relevant earlier
+     completion evidence,
+   - the changed-file list and diff or equivalent exact work product,
+   - verification results and drafted completion evidence,
+   - instructions to inspect the repository directly, avoid edits, ignore
+     style nits, and report only material incompleteness, semantic errors,
+     source-of-truth conflicts, scope creep, or migration risks.
+8. Resolve every material in-scope finding and rerun affected focused checks
+   plus `./scripts/repo-checks.sh`. Do not implement reviewer suggestions that
+   are stylistic, speculative, or unrelated to completing the current phase.
+9. Ask the same reviewer to verify the resolutions. If a material finding needs
+   a human decision, changes the accepted capability model, belongs to a later
+   phase, or requires new framework behavior, leave the phase incomplete and
+   request direction instead of broadening the work.
+10. Mark the phase complete only after checks pass, the reviewer reports no
+    unresolved material findings, and the ledger contains high-level completion
+    evidence. Then stop. Do not start the next phase, commit, or push unless the
+    human separately requests it.
+
+High-level completion evidence should identify the source-of-truth contracts
+changed, summarize mechanical and behavioral validation, state important
+deferrals or limits, and record the independent-review verdict. It should not
+duplicate complete diffs, file inventories, command logs, or implementation
+details that future agents can inspect directly.
+
+## Phase Completion Ledger
+
+Update only the current phase's row. Use `complete` only after following the
+full execution loop above. Use `incomplete` when work or material review
+findings remain; put the blocker or next decision in the evidence cell.
+
+| Phase | Status | High-level completion evidence | Independent completion review |
+| --- | --- | --- | --- |
+| 1. Manifest Contract And Verification | complete | Capability-oriented definition, dependency, asset-support, and scope fields now form the only accepted manifest schema; definition and dependency metadata are an enforced pair. Validation reads the Capability Map's canonical prerequisite table, requires exact direct projections, and preserves graph, collision, path, and selection checks; focused tests and `./scripts/repo-checks.sh` pass. Numbered filenames and asset paths remain intentionally deferred to Phase 2. | Passed after finding resolution and re-verification; no unresolved material findings. |
+| 2. Capability Manifests And Asset Paths | pending | — | Not run |
+| 3. Target-Repo Profile And Proposal Contract | pending | — | Not run |
+| 4. Capability-Based Installer | pending | — | Not run |
+| 5. Conceptual And Downstream Reconciliation | pending | — | Not run |
+| 6. Existing Target-Repo Migration Guidance | pending | — | Not run |
+| 7. Cutover And Cleanup | pending | — | Not run |
 
 ## Current-To-Target Mapping
 
@@ -288,9 +358,8 @@ Behavioral:
 These decisions are intentionally deferred to the bounded migration work that
 has the relevant files and tests in context:
 
-- final capability manifest filenames and metadata field names,
+- final capability manifest filenames,
 - the durable target-repo file that owns the current Harness Profile,
-- the smallest useful representation for assets supporting multiple domains,
 - whether any installation-mode language remains valuable after completeness
   is removed,
 - the final public label for Multi-Work Coordination if implementation evidence
