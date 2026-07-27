@@ -184,6 +184,30 @@ def path_is_inside_root(root: Path, path: Path) -> bool:
     return True
 
 
+def reference_targets_excluded_path(
+    root: Path,
+    source: Path,
+    path: str,
+    *,
+    markdown_link: bool,
+) -> bool:
+    candidates = (
+        [resolve_markdown_reference(root, source, path)]
+        if markdown_link
+        else [root / path, source.parent / path]
+    )
+
+    for candidate in candidates:
+        try:
+            rel = candidate.resolve().relative_to(root.resolve())
+        except ValueError:
+            continue
+        if any(is_relative_to(rel, prefix) for prefix in EXCLUDED_PREFIXES):
+            return True
+
+    return False
+
+
 def markdown_reference_exists(root: Path, source: Path, path: str) -> bool:
     resolved = resolve_markdown_reference(root, source, path)
     return path_is_inside_root(root, resolved) and resolved.exists()
@@ -219,6 +243,18 @@ def validate_reference(
     path = normalize_reference(reference)
     if path is None or should_ignore_reference(path):
         return []
+
+    if reference_targets_excluded_path(
+        root,
+        source,
+        path,
+        markdown_link=markdown_link,
+    ):
+        rel_source = source.relative_to(root)
+        return [
+            f"{rel_source}:{line_number}: referenced path is excluded from "
+            f"clean checkouts: {path}"
+        ]
 
     exists = (
         markdown_reference_exists(root, source, path)

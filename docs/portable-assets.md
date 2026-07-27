@@ -64,6 +64,15 @@ The additive Level 2 assets and behaviors are defined in
 `manifests/level-2.yml`. Treat that manifest as the canonical Level 2 asset
 boundary.
 
+## Selected Capability Assets
+
+The Level 3 selected-control behaviors are defined in
+`manifests/level-3.yml`. The Level 4 selected-sensor behaviors and installable
+policy/coordinator assets are defined in `manifests/level-4.yml`. Treat each
+current-stage manifest as the canonical boundary for the explicitly approved
+scope; do not infer that every family is installed or that numeric order
+certifies other stages.
+
 ## Optional Installable Assets
 
 Install optional assets only when repo evidence or human preference justifies

@@ -1,13 +1,18 @@
 ---
-name: documentation-quality-audit
+name: harness-documentation-audit
 description: "Audits docs for semantic debt: stale, misleading, duplicated, over-routed, too historical, or no longer useful to agents and humans. Use when checking whether documentation still helps current work or is misleading agents."
 metadata:
   agent-harness-framework/claude-sync: agents-to-claude
 ---
 
-# Documentation Quality Audit
+# Harness Documentation Audit
 
 Use when auditing whether documentation still helps current work.
+
+When invoked by `harness-maintainability` during a normal maintainability run,
+operate in findings-only mode: return findings and recommendations without
+applying cleanup unless the operator separately delegated the exact cleanup
+batch.
 
 ## Goal
 
@@ -177,6 +182,9 @@ historical note, PRD, issue, or work brief rather than embedding chronology.
 10. Verify deleted or moved references with `rg`, and run relevant doc tests or
     mechanical checks when docs affect tests, scripts, imports, or generated
     surfaces.
+
+In findings-only mode, stop after steps 1 through 6 and return the review. Do
+not enter cleanup steps 7 through 10 without separate delegation.
 
 ## Output Format
 

@@ -56,8 +56,8 @@ failure signal. Avoid speculative process, optional assets, adapters, or
 automation.
 
 When changing installer docs, preserve staged installation: current stage first,
-human approval before edits, validation and handoff before next-stage
-inspection.
+human approval before edits, validation and handoff before another stage is
+inspected.
 
 When changing target-repo templates or skills, keep them portable. Repo-specific
 commands, paths, trackers, and policies should be adaptation points, not baked

@@ -70,6 +70,7 @@ assets are defined in manifests:
   `manifests/level-1.yml`
 - Level 2 additive assets and behaviors: `manifests/level-2.yml`
 - Level 3 selected-control families and protocol: `manifests/level-3.yml`
+- Level 4 selected-sensor families and protocol: `manifests/level-4.yml`
 - Other optional pull-ins and adapters: `manifests/optional-assets.yml`
 
 Historical note: the old orientation-only Level 0 and bounded-work Level 1
@@ -105,7 +106,8 @@ Move beyond when:
 Minimum for agents to receive, shape, implement, verify, and review ordinary
 work without reconstructing prior planning discussion.
 
-Default assets and behavior are defined in `manifests/level-1.yml`.
+Default assets and behavior are defined in `manifests/level-1.yml`. The install
+path is `docs/install/level-1.md`.
 
 At this level, the harness should provide a repo agent entrypoint, canonical
 deterministic repo checks command, work-brief skill bundle with a template,
@@ -196,7 +198,7 @@ Move beyond when:
 Adds product-context routing.
 
 The authoritative additive asset and behavior boundary is
-`manifests/level-2.yml`.
+`manifests/level-2.yml`. The install path is `docs/install/level-2.md`.
 
 Required boundary:
 
@@ -348,21 +350,48 @@ Move beyond when:
 
 ## Level 4: Maintainability Sensors
 
-Observes entropy without gating every change.
+Observes accumulated drift across work and sessions without gating every
+change. The selected-sensor protocol and live sensor-family menu are owned by
+`manifests/level-4.yml`; the install path is `docs/install/level-4.md`.
 
-Entropy is informal accumulated drift without enough trustworthy feedback, not
-an inevitability or a numerical score. Technical, harness, cognitive, and
-semantic debt are observable drift signals. Resteering can come from human
-judgment, deterministic checks, review, runtime evidence, or environmental
-change.
+Level 4 is a selected menu, not a universal quality stack. It may follow a
+validated Level 1 bounded-work foundation without certifying that Levels 2 or 3
+are installed. Canonical completeness means that policy, coordinator behavior,
+durable records, and supervised evidence are complete for the explicitly
+approved sensor scope. It does not mean that every sensor family or candidate
+measurement is present.
 
-Assets:
+Technical, harness, cognitive, and semantic debt are observable drift signals,
+not numerical scores. A selected sensor must address a concrete recurring or
+high-cost signal, or an operator-approved bounded experiment into a named
+uncertainty or risk. Its output is evidence for operator judgment, not automatic
+proof that repair is needed.
 
-- maintainability checklist,
-- documentation quality audit,
-- recurring failure ledger,
-- optional duplicate/dead-code/complexity tools,
-- issue creation for bounded repair work.
+Required surfaces are a target-specific maintainability policy or equivalent,
+the portable `harness-maintainability` coordinator or equivalent behavior, a
+durable record for each run, and only the selected sensor behaviors. The
+`harness-documentation-audit` specialist is conditional on selected
+documentation or semantic-drift scope. No third-party tool, scheduler, hook, CI
+job, tracker adapter, ledger file, or automatic issue creator is required.
+
+A normal run selects the highest-value approved exact sensor, observes and
+gathers evidence, classifies findings, leaves a durable maintainability record,
+reviews dispositions with the operator, shapes only approved bounded follow-up
+work, and stops. It does not repair findings. Durable records should reuse the
+issue, ticket, Agent Work Brief, audit record, review record, or other persistent
+surface that authorized the run rather than create a second debt backlog.
+
+Classify a mechanism by purpose and effect. Level 4 observes broader health,
+trends, or accumulated drift and feeds later triage. Level 3 guides, verifies,
+or blocks a particular agent action or lifecycle transition. The same detector
+may support both uses only when detection policy has one owner and each use
+declares its effect.
+
+Human-agent comprehension sensing is explicitly experimental. Bounded evidence
+may include repeated clarification, conflicting explanations, unrecoverable
+recent intent, context-routing failures, recent durable work records, and a
+short operator review. Do not claim objective comprehension measurement or
+require scores, dashboards, synthetic probes, or periodic synthesis.
 
 Value:
 
@@ -377,13 +406,17 @@ Add when:
 - agents struggle to close similar work without extra verification cycles,
 - docs are stale enough to mislead,
 - humans and agents no longer share the same model of the system,
-- objective tools reveal duplicate, dead, or overly complex code.
+- objective tools reveal duplicate, dead, or overly complex code,
+- or the operator approves a bounded experiment into a named maintainability
+  uncertainty or risk.
 
 This may be enough when:
 
-- maintainability work is periodic, bounded, and useful,
+- maintainability work is periodically or signal-triggered, bounded, and useful,
 - sensors produce few false alarms,
-- repair work is scoped as normal tickets,
+- selected sensors have acceptable runtime and cognitive cost,
+- findings are dispositioned and approved repair work is scoped through the
+  repo's normal planning practice,
 - product delivery is not slowed by constant process.
 
 Move beyond when:
@@ -392,6 +425,10 @@ Move beyond when:
 - work spans many short-lived sessions,
 - validation itself needs orchestration,
 - state is getting lost between agents.
+
+These are out-of-stage observations, not authorization to inspect or install
+Level 5. A Level 4 handoff recommends stopping unless the operator explicitly
+requests exploratory Level 5 inspection.
 
 ## Level 5: Orchestration And Automation
 

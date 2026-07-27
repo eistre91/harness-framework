@@ -25,6 +25,10 @@ assets:
     asset_type: bootstrap
     source: docs/install/level-3.md
     use_when: Installing and validating selected Level 3 deterministic controls.
+  - id: level-4-installer-checklist
+    asset_type: bootstrap
+    source: docs/install/level-4.md
+    use_when: Installing and validating selected Level 4 maintainability sensors.
   - id: framework-doc
     asset_type: bootstrap
     source: docs/framework.md
@@ -69,6 +73,10 @@ assets:
     asset_type: bootstrap
     source: manifests/level-3.yml
     use_when: Selecting deterministic control families and protocol for Level 3.
+  - id: level-4-manifest
+    asset_type: bootstrap
+    source: manifests/level-4.yml
+    use_when: Selecting maintainability sensor families and protocol for Level 4.
   - id: optional-assets-manifest
     asset_type: bootstrap
     source: manifests/optional-assets.yml

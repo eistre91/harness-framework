@@ -48,12 +48,6 @@ assets:
     maturity: level-1
     category: harness-governance
     install_when: The team expects to add or modify harness components over time.
-  - id: maintainability-signals
-    asset_type: installable
-    source: templates/optional/docs/harness/maintainability.md
-    default_target: docs/harness/maintainability.md
-    maturity: level-4
-    install_when: The repo has repeated maintainability, harness, cognitive, or semantic debt signals.
   - id: project-intent
     asset_type: installable
     source: templates/optional/docs/project/intent.md
@@ -84,18 +78,6 @@ assets:
       - observability tools
       - rollback or safety rules
       - existing debug or diagnose skills and platform commands
-  - id: documentation-quality-audit-skill
-    asset_type: installable
-    source: skills/optional/documentation-quality-audit/SKILL.md
-    default_target: .agents/skills/documentation-quality-audit/SKILL.md
-    maturity: level-4
-    install_when: Docs route agents, docs are drifting, agents are misled by documentation, or maintainability reviews repeatedly find documentation debt.
-    adapt:
-      - active doc paths
-      - historical or provenance paths
-      - source-of-truth code areas
-      - doc routing maps
-      - approval rules for removal
 adapters:
   - id: common-hooks
     asset_type: adapter

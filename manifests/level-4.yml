@@ -1,0 +1,169 @@
+name: level-4
+description: Selected maintainability sensors for observing accumulated drift and shaping bounded repair work.
+prerequisite_manifest: manifests/level-1.yml
+install_policy: >-
+  Install after Level 1 only when repo evidence or an operator-approved bounded
+  experiment justifies one or more exact maintainability sensors. Install and
+  validate only the approved sensor scope; do not install every family by
+  default or treat Level 4 as certification of Levels 2 or 3.
+level_definition_source: docs/maturity-model.md#level-4-maintainability-sensors
+assets:
+  - id: selected-sensor-protocol
+    asset_type: behavior
+    required: true
+    satisfy_by:
+      - Use docs/install/level-4.md to inspect only the sensor families and exact measurements in current approved scope.
+      - Propose every exact sensor before editing target-repo files and install only sensors explicitly approved by the operator.
+      - Record selected-scope completeness, trigger or cadence, operator, cost and noise, known limits, durable record destination, supervised trial, and revisit or removal signal.
+      - Treat sensor output as evidence for operator disposition, not proof that repair is required.
+    adapt:
+      - selected sensor families and exact measurements
+      - observation scope and evidence sources
+      - trigger or cadence
+      - operator and durable record destination
+      - expected cost, noise, and false-positive risk
+      - supervised trial procedure
+      - revisit or removal signal
+
+  - id: maintainability-policy
+    asset_type: installable
+    source: templates/level-4/docs/harness/maintainability.md
+    default_target: docs/harness/maintainability.md
+    required: true
+    adapt:
+      - selected sensor entries and reasons they exist now
+      - intended debt categories and repo scope
+      - mechanisms and evidence sources
+      - trigger or cadence and operator
+      - durable record destinations
+      - expected runtime, cognitive cost, noise, and known limits
+      - supervised trial results and revisit or removal signals
+      - existing policy surface when overlay mode satisfies this behavior
+
+  - id: maintainability-skill
+    asset_type: installable
+    source: skills/core/harness-maintainability/SKILL.md
+    default_target: .agents/skills/harness-maintainability/SKILL.md
+    required: true
+    adapt:
+      - installed maintainability policy path
+      - canonical work source and durable record locations
+      - selected repo tools and specialist skills
+      - operator checkpoints and external issue-creation authority
+      - existing equivalent maintainability workflow
+
+  - id: durable-maintainability-records
+    asset_type: behavior
+    required: true
+    satisfy_by:
+      - Leave each maintainability run on the durable work surface that authorized it or another operator-approved surface that survives chat, agent context, and local workspace cleanup.
+      - Record run scope, observation window, selected sensors, evidence, findings or clean result, debt classifications, known limits, operator dispositions, and approved follow-up links.
+      - Do not create a second debt backlog when an existing issue, ticket, work brief, audit log, or engineering-health system already owns the record.
+    adapt:
+      - durable work surface and record format
+      - retention and access conventions already used by the target repo
+      - follow-up work and tracker links
+
+  - id: recurring-work-friction-sensors
+    asset_type: behavior
+    install_when: Repeated review findings, verification failures, clarification loops, handoff failures, or extra validation cycles create observable drag, or the operator approves a bounded experiment into that risk.
+    satisfy_by:
+      - Select the exact recurring-friction signal, evidence sources, observation window, and repo scope rather than claiming to monitor all work friction.
+      - Explain how the operator will recognize and disposition recurrence without requiring automated aggregation.
+      - Treat the result as cross-cutting evidence that may classify into any debt category.
+    adapt:
+      - review, verification, clarification, handoff, or divergence evidence
+      - observation window and sampled work surfaces
+      - recurrence interpretation and known blind spots
+    notes: The exact selected signal belongs in the target maintainability policy; this entry owns only the portable family contract.
+
+  - id: code-health-sensors
+    asset_type: behavior
+    install_when: Objective or review evidence indicates code-health drift or structural hotspots, or the operator approves a bounded experiment into that risk.
+    satisfy_by:
+      - Select exact measurements such as dead code, duplication, complexity, module growth, churn, unused dependencies, test gaps, coverage trends, or broad static-analysis smells.
+      - Prefer existing repo tools and interpret measurements against repo purpose and accepted design.
+      - Treat thresholds and reports as maintainability evidence unless a separately approved Level 3 control constrains an action.
+    adapt:
+      - exact measurement and scoped code surface
+      - existing commands, reports, and baselines
+      - interpretation limits and false-positive risks
+    notes: Tool output is a signal for inspection, not automatic proof that refactoring is required.
+
+  - id: architecture-dependency-fitness-sensors
+    asset_type: behavior
+    install_when: Established architecture or dependency expectations appear to be eroding, or the operator approves a bounded experiment into that risk.
+    satisfy_by:
+      - Select an exact established expectation such as an import boundary, layer rule, dependency cycle rule, coupling constraint, dependency-health signal, or vulnerability report.
+      - Point to the target-repo source that establishes the expected architecture; do not invent architecture during sensor installation.
+      - Keep observation and later triage in Level 4 unless a separately approved Level 3 use guides, verifies, or blocks an action.
+    adapt:
+      - established architecture or dependency source of truth
+      - exact rule, report, and repo scope
+      - mechanism, baseline, and known limitations
+    notes: The same detector may support Level 3 and Level 4 only when each use declares its purpose and effect and shared detection policy has one owner.
+
+  - id: documentation-semantic-drift-sensors
+    asset_type: behavior
+    install_when: Documentation routes agents, appears stale or misleading, duplicates closer truth, or repeatedly causes semantic confusion, or the operator approves a bounded experiment into that risk.
+    satisfy_by:
+      - Select the exact doc area, routing surface, stale-claim class, or source-of-truth relationship to inspect.
+      - Compare questionable guidance with current code, tests, schemas, scripts, generated artifacts, decisions, or operator evidence as appropriate.
+      - Return findings and recommendations during a maintainability run; require separate authorization before cleanup.
+    adapt:
+      - active documentation and routing paths
+      - historical or provenance paths
+      - closer sources of truth
+      - operator approval rules for removal, move, or merge
+    notes: The optional harness-documentation-audit skill is the first portable specialist for this family.
+
+  - id: harness-health-sensors
+    asset_type: behavior
+    install_when: Harness instructions, hooks, scripts, skills, adapters, validators, or workflows appear stale, duplicated, noisy, bypassed, contradictory, or more costly than their value, or the operator approves a bounded experiment into that risk.
+    satisfy_by:
+      - Select the exact harness surface and value or failure question to inspect.
+      - Use structural validation, usage evidence, operator experience, and runtime evidence as available without treating validity as proof of continued value.
+      - Recommend simplification or removal when a component no longer earns its maintenance and cognitive cost.
+    adapt:
+      - harness surface and source owner
+      - structural, usage, runtime, or operator evidence
+      - cost, bypass, duplication, and removal signals
+    notes: Apply the framework maintenance principles to the installed harness itself.
+
+  - id: human-agent-comprehension-sensors
+    asset_type: behavior
+    install_when: Humans or agents repeatedly cannot recover behavior, intent, ownership, boundaries, context routes, or reasons for important decisions, or the operator approves a bounded experiment into that risk.
+    satisfy_by:
+      - Select bounded evidence such as repeated clarification, conflicting explanations, unrecoverable recent intent, context-routing failures, or operator-reported loss of understanding.
+      - Use recent durable work records and a short operator review where useful, and record uncertainty prominently.
+      - Do not claim objective comprehension measurement or require dashboards, scores, synthetic feature-removal probes, or periodic synthesis.
+    adapt:
+      - sampled work records and system surfaces
+      - operator questions and evidence sources
+      - uncertainty, blind spots, and revisit criteria
+    notes: This family is explicitly experimental and names a need without claiming a mature method.
+
+  - id: documentation-audit-skill
+    asset_type: installable
+    source: skills/optional/harness-documentation-audit/SKILL.md
+    default_target: .agents/skills/harness-documentation-audit/SKILL.md
+    install_when: The selected documentation or semantic-drift sensor benefits from the portable interactive documentation-audit workflow.
+    adapt:
+      - active doc paths and routing maps
+      - historical or provenance paths
+      - source-of-truth code, test, schema, script, or generated-artifact areas
+      - operator approval rules for cleanup
+      - existing documentation-audit skills or commands
+
+excluded_from_level_asset_boundary:
+  - mandatory third-party maintainability tools
+  - a centralized finding database or required ledger file
+  - framework-wide schedules or thresholds
+  - automatic issue creation, repair, or cleanup
+  - always-on maintainability gates
+  - general CI/CD modernization
+  - a framework severity, debt, entropy, or confidence scoring system
+  - synthetic changeability or feature-removal probes
+  - periodic whole-system synthesis
+  - Level 5 orchestration
+  - replacing maturity levels with capability profiles

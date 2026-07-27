@@ -5,8 +5,8 @@ decision log. It is durable repo documentation. Do not record machine-local
 paths or temporary installation-session proposal paths here.
 
 Use this template for the current approved stage. Fill or keep only the
-sections that apply to that stage. Do not use a Level 1 proposal to approve
-later-stage assets.
+sections that apply to that stage. Do not use one stage's proposal to approve
+assets outside the current approved scope.
 
 ## Repo Signals
 
@@ -54,7 +54,7 @@ Claude Code note, when relevant:
 ## Manifest Inclusion Table
 
 Use the current stage manifest as the source of truth. Do not use this table to
-preselect future-stage or optional assets during a Level 1 stage.
+preselect unapproved assets from another stage or the optional manifest.
 
 | Stage | Asset or behavior | Status | Reason | Revisit signal |
 | --- | --- | --- | --- | --- |
@@ -117,13 +117,42 @@ behavior.
 
 Use only when the current approved stage includes Level 3 deterministic
 controls or an explicit selected pull-in. Do not use this section to approve
-future-stage assets during Level 1.
+assets outside the current approved scope.
 
 Mode: observe / guide / block / verify.
 
 | Control | Why now | Event | Mode | Mechanism | Files | Validation | Friction risk | Known limits | Revisit / removal signal |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 |  |  |  |  |  |  |  |  |  |  |
+
+## Selected Maintainability Sensors
+
+Use only when the current approved stage includes Level 4 maintainability
+sensing or an explicit selected pull-in. The Level 4 checklist owns the full
+proposal contract. Do not use this section to authorize repair, external issue
+creation, new gates, or Level 5 inspection.
+
+- Durable Level 1 handoff status:
+- Why Level 4 now:
+- Required policy/coordinator handling:
+- Level 4 asset completeness for approved selected scope:
+- Expected Level 4 behavioral completeness for approved selected scope:
+- Default durable run-record surface:
+
+Add one short section per exact sensor:
+
+### <Sensor family: exact sensor>
+
+- Why now, beneficiary, and intended debt categories:
+- Repo surface, observation scope, and observation window:
+- Mechanism and evidence sources:
+- Trigger or cadence:
+- Operator or decision owner:
+- Durable record destination:
+- Expected runtime, cognitive cost, and noise:
+- Known limits and false-positive risk:
+- Supervised trial command or procedure:
+- Revisit or removal signal:
 
 ## Gaps Surfaced
 

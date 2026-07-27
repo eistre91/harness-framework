@@ -77,6 +77,24 @@ Copy `scripts/loop.sh` before editing.
     assert errors == []
 
 
+def test_validate_doc_refs_rejects_existing_excluded_path(tmp_path: Path) -> None:
+    module = load_verify_doc_refs()
+    ignored = tmp_path / "docs" / "ignored"
+    ignored.mkdir(parents=True)
+    (ignored / "plan.md").write_text("# Local plan\n", encoding="utf-8")
+    (tmp_path / "README.md").write_text(
+        "Do not read `docs/ignored/plan.md`.\n",
+        encoding="utf-8",
+    )
+
+    _count, errors = module.validate_doc_refs(tmp_path)
+
+    assert errors == [
+        "README.md:1: referenced path is excluded from clean checkouts: "
+        "docs/ignored/plan.md",
+    ]
+
+
 def test_validate_doc_refs_scans_adapter_readmes(tmp_path: Path) -> None:
     module = load_verify_doc_refs()
     readme = tmp_path / "adapters" / "codex" / "README.md"

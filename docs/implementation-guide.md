@@ -36,10 +36,12 @@ procedure here.
   `docs/install/level-2.md`
 - Level 3 selected-control installation procedure, gate, and handoff details:
   `docs/install/level-3.md`
-- Bootstrap, Level 1, Level 2, Level 3, and optional asset boundaries:
+- Level 4 selected-sensor proposal, trial, gate, and handoff details:
+  `docs/install/level-4.md`
+- Bootstrap, Level 1, Level 2, Level 3, Level 4, and optional asset boundaries:
   `manifests/bootstrap.yml`, `manifests/level-1.yml`,
-  `manifests/level-2.yml`, `manifests/level-3.yml`, and
-  `manifests/optional-assets.yml`
+  `manifests/level-2.yml`, `manifests/level-3.yml`,
+  `manifests/level-4.yml`, and `manifests/optional-assets.yml`
 - Portable asset and adapter boundaries: `docs/portable-assets.md`
 - Platform support: `docs/platform-support.md`, then only the relevant
   platform note routed by the current stage
@@ -54,6 +56,11 @@ procedure here.
 - Implementation and review phase guidance:
   `skills/core/harness-implement/` and `skills/core/harness-review/`
 - Level 2 routing templates: `templates/level-2/`
+- Level 4 selected-sensor policy and coordinator:
+  `templates/level-4/docs/harness/maintainability.md` and
+  `skills/core/harness-maintainability/`
+- Level 4 documentation specialist, when selected:
+  `skills/optional/harness-documentation-audit/`
 
 Do not maintain second copies of those assets, schemas, file lists, proposal
 fields, checklists, commands, gates, or report formats in this guide.
@@ -137,6 +144,14 @@ Level 1 owns only the narrow `repo-checks-on-stop` behavior described in
 `docs/install/level-1.md` and `manifests/level-1.yml`. Broader hook policy,
 secret guards, destructive-action controls, and CI or pre-commit parity require
 separate approved Level 3 scope through `docs/install/level-3.md`.
+
+Where do maintainability sensor decisions and run records live?
+
+Use `docs/install/level-4.md` for selection and gate requirements and
+`manifests/level-4.yml` for the family and asset boundary. Record target-specific
+sensors in the installed maintainability policy and each run on its approved
+durable work surface. Do not copy the framework menu or create a second debt
+backlog in this broad guide.
 
 Where do final report and handoff fields come from?
 

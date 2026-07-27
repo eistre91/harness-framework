@@ -12,6 +12,7 @@ Always read:
 
 - `docs/principles.md`
 - `docs/installer.md`
+- the Level 1 section of `docs/maturity-model.md`
 - `manifests/level-1.yml`
 - the Level 1 templates, skills, and companion files named by the manifest
 
@@ -29,8 +30,7 @@ Read only if needed for this Level 1 stage:
 
 Do not read by default:
 
-- `docs/maturity-model.md`
-- `manifests/level-2.yml`
+- other stage manifests and installer checklists
 - the full `manifests/optional-assets.yml`
 - platform adapter docs
 - `docs/hook-pattern.md`, unless custom hook adapter design is in current scope
@@ -237,8 +237,9 @@ For Level 1, make sure the handoff also makes these details explicit:
 - work-brief lifecycle and progress/divergence location,
 - acceptance evidence rules for boundary-changing or externally visible work,
 - representative communication audit result or reason it was not possible,
-- recommended next action: stop, revise Level 1, or ask the human whether to
-  begin context-routing inspection.
+- recommended next action: stop by default, revise Level 1, or ask the human
+  whether repo evidence justifies inspecting Level 2 context routing, Level 3
+  selected deterministic controls, or Level 4 selected maintainability sensors.
 
 For communication evidence, use a representative standard or complex work item
 when one is available. Confirm that a fresh agent could identify the tier,
@@ -246,6 +247,6 @@ brief location, implementation guidance, verification, acceptance evidence, and
 review handoff path. If no representative work item is available, record that
 the Level 1 communication audit is limited to installed-surface inspection.
 
-Do not inspect Level 2 guidance, deterministic controls, or optional pull-ins
-beyond this stage until the human chooses to begin that next stage or
-explicitly changes the current approved scope.
+Do not inspect Level 2 context routing, Level 3 deterministic controls, Level 4
+maintainability sensors, or optional pull-ins beyond this stage until the human
+explicitly selects that stage or changes the current approved scope.
