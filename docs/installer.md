@@ -131,24 +131,9 @@ Before editing target-repo files:
 3. Wait for explicit approval or corrections.
 4. Edit only the approved files and behavior.
 
-Use the fit-proposal contract for required fields. At minimum the proposal must
-make these decisions reviewable:
-
-- one Profile Change and change type,
-- why now, beneficiary, expected value, and expected cost or friction,
-- current profile and dependency-closure result,
-- selected outcome and exact scope,
-- proposed realizations and existing mechanisms to retain or adapt,
-- manifest entries included, adapted, already satisfied, deferred, or
-  excluded,
-- exact files and behavior authorized,
-- validation and representative outcome evidence,
-- expected Known Limits,
-- revisit or removal signals,
-- explicit deferrals and human decisions,
-- context used, and
-- entrypoint compatibility audit when the change is Bounded Work or Focused
-  Context.
+Use `templates/profile/docs/harness/fit-proposal.md` as the required-field
+owner. Complete every applicable section and mark irrelevant sections not
+applicable; do not maintain a second proposal schema in installer guidance.
 
 Out-of-scope observations remain plain observations. Do not classify them as a
 future Profile Change, preselect another capability or asset, load its
