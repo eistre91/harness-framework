@@ -56,22 +56,23 @@ named beneficiary, evidence quality, recurrence, likely consequence, runtime,
 cognitive cost, noise, and known false-positive risk. Run only the exact sensor
 the operator approves for this work unit.
 
-Do not treat a request to reach a maturity number as evidence. A run needs a
+Do not treat a request for a higher status label as evidence. A run needs a
 concrete recurring or high-cost signal, or an operator-approved bounded
 experiment into a named uncertainty or risk.
 
-## Level 3 And Level 4 Boundary
+## Capability Boundary
 
 Classify a mechanism by its purpose and effect:
 
-- Level 4 observes broader health, trends, or accumulated drift and feeds later
-  triage.
-- Level 3 guides, verifies, or blocks a particular agent action or lifecycle
-  transition.
+- Maintainability Feedback observes broader health, trends, or accumulated
+  drift and feeds later triage.
+- Agent Action Boundaries guide, verify, or block a particular agent action or
+  lifecycle transition.
 
 The same detector may support both uses only when detection policy has one
-source owner and each use declares its effect. A normal Level 4 run is
-investigative and non-blocking; do not turn an observation into a gate.
+source owner and each use declares its effect. A normal Maintainability
+Feedback run is investigative and non-blocking; do not turn an observation
+into a gate.
 
 ## Workflow
 

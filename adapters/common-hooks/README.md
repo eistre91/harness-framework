@@ -1,7 +1,7 @@
 # Common Hook Adapter
 
-Use when a target repo installs the Level 1 `repo-checks-on-stop` behavior for
-Codex, Claude Code, or both.
+Use when a target repo selects the Bounded Work `repo-checks-on-stop` behavior
+for Codex, Claude Code, or both.
 
 Install these files into the target repo:
 

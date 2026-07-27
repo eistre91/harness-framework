@@ -1,11 +1,5 @@
 # Harness Docs
 
-Framework migration note: this is the Phase 3 target contract. It is not an
-active installer source yet. Until Phase 4 activates the capability-based
-installer and rewires its manifest consumers, use the numbered installer and
-`templates/core/docs/harness/` records instead. Do not install this template
-directly.
-
 Audience: agents and maintainers intentionally inspecting, auditing,
 maintaining, or extending this repo's agent harness.
 
@@ -32,9 +26,9 @@ relevant proposal or handoff.
 
 A nonempty profile must include Bounded Work and every prerequisite of every
 other claimed capability. Check dependency closure against the Capability Map
-identified by the framework provenance below. If this repo has no realized and
-validated Bounded Work foundation, state `No installed Harness Profile` and do
-not add another capability claim.
+identified by the current profile-contract provenance below. If this repo has
+no realized and validated Bounded Work foundation, state
+`No installed Harness Profile` and do not add another capability claim.
 
 Profile last updated:
 Dependency-closure evidence:
@@ -68,11 +62,21 @@ Change. Install an absent prerequisite through its own completed change before
 returning to a dependent proposal. Do not remove a prerequisite while a
 current capability depends on it.
 
+Use the capability-based installer and checklist for each change. Recommend
+stopping after its validation, profile decision, and handoff; another
+capability requires a later human-selected Profile Change.
+
 ## Framework Provenance
 
-Source framework: harness-framework
-Source version or commit: record the framework commit/tag, or `unknown`
-Source version unknown reason: required only when source version is `unknown`
+Current profile contract source: harness-framework
+Capability Map and profile contract version or commit: record the framework
+commit/tag used to establish or last reconcile this profile, or `unknown`
+Current source version unknown reason: required only when current version is
+`unknown`
+Initial harness source version or commit: use `same as current`, the original
+framework commit/tag, or `unknown`
+Initial source version unknown reason: required only when initial version is
+`unknown`
 Initially installed on:
 Initially installed by:
 

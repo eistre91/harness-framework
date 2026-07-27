@@ -3,9 +3,9 @@
 Audience: agents and maintainers replacing the implemented numbered maturity
 model with the accepted Harness Capability Map.
 
-Status: migration in progress. See the Phase Completion Ledger for current
-state. `docs/maturity-model.md` and the numbered installation sources remain
-active until cutover.
+Status: complete. The capability-based manifests, installer, Profile contracts,
+documentation, existing-target migration path, validators, and tests have cut
+over together. This plan remains as the completed migration record.
 
 Decision: `docs/adr/0001-replace-maturity-levels-with-capability-map.md`
 
@@ -139,10 +139,10 @@ findings remain; put the blocker or next decision in the evidence cell.
 | 1. Manifest Contract And Verification | complete | Capability-oriented definition, dependency, asset-support, and scope fields now form the only accepted manifest schema; definition and dependency metadata are an enforced pair. Validation reads the Capability Map's canonical prerequisite table, requires exact direct projections, and preserves graph, collision, path, and selection checks; focused tests and `./scripts/repo-checks.sh` pass. Numbered filenames and asset paths remain intentionally deferred to Phase 2. | Passed after finding resolution and re-verification; no unresolved material findings. |
 | 2. Capability Manifests And Asset Paths | complete | The four implemented capability domains now own canonical manifests and capability-named template paths; direct dependency projections remain Bounded Work-only, selected control and sensor families remain independent, and optional assets and adapters declare single- or cross-domain support according to current purpose and effect. Bootstrap remains separate, Multi-Work Coordination has no package, moved-path consumers resolve, focused validation passes, and `./scripts/repo-checks.sh` passes. | Passed with no material findings; manifests, moved paths, classifications, dependencies, branch independence, bootstrap separation, and Multi-Work Coordination exclusion are coherent. |
 | 3. Target-Repo Profile And Proposal Contract | complete | Target profile and fit-proposal contracts are staged under `templates/profile/` without changing the active numbered installer sources. The future `docs/harness/README.md` is the sole durable owner of a dependency-closed current Harness Profile; one-change proposals preserve realization detail, authorize exact scope, and gate profile updates on outcome validation while records and historical levels remain non-current evidence. Focused validators and `./scripts/repo-checks.sh` pass; activation remains deferred to Phase 4. | Passed after resolving the active-contract sequencing finding; the same reviewer confirmed the dormant target contracts are complete and safely bounded with no unresolved material findings. |
-| 4. Capability-Based Installer | pending | — | Not run |
-| 5. Conceptual And Downstream Reconciliation | pending | — | Not run |
-| 6. Existing Target-Repo Migration Guidance | pending | — | Not run |
-| 7. Cutover And Cleanup | pending | — | Not run |
+| 4. Capability-Based Installer | complete | The active installer surfaces now expose one Profile Change workflow through capability-named checklists, Capability Map prerequisite closure, capability manifests, and the target Profile contracts. Bounded Work-first installation, separate missing-prerequisite changes, dependent-first removal, exact approval scope, entrypoint compatibility audits, representative outcome validation, evidence-gated profile updates, and stop handoffs are explicit; active bootstrap, portability, platform, hook, and README routes no longer publish numbered stages, installation modes, or completeness claims. Unreconciled broad conceptual prose is isolated as non-authoritative pending Phase 5. Focused contract tests and `./scripts/repo-checks.sh` pass. | Passed after resolving active-taxonomy and retired-mode findings; the same reviewer confirmed no unresolved material findings. |
+| 5. Conceptual And Downstream Reconciliation | complete | The Capability Map and framework now own active conceptual language; the broad implementation reference, repository routes, portability, hook, platform, adapter, target-policy, and coordinator guidance use capability and Profile contracts. The numbered model and orchestration sketch are explicitly historical, retired core profile paths point to the sole current templates, classified residual taxonomy hits are historical records, negative tests, course language, or explicit guardrails, and focused tests plus `./scripts/repo-checks.sh` pass. Existing-target migration guidance and final transition cleanup remain deferred to Phases 6 and 7. | Passed with no material Standards or Spec findings; the reviewer confirmed active ownership, routes, installed-output language, historical classification, and phase boundaries, and independently re-ran equivalent focused and full checks. |
+| 6. Existing Target-Repo Migration Guidance | complete | Active README and installer entrypoints route existing numbered installations to a bounded documentation-only re-profiling guide. The guide evaluates installed mechanisms and current outcome evidence without translating historical labels or completeness claims, preserves exact control and sensor scope and Known Limits, enforces Bounded Work dependency closure, distinguishes the current Capability Map contract from original installation provenance, requires approval of the exact proposed profile and history handling before edits, and stops without installing or repairing capabilities. Focused contract tests and `./scripts/repo-checks.sh` pass; final transition cleanup remains deferred to Phase 7. | Passed after resolving active-entrypoint routing and profile-provenance findings; the same reviewer confirmed no unresolved material findings. |
+| 7. Cutover And Cleanup | complete | Capability-map, installer, and decision records describe the cutover as complete; the originating TODO points to the accepted decision; resolved migration choices no longer remain listed as deferred; capability-owned paths are current; and legacy manifest fields remain rejected. Focused checks and `./scripts/repo-checks.sh` pass, including manifest projection, source/target resolution, installer behavior, migration, and final-state contract coverage. | Passed after resolving two stale pre-cutover statements; the same reviewer confirmed no unresolved material findings and independently reran the full checks. |
 
 ## Current-To-Target Mapping
 
@@ -352,15 +352,3 @@ Behavioral:
   selection while preserving value, cost, validation, and revisit reasoning.
 - Existing target repos can migrate without rewriting historical records or
   claiming capabilities they never installed.
-
-## Remaining Implementation Decisions
-
-These decisions are intentionally deferred to the bounded migration work that
-has the relevant files and tests in context:
-
-- final capability manifest filenames,
-- the durable target-repo file that owns the current Harness Profile,
-- whether any installation-mode language remains valuable after completeness
-  is removed,
-- the final public label for Multi-Work Coordination if implementation evidence
-  reveals a clearer outcome name.

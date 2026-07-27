@@ -6,10 +6,10 @@ support.
 Use when: the target repo needs Codex, Claude Code, pre-commit, CI, or another
 runtime to load skills, settings, hooks, or other adapter-specific behavior.
 
-Do not read this for ordinary Level 1 installation until the Level 1 checklist
-routes here for the required `repo-checks-on-stop` adapter or for another
-platform-specific behavior in current scope. Start with `docs/installer.md`,
-the current stage checklist, and the current stage manifest first.
+Do not read this during Bounded Work installation until its checklist routes
+here for the selected `repo-checks-on-stop` adapter or another approved
+platform-specific behavior. Start with `docs/installer.md`, then the current
+capability checklist and manifest.
 
 ## Read Next
 
@@ -17,7 +17,7 @@ the current stage checklist, and the current stage manifest first.
 - Claude Code-specific support: `docs/platforms/claude-code.md`
 - Pre-commit support: `adapters/pre-commit/README.md`
 - Broad hook adapter reference: `docs/hook-pattern.md`, only when installing or
-  designing hooks beyond the required Level 1 Stop adapter.
+  designing hooks beyond the selected Bounded Work Stop adapter.
 
 ## Principle
 
@@ -54,10 +54,10 @@ If the repo uses Claude Code only for instruction loading and another primary
 runtime owns the required Stop automation, support can often be just the
 conditional pointer file `CLAUDE.md` containing `@AGENTS.md`.
 
-## Level 1 Repo Checks Stop Hook
+## Bounded Work Repo Checks Stop Hook
 
-Level 1 requires `repo-checks-on-stop` for each desired hook-capable agent
-runtime in current scope. The canonical behavior is:
+Bounded Work requires `repo-checks-on-stop` for each desired hook-capable agent
+runtime in selected scope. The canonical behavior is:
 
 ```text
 platform Stop hook declaration
@@ -128,14 +128,14 @@ Keep platform differences at the adapter edge:
 | Windows command | `commandWindows` or TOML `command_windows` can call the wrapper, but the checks command still needs POSIX shell support | Use explicit shell or a Windows wrapper only when `scripts/repo-checks.sh` can run |
 
 The shared hook behavior is portable across Codex and Claude Code, but the
-Level 1 checks command is `scripts/repo-checks.sh`. The provided declarations
+The Bounded Work checks command is `scripts/repo-checks.sh`. The provided declarations
 are POSIX-oriented examples and require an environment that can execute that
 script, such as POSIX shell, Git Bash, or WSL. On native Windows without that
 support, changing only `commandWindows`, `command_windows`, or the Claude
 settings command is not enough. Record an unsupported-runtime gap, or add a
 target-specific Windows check adapter with explicit approval.
 
-Validate the adapter before claiming Level 1 completeness:
+Validate the adapter before recording it as a current Bounded Work realization:
 
 1. Run `scripts/repo-checks.sh` directly from the target repo root.
 2. Run each wrapper from the repo root with a Stop-shaped payload, for example

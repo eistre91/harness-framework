@@ -9,9 +9,9 @@ assets:
     asset_type: behavior
     required: true
     satisfy_by:
-      - Use the current numbered checklist at docs/install/level-3.md to inspect only the selected control families in current approved scope.
+      - Use docs/install/agent-action-boundaries.md to inspect only the boundary families in the current human-selected Profile Change scope.
       - Propose compact selected-control rows before editing target-repo files.
-      - Install only controls explicitly approved by the operator for this Agent Action Boundaries change.
+      - Install only controls explicitly approved by the operator for this Agent Action Boundaries Profile Change.
       - Record selected controls, known limits, validation evidence, friction risk, deferrals, and revisit or removal signals in the durable harness record.
     adapt:
       - selected control families
@@ -119,7 +119,7 @@ assets:
     install_when: The Bounded Work lint/type/test contract misses recurring deterministic failures or selected agent actions need broader verification at a lifecycle point.
     satisfy_by:
       - Add focused checks only when they provide actionable harness feedback.
-      - Avoid turning scripts/repo-checks.sh into a dumping ground for broad CI/CD maturity.
+      - Avoid turning scripts/repo-checks.sh into a dumping ground for broad CI/CD modernization.
       - Preserve quiet pass output and clear failure remediation.
     adapt:
       - check command

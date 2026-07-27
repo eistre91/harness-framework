@@ -29,25 +29,24 @@ assets:
       - preserve executable mode or run chmod +x after copying
   - id: harness-doc-index
     asset_type: installable
-    source: templates/core/docs/harness/README.md
+    source: templates/profile/docs/harness/README.md
     default_target: docs/harness/README.md
     required: true
     adapt:
+      - dependency-closed Current Harness Profile
+      - selected capability scope, realizations, evidence, known limits, and revisit or removal signals
       - source framework provenance, including source version or commit, or unknown with a short reason
-      - current stage and target maturity behavior
-      - installation mode and stage completeness
-      - installed files
-      - intentional deferrals
-      - existing harness component decisions
-      - stage handoff
-      - post-install communication audit
+      - related proposal, installation, validation, and historical record links
+      - existing harness component decisions and intentional deferrals
   - id: harness-fit-proposal-record
     asset_type: installable
-    source: templates/core/docs/harness/fit-proposal.md
+    source: templates/profile/docs/harness/fit-proposal.md
     default_target: docs/harness/fit-proposal.md
     required_when: The team chooses a separate durable fit proposal file instead of embedding the final decision log in docs/harness/README.md.
     adapt:
-      - final approved proposal
+      - one exact Profile Change
+      - final approved files, behavior, validation, known limits, and deferrals
+      - installation, validation, profile-update, and handoff result
       - decisions changed after human review
   - id: work-brief-skill
     asset_type: installable

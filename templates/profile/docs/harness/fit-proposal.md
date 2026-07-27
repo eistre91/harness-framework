@@ -1,11 +1,5 @@
 # Harness Fit Proposal
 
-Framework migration note: this is the Phase 3 target contract. It is not an
-active installer source yet. Until Phase 4 activates the capability-based
-installer and rewires its manifest consumers, use the numbered installer and
-`templates/core/docs/harness/` records instead. Do not install this template
-directly.
-
 This file proposes and records one Profile Change against the current Harness
 Profile. It is durable repo documentation when the repo chooses this separate
 record instead of embedding the final decision in another durable harness
@@ -91,6 +85,19 @@ For Claude Code, record whether bundled skills such as `/code-review`,
 guidance, or are disabled by user or project settings. If native skill mirrors
 are installed, record the mirror and shared-source paths, sync command, and
 platform-owned frontmatter that must be preserved.
+
+## Entrypoint Compatibility Audit
+
+Required when adding or changing Bounded Work or Focused Context. Inspect every
+always-loaded agent instruction surface in selected repo scope. Record `not
+applicable` for other changes.
+
+| Surface | Always-loaded effect | Conflict with selected outcome | Handling | Authorized file |
+| --- | --- | --- | --- | --- |
+|  |  | authority / work source / broad context / routing / none | retain / adapt / supersede / defer |  |
+
+An unresolved unapproved conflict that prevents the selected outcome leaves
+validation incomplete and the Current Harness Profile unchanged.
 
 ## Selected Manifest Scope
 

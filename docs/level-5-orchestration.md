@@ -1,11 +1,15 @@
-# Level 5 Orchestration Sketch
+# Historical Level 5 Orchestration Sketch
 
-Audience: agents and maintainers evolving Level 5 orchestration and automation
-guidance.
+Audience: maintainers interpreting the retired exploratory sketch during the
+capability-map transition.
 
-Status: exploratory. `docs/maturity-model.md` remains the source of truth for
-the Level 5 maturity definition. This document captures emerging operating
-language that should be refined before it becomes installable guidance.
+Status: historical and non-authoritative. The active Capability Map treats
+single-work continuity as a Bounded Work realization and multi-unit concerns as
+emerging Multi-Work Coordination. This sketch implies no installable package.
+
+The remainder preserves the exploratory numbered-model language as historical
+design evidence. Do not use it for current framework semantics or target-repo
+installation.
 
 ## Purpose
 

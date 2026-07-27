@@ -1,11 +1,17 @@
 # Harness Maturity Model
 
-Audience: agents and maintainers deciding how much harness structure a target
-repo needs after the staged installer routes them here.
+Status: retired numbered model retained only to interpret truthful historical
+records. It is not an active installer taxonomy, conceptual source,
+current-state schema, or source for new fit proposals. Use
+`docs/capability-map.md`, `docs/framework.md`, `docs/installer.md`, and the
+selected capability checklist for current work.
 
-Use when: choosing or reviewing maturity, installation mode, asset completeness,
-behavioral completeness, and deferrals for the current approved stage. For
-ordinary installation, start with `docs/installer.md`.
+Audience: maintainers inspecting the superseded model or interpreting truthful
+historical target-repo records.
+
+Use when: transition or migration work explicitly requires historical Level
+semantics. Do not use the procedures or fit claims below for a new or current
+target-repo installation.
 
 Use this model diagnostically. Higher maturity is not automatically better. A
 repo may be healthiest at Level 0 when it has no recurring agent-work need, and
@@ -106,8 +112,8 @@ Move beyond when:
 Minimum for agents to receive, shape, implement, verify, and review ordinary
 work without reconstructing prior planning discussion.
 
-Default assets and behavior are defined in `manifests/bounded-work.yml`. The install
-path is `docs/install/level-1.md`.
+The corresponding current capability package is
+`manifests/bounded-work.yml`; use the active installer rather than this record.
 
 At this level, the harness should provide a repo agent entrypoint, canonical
 deterministic repo checks command, work-brief skill bundle with a template,
@@ -197,8 +203,8 @@ Move beyond when:
 
 Adds product-context routing.
 
-The authoritative additive asset and behavior boundary is
-`manifests/focused-context.yml`. The install path is `docs/install/level-2.md`.
+The corresponding current capability package is
+`manifests/focused-context.yml`; use the active installer rather than this record.
 
 Required boundary:
 
@@ -255,8 +261,9 @@ Move beyond when:
 
 Narrows agent outcomes with selected deterministic controls.
 
-Default control families and the selected-control protocol are defined in
-`manifests/agent-action-boundaries.yml`. The install path is `docs/install/level-3.md`.
+The corresponding current capability package is
+`manifests/agent-action-boundaries.yml`; use the active installer rather than
+this record.
 
 Level 3 is a menu, not a required bundle. A repo may install one selected
 control, several selected controls, or none after inspection. Every control
@@ -351,8 +358,9 @@ Move beyond when:
 ## Level 4: Maintainability Sensors
 
 Observes accumulated drift across work and sessions without gating every
-change. The selected-sensor protocol and live sensor-family menu are owned by
-`manifests/maintainability-feedback.yml`; the install path is `docs/install/level-4.md`.
+change. The corresponding current capability package is
+`manifests/maintainability-feedback.yml`; use the active installer rather than
+this record.
 
 Level 4 is a selected menu, not a universal quality stack. It may follow a
 validated Level 1 bounded-work foundation without certifying that Levels 2 or 3
@@ -441,7 +449,7 @@ out of human ownership.
 Complex work at this level often separates research, planning, implementation,
 and validation into distinct context windows linked by durable artifacts. The
 signals and operating model are still emerging; see
-`docs/level-5-orchestration.md` for the current sketch.
+`docs/level-5-orchestration.md` preserves the related historical sketch.
 
 Assets:
 

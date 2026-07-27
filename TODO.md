@@ -2,10 +2,10 @@
 
 This is a work record for deferred framework ideas, not active implementation
 guidance. Use `docs/principles.md`, `docs/framework.md`,
-`docs/installer.md`, `docs/install/level-1.md`,
-`docs/install/level-2.md`, `docs/install/level-3.md`,
-`docs/install/level-4.md`, `docs/implementation-guide.md`,
-`docs/maturity-model.md`, and the manifests as the current source of truth.
+`docs/installer.md`, `docs/install/bounded-work.md`,
+`docs/install/focused-context.md`, `docs/install/agent-action-boundaries.md`,
+`docs/install/maintainability-feedback.md`, `docs/implementation-guide.md`,
+`docs/capability-map.md`, and the manifests as the current source of truth.
 
 ## Deferred: Project Intent / PRD / Technical Design To Issue Pipeline
 
@@ -151,8 +151,8 @@ Why deferred:
 
 Potential future shape:
 
-- Tighten `docs/install/level-1.md`, `docs/install/level-2.md`, and
-  `docs/install/level-3.md` from observed install failures.
+- Tighten `docs/install/bounded-work.md`, `docs/install/focused-context.md`, and
+  `docs/install/agent-action-boundaries.md` from observed install failures.
 - Refine selected higher-level pull-in guidance without encouraging broad
   multi-level installs.
 - Strengthen recommendations for durable stage logs once several install shapes
@@ -208,39 +208,17 @@ Signal to revisit:
 - Level 4 install evidence shows its compact sensor surface makes the shared
   proposal hard to scan or causes agents to fill irrelevant stage sections.
 
-## Deferred: Maturity Levels Versus Capability Profiles
+## Resolved: Capability Profiles Replaced Maturity Levels
 
-The implemented taxonomy uses numbered maturity levels, while Level 4 requires
-only the Level 1 bounded-work foundation and installs independently selectable
-maintainability capabilities. That strain does not block Level 4: the active
-model already says higher is not universally better, Level 4 does not certify
-Levels 2 or 3, and its completeness claim is limited to approved sensor scope.
+The accepted decision and its consequences live in
+`docs/adr/0001-replace-maturity-levels-with-capability-map.md`. The completed
+migration record lives in `docs/capability-map-transition.md`; the active model
+is `docs/capability-map.md`.
 
-Why deferred:
-
-- Replacing the taxonomy during Level 4 implementation would broaden a bounded
-  sensor package into a framework-wide migration.
-- The framework lacks target-repo evidence that capability profiles would make
-  selection, installation, or communication clearer than the current levels.
-- Maintaining parallel level and profile taxonomies would violate the single
-  source-of-truth principle before a replacement earns its cost.
-
-Potential future shape:
-
-- Keep Level 1 as the common bounded-work foundation.
-- Represent context routing, deterministic controls, maintainability sensing,
-  and later capabilities as independently selected profiles.
-- Preserve explicit prerequisites and selected-scope completeness without
-  implying that every repo should climb one universal ladder.
-
-Signal to revisit:
-
-- Multiple target repos select capabilities out of numeric order and operators
-  repeatedly misread the level number as certification or required progression.
-- Installer proposals need awkward exceptions to explain valid capability
-  combinations.
-- Evidence shows a profile model would remove more confusion and duplicated
-  guidance than the migration would create.
+The framework now uses a Bounded Work foundation plus independently selected,
+dependency-valid capability domains. Target repos describe current realized
+and validated scope through a Harness Profile, without a numbered rank or
+universal capability claim.
 
 ## Deferred: Skill Adaptation Guidance
 

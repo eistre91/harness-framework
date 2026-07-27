@@ -3,178 +3,168 @@
 Audience: agents and maintainers needing broad orientation while fitting this
 framework to a target repo.
 
-Use when: `docs/installer.md` or a stage checklist routes you here for context
-that the current source-of-truth file does not answer.
-
-For ordinary installation, start with `docs/installer.md`, then the current
-stage checklist and manifest. This file is a map, not an installation
-checklist. Do not use it to approve edits, define completion, select assets, or
-override a stage checklist, manifest, template, or skill.
+Use when: a cross-cutting implementation question remains after reading
+`docs/installer.md` and the selected capability's source-of-truth files. This
+is a map, not an installation checklist or a second procedure.
 
 ## Rule
 
 Harness implementation is repo diagnosis plus collaborative workflow design,
 not blind template installation.
 
-Install the smallest current-stage harness that lets humans and agents work
-better now. Record gaps and revisit signals instead of expanding scope because
-a later-stage asset exists.
+Fit one dependency-valid Profile Change at a time. Select the smallest scope
+that improves current human-agent work, validate its outcome, update the Current
+Harness Profile only when evidence supports the claim, leave a durable handoff,
+and stop.
 
 ## Source Of Truth Map
 
 When sources conflict, update or trust the owner below rather than copying its
-procedure here.
+contract here.
 
-- Principles and maintenance decision lens: `docs/principles.md`
-- Framework concepts and maturity language: `docs/framework.md`
-- Maturity definitions and level capabilities: `docs/maturity-model.md`
-- Staged installation workflow, human checkpoints, stage handoff fields, and
-  post-stage sequencing: `docs/installer.md`
-- Level 1 bounded-work installation procedure, gate, and handoff details:
-  `docs/install/level-1.md`
-- Level 2 context-routing installation procedure, gate, and handoff details:
-  `docs/install/level-2.md`
-- Level 3 selected-control installation procedure, gate, and handoff details:
-  `docs/install/level-3.md`
-- Level 4 selected-sensor proposal, trial, gate, and handoff details:
-  `docs/install/level-4.md`
-- Bootstrap, Level 1, Level 2, Level 3, Level 4, and optional asset boundaries:
-  `manifests/bootstrap.yml`, `manifests/bounded-work.yml`,
-  `manifests/focused-context.yml`, `manifests/agent-action-boundaries.yml`,
-  `manifests/maintainability-feedback.yml`, and `manifests/optional-assets.yml`
+- Maintenance decision lens: `docs/principles.md`
+- Capability outcomes, boundaries, selection guidance, validation guidance,
+  and prerequisites: `docs/capability-map.md`
+- Framework concepts and rationale: `docs/framework.md`
+- Profile Change workflow, human checkpoints, profile update, handoff, and
+  sequencing: `docs/installer.md`
+- Capability-specific procedure and gate: the selected checklist under
+  `docs/install/`
+- Canonical installable boundary: the selected capability manifest under
+  `manifests/`
+- Current target-repo state: `docs/harness/README.md`, created from
+  `templates/profile/docs/harness/README.md`
+- Proposal and installation record contract:
+  `templates/profile/docs/harness/fit-proposal.md`
 - Portable asset and adapter boundaries: `docs/portable-assets.md`
-- Platform support: `docs/platform-support.md`, then only the relevant
-  platform note routed by the current stage
-- Broad hook adapter design: `docs/hook-pattern.md`, only when current approved
-  scope includes hook design beyond the narrow Level 1 Stop adapter
-- Proposal and durable decision-log schema:
-  `templates/core/docs/harness/fit-proposal.md`
-- Installed harness docs template: `templates/core/docs/harness/README.md`
-- Target-repo checks template: `templates/core/scripts/repo-checks.sh`
+- Platform support: `docs/platform-support.md`, then only the relevant routed
+  platform note
+- Broad hook adapter design: `docs/hook-pattern.md`, only when the approved
+  scope extends beyond Bounded Work Stop automation
 - Work brief storage, fallback, sync, and progress guidance:
   `skills/core/harness-work-brief/`
-- Implementation and review phase guidance:
-  `skills/core/harness-implement/` and `skills/core/harness-review/`
-- Level 2 routing templates: `templates/focused-context/`
-- Level 4 selected-sensor policy and coordinator:
+- Implementation and review guidance: `skills/core/harness-implement/` and
+  `skills/core/harness-review/`
+- Focused Context routing templates: `templates/focused-context/`
+- Maintainability Feedback policy and coordinator:
   `templates/maintainability-feedback/docs/harness/maintainability.md` and
   `skills/core/harness-maintainability/`
-- Level 4 documentation specialist, when selected:
-  `skills/optional/harness-documentation-audit/`
+- Optional installable assets and adapters: `manifests/optional-assets.yml`
 
-Do not maintain second copies of those assets, schemas, file lists, proposal
-fields, checklists, commands, gates, or report formats in this guide.
+Do not maintain second copies of schemas, file lists, proposal fields,
+checklists, commands, gates, or report formats in this reference.
 
-## Installation Routing
+## Implementation Routing
 
 Use this sequence:
 
 ```text
-principles -> staged installer -> current stage checklist -> current stage
-manifest -> manifest-named templates and skills -> narrow routed references
+principles -> Capability Map and Current Harness Profile -> installer
+  -> one selected capability checklist and manifest
+  -> manifest-named templates, skills, and narrow routed references
 ```
 
-Read broader or later-stage sources only when the current checklist or
-human-approved scope routes to them. If a later-stage signal appears during a
-current-stage install, record it as a plain out-of-stage observation unless the
-human chooses to begin that stage or approve a selected pull-in.
+If no Current Harness Profile exists, Bounded Work is the only eligible first
+addition. For any other addition, inspect the Capability Map's prerequisite
+closure before reading realization sources. An absent prerequisite pauses the
+selected change and requires its own separately approved Profile Change.
 
-The current stage proposal owns authorization to edit target-repo files. The
-stage checklist owns what that proposal, checkpoint, gate, and handoff must
-cover.
+Read only sources needed for the current selection and exact proposed scope.
+Record signals outside that scope as plain observations without preselecting
+another capability or granting authority to edit it.
 
 ## Decision Lens
 
-Use this lens when the source-of-truth procedure leaves room for judgment.
-
 ### Start Small
 
-Most target repos should begin with the Level 1 bounded-work foundation. A
-small harness that is used is more valuable than a broad harness that becomes
-ignored process.
+A small realization that is used is more valuable than broad harness machinery
+that becomes ignored process. Select an exact outcome and scope from current
+evidence or a credible anticipated need; do not install sibling capabilities
+or every mechanism in a manifest merely because they exist.
 
 ### Surface Gaps Without Owning Every Gap
 
-Harness installation may reveal missing tests, unclear CI, stale README
-commands, no tracker convention, weak secret handling, or scattered project
-docs. Surface those gaps in the current-stage proposal or handoff, but do not
-turn harness installation into a broad modernization project unless the human
-approves that scope.
+Installation may reveal missing tests, unclear CI, stale commands, no tracker
+convention, weak secret handling, or scattered project docs. Surface those gaps
+in the proposal or handoff, but do not turn a Profile Change into broad repo
+modernization unless the human separately approves that work.
 
 ### Argue For Complexity
 
-When proposing a component beyond the current stage, state the concrete
-failure or coordination cost it addresses, the evidence that the repo needs it
-now, the maintenance cost it adds, the simpler option considered, and the
-signal that would justify removing or simplifying it later.
+For each selected component, state the concrete failure, coordination cost, or
+anticipated need it addresses; its beneficiary and expected value; its
+maintenance or friction cost; Known Limits; and the signal that would justify
+removing or simplifying it.
 
 ### Preserve Ownership
 
 Keep universal operating guidance in the repo entrypoint, deterministic checks
 in `scripts/repo-checks.sh`, phase-specific workflow in harness skills and
-work-brief guidance, durable harness decisions in `docs/harness/`, and
+work-brief guidance, durable current state in the Current Harness Profile, and
 tool-specific behavior in thin adapters.
 
 ## Common Routing Questions
 
-Where do proposal fields come from?
+Where do proposal fields and authorization come from?
 
-Use the current stage checklist and
-`templates/core/docs/harness/fit-proposal.md`.
+Use `templates/profile/docs/harness/fit-proposal.md` together with the selected
+checklist. The persisted, human-approved proposal authorizes only its named
+files and behavior.
 
-Where do acceptance and completion checks come from?
+Where do acceptance and profile-update decisions come from?
 
-Use the current stage gate and handoff sections in `docs/install/`.
+Use the selected checklist's capability gate and `docs/installer.md`. Validate
+the selected outcome, not merely file presence. Failed or incomplete validation
+leaves the Current Harness Profile unchanged.
 
 Where do lint, type-check, and test commands come from?
 
-Use `docs/install/level-1.md` for discovery expectations and adapt
-`templates/core/scripts/repo-checks.sh`. Keep actual command details in the
-target repo's `scripts/repo-checks.sh`, not in docs.
+Use `docs/install/bounded-work.md` for discovery expectations and adapt
+`templates/core/scripts/repo-checks.sh`. Keep actual commands in the target
+repo's `scripts/repo-checks.sh`, not in descriptive docs.
 
 Where does work-brief storage and progress guidance live?
 
-Use `skills/core/harness-work-brief/` and the current stage checklist. Record
-target-repo storage, fallback, and sync decisions in the stage proposal and
-durable harness docs.
+Use `skills/core/harness-work-brief/`. Record target-repo storage, fallback,
+sync, and durability decisions in the current proposal and harness docs.
 
 Where do hook decisions live?
 
-Level 1 owns only the narrow `repo-checks-on-stop` behavior described in
-`docs/install/level-1.md` and `manifests/bounded-work.yml`. Broader hook policy,
-secret guards, destructive-action controls, and CI or pre-commit parity require
-separate approved Level 3 scope through `docs/install/level-3.md`.
+Bounded Work owns its selected narrow `repo-checks-on-stop` realization.
+Secret guards, destructive-action controls, protected paths, or CI and
+pre-commit parity belong to a separately approved Agent Action Boundaries
+change unless they are merely thin adapters for already selected behavior.
 
-Where do maintainability sensor decisions and run records live?
+Where do maintainability decisions and run records live?
 
-Use `docs/install/level-4.md` for selection and gate requirements and
-`manifests/maintainability-feedback.yml` for the family and asset boundary. Record target-specific
-sensors in the installed maintainability policy and each run on its approved
-durable work surface. Do not copy the framework menu or create a second debt
-backlog in this broad guide.
+Use `docs/install/maintainability-feedback.md` for selection and gate
+requirements and `manifests/maintainability-feedback.yml` for the family and
+asset boundary. Record selected mechanisms in the installed maintainability
+policy and each run on its approved durable work surface. Do not create a
+second debt backlog.
 
 Where do final report and handoff fields come from?
 
-Use `docs/installer.md` plus the current stage checklist. The durable target
-repo record belongs under `docs/harness/`.
+Use `docs/installer.md` plus the selected capability checklist. Durable current
+state belongs in `docs/harness/README.md`; the proposal and handoff preserve
+change history without becoming competing profiles.
 
 ## Wording Check
 
 Before finishing installed docs, verify that wording does not:
 
-- claim a maturity level that is only a target,
-- describe partial starter or overlay completeness as full canonical
-  completeness,
+- imply a universal ranking, score, or exhausted capability domain,
+- claim a selected capability outside its realized and validated scope,
+- treat a Known Limit or approved proposal as validation evidence,
 - imply agents should access, print, inspect, or directly handle sensitive
   values instead of validating secrets-management wiring,
-- record machine-local paths such as a framework checkout path or `/tmp`
-  proposal file in durable docs,
-- blur required current-stage behavior with optional or later-stage guidance,
+- record machine-local framework or temporary proposal paths in durable docs,
+- blur required behavior with optional or out-of-scope guidance,
 - turn `AGENTS.md` into a product strategy document, historical note, or
-  phase-specific procedure,
-- tell ordinary implementers to read `docs/harness/` when they only need the
+  phase-specific procedure, or
+- tell ordinary implementers to read `docs/harness/` when they need only the
   work brief, project docs, and code.
 
-The goal is not maximum harness maturity. The goal is the smallest installed
-harness that improves current human-agent work and makes the next useful layer
-obvious when the project earns it.
+The goal is the smallest dependency-valid Harness Profile that improves current
+human-agent work, with evidence and limits clear enough for a later operator to
+change it deliberately.

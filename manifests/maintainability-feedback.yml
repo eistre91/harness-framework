@@ -13,7 +13,7 @@ assets:
     asset_type: behavior
     required: true
     satisfy_by:
-      - Use the current numbered checklist at docs/install/level-4.md to inspect only the sensor families and exact measurements in current approved scope.
+      - Use docs/install/maintainability-feedback.md to inspect only the observation families and exact mechanisms in the current human-selected Profile Change scope.
       - Propose every exact sensor before editing target-repo files and install only sensors explicitly approved by the operator.
       - Record selected scope, trigger or cadence, operator, cost and noise, known limits, durable record destination, supervised trial, and revisit or removal signal.
       - Treat sensor output as evidence for operator disposition, not proof that repair is required.
@@ -39,7 +39,7 @@ assets:
       - durable record destinations
       - expected runtime, cognitive cost, noise, and known limits
       - supervised trial results and revisit or removal signals
-      - existing policy surface when overlay mode satisfies this behavior
+      - existing policy surface when it already satisfies this behavior
 
   - id: maintainability-skill
     asset_type: installable
