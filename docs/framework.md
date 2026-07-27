@@ -49,6 +49,13 @@ Exploratory or future-facing sources:
 - Level 5 orchestration sketch, exploratory:
   `docs/level-5-orchestration.md`
 
+Accepted transition sources that are not yet active installer guidance:
+
+- Capability-map target model: `docs/capability-map.md`
+- Capability-map decision:
+  `docs/adr/0001-replace-maturity-levels-with-capability-map.md`
+- Capability-map transition plan: `docs/capability-map-transition.md`
+
 Do not route ordinary installation or framework-maintenance work to exploratory
 sources unless the task is about that topic.
 
