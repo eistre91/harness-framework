@@ -83,7 +83,7 @@ after installation.
 ### Expected First Install
 
 Most first trials should install only the Level 1 assets from
-`manifests/level-1.yml`. The agent should adapt those files to the target repo
+`manifests/bounded-work.yml`. The agent should adapt those files to the target repo
 and explicitly defer anything else. Use `docs/install/level-1.md` as the Level
 1 stage checklist.
 
@@ -131,7 +131,7 @@ then only the platform note for the adapter being installed.
 ## Default Trial Target
 
 For an initial trial, prefer the Level 1 harness defined in
-`manifests/level-1.yml`. Add more only when repo evidence or human preference
+`manifests/bounded-work.yml`. Add more only when repo evidence or human preference
 justifies it.
 
 ## Repository Checks

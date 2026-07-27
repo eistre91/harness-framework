@@ -14,7 +14,7 @@ Always read:
 - `docs/principles.md`
 - `docs/installer.md`
 - this checklist
-- `manifests/level-3.yml`
+- `manifests/agent-action-boundaries.yml`
 - the Level 3 section of `docs/maturity-model.md`
 - the target repo's durable Level 1 handoff under `docs/harness/`
 - the target repo's installed `AGENTS.md`
@@ -53,7 +53,7 @@ Level 3 installs selected deterministic controls around agent action bounds.
 It narrows risky or repeatedly-missed agent outcomes with checks, guidance,
 blocks, or verification at useful lifecycle points.
 
-Use `manifests/level-3.yml` as the canonical selected-control family list. Do
+Use `manifests/agent-action-boundaries.yml` as the canonical selected-control family list. Do
 not maintain a second full family list here.
 
 Level 3 is a menu, not a required bundle. A Level 3 pass may install one

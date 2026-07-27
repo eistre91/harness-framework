@@ -20,6 +20,7 @@ assets:
     default_target: scripts/sync_claude_skills.py
     supports_capability_domains:
       - Bounded Work
+      - Maintainability Feedback
     category: platform-skill-adapter
     install_when: The target repo uses Claude Code native skill discovery for harness-provided skills.
     satisfy_by:
@@ -87,12 +88,16 @@ adapters:
   - id: common-hooks
     asset_type: adapter
     source: adapters/common-hooks
+    supports_capability_domains:
+      - Bounded Work
     install_when: The target repo uses the framework-provided Codex or Claude Code Stop adapters for shared repo checks behavior.
     read_before_install:
       - docs/platform-support.md
   - id: codex
     asset_type: adapter
     source: adapters/codex
+    supports_capability_domains:
+      - Bounded Work
     install_when: The target repo uses Codex hooks or Codex-specific local config.
     read_before_install:
       - docs/platform-support.md
@@ -100,6 +105,9 @@ adapters:
   - id: claude
     asset_type: adapter
     source: adapters/claude
+    supports_capability_domains:
+      - Bounded Work
+      - Maintainability Feedback
     install_when: The target repo uses Claude Code settings, hooks, or native skill mirrors beyond the core CLAUDE.md pointer.
     read_before_install:
       - docs/platform-support.md
@@ -107,6 +115,9 @@ adapters:
   - id: pre-commit
     asset_type: adapter
     source: adapters/pre-commit
+    supports_capability_domains:
+      - Bounded Work
+      - Agent Action Boundaries
     install_when: The target repo uses pre-commit or wants local deterministic checks before commit.
     read_before_install:
       - docs/platform-support.md

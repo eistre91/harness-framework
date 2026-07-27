@@ -23,9 +23,9 @@ Active owners:
   `docs/install/level-4.md`
 - Maturity definitions and failure signals: `docs/maturity-model.md`
 - Bootstrap, Level 1, Level 2, Level 3, Level 4, and optional assets:
-  `manifests/bootstrap.yml`, `manifests/level-1.yml`,
-  `manifests/level-2.yml`, `manifests/level-3.yml`,
-  `manifests/level-4.yml`, and `manifests/optional-assets.yml`
+  `manifests/bootstrap.yml`, `manifests/bounded-work.yml`,
+  `manifests/focused-context.yml`, `manifests/agent-action-boundaries.yml`,
+  `manifests/maintainability-feedback.yml`, and `manifests/optional-assets.yml`
 - Broad installation reference: `docs/implementation-guide.md`
 - Portable versus repo-specific assets: `docs/portable-assets.md`
 - Platform adapter guidance: `docs/platform-support.md` and
@@ -33,12 +33,12 @@ Active owners:
 - Work brief template:
   `skills/core/harness-work-brief/work-brief-template.md`
 - Level 2 routing templates:
-  `templates/level-2/SPEC-MAP.md` and
-  `templates/level-2/docs/project/areas/README.md`
+  `templates/focused-context/SPEC-MAP.md` and
+  `templates/focused-context/docs/project/areas/README.md`
 - Harness fit proposal template:
   `templates/core/docs/harness/fit-proposal.md`
 - Level 4 target policy and coordinator/specialist sources:
-  `templates/level-4/docs/harness/maintainability.md`,
+  `templates/maintainability-feedback/docs/harness/maintainability.md`,
   `skills/core/harness-maintainability/`, and
   `skills/optional/harness-documentation-audit/`
 - Component brief template:
@@ -629,7 +629,7 @@ Semantic debt:
 ```
 
 Use the Level 4 definition in `docs/maturity-model.md`, family menu in
-`manifests/level-4.yml`, and staged checklist in `docs/install/level-4.md` to
+`manifests/maintainability-feedback.yml`, and staged checklist in `docs/install/level-4.md` to
 decide whether target-repo evidence or an approved bounded experiment justifies
 an exact sensor. Completeness applies to the approved sensor scope, not the
 whole menu.

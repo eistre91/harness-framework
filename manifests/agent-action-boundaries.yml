@@ -1,17 +1,17 @@
-name: level-3
-description: Selected deterministic controls for agent action bounds.
+name: agent-action-boundaries
+description: Independently selected controls for explicit agent action boundaries.
 dependency_manifests:
-  - manifests/level-1.yml
-install_policy: Install after Level 1 when repo evidence or operator decision justifies selected deterministic controls. Do not install every control family by default.
+  - manifests/bounded-work.yml
+install_policy: Install after Bounded Work when repo evidence or operator decision justifies selected action boundaries. Do not install every control family by default.
 capability_definition_source: docs/capability-map.md#agent-action-boundaries
 assets:
   - id: selected-control-protocol
     asset_type: behavior
     required: true
     satisfy_by:
-      - Use docs/install/level-3.md to inspect only the selected control families in current approved scope.
+      - Use the current numbered checklist at docs/install/level-3.md to inspect only the selected control families in current approved scope.
       - Propose compact selected-control rows before editing target-repo files.
-      - Install only controls explicitly approved by the operator for this Level 3 pass.
+      - Install only controls explicitly approved by the operator for this Agent Action Boundaries change.
       - Record selected controls, known limits, validation evidence, friction risk, deferrals, and revisit or removal signals in the durable harness record.
     adapt:
       - selected control families
@@ -116,7 +116,7 @@ assets:
       - platform adapter coverage
   - id: repo-checks-extensions
     asset_type: behavior
-    install_when: The Level 1 lint/type/test contract misses recurring deterministic failures or selected agent actions need broader verification at a lifecycle point.
+    install_when: The Bounded Work lint/type/test contract misses recurring deterministic failures or selected agent actions need broader verification at a lifecycle point.
     satisfy_by:
       - Add focused checks only when they provide actionable harness feedback.
       - Avoid turning scripts/repo-checks.sh into a dumping ground for broad CI/CD maturity.

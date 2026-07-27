@@ -69,5 +69,5 @@ details that code and tests already own.
   user workflows.
 - Do not route ordinary implementation agents to broad historical docs by
   default.
-- Broken links or missing routes should be reported in the stage handoff, work
+- Broken links or missing routes should be reported in the installation handoff, work
   handoff, or follow-up issue rather than silently ignored.

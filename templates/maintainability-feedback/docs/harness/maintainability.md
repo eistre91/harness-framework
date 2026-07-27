@@ -28,7 +28,7 @@ inventing values.
 
 ### <Sensor name>
 
-- Family: <approved family ID from `manifests/level-4.yml`>
+- Family: <approved family ID from `manifests/maintainability-feedback.yml`>
 - Why now and beneficiary: <current evidence, risk, or bounded experiment; who
   is better off and how>
 - Intended debt categories: <one likely primary category and any possible

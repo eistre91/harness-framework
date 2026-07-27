@@ -13,7 +13,7 @@ Always read:
 - `docs/principles.md`
 - `docs/installer.md`
 - the Level 1 section of `docs/maturity-model.md`
-- `manifests/level-1.yml`
+- `manifests/bounded-work.yml`
 - the Level 1 templates, skills, and companion files named by the manifest
 
 Read only if needed for this Level 1 stage:
@@ -45,7 +45,7 @@ handoff.
 Level 1 installs the bounded-work foundation that lets agents do ordinary work
 without reconstructing prior planning conversation.
 
-Use `manifests/level-1.yml` as the canonical Level 1 asset and behavior list.
+Use `manifests/bounded-work.yml` as the canonical Level 1 asset and behavior list.
 Do not maintain a second file list here.
 
 Conceptually, the Level 1 foundation should give the target repo:

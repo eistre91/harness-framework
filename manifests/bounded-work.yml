@@ -1,5 +1,5 @@
-name: level-1
-description: Default bounded-work asset and behavior set for an initial harness trial.
+name: bounded-work
+description: Assets and behaviors for shaping and completing one bounded work unit.
 install_policy: Install only after a Harness Fit Proposal confirms the target repo needs these assets.
 capability_definition_source: docs/capability-map.md#bounded-work
 dependency_manifests: []
@@ -104,14 +104,14 @@ assets:
       - Install or adapt a narrow Stop hook, or equivalent stop automation, for each desired hook-capable agent runtime in current scope. The automation runs only scripts/repo-checks.sh from the target repo root.
       - Use the standard shared Stop runner from adapters/common-hooks when installing the framework-provided Codex or Claude Code adapters.
       - Keep platform-specific hook config and adapters thin; the canonical command contract remains scripts/repo-checks.sh.
-      - If the target repo has no desired hook-capable agent runtime in current scope, record the unsupported-runtime gap and do not claim full canonical Level 1 completeness.
+      - If the target repo has no desired hook-capable agent runtime in current scope, record the unsupported-runtime gap as a known limit of the selected Bounded Work realization.
     adapt:
       - desired hook-capable agent runtime(s)
       - platform hook config path
       - shared runner path
       - adapter command or script path
       - hook output and blocking behavior
-    notes: Broad hook policy, secret guards, destructive-action rules, shared hook runners beyond the narrow Level 1 Stop runner, cross-platform enforcement, and CI/pre-commit parity remain selected Level 3 deterministic controls.
+    notes: Broad hook policy, secret guards, destructive-action rules, shared hook runners beyond the narrow Bounded Work Stop runner, cross-platform enforcement, and CI/pre-commit parity remain separately selected Agent Action Boundaries.
 defer_by_default:
   - broad hooks beyond the required repo-checks-on-stop behavior
   - platform pointer files for unused tools

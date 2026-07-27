@@ -67,10 +67,10 @@ This document is the shared prose definition of the levels. File-level starter
 assets are defined in manifests:
 
 - Level 1 required bounded-work assets and behavior:
-  `manifests/level-1.yml`
-- Level 2 additive assets and behaviors: `manifests/level-2.yml`
-- Level 3 selected-control families and protocol: `manifests/level-3.yml`
-- Level 4 selected-sensor families and protocol: `manifests/level-4.yml`
+  `manifests/bounded-work.yml`
+- Level 2 additive assets and behaviors: `manifests/focused-context.yml`
+- Level 3 selected-control families and protocol: `manifests/agent-action-boundaries.yml`
+- Level 4 selected-sensor families and protocol: `manifests/maintainability-feedback.yml`
 - Other optional pull-ins and adapters: `manifests/optional-assets.yml`
 
 Historical note: the old orientation-only Level 0 and bounded-work Level 1
@@ -106,7 +106,7 @@ Move beyond when:
 Minimum for agents to receive, shape, implement, verify, and review ordinary
 work without reconstructing prior planning discussion.
 
-Default assets and behavior are defined in `manifests/level-1.yml`. The install
+Default assets and behavior are defined in `manifests/bounded-work.yml`. The install
 path is `docs/install/level-1.md`.
 
 At this level, the harness should provide a repo agent entrypoint, canonical
@@ -198,7 +198,7 @@ Move beyond when:
 Adds product-context routing.
 
 The authoritative additive asset and behavior boundary is
-`manifests/level-2.yml`. The install path is `docs/install/level-2.md`.
+`manifests/focused-context.yml`. The install path is `docs/install/level-2.md`.
 
 Required boundary:
 
@@ -256,7 +256,7 @@ Move beyond when:
 Narrows agent outcomes with selected deterministic controls.
 
 Default control families and the selected-control protocol are defined in
-`manifests/level-3.yml`. The install path is `docs/install/level-3.md`.
+`manifests/agent-action-boundaries.yml`. The install path is `docs/install/level-3.md`.
 
 Level 3 is a menu, not a required bundle. A repo may install one selected
 control, several selected controls, or none after inspection. Every control
@@ -269,7 +269,7 @@ agent-action bounds, broader lifecycle gates, or deterministic steering beyond
 the Level 1 lint, type-check, test, and Stop-hook contract.
 
 Candidate control families include the following examples. The live
-control-family menu is owned by `manifests/level-3.yml`.
+control-family menu is owned by `manifests/agent-action-boundaries.yml`.
 
 - secret and sensitive-file controls,
 - destructive or high-risk command controls,
@@ -352,7 +352,7 @@ Move beyond when:
 
 Observes accumulated drift across work and sessions without gating every
 change. The selected-sensor protocol and live sensor-family menu are owned by
-`manifests/level-4.yml`; the install path is `docs/install/level-4.md`.
+`manifests/maintainability-feedback.yml`; the install path is `docs/install/level-4.md`.
 
 Level 4 is a selected menu, not a universal quality stack. It may follow a
 validated Level 1 bounded-work foundation without certifying that Levels 2 or 3

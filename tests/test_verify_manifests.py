@@ -118,7 +118,7 @@ def test_validate_manifests_accepts_dependencies_and_generic_definition_source(
     tmp_path: Path,
 ) -> None:
     module = load_verify_manifests()
-    write_file(tmp_path, "templates/level-2/SPEC-MAP.md", "# Spec Map\n")
+    write_file(tmp_path, "templates/context-routing/SPEC-MAP.md", "# Spec Map\n")
     write_file(
         tmp_path,
         "docs/domain-definitions.md",
@@ -142,7 +142,7 @@ dependency_manifests:
   - manifests/foundation.yml
 capability_definition_source: docs/domain-definitions.md#context-routing
 assets:
-{installable_item('spec-map', 'templates/level-2/SPEC-MAP.md', 'SPEC-MAP.md')}
+{installable_item('spec-map', 'templates/context-routing/SPEC-MAP.md', 'SPEC-MAP.md')}
 """,
     )
 

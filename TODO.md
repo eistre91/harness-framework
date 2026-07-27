@@ -389,7 +389,7 @@ semantic debt as important. Level 4 now includes an explicitly experimental
 human-agent comprehension sensor for bounded evidence such as repeated
 clarification, conflicting explanations, unrecoverable recent intent,
 context-routing failures, recent durable work records, and short operator
-review. The live sensor boundary is owned by `manifests/level-4.yml`.
+review. The live sensor boundary is owned by `manifests/maintainability-feedback.yml`.
 
 What remains deferred is a positive synthesis workflow, metrics, periodic
 artifacts, synthetic experiments, and a mature method for keeping humans

@@ -14,10 +14,10 @@ Always read:
 - `docs/principles.md`
 - `docs/installer.md`
 - this checklist
-- `manifests/level-2.yml`
+- `manifests/focused-context.yml`
 - the Level 2 section of `docs/maturity-model.md`
-- `templates/level-2/SPEC-MAP.md`
-- `templates/level-2/docs/project/areas/README.md`
+- `templates/focused-context/SPEC-MAP.md`
+- `templates/focused-context/docs/project/areas/README.md`
 - the target repo's durable Level 1 handoff under `docs/harness/`
 - the target repo's installed `AGENTS.md`, canonical work source, existing
   project context index if any, and only enough repo evidence to identify ADR,
@@ -48,7 +48,7 @@ handoff.
 
 Level 2 adds product context routing on top of bounded work execution.
 
-Use `manifests/level-2.yml` as the canonical additive asset and behavior list.
+Use `manifests/focused-context.yml` as the canonical additive asset and behavior list.
 Do not maintain a second file list here.
 
 Conceptually, Level 2 should let the target repo route ordinary implementation

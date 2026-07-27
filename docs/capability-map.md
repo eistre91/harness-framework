@@ -4,8 +4,9 @@ Audience: agents and maintainers designing the framework or deciding which
 harness outcomes a target repo should support.
 
 Status: accepted target model; framework migration is pending. Until the
-transition plan is completed, `docs/maturity-model.md`, the numbered manifests,
-and the numbered installer checklists remain the active installation sources.
+transition plan is completed, `docs/maturity-model.md` and the numbered
+installer checklists remain the active installation procedure. Capability
+manifests now project this map but are still consumed through that procedure.
 Do not install a target-repo harness from this document yet.
 
 Use when: reasoning about the target shape that will replace the numbered

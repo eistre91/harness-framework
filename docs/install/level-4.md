@@ -14,7 +14,7 @@ Always read:
 - `docs/principles.md`
 - `docs/installer.md`
 - this checklist
-- `manifests/level-4.yml`
+- `manifests/maintainability-feedback.yml`
 - the Level 4 section of `docs/maturity-model.md`
 - the required portable policy and coordinator sources named by the manifest
 - the target repo's durable Level 1 handoff under `docs/harness/`
@@ -51,7 +51,7 @@ handoff.
 
 Level 4 installs a selected operating protocol for observing accumulated drift
 across work or sessions, leaving durable evidence, and helping the operator
-shape bounded follow-up work. Use `manifests/level-4.yml` as the canonical
+shape bounded follow-up work. Use `manifests/maintainability-feedback.yml` as the canonical
 sensor-family menu. Do not maintain a second full family list here.
 
 A Level 4 pass installs one or more justified exact sensors; it does not install
