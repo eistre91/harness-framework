@@ -8,8 +8,6 @@ Status: active capability model and installer taxonomy. Follow
 from this conceptual map.
 
 Use when: reasoning about capability outcomes and prerequisite relationships.
-The accepted decision lives in
-`docs/adr/0001-replace-maturity-levels-with-capability-map.md`.
 
 ## Purpose
 
@@ -82,10 +80,10 @@ A candidate or approved addition, removal, or realization change proposed
 against the current Harness Profile. Future intent belongs in a fit proposal
 or other work record until the change is installed and validated.
 
-Capability domains do not have universal completeness or maturity states. A
-domain can have a clear boundary without a finite end state. A particular
-installation change, approved scope, or validation run can finish, but the
-framework does not claim that a repo has exhausted a capability domain.
+Capability domains do not have universal completion states or ranks. A domain
+can have a clear boundary without a finite end state. A particular installation
+change, approved scope, or validation run can finish, but the framework does
+not claim that a repo has exhausted a capability domain.
 
 ## Capability Domain Shape
 
@@ -248,6 +246,7 @@ system's trajectory.
 ## Multi-Work Coordination
 
 Status: emerging capability; no installable framework package is yet implied.
+See `docs/multi-work-coordination.md` for the future-facing operating sketch.
 
 Outcome:
 The human-agent system can decompose a larger outcome into multiple bounded

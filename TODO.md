@@ -213,18 +213,6 @@ Signal to revisit:
   makes the shared proposal hard to scan or causes agents to fill irrelevant
   sections.
 
-## Resolved: Capability Profiles Replaced Maturity Levels
-
-The accepted decision and its consequences live in
-`docs/adr/0001-replace-maturity-levels-with-capability-map.md`. The completed
-migration record lives in `docs/capability-map-transition.md`; the active model
-is `docs/capability-map.md`.
-
-The framework now uses a Bounded Work foundation plus independently selected,
-dependency-valid capability domains. Target repos describe current realized
-and validated scope through a Harness Profile, without a numbered rank or
-universal capability claim.
-
 ## Deferred: Skill Adaptation Guidance
 
 Investigate whether installing agents need a short explicit policy for adapting
@@ -562,7 +550,8 @@ Signal to revisit:
 ## Deferred: Multi-Agent Coordination Details
 
 The emerging Multi-Work Coordination capability names the outcome, but the
-framework has not yet specified the detailed operating model.
+framework has not yet specified an installable operating model. The current
+future-facing exploration lives in `docs/multi-work-coordination.md`.
 
 Provenance:
 
@@ -585,7 +574,7 @@ Why deferred:
 
 Potential future shape:
 
-- Add a Multi-Work Coordination guide for coordinator-led work: research,
+- Refine the Multi-Work Coordination sketch for coordinator-led work: research,
   synthesis, implementation slices, integration, independent review, and
   closeout.
 - Require explicit ownership boundaries by file, module, interface, or issue.

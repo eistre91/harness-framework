@@ -167,4 +167,3 @@ excluded_from_capability_scope:
   - synthetic changeability or feature-removal probes
   - periodic whole-system synthesis
   - Multi-Work Coordination
-  - the framework's capability-map transition

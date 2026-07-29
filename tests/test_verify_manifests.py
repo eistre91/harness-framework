@@ -92,7 +92,7 @@ def test_validate_manifests_accepts_existing_sources_and_targets(tmp_path: Path)
     write_file(tmp_path, "docs/principles.md", "# Principles\n")
     write_manifest(
         tmp_path,
-        "level-1.yml",
+        "sample.yml",
         """\
 assets:
   - id: agents-entrypoint
@@ -335,7 +335,7 @@ def test_manifest_filename_does_not_imply_definition_metadata(tmp_path: Path) ->
     module = load_verify_manifests()
     write_manifest(
         tmp_path,
-        "level-97.yml",
+        "misc.yml",
         f"assets:\n{behavior_item('not-a-capability-manifest')}",
     )
 
@@ -441,7 +441,7 @@ def test_validate_manifests_reports_objective_drift(tmp_path: Path) -> None:
     module = load_verify_manifests()
     write_manifest(
         tmp_path,
-        "level-1.yml",
+        "invalid.yml",
         """\
 assets:
   - id: duplicate
@@ -469,7 +469,7 @@ def test_validate_manifests_reports_contract_drift(tmp_path: Path) -> None:
     write_capability_map(tmp_path, {"Context Routing": ()})
     write_manifest(
         tmp_path,
-        "level-2.yml",
+        "malformed.yml",
         """\
 dependency_manifests:
   - manifests/missing.yml
@@ -483,7 +483,7 @@ assets:
     asset_type: required-file
     source: docs/capability-map.md
     required: "yes"
-    maturity: level-2
+    obsolete_asset_metadata: deprecated
     supports_capability_domains: Context Routing
     install_when: []
     adapt: explain the change
@@ -508,28 +508,11 @@ assets:
     )
     assert any("asset_type must be one of" in error for error in errors)
     assert any("required must be a boolean" in error for error in errors)
-    assert any("unexpected key: maturity" in error for error in errors)
+    assert any("unexpected key: obsolete_asset_metadata" in error for error in errors)
     assert any("supports_capability_domains must be a list" in error for error in errors)
     assert any("install_when must be a non-empty string" in error for error in errors)
     assert any("adapt must be a list" in error for error in errors)
     assert any("unexpected key: unexpected_item_key" in error for error in errors)
-
-
-def test_legacy_dependency_and_level_fields_are_rejected(tmp_path: Path) -> None:
-    module = load_verify_manifests()
-    write_manifest(tmp_path, "level-1.yml", f"assets:\n{behavior_item('foundation')}")
-    write_manifest(
-        tmp_path,
-        "level-2.yml",
-        "prerequisite_manifest: manifests/level-1.yml\n"
-        "level_definition_source: docs/maturity-model.md#level-2\n"
-        f"assets:\n{behavior_item('context')}\n",
-    )
-
-    _count, errors = module.validate_manifests(tmp_path)
-
-    assert any("unexpected key: prerequisite_manifest" in error for error in errors)
-    assert any("unexpected key: level_definition_source" in error for error in errors)
 
 
 def test_selection_and_section_boundaries_are_enforced(tmp_path: Path) -> None:

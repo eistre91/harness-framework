@@ -31,8 +31,8 @@ Then route framework work by task:
   platform note or adapter README.
 - Deferred ideas: `TODO.md`; treat it as a work record, not active guidance.
 
-Do not load historical or future-facing docs such as
-`docs/level-5-orchestration.md` unless the task is about that topic.
+Do not load future-facing docs such as `docs/multi-work-coordination.md` unless
+the task is about that topic.
 
 ## Source Of Truth
 

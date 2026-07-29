@@ -29,13 +29,10 @@ Use these entrypoints by task:
 
 - Framework maintenance in this repo: start with `AGENTS.md`, then
   `docs/principles.md`.
-- Target-repo installation or migration: start with `docs/installer.md`, then
-  its routed capability checklist or numbered-model migration guide under
-  `docs/install/`.
+- Target-repo installation: start with `docs/installer.md`, then its routed
+  capability checklist under `docs/install/`.
 - Framework shape and rationale: use `docs/framework.md`.
 - Capability outcomes and prerequisites: use `docs/capability-map.md`.
-- Historical numbered model: `docs/maturity-model.md`; do not use it to install
-  or describe current target-repo state.
 - Broad implementation reference: use `docs/implementation-guide.md` for a
   cross-cutting question after reading the active installer sources.
 - Portability and adaptation boundaries: use `docs/portable-assets.md` when
@@ -63,9 +60,7 @@ Then ask an agent:
 ```text
 Use ../harness-framework/docs/installer.md to fit the smallest useful agent
 harness Profile Change to this repo. If no Current Harness Profile exists,
-follow the installer's no-profile routing: migrate an existing numbered-model
-installation when its behavior or records are present; otherwise propose
-Bounded Work only. Inspect this repo first, write and persist one exact
+propose Bounded Work only. Inspect this repo first, write and persist one exact
 proposal under /tmp by default, present it before editing, ask for explicit
 approval or corrections, change only the approved files and behavior, validate
 the selected outcome, update the Current Harness Profile only when evidence
@@ -80,9 +75,7 @@ an agent:
 ```text
 Use .harness-bootstrap/docs/installer.md to fit the smallest useful agent
 harness Profile Change to this repo. If no Current Harness Profile exists,
-follow the installer's no-profile routing: migrate an existing numbered-model
-installation when its behavior or records are present; otherwise propose
-Bounded Work only. Inspect this repo first, write and persist one exact
+propose Bounded Work only. Inspect this repo first, write and persist one exact
 proposal under /tmp by default, present it before editing, ask for explicit
 approval or corrections, change only the approved files and behavior, validate
 the selected outcome, update the Current Harness Profile only when evidence

@@ -14,9 +14,7 @@ update the Current Harness Profile.
 After implementation, complete the installation and validation record below.
 Update the profile only when validation demonstrates the selected outcome in
 the approved scope. On failed or incomplete validation, leave the profile
-unchanged and preserve the result here or in the linked handoff. Preserve
-historical level records as historical; do not rewrite them as capability
-evidence.
+unchanged and preserve the result here or in the linked handoff.
 
 ## Proposal Identity
 

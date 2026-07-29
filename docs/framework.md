@@ -46,17 +46,9 @@ Active owners:
   `skills/optional/harness-documentation-audit/`
 - Component brief template:
   `templates/optional/docs/harness/component-brief.md`
-
-Capability model records:
-
-- Capability-map decision:
-  `docs/adr/0001-replace-maturity-levels-with-capability-map.md`
-- Completed capability-map transition record:
-  `docs/capability-map-transition.md`
-
-The retired numbered model and exploratory orchestration sketch are historical
-or future-facing records, not active design or installation sources. Do not
-route ordinary work to them.
+- Emerging Multi-Work Coordination operating sketch:
+  `docs/multi-work-coordination.md`; this is future-facing and not an installer
+  source
 
 ## Mission
 

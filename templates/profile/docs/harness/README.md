@@ -34,7 +34,7 @@ Profile last updated:
 Dependency-closure evidence:
 
 Copy the following subsection once for each current capability claim. Use the
-Capability Map's domain name; do not add levels, scores, universal maturity, or
+Capability Map's domain name; do not add ranks, scores, or universal
 completeness labels.
 
 ### <Capability domain>
@@ -73,12 +73,6 @@ Capability Map and profile contract version or commit: record the framework
 commit/tag used to establish or last reconcile this profile, or `unknown`
 Current source version unknown reason: required only when current version is
 `unknown`
-Initial harness source version or commit: use `same as current`, the original
-framework commit/tag, or `unknown`
-Initial source version unknown reason: required only when initial version is
-`unknown`
-Initially installed on:
-Initially installed by:
 
 Use portable source names in committed docs. Do not record machine-local paths
 or temporary proposal paths in durable harness docs.
@@ -93,10 +87,7 @@ Installation and validation record or handoff:
 Earlier durable harness records:
 
 These records preserve decisions and events; they do not override the Current
-Harness Profile. Keep historical numbered-level records truthful and label
-them as historical when linking them here. Re-profile current state from
-installed mechanisms and demonstrated behavior rather than mechanically
-translating a historical level.
+Harness Profile.
 
 ## Maintenance Rules
 

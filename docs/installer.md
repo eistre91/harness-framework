@@ -6,13 +6,6 @@ Use when: adding, removing, or changing one capability realization in a target
 repo's Harness Profile. The Capability Map and the selected manifest and
 checklist are the conceptual and procedural installation owners.
 
-If a target repo was installed under the retired numbered model and has not
-yet established a Current Harness Profile, use
-`docs/install/migrate-numbered-model.md` for the one-time documentation
-migration. That path re-profiles installed behavior without authorizing a
-capability installation or realization change. Return here only after the
-migration handoff or when the human separately selects a Profile Change.
-
 ## Rule
 
 Fit, approve, realize, and validate one Profile Change at a time.

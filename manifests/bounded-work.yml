@@ -36,7 +36,7 @@ assets:
       - dependency-closed Current Harness Profile
       - selected capability scope, realizations, evidence, known limits, and revisit or removal signals
       - source framework provenance, including source version or commit, or unknown with a short reason
-      - related proposal, installation, validation, and historical record links
+      - related proposal, installation, and validation record links
       - existing harness component decisions and intentional deferrals
   - id: harness-fit-proposal-record
     asset_type: installable
