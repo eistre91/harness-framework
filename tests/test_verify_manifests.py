@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import importlib.util
-import re
 from pathlib import Path
 
 
@@ -24,34 +23,12 @@ def write_file(root: Path, relative_path: str, content: str = "# Fixture\n") -> 
 def write_manifest(root: Path, name: str, body: str) -> Path:
     path = root / "manifests" / name
     path.parent.mkdir(parents=True, exist_ok=True)
-    definition_metadata = ""
-    level_match = re.fullmatch(r"level-(\d+)\.yml", name)
-    if level_match and "level_definition_source:" not in body:
-        level_number = level_match.group(1)
-        maturity_model = root / "docs" / "maturity-model.md"
-        maturity_model.parent.mkdir(parents=True, exist_ok=True)
-        heading = f"## Level {level_number}\n"
-        existing = (
-            maturity_model.read_text(encoding="utf-8")
-            if maturity_model.exists()
-            else "# Maturity Model\n"
-        )
-        if heading not in existing:
-            maturity_model.write_text(
-                f"{existing.rstrip()}\n\n{heading}",
-                encoding="utf-8",
-            )
-        definition_metadata = (
-            "level_definition_source: "
-            f"docs/maturity-model.md#level-{level_number}"
-        )
     path.write_text(
         "\n".join(
             (
                 f"name: {name.removesuffix('.yml')}",
                 "description: Fixture manifest.",
                 "install_policy: Validate this fixture only.",
-                definition_metadata,
                 body.rstrip(),
                 "",
             )
@@ -59,6 +36,25 @@ def write_manifest(root: Path, name: str, body: str) -> Path:
         encoding="utf-8",
     )
     return path
+
+
+def write_capability_map(
+    root: Path,
+    prerequisites: dict[str, tuple[str, ...]],
+) -> None:
+    rows = [
+        "| Capability domain | Required capability domains |",
+        "| --- | --- |",
+    ]
+    for domain, required in prerequisites.items():
+        rows.append(f"| {domain} | {', '.join(required) if required else 'None'} |")
+    write_file(
+        root,
+        "docs/capability-map.md",
+        "# Capability Map\n\n## Canonical Prerequisites\n\n"
+        + "\n".join(rows)
+        + "\n",
+    )
 
 
 def behavior_item(item_id: str) -> str:
@@ -96,7 +92,7 @@ def test_validate_manifests_accepts_existing_sources_and_targets(tmp_path: Path)
     write_file(tmp_path, "docs/principles.md", "# Principles\n")
     write_manifest(
         tmp_path,
-        "level-1.yml",
+        "sample.yml",
         """\
 assets:
   - id: agents-entrypoint
@@ -118,25 +114,35 @@ assets:
     assert errors == []
 
 
-def test_validate_manifests_accepts_prerequisite_and_definition_source(
+def test_validate_manifests_accepts_dependencies_and_generic_definition_source(
     tmp_path: Path,
 ) -> None:
     module = load_verify_manifests()
-    write_file(tmp_path, "templates/level-2/SPEC-MAP.md", "# Spec Map\n")
+    write_file(tmp_path, "templates/context-routing/SPEC-MAP.md", "# Spec Map\n")
     write_file(
         tmp_path,
-        "docs/maturity-model.md",
-        "# Maturity\n\n## Level 2: Context Routing\n",
+        "docs/domain-definitions.md",
+        "# Domain Definitions\n\n## Foundation\n\n## Context Routing\n",
     )
-    write_manifest(tmp_path, "level-1.yml", f"assets:\n{behavior_item('foundation')}")
+    write_capability_map(
+        tmp_path,
+        {"Foundation": (), "Context Routing": ("Foundation",)},
+    )
     write_manifest(
         tmp_path,
-        "level-2.yml",
+        "foundation.yml",
+        "capability_definition_source: docs/domain-definitions.md#foundation\n"
+        f"dependency_manifests: []\nassets:\n{behavior_item('foundation')}",
+    )
+    write_manifest(
+        tmp_path,
+        "context.yml",
         f"""\
-prerequisite_manifest: manifests/level-1.yml
-level_definition_source: docs/maturity-model.md#level-2-context-routing
+dependency_manifests:
+  - manifests/foundation.yml
+capability_definition_source: docs/domain-definitions.md#context-routing
 assets:
-{installable_item('spec-map', 'templates/level-2/SPEC-MAP.md', 'SPEC-MAP.md')}
+{installable_item('spec-map', 'templates/context-routing/SPEC-MAP.md', 'SPEC-MAP.md')}
 """,
     )
 
@@ -146,39 +152,228 @@ assets:
     assert errors == []
 
 
-def test_level_manifest_requires_definition_source(tmp_path: Path) -> None:
+def test_multiple_dependencies_form_complete_dependency_closure(
+    tmp_path: Path,
+) -> None:
     module = load_verify_manifests()
-    manifest = tmp_path / "manifests" / "level-1.yml"
-    manifest.parent.mkdir(parents=True)
-    manifest.write_text(
+    write_file(
+        tmp_path,
+        "docs/domains.md",
+        "# Domains\n\n## Foundation A\n\n## Foundation B\n\n## Converged\n",
+    )
+    write_capability_map(
+        tmp_path,
+        {
+            "Foundation A": (),
+            "Foundation B": (),
+            "Converged": ("Foundation A", "Foundation B"),
+        },
+    )
+    a_path = write_manifest(
+        tmp_path,
+        "a.yml",
+        "capability_definition_source: docs/domains.md#foundation-a\n"
+        f"dependency_manifests: []\nassets:\n{behavior_item('a')}",
+    )
+    b_path = write_manifest(
+        tmp_path,
+        "b.yml",
+        "capability_definition_source: docs/domains.md#foundation-b\n"
+        f"dependency_manifests: []\nassets:\n{behavior_item('b')}",
+    )
+    converged_path = write_manifest(
+        tmp_path,
+        "converged.yml",
+        "capability_definition_source: docs/domains.md#converged\n"
+        "dependency_manifests:\n"
+        "  - manifests/a.yml\n"
+        "  - manifests/b.yml\n"
+        f"assets:\n{behavior_item('converged')}",
+    )
+
+    count, errors = module.validate_manifests(tmp_path)
+    manifests = module.load_manifest_mappings(module.manifest_files(tmp_path))
+
+    assert count == 3
+    assert errors == []
+    assert module.dependency_closure(
+        tmp_path,
+        converged_path.resolve(),
+        manifests,
+    ) == [a_path.resolve(), b_path.resolve(), converged_path.resolve()]
+
+
+def test_capability_dependencies_must_project_canonical_map_exactly(
+    tmp_path: Path,
+) -> None:
+    module = load_verify_manifests()
+    write_file(
+        tmp_path,
+        "docs/domains.md",
+        "# Domains\n\n## Foundation\n\n## Context\n",
+    )
+    write_capability_map(
+        tmp_path,
+        {"Foundation": (), "Context": ("Foundation",)},
+    )
+    write_manifest(
+        tmp_path,
+        "foundation.yml",
+        "capability_definition_source: docs/domains.md#foundation\n"
+        "dependency_manifests:\n"
+        "  - manifests/context.yml\n"
+        f"assets:\n{behavior_item('foundation')}",
+    )
+    write_manifest(
+        tmp_path,
+        "context.yml",
+        "capability_definition_source: docs/domains.md#context\n"
+        f"dependency_manifests: []\nassets:\n{behavior_item('context')}",
+    )
+
+    _count, errors = module.validate_manifests(tmp_path)
+
+    assert any(
+        "capability 'Foundation' dependency projection mismatch" in error
+        and "expected [], found ['Context']" in error
+        for error in errors
+    )
+    assert any(
+        "capability 'Context' dependency projection mismatch" in error
+        and "expected ['Foundation'], found []" in error
+        for error in errors
+    )
+
+
+def test_assets_may_support_zero_or_multiple_capability_domains(
+    tmp_path: Path,
+) -> None:
+    module = load_verify_manifests()
+    write_file(
+        tmp_path,
+        "docs/domains.md",
+        "# Domains\n\n## Foundation\n\n## Context\n",
+    )
+    write_file(tmp_path, "templates/shared.md")
+    write_capability_map(
+        tmp_path,
+        {"Foundation": (), "Context": ("Foundation",)},
+    )
+    write_manifest(
+        tmp_path,
+        "foundation.yml",
+        "capability_definition_source: docs/domains.md#foundation\n"
+        f"dependency_manifests: []\nassets:\n{behavior_item('foundation')}",
+    )
+    write_manifest(
+        tmp_path,
+        "context.yml",
+        "capability_definition_source: docs/domains.md#context\n"
+        "dependency_manifests:\n"
+        "  - manifests/foundation.yml\n"
+        f"assets:\n{behavior_item('context')}",
+    )
+    write_manifest(
+        tmp_path,
+        "shared-mechanisms.yml",
         """\
-name: level-1
-description: Fixture manifest.
-install_policy: Validate this fixture only.
 assets:
-  - id: foundation
-    asset_type: behavior
-    required: true
-    satisfy_by:
-      - Satisfy the foundation.
+  - id: unclassified
+    asset_type: installable
+    source: templates/shared.md
+    default_target: unclassified.md
+    supports_capability_domains: []
+    install_when: It is useful outside a capability claim.
+  - id: shared
+    asset_type: installable
+    source: templates/shared.md
+    default_target: shared.md
+    supports_capability_domains:
+      - Foundation
+      - Context
+    install_when: One mechanism supports both selected outcomes.
 """,
-        encoding="utf-8",
+    )
+
+    count, errors = module.validate_manifests(tmp_path)
+
+    assert count == 3
+    assert errors == []
+
+
+def test_asset_support_rejects_domains_missing_from_capability_map(
+    tmp_path: Path,
+) -> None:
+    module = load_verify_manifests()
+    write_file(tmp_path, "templates/shared.md")
+    write_capability_map(tmp_path, {"Foundation": ()})
+    write_manifest(
+        tmp_path,
+        "shared-mechanisms.yml",
+        """\
+assets:
+  - id: shared
+    asset_type: installable
+    source: templates/shared.md
+    default_target: shared.md
+    supports_capability_domains:
+      - Foundation
+      - Invented Domain
+    install_when: The mechanism is selected.
+""",
+    )
+
+    _count, errors = module.validate_manifests(tmp_path)
+
+    assert any(
+        "unknown supported capability domain 'Invented Domain'" in error
+        for error in errors
+    )
+
+
+def test_manifest_filename_does_not_imply_definition_metadata(tmp_path: Path) -> None:
+    module = load_verify_manifests()
+    write_manifest(
+        tmp_path,
+        "misc.yml",
+        f"assets:\n{behavior_item('not-a-capability-manifest')}",
+    )
+
+    count, errors = module.validate_manifests(tmp_path)
+
+    assert count == 1
+    assert errors == []
+
+
+def test_dependency_metadata_requires_capability_definition_source(
+    tmp_path: Path,
+) -> None:
+    module = load_verify_manifests()
+    write_manifest(
+        tmp_path,
+        "foundation.yml",
+        f"assets:\n{behavior_item('foundation')}",
+    )
+    dependent = write_manifest(
+        tmp_path,
+        "dependent.yml",
+        "dependency_manifests:\n"
+        "  - manifests/foundation.yml\n"
+        f"assets:\n{behavior_item('dependent')}",
     )
 
     _count, errors = module.validate_manifests(tmp_path)
 
     assert (
-        f"{manifest}: manifest: missing level_definition_source"
-        in errors
+        f"{dependent}: manifest: missing capability_definition_source" in errors
     )
 
 
-def test_production_manifests_validate_and_keep_count_of_six() -> None:
+def test_production_manifests_validate() -> None:
     module = load_verify_manifests()
 
-    count, errors = module.validate_manifests(module.ROOT)
+    _count, errors = module.validate_manifests(module.ROOT)
 
-    assert count == 6
     assert errors == []
 
 
@@ -232,7 +427,7 @@ def test_manifest_with_only_grouping_lists_is_not_valid(tmp_path: Path) -> None:
         """\
 defer_by_default:
   - later
-excluded_from_level_asset_boundary:
+excluded_from_capability_scope:
   - also later
 """,
     )
@@ -246,7 +441,7 @@ def test_validate_manifests_reports_objective_drift(tmp_path: Path) -> None:
     module = load_verify_manifests()
     write_manifest(
         tmp_path,
-        "level-1.yml",
+        "invalid.yml",
         """\
 assets:
   - id: duplicate
@@ -271,13 +466,14 @@ assets:
 
 def test_validate_manifests_reports_contract_drift(tmp_path: Path) -> None:
     module = load_verify_manifests()
-    write_file(tmp_path, "docs/maturity-model.md", "# Maturity\n## Level 2: Context Routing\n")
+    write_capability_map(tmp_path, {"Context Routing": ()})
     write_manifest(
         tmp_path,
-        "level-2.yml",
+        "malformed.yml",
         """\
-prerequisite_manifest: manifests/missing.yml
-level_definition_source: docs/maturity-model.md#missing-anchor
+dependency_manifests:
+  - manifests/missing.yml
+capability_definition_source: docs/capability-map.md#missing-anchor
 unknown_top_level: true
 defer_by_default:
   - valid entry
@@ -285,9 +481,10 @@ defer_by_default:
 assets:
   - id: malformed
     asset_type: required-file
-    source: docs/maturity-model.md
+    source: docs/capability-map.md
     required: "yes"
-    maturity: level-seven
+    obsolete_asset_metadata: deprecated
+    supports_capability_domains: Context Routing
     install_when: []
     adapt: explain the change
     unexpected_item_key: true
@@ -298,11 +495,12 @@ assets:
 
     assert any("unexpected key: unknown_top_level" in error for error in errors)
     assert any(
-        "prerequisite_manifest path does not exist: manifests/missing.yml" in error
+        "dependency_manifests[0] path does not exist: manifests/missing.yml" in error
         for error in errors
     )
     assert any(
-        "level_definition_source anchor does not exist" in error for error in errors
+        "capability_definition_source anchor does not exist" in error
+        for error in errors
     )
     assert any(
         "defer_by_default[1] must be a non-empty string" in error
@@ -310,24 +508,11 @@ assets:
     )
     assert any("asset_type must be one of" in error for error in errors)
     assert any("required must be a boolean" in error for error in errors)
-    assert any("maturity must be one of" in error for error in errors)
+    assert any("unexpected key: obsolete_asset_metadata" in error for error in errors)
+    assert any("supports_capability_domains must be a list" in error for error in errors)
     assert any("install_when must be a non-empty string" in error for error in errors)
     assert any("adapt must be a list" in error for error in errors)
     assert any("unexpected key: unexpected_item_key" in error for error in errors)
-
-
-def test_base_is_rejected_after_prerequisite_rename(tmp_path: Path) -> None:
-    module = load_verify_manifests()
-    write_manifest(tmp_path, "level-1.yml", f"assets:\n{behavior_item('foundation')}")
-    write_manifest(
-        tmp_path,
-        "level-2.yml",
-        f"base: manifests/level-1.yml\nassets:\n{behavior_item('context')}\n",
-    )
-
-    _count, errors = module.validate_manifests(tmp_path)
-
-    assert any("unexpected key: base" in error for error in errors)
 
 
 def test_selection_and_section_boundaries_are_enforced(tmp_path: Path) -> None:
@@ -470,62 +655,66 @@ assets:
     assert any("companion_files[0]" in error and "missing default_target" in error for error in errors)
 
 
-def test_two_manifest_prerequisite_cycle_reports_ordered_path(tmp_path: Path) -> None:
+def test_two_manifest_dependency_cycle_reports_ordered_path(tmp_path: Path) -> None:
     module = load_verify_manifests()
     a_path = write_manifest(
         tmp_path,
         "a.yml",
-        f"prerequisite_manifest: manifests/b.yml\nassets:\n{behavior_item('a')}\n",
+        "dependency_manifests:\n  - manifests/b.yml\n"
+        f"assets:\n{behavior_item('a')}\n",
     )
     b_path = write_manifest(
         tmp_path,
         "b.yml",
-        f"prerequisite_manifest: manifests/a.yml\nassets:\n{behavior_item('b')}\n",
+        "dependency_manifests:\n  - manifests/a.yml\n"
+        f"assets:\n{behavior_item('b')}\n",
     )
 
     _count, errors = module.validate_manifests(tmp_path)
 
-    cycle_errors = [error for error in errors if "prerequisite cycle" in error]
+    cycle_errors = [error for error in errors if "dependency cycle" in error]
     assert len(cycle_errors) == 1
     assert (
-        f"prerequisite cycle: {a_path} -> {b_path} -> {a_path}"
+        f"dependency cycle: {a_path} -> {b_path} -> {a_path}"
         in cycle_errors[0]
     )
 
 
-def test_long_prerequisite_cycle_reports_all_manifests(tmp_path: Path) -> None:
+def test_long_dependency_cycle_reports_all_manifests(tmp_path: Path) -> None:
     module = load_verify_manifests()
     paths = {}
     for current, prerequisite in (("a", "b"), ("b", "c"), ("c", "a")):
         paths[current] = write_manifest(
             tmp_path,
             f"{current}.yml",
-            f"prerequisite_manifest: manifests/{prerequisite}.yml\nassets:\n"
+            f"dependency_manifests:\n  - manifests/{prerequisite}.yml\nassets:\n"
             f"{behavior_item(current)}\n",
         )
 
     _count, errors = module.validate_manifests(tmp_path)
 
-    cycle_errors = [error for error in errors if "prerequisite cycle" in error]
+    cycle_errors = [error for error in errors if "dependency cycle" in error]
     assert len(cycle_errors) == 1
     assert (
-        f"prerequisite cycle: {paths['a']} -> {paths['b']} -> "
+        f"dependency cycle: {paths['a']} -> {paths['b']} -> "
         f"{paths['c']} -> {paths['a']}"
         in cycle_errors[0]
     )
 
 
-def test_self_and_missing_prerequisites_keep_clear_diagnostics(tmp_path: Path) -> None:
+def test_self_and_missing_dependencies_keep_clear_diagnostics(tmp_path: Path) -> None:
     module = load_verify_manifests()
     write_manifest(
         tmp_path,
         "self.yml",
-        f"prerequisite_manifest: manifests/self.yml\nassets:\n{behavior_item('self')}\n",
+        "dependency_manifests:\n  - manifests/self.yml\n"
+        f"assets:\n{behavior_item('self')}\n",
     )
     write_manifest(
         tmp_path,
         "missing.yml",
-        f"prerequisite_manifest: manifests/not-present.yml\nassets:\n{behavior_item('missing')}\n",
+        "dependency_manifests:\n  - manifests/not-present.yml\n"
+        f"assets:\n{behavior_item('missing')}\n",
     )
 
     _count, errors = module.validate_manifests(tmp_path)
@@ -546,13 +735,13 @@ def test_transitive_duplicate_id_and_canonical_target_collisions_fail(tmp_path: 
     write_manifest(
         tmp_path,
         "middle.yml",
-        f"prerequisite_manifest: manifests/grandparent.yml\nassets:\n"
+        "dependency_manifests:\n  - manifests/grandparent.yml\nassets:\n"
         f"{installable_item('middle-id', 'templates/middle.md', 'middle.md')}\n",
     )
     write_manifest(
         tmp_path,
         "current.yml",
-        f"prerequisite_manifest: manifests/middle.yml\nassets:\n"
+        "dependency_manifests:\n  - manifests/middle.yml\nassets:\n"
         f"{installable_item('shared-id', 'templates/current.md', './grandparent.md')}\n",
     )
 

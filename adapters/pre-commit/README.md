@@ -11,8 +11,8 @@ Before wiring pre-commit into a multi-platform harness, read
 
 Default guidance:
 
-- do not introduce pre-commit as part of a starter harness unless the human
-  wants that workflow,
+- do not introduce pre-commit as part of Bounded Work unless the selected
+  realization and human-approved scope require that workflow,
 - prefer wiring existing checks into `scripts/repo-checks.sh` first,
 - avoid noisy or slow hooks until the project has evidence they are needed,
 - keep pre-commit behavior aligned with agent-tool hooks and CI where those

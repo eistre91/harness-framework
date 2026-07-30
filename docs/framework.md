@@ -3,9 +3,12 @@
 Audience: agents and maintainers changing this framework or resolving
 conceptual harness-design questions.
 
+Status: active conceptual framework. The Harness Capability Map owns capability
+outcomes and prerequisites; this document explains the surrounding harness
+shape and rationale.
+
 Use when: understanding or editing the framework shape and rationale. For
-target-repo installation, start with `docs/installer.md`; use this file only
-when installer guidance and principles do not answer a design question.
+target-repo installation, start with `docs/installer.md`.
 
 This document defines the conceptual shape of a portable agent harness that is
 fit to the target repo's current purpose and grown as new needs are discovered.
@@ -17,47 +20,35 @@ templates, or detailed installation procedure.
 Active owners:
 
 - Principles: `docs/principles.md`
-- Staged installer entrypoint: `docs/installer.md`
-- Stage installer checklists: `docs/install/level-1.md`,
-  `docs/install/level-2.md`, `docs/install/level-3.md`, and
-  `docs/install/level-4.md`
-- Maturity definitions and failure signals: `docs/maturity-model.md`
-- Bootstrap, Level 1, Level 2, Level 3, Level 4, and optional assets:
-  `manifests/bootstrap.yml`, `manifests/level-1.yml`,
-  `manifests/level-2.yml`, `manifests/level-3.yml`,
-  `manifests/level-4.yml`, and `manifests/optional-assets.yml`
-- Broad installation reference: `docs/implementation-guide.md`
+- Capability outcomes and prerequisites: `docs/capability-map.md`
+- Profile Change installer entrypoint: `docs/installer.md`
+- Capability installer checklists: `docs/install/bounded-work.md`,
+  `docs/install/focused-context.md`, `docs/install/agent-action-boundaries.md`, and
+  `docs/install/maintainability-feedback.md`
+- Bootstrap, capability, and optional asset boundaries:
+  `manifests/bootstrap.yml`, `manifests/bounded-work.yml`,
+  `manifests/focused-context.yml`, `manifests/agent-action-boundaries.yml`,
+  `manifests/maintainability-feedback.yml`, and `manifests/optional-assets.yml`
+- Broad implementation reference: `docs/implementation-guide.md`
 - Portable versus repo-specific assets: `docs/portable-assets.md`
 - Platform adapter guidance: `docs/platform-support.md` and
   `docs/platforms/*.md`
 - Work brief template:
   `skills/core/harness-work-brief/work-brief-template.md`
-- Level 2 routing templates:
-  `templates/level-2/SPEC-MAP.md` and
-  `templates/level-2/docs/project/areas/README.md`
+- Focused Context routing templates:
+  `templates/focused-context/SPEC-MAP.md` and
+  `templates/focused-context/docs/project/areas/README.md`
 - Harness fit proposal template:
-  `templates/core/docs/harness/fit-proposal.md`
-- Level 4 target policy and coordinator/specialist sources:
-  `templates/level-4/docs/harness/maintainability.md`,
+  `templates/profile/docs/harness/fit-proposal.md`
+- Maintainability Feedback target policy and coordinator/specialist sources:
+  `templates/maintainability-feedback/docs/harness/maintainability.md`,
   `skills/core/harness-maintainability/`, and
   `skills/optional/harness-documentation-audit/`
 - Component brief template:
   `templates/optional/docs/harness/component-brief.md`
-
-Exploratory or future-facing sources:
-
-- Level 5 orchestration sketch, exploratory:
-  `docs/level-5-orchestration.md`
-
-Accepted transition sources that are not yet active installer guidance:
-
-- Capability-map target model: `docs/capability-map.md`
-- Capability-map decision:
-  `docs/adr/0001-replace-maturity-levels-with-capability-map.md`
-- Capability-map transition plan: `docs/capability-map-transition.md`
-
-Do not route ordinary installation or framework-maintenance work to exploratory
-sources unless the task is about that topic.
+- Emerging Multi-Work Coordination operating sketch:
+  `docs/multi-work-coordination.md`; this is future-facing and not an installer
+  source
 
 ## Mission
 
@@ -197,9 +188,9 @@ does not require project intent, an initiative, or a distinct source work item.
 
 This model describes product or project work, not harness installation order. A
 project may define `docs/project/intent.md` before any agent work begins, but
-the harness still treats that document as an optional Level 2 project-context
-asset during staged installation because many repos can start with an executable
-work item or work unit without a durable project-intent file.
+the harness treats that document as an optional Focused Context realization
+because many repos can start with an executable work item or work unit without
+a durable project-intent file.
 
 ## Intent Shaping
 
@@ -222,14 +213,14 @@ trade-off, and risk decisions unless they explicitly delegate one. Agents may
 still make the ordinary local choices already delegated by the approved scope,
 project policy, or established patterns.
 
-## Implemented Harness Levels
+## Implemented Capabilities
 
-For every implemented level, `docs/maturity-model.md` owns the definition, the
-matching manifest owns the canonical asset and behavior boundary, and the
-matching checklist under `docs/install/` owns installation procedure, gate, and
-handoff behavior.
+`docs/capability-map.md` owns capability outcomes, boundaries, selection
+guidance, validation guidance, and prerequisite relationships. Each implemented
+capability manifest owns its canonical installable boundary, and its checklist
+under `docs/install/` owns installation procedure, gate, and handoff behavior.
 
-Conceptually, Level 1 provides:
+Bounded Work can be realized with:
 
 - a repo agent entrypoint,
 - a canonical deterministic repo checks command,
@@ -240,11 +231,11 @@ Conceptually, Level 1 provides:
 - bounded work execution guidance for tiers, non-goals, boundaries,
   acceptance evidence, progress/divergence, implementation, and review.
 
-Level 2 adds context routing.
-
-Level 3 adds selected deterministic controls for agent action bounds.
-
-Level 4 adds selected maintainability sensors for observing accumulated drift.
+Focused Context can add purpose-specific context routing. Agent Action
+Boundaries can add selected deterministic controls at consequential lifecycle
+points. Maintainability Feedback can add selected observation mechanisms for
+accumulated drift. These are independent branches that each require Bounded
+Work; selecting one does not select its siblings.
 
 Optional pull-ins should not be installed just because they exist. Use
 `manifests/optional-assets.yml` and the Harness Fit Proposal to justify their
@@ -254,32 +245,23 @@ Harness-provided skills should avoid generic names that collide with platform,
 personal, or team skills. Prefer names such as `harness-review`,
 `harness-implement`, `harness-work-brief`, and `harness-diagnose`.
 
-## Maturity And Completeness
+## Harness Profiles
 
-The maturity model is diagnostic. Higher maturity is not automatically better.
-A small repo may be healthiest at Level 1 for a long time.
+A target repo's Current Harness Profile records only capability claims whose
+selected scope is realized and supported by validation evidence. Each claim
+states its current realizations, evidence, Known Limits, and revisit or removal
+signals. The profile is dependency-closed and makes no universal claim about
+how advanced the repo is or whether a capability domain has been exhausted.
 
-`docs/maturity-model.md` owns:
+Future intent belongs in one Harness Fit Proposal for one Profile Change.
+Approval authorizes only its named files and behavior; it does not establish a
+current claim. After realization, representative outcome validation determines
+whether the affected claim enters or changes the profile. Failed or incomplete
+validation leaves the profile unchanged.
 
-- level definitions,
-- harness failure signals,
-- installation modes,
-- asset completeness,
-- behavioral completeness,
-- level-specific "Add when" and "Move beyond when" guidance.
-
-Do not describe a partial starter install as simply "Level 2."
-Record the target maturity, install mode, installed asset completeness,
-behavioral completeness, deferrals, and revisit signals.
-
-The levels describe common growth pressure, not a strict installation order. A
-repo may add selected deterministic controls from Level 3 or selected
-maintainability sensors from Level 4 before it needs a Level 2 context router,
-when the proposal explains the evidence and the operator accepts the trade-off.
-
-During target-repo installation, `docs/installer.md` stages this diagnostic
-model so agents install and validate the current stage before the human selects
-another.
+Use `docs/installer.md` to add, remove, or change one capability realization at
+a time. Stop after validation, the profile decision, and a durable handoff so
+the human can separately select any later change.
 
 ## Documentation Boundaries
 
@@ -334,7 +316,7 @@ historical notes, product strategy, one-off standards, or instructions that
 apply only to rare tasks should usually be split into narrower surfaces instead
 of copied forward as universal context.
 
-`SPEC-MAP.md` is the Level 2 implementation task-intent router. Add it when
+`SPEC-MAP.md` is a Focused Context implementation task-intent router. Add it when
 there are enough product areas or docs that agents need routing help. It should
 route product implementation work to the smallest useful project-area brief and
 trigger-matched deep references, and should not route ordinary product work to
@@ -350,7 +332,7 @@ different size.
 a short domain glossary and semantic compression point when agents or humans
 repeatedly misunderstand the same domain terms.
 
-`docs/project/intent.md` is an optional Level 2 project-intent document, not a
+`docs/project/intent.md` is an optional Focused Context project-intent document, not a
 default entrypoint dependency. When it exists, planning and value-sensitive
 review skills may consult it for strategic, exploratory, product, or scoping
 work. Ordinary implementation agents should read it only when the work brief
@@ -376,7 +358,7 @@ matters:
 - what human-required checkpoints exist,
 - what evidence will prove the task is complete.
 
-For most Level 1 work, the Agent Work Brief is the minimal plan. It is not a
+For most Bounded Work, the Agent Work Brief is the minimal plan. It is not a
 planning transcript. The planning agent should distill context into accepted
 decisions, constraints, source-of-truth references, and acceptance evidence.
 
@@ -491,7 +473,8 @@ What deterministic checks should run before claiming repo work is complete?
 
 Hooks decide when checks run automatically. `repo-checks.sh` defines the repo's
 local lint, type-check, and test command set by default. Other deterministic
-checks are repo-specific additions, not part of the default Level 1 expectation.
+checks are repo-specific additions, not part of the default Bounded Work
+expectation.
 Keep the command quiet when checks pass. The Stop hook context should contain
 failures, missing setup, or next steps the agent can act on, not routine success
 output.
@@ -511,11 +494,10 @@ expected output or side effect, and evidence.
 
 ## Hooks
 
-The minimal hook posture is conservative and opinionated: Level 1 includes one
-required narrow Stop hook, or equivalent stop automation, for each desired
-hook-capable agent runtime in current scope. It runs `scripts/repo-checks.sh`.
-A starter install should not add any other hooks just because hook adapters
-exist.
+The minimal Bounded Work hook posture is conservative and opinionated: select
+one narrow Stop hook, or equivalent stop automation, for each desired
+hook-capable agent runtime in scope. It runs `scripts/repo-checks.sh`. Do not add
+other hooks merely because adapters exist.
 
 Add other hooks when a failure is common, cheap to detect, and expensive enough
 to prevent automatically. Beyond the required repo checks Stop hook, start with
@@ -525,7 +507,7 @@ narrow, high-signal controls:
 - guide or block destructive actions,
 - run `scripts/repo-checks.sh` on pre-commit.
 
-For broader Level 3 controls, the safety policy should also identify protected
+For selected Agent Action Boundaries, the safety policy should also identify protected
 paths, protected command families, the selected mode such as observe, guide,
 block, or verify, and whether an operation is safe for the specific call,
 including whether a command can run concurrently in the current context.
@@ -628,11 +610,13 @@ Semantic debt:
   docs, tickets, decisions, or requirements no longer match reality
 ```
 
-Use the Level 4 definition in `docs/maturity-model.md`, family menu in
-`manifests/level-4.yml`, and staged checklist in `docs/install/level-4.md` to
-decide whether target-repo evidence or an approved bounded experiment justifies
-an exact sensor. Completeness applies to the approved sensor scope, not the
-whole menu.
+Use the Maintainability Feedback outcome and selection guidance in
+`docs/capability-map.md`, family menu in
+`manifests/maintainability-feedback.yml`, and checklist in
+`docs/install/maintainability-feedback.md` to decide whether target-repo
+evidence or an approved bounded experiment justifies an exact observation
+mechanism. The resulting profile claim is limited to its selected, validated
+scope.
 
 The portable `harness-maintainability` skill coordinates selected repo tools,
 human checks, and specialist skills. Sensor-specific procedures remain in the
@@ -650,16 +634,16 @@ backlog. A chat result or gitignored local draft alone is not durable enough.
 Existing deterministic tools, review, runtime evidence, work records, and
 operator experience may all provide signal. Treat their output as evidence for
 inspection and disposition, not automatic proof that refactoring or other
-repair is needed. Classify the mechanism as Level 4 when its purpose is broader
-health observation and later triage; a use that guides, verifies, or blocks a
-particular action is Level 3.
+repair is needed. Classify the mechanism as Maintainability Feedback when its
+purpose is broader health observation and later triage; a use that guides,
+verifies, or blocks a particular action belongs to Agent Action Boundaries.
 
 ## Harness Governance
 
 Every harness component should justify itself. The component brief template
 lives at `templates/optional/docs/harness/component-brief.md`.
 
-For a selected Level 4 sensor, the approved proposal and installed policy entry
+For selected Maintainability Feedback, the approved proposal and installed policy entry
 normally provide the component brief's value, scope, cost, limits, and removal
 reasoning. Use a separate component brief only when the sensor has an unusually
 complex lifecycle, dependencies, or governance; do not duplicate the decision.
@@ -766,9 +750,9 @@ The starter package should not begin with:
 - always-on maintainability gates,
 - automated documentation reconciliation.
 
-Add these only when the maturity model signals, repo evidence, or human
-preference justifies them, and record the decision in the Harness Fit Proposal
-or installed harness docs.
+Add these only when a selected capability outcome, repo evidence, or credible
+anticipated need justifies them, and record the decision in the Harness Fit
+Proposal or installed harness docs.
 
 ## Summary
 

@@ -2,10 +2,10 @@
 
 This is a work record for deferred framework ideas, not active implementation
 guidance. Use `docs/principles.md`, `docs/framework.md`,
-`docs/installer.md`, `docs/install/level-1.md`,
-`docs/install/level-2.md`, `docs/install/level-3.md`,
-`docs/install/level-4.md`, `docs/implementation-guide.md`,
-`docs/maturity-model.md`, and the manifests as the current source of truth.
+`docs/installer.md`, `docs/install/bounded-work.md`,
+`docs/install/focused-context.md`, `docs/install/agent-action-boundaries.md`,
+`docs/install/maintainability-feedback.md`, `docs/implementation-guide.md`,
+`docs/capability-map.md`, and the manifests as the current source of truth.
 
 ## Deferred: Project Intent / PRD / Technical Design To Issue Pipeline
 
@@ -29,10 +29,10 @@ Clarification from 2026-06-28, refined on 2026-07-11:
   They are storage-neutral and do not form a mandatory hierarchy. A source work
   item may already be the work unit; attempts remain deferred.
 - There are two related but distinct flows: product/project work follows the
-  active model, while harness installation remains `Level 1 -> Level 2 ->
-  selected higher-stage pull-ins`.
+  active model, while harness installation starts with Bounded Work and then
+  applies one dependency-valid Profile Change at a time.
 - `docs/project/intent.md` can be conceptually upstream of project work while
-  remaining an optional Level 2 project-context asset for harness installation.
+  remaining an optional Focused Context asset for harness installation.
 - Work-item to work-unit decomposition is the high-risk translation point from
   semantic intent into executable work. Future guidance should emphasize
   acceptance criteria, non-goals, vertical slices, and concrete executable
@@ -45,8 +45,8 @@ Why deferred:
 
 - The starter harness should prove the small execution loop before adding
   larger planning machinery.
-- PRD and technical design flows are likely higher on the maturity ladder,
-  closer to orchestration and automation than Level 1.
+- PRD and technical design flows are closer to emerging Multi-Work Coordination
+  concerns than to the Bounded Work foundation.
 - Premature process here could create harness debt before the team has evidence
   about how work decomposition actually fails.
 
@@ -107,16 +107,17 @@ Why deferred:
   distinguish useful harness behavior from template compliance.
 - Evals should reinforce the local philosophy: inspect first, propose a
   Harness Fit Proposal, install only justified assets, record deferrals, and
-  avoid adding maturity for its own sake.
+  avoid adding capability scope for its own sake.
 
 Potential future shape:
 
 - A small `evals/` directory with scenario prompts, target repo fixtures or
   fixture descriptions, expected installed assets, and expectations.
-- Cases for fitting Level 1 to a small repo, declining premature `SPEC-MAP.md`
-  or `CONTEXT.md`, deriving `scripts/repo-checks.sh` from README/CI evidence,
-  turning a vague issue into an Agent Work Brief, reviewing a change against a
-  brief, and recommending higher-level controls only when signals justify them.
+- Cases for fitting Bounded Work to a small repo, declining premature
+  `SPEC-MAP.md` or `CONTEXT.md`, deriving `scripts/repo-checks.sh` from README/CI
+  evidence, turning a vague issue into an Agent Work Brief, reviewing a change
+  against a brief, and recommending additional capabilities only when signals
+  justify them.
 - A lightweight runner or checklist that reports whether the agent produced a
   coherent proposal, preserved tracker neutrality, separated mechanical and
   acceptance evidence, and documented intentional deferrals.
@@ -126,121 +127,91 @@ Signal to revisit:
 - The framework has been applied to enough repos that repeated installation or
   review failures are visible.
 - Humans want regression checks before changing templates, skills, manifests,
-  or maturity guidance.
+  or capability guidance.
 - The framework gains an installer or validator whose behavior needs
   representative scenario coverage.
 
-## Deferred: Installer Evidence And Higher-Stage Pull-Ins
+## Deferred: Installer Evidence And Capability Pull-Ins
 
-Current staged installer behavior lives in `docs/installer.md` and
+The current Profile Change workflow lives in `docs/installer.md` and
 `docs/install/*.md`. This TODO entry records remaining installer-design
 questions, not active installation guidance.
 
 Why deferred:
 
-- Level 1 and Level 2 checklists need more real-install evidence before the
-  framework can know where they are too loose, too heavy, or missing acceptance
-  gates.
-- Selected Level 3 controls now have an initial stage path, but the framework
-  still needs real-install evidence to refine control-family boundaries,
-  validation expectations, and friction trade-offs.
-- Durable stage logging under `docs/harness/` has flexible guidance, but the
-  framework needs more install examples before prescribing a stronger shape.
+- Bounded Work and Focused Context checklists need more real-install evidence
+  before the framework can know where they are too loose, too heavy, or missing
+  acceptance gates.
+- Selected Agent Action Boundaries controls have an initial checklist, but the
+  framework still needs real-install evidence to refine control-family
+  boundaries, validation expectations, and friction trade-offs.
+- Durable Profile Change records under `docs/harness/` have flexible guidance,
+  but the framework needs more install examples before prescribing a stronger
+  shape.
 - A docs-only installer path may be enough; add an installer skill or evals only
-  if repeated installs show agents still miss the staged flow.
+  if repeated installs show agents still miss the Profile Change flow.
 
 Potential future shape:
 
-- Tighten `docs/install/level-1.md`, `docs/install/level-2.md`, and
-  `docs/install/level-3.md` from observed install failures.
-- Refine selected higher-level pull-in guidance without encouraging broad
-  multi-level installs.
-- Strengthen recommendations for durable stage logs once several install shapes
-  are observed.
+- Tighten `docs/install/bounded-work.md`, `docs/install/focused-context.md`, and
+  `docs/install/agent-action-boundaries.md` from observed install failures.
+- Refine optional-capability pull-in guidance without encouraging broad
+  multi-capability installs.
+- Strengthen recommendations for durable Profile Change records once several
+  install shapes are observed.
 - Consider a `harness-install` bootstrap skill only if agents still miss the
-  docs-only staged flow.
-- Add installer eval cases once staged installation behavior is stable enough
+  docs-only Profile Change flow.
+- Add installer eval cases once Profile Change behavior is stable enough
   to test.
 
 Signal to revisit:
 
-- Level 1, Level 2, or Level 3 installs still vary too much with the current
-  checklists.
-- Harness installs pass structurally but leave behavior or completeness unclear.
-- Installing agents over-read higher-stage manifests, optional manifests,
+- Bounded Work, Focused Context, or Agent Action Boundaries installs still vary
+  too much with the current checklists.
+- Harness installs pass structurally but leave behavior or profile claims unclear.
+- Installing agents over-read sibling capability manifests, optional manifests,
   adapter docs, deterministic-control guidance, future-facing docs, or
   exploratory docs because they were present in context rather than justified
-  by stage scope.
-- Humans repeatedly correct proposals that conflate out-of-stage observations
-  with approval to install later-stage assets.
+  by the selected change scope.
+- Humans repeatedly correct proposals that conflate out-of-scope observations
+  with approval to install another capability's assets.
 
 ## Deferred: Fit Proposal Scaling
 
-`templates/core/docs/harness/fit-proposal.md` currently acts as the durable
-proposal and decision-log template for multiple installation stages. As later
-levels gain richer proposal surfaces, the template may become too long or too
-easy for agents to treat as one large universal form.
+`templates/profile/docs/harness/fit-proposal.md` currently acts as the durable
+proposal and decision-log template for Profile Changes. As capabilities gain
+richer proposal surfaces, the template may become too long or too easy for
+agents to treat as one large universal form.
 
 Why deferred:
 
-- Level 3 currently needs only a compact selected-control table, and Level 4
-  adds a compact selected-sensor summary with short per-sensor details.
+- Agent Action Boundaries currently needs only a compact selected-control table,
+  and Maintainability Feedback adds a compact selected-sensor summary with
+  short per-sensor details.
 - Splitting proposal templates too early could create routing overhead and
   duplicate common proposal fields.
 - Real install examples should show whether teams prefer one durable decision
-  log, per-stage proposal sections, or stage-specific templates that roll up
-  into `docs/harness/`.
+  log, capability-specific proposal sections, or separate templates that roll
+  up into `docs/harness/`.
 
 Potential future shape:
 
-- Keep a short top-level fit proposal as a stage router and decision log.
-- Move detailed proposal fields into stage-specific templates, such as Level 1,
-  Level 2, Level 3, and Level 4 appendices.
-- Let `docs/install/*.md` own proposal field requirements and keep the template
-  mostly empty, with links to stage sections.
+- Keep a short top-level fit proposal as a Profile Change router and decision
+  log.
+- Move detailed proposal fields into capability-specific appendices when real
+  installation evidence justifies the split.
+- Keep shared proposal fields in the fit-proposal contract and let
+  `docs/install/*.md` own only capability-specific guidance.
 
 Signal to revisit:
 
 - The template becomes hard to scan during installs.
-- Agents fill out irrelevant future-stage sections.
-- New maturity levels need enough proposal detail that the shared template
-  starts duplicating stage checklists.
-- Level 4 install evidence shows its compact sensor surface makes the shared
-  proposal hard to scan or causes agents to fill irrelevant stage sections.
-
-## Deferred: Maturity Levels Versus Capability Profiles
-
-The implemented taxonomy uses numbered maturity levels, while Level 4 requires
-only the Level 1 bounded-work foundation and installs independently selectable
-maintainability capabilities. That strain does not block Level 4: the active
-model already says higher is not universally better, Level 4 does not certify
-Levels 2 or 3, and its completeness claim is limited to approved sensor scope.
-
-Why deferred:
-
-- Replacing the taxonomy during Level 4 implementation would broaden a bounded
-  sensor package into a framework-wide migration.
-- The framework lacks target-repo evidence that capability profiles would make
-  selection, installation, or communication clearer than the current levels.
-- Maintaining parallel level and profile taxonomies would violate the single
-  source-of-truth principle before a replacement earns its cost.
-
-Potential future shape:
-
-- Keep Level 1 as the common bounded-work foundation.
-- Represent context routing, deterministic controls, maintainability sensing,
-  and later capabilities as independently selected profiles.
-- Preserve explicit prerequisites and selected-scope completeness without
-  implying that every repo should climb one universal ladder.
-
-Signal to revisit:
-
-- Multiple target repos select capabilities out of numeric order and operators
-  repeatedly misread the level number as certification or required progression.
-- Installer proposals need awkward exceptions to explain valid capability
-  combinations.
-- Evidence shows a profile model would remove more confusion and duplicated
-  guidance than the migration would create.
+- Agents fill out irrelevant capability sections.
+- New capability-specific detail makes the shared template duplicate installer
+  checklists.
+- Maintainability Feedback install evidence shows its compact sensor surface
+  makes the shared proposal hard to scan or causes agents to fill irrelevant
+  sections.
 
 ## Deferred: Skill Adaptation Guidance
 
@@ -289,8 +260,8 @@ Why deferred:
   through thin adapters so setup does not drift between Codex, Claude Code, and
   other tools.
 - Intentional platform-specific divergence may eventually be useful, but it is
-  a later maturity goal. Before optimizing for fit, the framework should make
-  the common behavior clear and hard to accidentally fork.
+  a later optimization goal. Before optimizing for fit, the framework should
+  make the common behavior clear and hard to accidentally fork.
 
 Potential future shape:
 
@@ -343,7 +314,7 @@ Why deferred:
 - Good research behavior is often repo-specific: shared utility locations,
   domain docs, RAG tools, dependency documentation, architecture records, and
   preferred source order vary by target repo.
-- Validation result handling becomes more important in Level 5 orchestration,
+- Validation result handling becomes more important in Multi-Work Coordination,
   where agents may need to decide whether work can close, must iterate, or
   requires human approval.
 - The formal session / attempt model is still deferred, so validation reports
@@ -385,11 +356,12 @@ Signal to revisit:
 ## Deferred: Human Mental Alignment And System Comprehension
 
 The framework treats human intent, checkpoints, review, cognitive debt, and
-semantic debt as important. Level 4 now includes an explicitly experimental
-human-agent comprehension sensor for bounded evidence such as repeated
-clarification, conflicting explanations, unrecoverable recent intent,
+semantic debt as important. Maintainability Feedback now includes an explicitly
+experimental human-agent comprehension sensor for bounded evidence such as
+repeated clarification, conflicting explanations, unrecoverable recent intent,
 context-routing failures, recent durable work records, and short operator
-review. The live sensor boundary is owned by `manifests/level-4.yml`.
+review. The live sensor boundary is owned by
+`manifests/maintainability-feedback.yml`.
 
 What remains deferred is a positive synthesis workflow, metrics, periodic
 artifacts, synthetic experiments, and a mature method for keeping humans
@@ -404,8 +376,9 @@ changed, what decisions were made, and what risks or trade-offs now exist.
 
 Why deferred:
 
-- Initial Level 4 trials should show whether the bounded experimental sensor
-  produces useful evidence before the framework adds a broader method.
+- Initial Maintainability Feedback trials should show whether the bounded
+  experimental sensor produces useful evidence before the framework adds a
+  broader method.
 - Human comprehension mechanisms can easily become stale dashboards,
   duplicated docs, or status theater if they are not tied to real work,
   decisions, and review signals.
@@ -507,12 +480,12 @@ Why deferred:
   than structural scoring.
 - A presence check could accidentally reward installing more artifacts instead
   of fitting the smallest useful harness to the repo.
-- The local maturity model is diagnostic and fit-based; higher maturity is not
-  automatically better.
+- The local capability model is diagnostic and fit-based; installing more
+  capabilities is not automatically better.
 
 Potential future shape:
 
-- Keep structural coverage separate from maturity fit.
+- Keep structural coverage separate from capability fit.
 - Check for the local core surfaces: repo entrypoint, chosen Agent Work Brief
   location, `scripts/repo-checks.sh`, harness owner docs, review guidance,
   documented deferrals, and acceptance evidence expectations.
@@ -525,7 +498,7 @@ Potential future shape:
 Signal to revisit:
 
 - Humans want a quick smoke test after applying the framework to a repo.
-- Repeated installations miss the same required Level 1 surfaces.
+- Repeated installations miss the same required Bounded Work surfaces.
 - A future installer needs a post-install repo checks command.
 
 ## Deferred: Persistent Work State Model
@@ -576,8 +549,9 @@ Signal to revisit:
 
 ## Deferred: Multi-Agent Coordination Details
 
-Level 5 now names multi-agent coordination rules, but the framework has not
-yet specified the detailed operating model.
+The emerging Multi-Work Coordination capability names the outcome, but the
+framework has not yet specified an installable operating model. The current
+future-facing exploration lives in `docs/multi-work-coordination.md`.
 
 Provenance:
 
@@ -600,8 +574,9 @@ Why deferred:
 
 Potential future shape:
 
-- Add a Level 5 guide for coordinator-led work: research, synthesis,
-  implementation slices, integration, independent review, and closeout.
+- Refine the Multi-Work Coordination sketch for coordinator-led work: research,
+  synthesis, implementation slices, integration, independent review, and
+  closeout.
 - Require explicit ownership boundaries by file, module, interface, or issue.
 - Require self-contained worker prompts that include the relevant synthesized
   context rather than vague references to prior findings.

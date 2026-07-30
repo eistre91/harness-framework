@@ -1,16 +1,17 @@
-name: level-3
-description: Selected deterministic controls for agent action bounds.
-prerequisite_manifest: manifests/level-1.yml
-install_policy: Install after Level 1 when repo evidence or operator decision justifies selected deterministic controls. Do not install every control family by default.
-level_definition_source: docs/maturity-model.md#level-3-deterministic-controls
+name: agent-action-boundaries
+description: Independently selected controls for explicit agent action boundaries.
+dependency_manifests:
+  - manifests/bounded-work.yml
+install_policy: Install after Bounded Work when repo evidence or operator decision justifies selected action boundaries. Do not install every control family by default.
+capability_definition_source: docs/capability-map.md#agent-action-boundaries
 assets:
   - id: selected-control-protocol
     asset_type: behavior
     required: true
     satisfy_by:
-      - Use docs/install/level-3.md to inspect only the selected control families in current approved scope.
+      - Use docs/install/agent-action-boundaries.md to inspect only the boundary families in the current human-selected Profile Change scope.
       - Propose compact selected-control rows before editing target-repo files.
-      - Install only controls explicitly approved by the operator for this Level 3 pass.
+      - Install only controls explicitly approved by the operator for this Agent Action Boundaries Profile Change.
       - Record selected controls, known limits, validation evidence, friction risk, deferrals, and revisit or removal signals in the durable harness record.
     adapt:
       - selected control families
@@ -115,17 +116,17 @@ assets:
       - platform adapter coverage
   - id: repo-checks-extensions
     asset_type: behavior
-    install_when: The Level 1 lint/type/test contract misses recurring deterministic failures or selected agent actions need broader verification at a lifecycle point.
+    install_when: The Bounded Work lint/type/test contract misses recurring deterministic failures or selected agent actions need broader verification at a lifecycle point.
     satisfy_by:
       - Add focused checks only when they provide actionable harness feedback.
-      - Avoid turning scripts/repo-checks.sh into a dumping ground for broad CI/CD maturity.
+      - Avoid turning scripts/repo-checks.sh into a dumping ground for broad CI/CD modernization.
       - Preserve quiet pass output and clear failure remediation.
     adapt:
       - check command
       - lifecycle event or manual invocation path
       - expected runtime and noise
       - omission, waiver, or CI-only reason
-excluded_from_level_asset_boundary:
+excluded_from_capability_scope:
   - full CI/CD modernization
   - broad static-analysis or maintainability sensors unless used to constrain a specific agent action
   - remote credentialed checks as default local gates

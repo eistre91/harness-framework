@@ -3,14 +3,11 @@
 Audience: agents and maintainers designing the framework or deciding which
 harness outcomes a target repo should support.
 
-Status: accepted target model; framework migration is pending. Until the
-transition plan is completed, `docs/maturity-model.md`, the numbered manifests,
-and the numbered installer checklists remain the active installation sources.
-Do not install a target-repo harness from this document yet.
+Status: active capability model and installer taxonomy. Follow
+`docs/installer.md` for installation procedure rather than installing directly
+from this conceptual map.
 
-Use when: reasoning about the target shape that will replace the numbered
-maturity model. The migration plan lives in
-`docs/capability-map-transition.md`.
+Use when: reasoning about capability outcomes and prerequisite relationships.
 
 ## Purpose
 
@@ -83,10 +80,10 @@ A candidate or approved addition, removal, or realization change proposed
 against the current Harness Profile. Future intent belongs in a fit proposal
 or other work record until the change is installed and validated.
 
-Capability domains do not have universal completeness or maturity states. A
-domain can have a clear boundary without a finite end state. A particular
-installation change, approved scope, or validation run can finish, but the
-framework does not claim that a repo has exhausted a capability domain.
+Capability domains do not have universal completion states or ranks. A domain
+can have a clear boundary without a finite end state. A particular installation
+change, approved scope, or validation run can finish, but the framework does
+not claim that a repo has exhausted a capability domain.
 
 ## Capability Domain Shape
 
@@ -249,6 +246,7 @@ system's trajectory.
 ## Multi-Work Coordination
 
 Status: emerging capability; no installable framework package is yet implied.
+See `docs/multi-work-coordination.md` for the future-facing operating sketch.
 
 Outcome:
 The human-agent system can decompose a larger outcome into multiple bounded

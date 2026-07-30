@@ -25,19 +25,22 @@ when reading or editing manifests:
   target repo. Bootstrap assets usually should not remain installed after the
   harness is fitted.
 - `installable`: a file or file bundle that can be copied or adapted into a
-  target repo when the current stage or optional pull-in justifies it.
+  target repo when the current Profile Change or optional pull-in justifies it.
 - `behavior`: a required or optional harness capability that may be satisfied
   by existing repo conventions, adapted files, scripts, hooks, or documented
   workflow instead of a single copied file.
-- `optional-reference`: optional reference material that supports a stage when
+- `optional-reference`: optional reference material that supports a capability
+  realization when
   evidence justifies the extra context, but is not part of the required
-  current-stage asset boundary.
+  selected manifest boundary.
 - `adapter`: platform-specific support that exposes shared harness behavior to
   a tool such as Codex, Claude Code, pre-commit, CI, or another runtime.
 
-Fields such as `maturity`, `category`, `common_starter_pull_ins`, and
-`excluded_from_level_asset_boundary` qualify selection or grouping. They are
-not asset types.
+Fields such as `supports_capability_domains`, `category`,
+`common_starter_pull_ins`, and `excluded_from_capability_scope` qualify support,
+selection, or grouping. An asset may support zero, one, or multiple capability
+domains without becoming a capability domain itself. These fields are not asset
+types.
 
 ## Bootstrap Assets
 
@@ -45,33 +48,35 @@ Bootstrap assets help install the harness. They usually should not remain in
 the target repo after installation.
 
 `manifests/bootstrap.yml` owns the canonical bootstrap asset boundary.
-Conceptually, bootstrap assets include the principles, staged installer,
-current-stage checklists, broad reference docs, platform notes, stage
-manifests, optional-asset manifest, and installer support scripts used while
-fitting a target repo.
+Conceptually, bootstrap assets include the principles, Profile Change
+installer, capability checklists and manifests, Capability Map, optional-asset
+manifest, platform notes, and installer support scripts used while fitting a
+target repo.
 
-Use `docs/installer.md` first. Read the stage checklist and manifest for the
-current approved stage, then load other bootstrap assets only when the staged
-installer path routes you there.
+Use `docs/installer.md` first. After its dependency check, read only the
+checklist and manifest for the current human-selected capability, then load
+other bootstrap assets only when that Profile Change routes to them.
 
-## Core Installable Assets
+## Bounded Work Assets
 
-The default Level 1 bounded-work assets and behavior are defined in
-`manifests/level-1.yml`. Treat that manifest as the canonical core asset and
+Bounded Work assets and behavior are defined in
+`manifests/bounded-work.yml`. Treat that manifest as the canonical core asset and
 behavior boundary.
 
-The additive Level 2 assets and behaviors are defined in
-`manifests/level-2.yml`. Treat that manifest as the canonical Level 2 asset
-boundary.
+## Focused Context Assets
+
+Focused Context assets and behaviors are defined in
+`manifests/focused-context.yml`. Treat that manifest as the canonical selected
+asset and behavior boundary.
 
 ## Selected Capability Assets
 
-The Level 3 selected-control behaviors are defined in
-`manifests/level-3.yml`. The Level 4 selected-sensor behaviors and installable
-policy/coordinator assets are defined in `manifests/level-4.yml`. Treat each
-current-stage manifest as the canonical boundary for the explicitly approved
-scope; do not infer that every family is installed or that numeric order
-certifies other stages.
+Selected Agent Action Boundaries are defined in
+`manifests/agent-action-boundaries.yml`. Selected Maintainability Feedback and
+its installable policy/coordinator assets are defined in
+`manifests/maintainability-feedback.yml`. Treat each manifest as the canonical
+boundary for explicitly approved scope; do not infer that every family is
+selected.
 
 ## Optional Installable Assets
 
@@ -79,8 +84,8 @@ Install optional assets only when repo evidence or human preference justifies
 them. Treat `manifests/optional-assets.yml` as the canonical optional asset
 list.
 
-Use the current-stage manifest for required stage assets. Read
-`manifests/optional-assets.yml` only when the stage checklist or
+Use the current capability manifest for its selected assets. Read
+`manifests/optional-assets.yml` only when the capability checklist or exact
 human-approved scope routes to an optional pull-in.
 
 ## Repo-Specific Adaptation
@@ -92,7 +97,7 @@ Every installation should adapt:
 - local work brief fallback and commit policy,
 - repo checks commands,
 - project context paths,
-- Level 2 task-intent routes and project-area brief paths,
+- Focused Context task-intent routes and project-area brief paths,
 - sensitive file patterns,
 - project-specific skill guidance under `.agents/skills`, using
   self-explaining harness names such as `harness-review` unless adapting to an

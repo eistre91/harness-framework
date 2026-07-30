@@ -12,12 +12,16 @@ The harness is not meant to be installed wholesale. It is meant to be fitted to
 the target repo through inspection and collaboration:
 
 1. inspect the target repo,
-2. propose the next installation stage, starting with Level 1 by default,
-3. ask only the human questions that materially affect the harness shape,
-4. copy or adapt only the approved current-stage assets,
-5. validate the installed stage and leave a durable handoff,
-6. ask whether to stop or explicitly select another stage,
-7. remove temporary bootstrap material after installation.
+2. read its Current Harness Profile, installed harness state, and the Capability
+   Map prerequisites,
+3. follow the installer's no-profile routing when no profile exists; otherwise
+   select one Profile Change,
+4. persist an exact fit proposal,
+5. obtain human approval for only its named files and behavior,
+6. realize and validate the selected outcome,
+7. update the Current Harness Profile only when evidence supports it,
+8. leave a durable handoff and stop, and
+9. remove temporary bootstrap material after installation.
 
 ## Start Here
 
@@ -25,13 +29,12 @@ Use these entrypoints by task:
 
 - Framework maintenance in this repo: start with `AGENTS.md`, then
   `docs/principles.md`.
-- Target-repo installation: start with `docs/installer.md`, then the current
-  stage checklist under `docs/install/`.
+- Target-repo installation: start with `docs/installer.md`, then its routed
+  capability checklist under `docs/install/`.
 - Framework shape and rationale: use `docs/framework.md`.
-- Maturity definitions and failure signals: use `docs/maturity-model.md` when
-  routed there.
-- Broad installation reference: use `docs/implementation-guide.md` after the
-  staged installer or a stage checklist routes you there.
+- Capability outcomes and prerequisites: use `docs/capability-map.md`.
+- Broad implementation reference: use `docs/implementation-guide.md` for a
+  cross-cutting question after reading the active installer sources.
 - Portability and adaptation boundaries: use `docs/portable-assets.md` when
   adaptation scope is unclear.
 - Platform adapters: use `docs/platform-support.md`, then only the relevant
@@ -56,12 +59,12 @@ Then ask an agent:
 
 ```text
 Use ../harness-framework/docs/installer.md to fit the smallest useful agent
-harness stage to this repo. Start with Level 1 unless I explicitly approve a
-different current stage. Inspect this repo first, write and persist the current
-stage proposal under /tmp by default, present the exact proposal text before
-editing, ask for explicit approval or corrections, install only the approved
-current-stage assets, validate the stage, and record the final proposal or
-equivalent stage handoff under docs/harness/.
+harness Profile Change to this repo. If no Current Harness Profile exists,
+propose Bounded Work only. Inspect this repo first, write and persist one exact
+proposal under /tmp by default, present it before editing, ask for explicit
+approval or corrections, change only the approved files and behavior, validate
+the selected outcome, update the Current Harness Profile only when evidence
+supports it, leave a durable handoff under docs/harness/, and stop.
 ```
 
 ### Option B: Temporary Bootstrap Directory
@@ -71,34 +74,33 @@ an agent:
 
 ```text
 Use .harness-bootstrap/docs/installer.md to fit the smallest useful agent
-harness stage to this repo. Start with Level 1 unless I explicitly approve a
-different current stage. Inspect this repo first, write and persist the current
-stage proposal under /tmp by default, present the exact proposal text before
-editing, ask for explicit approval or corrections, install only the approved
-current-stage assets, validate the stage, record the final proposal or
-equivalent stage handoff under docs/harness/, and remove .harness-bootstrap/
-after installation.
+harness Profile Change to this repo. If no Current Harness Profile exists,
+propose Bounded Work only. Inspect this repo first, write and persist one exact
+proposal under /tmp by default, present it before editing, ask for explicit
+approval or corrections, change only the approved files and behavior, validate
+the selected outcome, update the Current Harness Profile only when evidence
+supports it, leave a durable handoff under docs/harness/, stop, and remove
+.harness-bootstrap/ after installation.
 ```
 
 ### Expected First Install
 
-Most first trials should install only the Level 1 assets from
-`manifests/level-1.yml`. The agent should adapt those files to the target repo
-and explicitly defer anything else. Use `docs/install/level-1.md` as the Level
-1 stage checklist.
+Most first trials should add only Bounded Work from
+`manifests/bounded-work.yml`. The agent should adapt only the approved selected
+scope and explicitly defer anything else. Use
+`docs/install/bounded-work.md` as the capability checklist.
 
-Level 1 includes bounded work execution: work-brief shaping, implementation
+Bounded Work includes work-brief shaping, implementation
 guidance, review guidance, verification expectations, and the skill-use rules
 for ordinary harness work. It also requires narrow Stop automation for the
 target repo's desired hook-capable agent runtime(s), running
 `scripts/repo-checks.sh`.
 
-After Level 1 validates, the default is to stop. When repo evidence and the
-human justify another capability, use `docs/install/level-2.md` for context
-routing, `docs/install/level-3.md` for selected deterministic controls, or
-`docs/install/level-4.md` for selected maintainability sensors. Level 4 does not
-certify that Levels 2 or 3 are installed, and none of these stages should be
-adopted wholesale merely because they exist.
+After Bounded Work validates and enters the Current Harness Profile, stop. A
+later human-selected Profile Change may use `docs/install/focused-context.md`,
+`docs/install/agent-action-boundaries.md`, or
+`docs/install/maintainability-feedback.md`. These capabilities are independent
+branches that require Bounded Work; none is selected merely because it exists.
 
 ## Asset Types
 
@@ -109,9 +111,8 @@ Installable assets are copied or adapted into the target repo only when the
 Harness Fit Proposal justifies them.
 
 Adapters are runtime-specific integrations for tools such as Codex, Claude,
-Cursor, pre-commit, or CI. Install only the narrow adapter needed for required
-Level 1 Stop automation unless the target repo uses another environment feature
-or the human explicitly wants it.
+Cursor, pre-commit, or CI. Install only the narrow adapter selected for the
+current capability realization and exact approved scope.
 
 `CLAUDE.md` is conditional on Claude Code support. When installed, it should
 remain a thin pointer to `AGENTS.md`:
@@ -130,9 +131,10 @@ then only the platform note for the adapter being installed.
 
 ## Default Trial Target
 
-For an initial trial, prefer the Level 1 harness defined in
-`manifests/level-1.yml`. Add more only when repo evidence or human preference
-justifies it.
+For an initial trial, prefer Bounded Work as defined in
+`manifests/bounded-work.yml`. Add another capability only through a later
+dependency-valid Profile Change justified by observed evidence or a credible
+anticipated need.
 
 ## Repository Checks
 

@@ -4,7 +4,7 @@ Audience: agents and maintainers changing this framework or fitting its assets
 to a target repo.
 
 Use when: deciding whether a harness component, document, adapter, skill,
-script, or maturity claim earns its maintenance cost.
+script, or capability claim earns its maintenance cost.
 
 The following principles guide framework maintenance and target-repo harness
 design. The framework should follow them itself; installed harnesses should

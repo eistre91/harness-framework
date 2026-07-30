@@ -199,9 +199,9 @@ If the same policy must also run in Codex, pre-commit, or CI, the Claude hook
 should dispatch to a shared runner and translate only Claude-specific input and
 output.
 
-## Level 1 Stop Adapter
+## Bounded Work Stop Adapter
 
-For the required Level 1 `repo-checks-on-stop` behavior, use the standard
+For the selected Bounded Work `repo-checks-on-stop` behavior, use the standard
 shared runner from `adapters/common-hooks` plus the Claude Code declaration and
 wrapper from `adapters/claude`.
 
@@ -325,5 +325,5 @@ Add Claude Code support when:
 For Claude Code instruction loading, a one-line `CLAUDE.md` pointer should be
 enough. Keep it as `@AGENTS.md` unless there is a genuine Claude-specific
 behavior to document. If Claude Code is a desired hook-capable agent runtime in
-current scope, Level 1 also needs the required `repo-checks-on-stop` behavior
+selected scope, Bounded Work also needs the required `repo-checks-on-stop` behavior
 through a narrow Claude Code Stop hook adapter when supported.

@@ -22,8 +22,8 @@ Then route framework work by task:
 
 - Installer workflow changes: `docs/installer.md`, then the relevant
   `docs/install/*.md` checklist.
-- Framework concepts or maturity language: `docs/framework.md` and, when
-  needed, `docs/maturity-model.md`.
+- Framework concepts: `docs/framework.md`; capability outcomes and
+  prerequisites: `docs/capability-map.md`.
 - Asset boundary changes: the relevant manifest in `manifests/`.
 - Target-repo installable content: the source template under `templates/` or
   skill under `skills/`.
@@ -31,7 +31,7 @@ Then route framework work by task:
   platform note or adapter README.
 - Deferred ideas: `TODO.md`; treat it as a work record, not active guidance.
 
-Do not load future-facing docs such as `docs/level-5-orchestration.md` unless
+Do not load future-facing docs such as `docs/multi-work-coordination.md` unless
 the task is about that topic.
 
 ## Source Of Truth
@@ -40,7 +40,7 @@ the task is about that topic.
 - Course purpose and its relationship to the framework live in
   `docs/course-maintenance.md`.
 - Installer routing lives in `docs/installer.md` and `docs/install/`.
-- Maturity definitions live in `docs/maturity-model.md`.
+- Capability definitions and prerequisites live in `docs/capability-map.md`.
 - Asset lists live in `manifests/`.
 - Installable templates live in `templates/`.
 - Reusable skill bodies live in `skills/`.
@@ -55,9 +55,9 @@ Keep framework changes small and justified by a current need or recorded
 failure signal. Avoid speculative process, optional assets, adapters, or
 automation.
 
-When changing installer docs, preserve staged installation: current stage first,
-human approval before edits, validation and handoff before another stage is
-inspected.
+When changing installer docs, preserve staged installation as one Profile
+Change at a time: dependency check first, human approval before edits, then
+validation and handoff before another capability is inspected.
 
 When changing target-repo templates or skills, keep them portable. Repo-specific
 commands, paths, trackers, and policies should be adaptation points, not baked

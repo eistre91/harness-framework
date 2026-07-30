@@ -1,214 +1,217 @@
-# Staged Harness Installer
+# Profile Change Harness Installer
 
 Audience: agents and maintainers fitting this framework to a target repo.
 
-Use when: installing the harness in a target repo. For conceptual framework
-design, use `docs/framework.md`. For broad installation reference, use
-`docs/implementation-guide.md` after this staged entrypoint routes you there.
+Use when: adding, removing, or changing one capability realization in a target
+repo's Harness Profile. The Capability Map and the selected manifest and
+checklist are the conceptual and procedural installation owners.
 
 ## Rule
 
-Install and validate the harness one maturity stage at a time.
+Fit, approve, realize, and validate one Profile Change at a time.
 
 The default path is:
 
 ```text
-inspect -> Level 1 proposal -> human approval -> Level 1 install ->
-validation and handoff -> human decision to stop or explicitly select another stage
+read current profile and prerequisites -> select one Profile Change ->
+inspect only its scope -> persist proposal -> human approval -> realize ->
+validate outcome -> update profile and hand off -> stop
 ```
 
-Do not turn eligibility for a later level into approval to install that later
-level. A target repo may show signs that Level 2 context routing, selected
-deterministic controls, or maintainability sensors will be useful, but the
-installer should first install a clear Level 1 bounded-work foundation and
-validate that ordinary agent work can start there.
+If the repo has no installed Harness Profile, the only eligible addition is
+Bounded Work. Install and validate that foundation, update the profile, hand
+off, and stop before the human decides whether to consider another capability.
+
+Eligibility is not approval. Repo evidence may suggest several useful
+capabilities, but the current proposal authorizes only one addition, removal,
+or realization change and its exact selected scope.
 
 ## Always-Read Sources
 
-Read these before any staged install:
+Before inspecting a Profile Change, read:
 
-- `docs/principles.md`
-- this file
-- the current stage checklist under `docs/install/`, when one exists
-- the current stage manifest
+- `docs/principles.md`,
+- this file,
+- the Canonical Prerequisites table and selected domain in
+  `docs/capability-map.md`,
+- the target repo's Current Harness Profile in `docs/harness/README.md`, or
+  establish that it has `No installed Harness Profile`, and
+- the current or latest fit proposal only when it contains unresolved facts
+  relevant to the selected change.
 
-The current stage checklist names any additional current-stage templates,
-skills, or reference docs to read. Do not load higher-level manifests, optional
-asset manifests, adapter docs, future-facing TODOs, or exploratory docs unless
-the current stage checklist or human-approved scope explicitly requires them.
+After the dependency check establishes that the change is eligible, read only:
 
-A current maturity-stage manifest is additive and is the only maturity-stage
-manifest the installing agent reads for that stage. `prerequisite_manifest`
-records required prior state and validator compatibility; it is not an
-instruction to recursively open the prerequisite checklist or manifest. Use
-the durable handoff from the completed prerequisite stage to establish prior
-completion. Bounded reads of `optional-assets.yml` or other additional sources
-remain valid when the current checklist or human-approved scope explicitly
-routes to them.
+- the selected capability checklist under `docs/install/`,
+- the selected capability manifest, and
+- current-change sources explicitly routed by that checklist, manifest, or
+  human-approved scope.
 
-If the human asks to inspect another stage and no checklist exists for that
-stage, do not infer the path silently. Say that the stage checklist is missing,
-then use the stage manifest if one exists, `docs/maturity-model.md`, and
-`docs/implementation-guide.md` as provisional references only after the human
-confirms that stage inspection should proceed. Record the missing checklist
-or manifest as a framework follow-up in the stage handoff.
+Do not recursively open dependency manifests or checklists. The Capability Map
+owns prerequisite semantics, manifests project direct prerequisites into
+executable data, and the Current Harness Profile records whether those
+prerequisites are realized and validated in this repo.
 
-If you need a broad conceptual answer while installing, prefer the smallest
-relevant source. Use `docs/framework.md` only when the staged installer docs and
-principles do not answer a harness-design question.
+Do not load sibling capability manifests, optional-asset manifests, adapter
+docs, future-facing TODOs, or exploratory Multi-Work Coordination guidance
+unless the current checklist or human-approved scope explicitly requires a
+bounded entry from one of them.
+
+If a human selects a capability with no checklist or manifest, report the
+missing installer source and stop that change. Do not infer an install path
+from conceptual or future-facing docs.
+
+## Dependency Check
+
+Resolve the selected capability's complete prerequisite closure from the
+Capability Map before inspecting its realization details.
+
+For an addition or realization change:
+
+1. Compare the closure with the Current Harness Profile.
+2. If every prerequisite is current, continue with only the selected change.
+3. If any prerequisite is absent, pause the selected change without drafting
+   or approving its realization.
+4. Offer one missing prerequisite as a separate current Profile Change.
+5. Install, validate, update the profile, hand off, and stop before the human
+   decides whether to return to the original capability.
+
+Do not bundle prerequisite files or behavior into a dependent proposal. A
+proposal may record why it paused, but it does not pre-authorize later work.
+
+For a removal:
+
+1. Resolve every current profile capability that directly or transitively
+   depends on the selected capability.
+2. Reject the removal while any such dependent remains current.
+3. Offer a dependent's removal or realization change only as a separate
+   Profile Change chosen by the human.
+4. Recompute closure before approving the original removal.
+
+Removing Bounded Work is eligible only when no dependent capability remains;
+the resulting state is `No installed Harness Profile`.
 
 ## Source Routing
 
-- Asset boundaries: manifests own what can be installed for each stage.
-- Installation sequence and checkpoints: this staged installer path owns the
-  workflow.
-- Portable adaptation rules: `docs/portable-assets.md`, when a stage needs
-  repo-specific adaptation boundaries clarified.
-- Platform-specific support: `docs/platform-support.md`, then the specific
-  platform note, only when the current approved stage includes that adapter.
-- Broad hook adapter design: `docs/hook-pattern.md`, only when the current
-  approved scope includes hooks beyond the narrow Level 1 Stop adapter or the
-  platform docs route there for a design question.
-- Mature or future-facing orchestration: do not read during ordinary Level 1
-  installation.
+- Capability outcomes and prerequisites: `docs/capability-map.md`.
+- Canonical installable boundaries and direct dependency projections:
+  `manifests/`.
+- Installation procedure, checkpoints, and handoff: this file and the selected
+  checklist under `docs/install/`.
+- Current repo-specific capability state: the Current Harness Profile in
+  `docs/harness/README.md`.
+- Proposed intent and exact edit authority: one Harness Fit Proposal, using
+  `templates/profile/docs/harness/fit-proposal.md` as the portable contract.
+- Portable adaptation rules: `docs/portable-assets.md`, only when the selected
+  change needs its adaptation seam clarified.
+- Platform support: `docs/platform-support.md`, then only the relevant platform
+  note when the approved change includes that adapter.
 
-## Stage Proposals
+Existing repo mechanisms may realize selected outcomes. Describe what is
+retained, adapted, added, or removed; do not label the installation with a
+mode or claim universal asset, behavioral, domain, or capability completeness.
 
-Each stage gets its own proposal. The proposal authorizes only the current
-stage's edits.
+## Fit Proposal
+
+Inspect only enough target-repo context to fit the selected capability and
+exact scope. Infer low-risk defaults from repo evidence and ask only questions
+that materially affect the change.
 
 Before editing target-repo files:
 
-1. Inspect only enough target-repo context to fit the current stage.
-2. Write and persist the stage proposal, usually under `/tmp` unless the human
-   chose another temporary planning location.
-3. Present the exact proposal text to the human.
-4. Wait for explicit approval or corrections.
+1. Write and persist the proposal outside the target-repo edit scope, usually
+   under `/tmp` unless the human chose another planning location.
+2. Present the exact proposal text to the human.
+3. Wait for explicit approval or corrections.
+4. Edit only the approved files and behavior.
 
-Inspect first, infer low-risk defaults from repo evidence, and ask only
-questions that materially affect the current-stage harness shape.
+Use `templates/profile/docs/harness/fit-proposal.md` as the required-field
+owner. Complete every applicable section and mark irrelevant sections not
+applicable; do not maintain a second proposal schema in installer guidance.
 
-The proposal should include:
+Out-of-scope observations remain plain observations. Do not classify them as a
+future Profile Change, preselect another capability or asset, load its
+implementation sources, or ask for approval to edit it.
 
-- current stage,
-- target maturity behavior for this stage,
-- installation mode: `canonical`, `starter`, or `overlay`,
-- asset completeness for this stage,
-- behavioral completeness expected after this stage,
-- files to create or edit,
-- adaptation decisions,
-- placeholders or gaps that are allowed for this stage,
-- current-stage deferrals,
-- human decisions needed before editing,
-- context used.
+## Entrypoint Compatibility Audit
 
-Use plain out-of-stage observations only when evidence appears while doing
-current-stage work. Do not classify those observations by future maturity level,
-preselect future assets, load optional manifests, or ask the human to approve
-later-stage edits in the current-stage proposal.
+When adding or changing Bounded Work or Focused Context, inspect every existing
+always-loaded agent instruction surface in the selected repo scope. Confirm
+that it does not silently broaden delegated authority, make broad project docs
+default reads, duplicate the current work source, bypass focused routing, or
+contradict the proposed entrypoint.
 
-## Required Human Checkpoints
+Record each conflicting surface and the approved handling in the fit proposal.
+Do not rewrite unrelated entrypoints or platform files without including them
+in the exact approved file scope. If an unapproved conflict would prevent the
+selected outcome, validation is incomplete and the Current Harness Profile
+must remain unchanged.
 
-Each stage has two human checkpoints.
+## Human Checkpoints
 
 Pre-edit approval:
 
-- The installer has written and persisted the stage proposal.
-- The human approves or corrects only the current stage's planned edits.
-- The installer edits only the approved files and behavior.
+- The exact proposal is persisted and presented.
+- The dependency check passed for this one change.
+- The human approves or corrects its files, behavior, validation, limits, and
+  deferrals.
+- Scope changes after approval require a revised proposal and renewed approval.
 
-Post-stage decision:
+Post-change decision:
 
-- The installer reports validation results, context used, installed files,
-  placeholders, gaps, deferrals, communication audit findings, and out-of-stage
-  observations.
-- The human decides whether to stop or explicitly select another stage.
+- The installer reports realized files and behavior, deviations, mechanical
+  verification, representative capability-outcome evidence, Known Limits,
+  deferrals, context used, and plain out-of-scope observations.
+- The Current Harness Profile is updated only when validation supports the
+  selected claim or resulting removal state.
+- The installer leaves a durable installation record or handoff and recommends
+  stopping.
+- The human later decides whether to select another Profile Change.
 
-## Stage Validation And Handoff
+## Validation, Profile Update, And Handoff
 
-Every completed stage leaves a lightweight handoff artifact. The final
-post-stage report can serve as that artifact when it is copied into the durable
-target-repo harness record.
+Validate the selected outcome, not merely the presence of files. Use the
+selected checklist's gate and representative evidence. Mechanical checks can
+support the result but cannot by themselves prove a capability claim.
 
-Record the durable stage state under `docs/harness/`. A simple install can put
-the decision log in `docs/harness/README.md`; a larger install may use
-`docs/harness/fit-proposal.md` or `docs/harness/install-log.md` with sections
-per stage.
+On passed validation:
 
-Canonical stage handoff fields:
+1. Update only the affected claim in the Current Harness Profile.
+2. Record selected scope, current realizations, evidence, Known Limits, and
+   revisit or removal signals.
+3. Confirm the resulting profile is dependency-closed.
+4. Leave a durable installation and validation record or handoff.
 
-- stage completed,
-- installation mode,
-- stage asset completeness,
-- stage behavioral completeness,
-- files installed or edited,
-- validation result,
+On failed or incomplete validation, leave the Current Harness Profile
+unchanged. Preserve the result, evidence, and next decision in the proposal or
+handoff. A Known Limit may narrow a demonstrated claim; it cannot replace
+evidence for one.
+
+Canonical handoff fields:
+
+- Profile Change and change type,
+- proposal and approval record,
+- files and behavior actually changed,
+- deviations and human decisions,
 - mechanical verification,
-- acceptance or communication evidence,
-- context used,
-- human decisions,
-- placeholders and gaps,
+- capability-outcome evidence and validation result,
+- Current Harness Profile decision and dependency-closure result,
+- selected scope, realizations, Known Limits, and revisit or removal signals,
 - deferrals,
-- out-of-stage observations,
-- recommended next action.
+- context used,
+- out-of-scope observations, and
+- recommended next action: stop by default, revise the current change, or wait
+  for the human to select another change.
 
-For large target repos, treat a stage boundary as a natural context-window
-split. A fresh agent should be able to continue from the durable stage handoff
-without relying on chat history.
+For large target repos, use the Profile Change boundary as a natural context
+split. A fresh agent should be able to continue from the Current Harness
+Profile, proposal, and handoff without relying on chat history.
 
-## Level 1 First
+## Implemented Capability Checklists
 
-Most installs should begin with Level 1. Use `docs/install/level-1.md` for the
-current Level 1 stage checklist.
+- Bounded Work: `docs/install/bounded-work.md`
+- Focused Context: `docs/install/focused-context.md`
+- Agent Action Boundaries: `docs/install/agent-action-boundaries.md`
+- Maintainability Feedback: `docs/install/maintainability-feedback.md`
 
-Level 1 includes bounded work execution: work-brief shaping, implementation
-guidance, review guidance, verification expectations, and the skill-use rules
-for ordinary harness work. Level 0 is the no-installed-harness baseline, not an
-installer stage.
-
-## Level 2 Context Routing
-
-After Level 1 has been installed and validated, ask whether to stop or inspect
-context routing. If the human chooses Level 2 inspection, use
-`docs/install/level-2.md` for the current Level 2 stage checklist.
-
-Do not inspect Level 3 deterministic controls, maintainability sensors, or
-future orchestration guidance during Level 2 unless the human explicitly
-changes the current approved stage or the Level 2 checklist routes to a narrow
-current-stage pull-in.
-
-## Level 3 Selected Deterministic Controls
-
-Selected deterministic controls may be inspected after Level 1 has been
-installed and validated when the human chooses that stage or when the human
-explicitly approves a selected Level 3 pull-in as the current scope. Use
-`docs/install/level-3.md` for the current Level 3 stage checklist.
-
-Level 3 is a selected-control menu, not a required bundle. Do not treat a
-signal that one control family may help as approval to inspect or install every
-Level 3 family. Each selected control needs its own proposal row, human
-approval, validation, known limits, friction risk, and revisit or removal
-signal.
-
-Level 3 does not replace Level 1 repo checks. Level 1 owns
-`scripts/repo-checks.sh` and the narrow `repo-checks-on-stop` behavior. Level 3
-owns separately approved deterministic controls that constrain risky or
-repeatedly missed agent actions beyond that foundation.
-
-## Level 4 Selected Maintainability Sensors
-
-Selected maintainability sensors may be inspected after Level 1 has been
-installed and validated when the human chooses that stage or explicitly
-approves a selected Level 4 pull-in as the current scope. Use
-`docs/install/level-4.md` for the current Level 4 stage checklist.
-
-Level 4 is a selected-sensor menu, not a required bundle or certification that
-Levels 2 and 3 are installed. Each exact sensor needs a proposal, human
-approval, supervised trial, durable run record, operator disposition, known
-limits, cost/noise assessment, and revisit or removal signal. Completeness is
-stated only for the approved selected scope.
-
-Level 4 observations feed later triage; they do not repair findings or become
-gates without separate explicit delegation. After the Level 4 handoff,
-recommend stopping. Do not inspect exploratory Level 5 guidance unless the
-human explicitly requests it and confirms use of the missing-stage fallback.
+Multi-Work Coordination is emerging and has no installable package or
+checklist. Do not inspect or install it through this workflow.

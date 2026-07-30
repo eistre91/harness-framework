@@ -8,8 +8,8 @@ implementation concept.
 
 Project area briefs are current-state routing and compression docs. They name
 the relevant behavior, modules, invariants, caveats, and verification sources
-for a task. They do not record planned work or replace code, tests, schemas,
-the Agent Work Brief, ADRs, or deeper project references.
+for a current purpose. They do not record planned work or replace code, tests,
+schemas, the Agent Work Brief, ADRs, or deeper project references.
 
 ## Route Ownership
 

@@ -1,20 +1,21 @@
-name: level-4
-description: Selected maintainability sensors for observing accumulated drift and shaping bounded repair work.
-prerequisite_manifest: manifests/level-1.yml
+name: maintainability-feedback
+description: Independently selected sensors for observing accumulated drift and shaping bounded follow-up work.
+dependency_manifests:
+  - manifests/bounded-work.yml
 install_policy: >-
-  Install after Level 1 only when repo evidence or an operator-approved bounded
+  Install after Bounded Work only when repo evidence or an operator-approved bounded
   experiment justifies one or more exact maintainability sensors. Install and
   validate only the approved sensor scope; do not install every family by
-  default or treat Level 4 as certification of Levels 2 or 3.
-level_definition_source: docs/maturity-model.md#level-4-maintainability-sensors
+  default or imply selection of Focused Context or Agent Action Boundaries.
+capability_definition_source: docs/capability-map.md#maintainability-feedback
 assets:
   - id: selected-sensor-protocol
     asset_type: behavior
     required: true
     satisfy_by:
-      - Use docs/install/level-4.md to inspect only the sensor families and exact measurements in current approved scope.
+      - Use docs/install/maintainability-feedback.md to inspect only the observation families and exact mechanisms in the current human-selected Profile Change scope.
       - Propose every exact sensor before editing target-repo files and install only sensors explicitly approved by the operator.
-      - Record selected-scope completeness, trigger or cadence, operator, cost and noise, known limits, durable record destination, supervised trial, and revisit or removal signal.
+      - Record selected scope, trigger or cadence, operator, cost and noise, known limits, durable record destination, supervised trial, and revisit or removal signal.
       - Treat sensor output as evidence for operator disposition, not proof that repair is required.
     adapt:
       - selected sensor families and exact measurements
@@ -27,7 +28,7 @@ assets:
 
   - id: maintainability-policy
     asset_type: installable
-    source: templates/level-4/docs/harness/maintainability.md
+    source: templates/maintainability-feedback/docs/harness/maintainability.md
     default_target: docs/harness/maintainability.md
     required: true
     adapt:
@@ -38,7 +39,7 @@ assets:
       - durable record destinations
       - expected runtime, cognitive cost, noise, and known limits
       - supervised trial results and revisit or removal signals
-      - existing policy surface when overlay mode satisfies this behavior
+      - existing policy surface when it already satisfies this behavior
 
   - id: maintainability-skill
     asset_type: installable
@@ -83,7 +84,7 @@ assets:
     satisfy_by:
       - Select exact measurements such as dead code, duplication, complexity, module growth, churn, unused dependencies, test gaps, coverage trends, or broad static-analysis smells.
       - Prefer existing repo tools and interpret measurements against repo purpose and accepted design.
-      - Treat thresholds and reports as maintainability evidence unless a separately approved Level 3 control constrains an action.
+      - Treat thresholds and reports as maintainability evidence unless a separately approved Agent Action Boundary constrains an action.
     adapt:
       - exact measurement and scoped code surface
       - existing commands, reports, and baselines
@@ -96,12 +97,12 @@ assets:
     satisfy_by:
       - Select an exact established expectation such as an import boundary, layer rule, dependency cycle rule, coupling constraint, dependency-health signal, or vulnerability report.
       - Point to the target-repo source that establishes the expected architecture; do not invent architecture during sensor installation.
-      - Keep observation and later triage in Level 4 unless a separately approved Level 3 use guides, verifies, or blocks an action.
+      - Keep observation and later triage in Maintainability Feedback unless a separately approved Agent Action Boundary guides, verifies, or blocks an action.
     adapt:
       - established architecture or dependency source of truth
       - exact rule, report, and repo scope
       - mechanism, baseline, and known limitations
-    notes: The same detector may support Level 3 and Level 4 only when each use declares its purpose and effect and shared detection policy has one owner.
+    notes: The same detector may support Agent Action Boundaries and Maintainability Feedback only when each use declares its purpose and effect and shared detection policy has one owner.
 
   - id: documentation-semantic-drift-sensors
     asset_type: behavior
@@ -155,7 +156,7 @@ assets:
       - operator approval rules for cleanup
       - existing documentation-audit skills or commands
 
-excluded_from_level_asset_boundary:
+excluded_from_capability_scope:
   - mandatory third-party maintainability tools
   - a centralized finding database or required ledger file
   - framework-wide schedules or thresholds
@@ -165,5 +166,4 @@ excluded_from_level_asset_boundary:
   - a framework severity, debt, entropy, or confidence scoring system
   - synthetic changeability or feature-removal probes
   - periodic whole-system synthesis
-  - Level 5 orchestration
-  - replacing maturity levels with capability profiles
+  - Multi-Work Coordination

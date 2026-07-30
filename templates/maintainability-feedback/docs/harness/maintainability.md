@@ -6,8 +6,9 @@ approved maintainability sensors.
 Use when: a concrete recurring or high-cost signal, or an approved bounded
 experiment, justifies observing accumulated drift across work or sessions.
 
-This policy records only the sensors this repo selected. Framework sensor-family
-definitions belong to the Level 4 manifest and installer, not here.
+This policy records only the observation mechanisms this repo selected.
+Framework family definitions belong to the Maintainability Feedback manifest
+and installer checklist, not here.
 
 ## Operating Boundary
 
@@ -17,9 +18,10 @@ perform broad cleanup, install or reconfigure tooling, change enforcement, or
 create external tickets without separate explicit delegation.
 
 Treat tool and review output as evidence for operator disposition, not automatic
-proof that work is required. Classify a mechanism by purpose and effect: broader
-health observation and later triage is Level 4; guiding, verifying, or blocking
-a particular action is Level 3.
+proof that work is required. Classify a mechanism by purpose and effect:
+broader health observation and later triage is Maintainability Feedback;
+guiding, verifying, or blocking a particular action belongs to Agent Action
+Boundaries.
 
 ## Selected Sensors
 
@@ -28,7 +30,7 @@ inventing values.
 
 ### <Sensor name>
 
-- Family: <approved family ID from `manifests/level-4.yml`>
+- Family: <approved family ID from `manifests/maintainability-feedback.yml`>
 - Why now and beneficiary: <current evidence, risk, or bounded experiment; who
   is better off and how>
 - Intended debt categories: <one likely primary category and any possible
@@ -48,8 +50,9 @@ inventing values.
 - Revisit or removal signal: <evidence that would change, pause, or remove this
   sensor>
 
-Completeness applies only to the explicitly approved sensor scope. Do not imply
-that every sensor family is installed or that Levels 2 or 3 are present.
+The current profile claim applies only to explicitly selected and validated
+scope. Do not imply that every observation family or sibling capability is
+present.
 
 ## Run Records
 

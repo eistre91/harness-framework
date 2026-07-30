@@ -2,7 +2,7 @@ name: bootstrap
 description: Assets used while fitting this framework to a target repo. These usually should not remain installed in the target repo.
 install_policy: >-
   These entries are installer inputs only and do not authorize copying them
-  into a target repo. Install a source only when a current-stage or optional
+  into a target repo. Install a source only when a current-change or optional
   manifest separately selects it.
 assets:
   - id: principles-doc
@@ -12,35 +12,27 @@ assets:
   - id: staged-installer
     asset_type: bootstrap
     source: docs/installer.md
-    use_when: Starting the default staged installation workflow.
-  - id: level-1-installer-checklist
+    use_when: Starting the default one-Profile-Change installation workflow.
+  - id: bounded-work-installer-checklist
     asset_type: bootstrap
-    source: docs/install/level-1.md
-    use_when: Installing and validating the Level 1 bounded-work foundation.
-  - id: level-2-installer-checklist
+    source: docs/install/bounded-work.md
+    use_when: Adding, removing, or changing the Bounded Work realization.
+  - id: focused-context-installer-checklist
     asset_type: bootstrap
-    source: docs/install/level-2.md
-    use_when: Installing and validating Level 2 context routing.
-  - id: level-3-installer-checklist
+    source: docs/install/focused-context.md
+    use_when: Adding, removing, or changing the Focused Context realization.
+  - id: agent-action-boundaries-installer-checklist
     asset_type: bootstrap
-    source: docs/install/level-3.md
-    use_when: Installing and validating selected Level 3 deterministic controls.
-  - id: level-4-installer-checklist
+    source: docs/install/agent-action-boundaries.md
+    use_when: Adding, removing, or changing selected Agent Action Boundaries.
+  - id: maintainability-feedback-installer-checklist
     asset_type: bootstrap
-    source: docs/install/level-4.md
-    use_when: Installing and validating selected Level 4 maintainability sensors.
-  - id: framework-doc
+    source: docs/install/maintainability-feedback.md
+    use_when: Adding, removing, or changing selected Maintainability Feedback.
+  - id: capability-map
     asset_type: bootstrap
-    source: docs/framework.md
-    use_when: Understanding or editing the framework shape and rationale.
-  - id: implementation-guide
-    asset_type: bootstrap
-    source: docs/implementation-guide.md
-    use_when: Consulting broad installation reference after the staged installer routes there.
-  - id: maturity-model
-    asset_type: bootstrap
-    source: docs/maturity-model.md
-    use_when: Choosing or reviewing maturity after the current stage requires it.
+    source: docs/capability-map.md
+    use_when: Resolving capability outcomes and prerequisite closure for the current Profile Change.
   - id: portable-assets
     asset_type: bootstrap
     source: docs/portable-assets.md
@@ -61,22 +53,22 @@ assets:
     asset_type: bootstrap
     source: scripts/sync_claude_skills.py
     use_when: Installing generated Claude Code skill mirrors from explicitly marked canonical .agents/skills sources.
-  - id: level-1-manifest
+  - id: bounded-work-manifest
     asset_type: bootstrap
-    source: manifests/level-1.yml
-    use_when: Selecting default bounded-work starter assets.
-  - id: level-2-manifest
+    source: manifests/bounded-work.yml
+    use_when: Selecting the Bounded Work foundation assets and behaviors.
+  - id: focused-context-manifest
     asset_type: bootstrap
-    source: manifests/level-2.yml
-    use_when: Selecting additive assets and behaviors for context routing.
-  - id: level-3-manifest
+    source: manifests/focused-context.yml
+    use_when: Selecting Focused Context assets and behaviors.
+  - id: agent-action-boundaries-manifest
     asset_type: bootstrap
-    source: manifests/level-3.yml
-    use_when: Selecting deterministic control families and protocol for Level 3.
-  - id: level-4-manifest
+    source: manifests/agent-action-boundaries.yml
+    use_when: Selecting exact Agent Action Boundary families and their protocol.
+  - id: maintainability-feedback-manifest
     asset_type: bootstrap
-    source: manifests/level-4.yml
-    use_when: Selecting maintainability sensor families and protocol for Level 4.
+    source: manifests/maintainability-feedback.yml
+    use_when: Selecting exact Maintainability Feedback sensor families and their protocol.
   - id: optional-assets-manifest
     asset_type: bootstrap
     source: manifests/optional-assets.yml
