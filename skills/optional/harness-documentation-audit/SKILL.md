@@ -188,7 +188,8 @@ not enter cleanup steps 7 through 10 without separate delegation.
 
 ## Output Format
 
-For each doc, recommend one:
+Report only docs that produce an actionable recommendation or a judgment call.
+For each finding, recommend one:
 
 - keep,
 - simplify,
@@ -196,15 +197,15 @@ For each doc, recommend one:
 - merge,
 - remove.
 
-For each reviewed doc, report:
+Include:
 
 - Document: path and purpose.
-- Audience: current implied audience and better specific audience.
-- Risk: stale, misleading, over-routed, duplicated, low-value, or missing.
-- Source truth: code, tests, scripts, UI, generated artifacts, ADRs, or docs
-  checked.
+- Risk and evidence: the concrete problem and source of truth checked.
 - Recommendation: keep, simplify, move, merge, or remove.
-- Routing changes: links, indexes, maps, references, and tests to update.
+- Routing changes: links, indexes, maps, references, or tests to update.
+
+Note good documentation that should be preserved. Finish with a compact list of
+files reviewed; do not emit a clean report entry for every file.
 
 Do not remove, move, or merge docs without human approval unless the operator
 has explicitly delegated that batch.

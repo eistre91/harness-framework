@@ -12,11 +12,6 @@ is a map, not an installation checklist or a second procedure.
 Harness implementation is repo diagnosis plus collaborative workflow design,
 not blind template installation.
 
-Fit one dependency-valid Profile Change at a time. Select the smallest scope
-that improves current human-agent work, validate its outcome, update the Current
-Harness Profile only when evidence supports the claim, leave a durable handoff,
-and stop.
-
 ## Source Of Truth Map
 
 When sources conflict, update or trust the owner below rather than copying its
@@ -54,25 +49,6 @@ contract here.
 Do not maintain second copies of schemas, file lists, proposal fields,
 checklists, commands, gates, or report formats in this reference.
 
-## Implementation Routing
-
-Use this sequence:
-
-```text
-principles -> Capability Map and Current Harness Profile -> installer
-  -> one selected capability checklist and manifest
-  -> manifest-named templates, skills, and narrow routed references
-```
-
-If no Current Harness Profile exists, Bounded Work is the only eligible first
-addition. For any other addition, inspect the Capability Map's prerequisite
-closure before reading realization sources. An absent prerequisite pauses the
-selected change and requires its own separately approved Profile Change.
-
-Read only sources needed for the current selection and exact proposed scope.
-Record signals outside that scope as plain observations without preselecting
-another capability or granting authority to edit it.
-
 ## Decision Lens
 
 ### Start Small
@@ -102,52 +78,6 @@ Keep universal operating guidance in the repo entrypoint, deterministic checks
 in `scripts/repo-checks.sh`, phase-specific workflow in harness skills and
 work-brief guidance, durable current state in the Current Harness Profile, and
 tool-specific behavior in thin adapters.
-
-## Common Routing Questions
-
-Where do proposal fields and authorization come from?
-
-Use `templates/profile/docs/harness/fit-proposal.md` together with the selected
-checklist. The persisted, human-approved proposal authorizes only its named
-files and behavior.
-
-Where do acceptance and profile-update decisions come from?
-
-Use the selected checklist's capability gate and `docs/installer.md`. Validate
-the selected outcome, not merely file presence. Failed or incomplete validation
-leaves the Current Harness Profile unchanged.
-
-Where do lint, type-check, and test commands come from?
-
-Use `docs/install/bounded-work.md` for discovery expectations and adapt
-`templates/core/scripts/repo-checks.sh`. Keep actual commands in the target
-repo's `scripts/repo-checks.sh`, not in descriptive docs.
-
-Where does work-brief storage and progress guidance live?
-
-Use `skills/core/harness-work-brief/`. Record target-repo storage, fallback,
-sync, and durability decisions in the current proposal and harness docs.
-
-Where do hook decisions live?
-
-Bounded Work owns its selected narrow `repo-checks-on-stop` realization.
-Secret guards, destructive-action controls, protected paths, or CI and
-pre-commit parity belong to a separately approved Agent Action Boundaries
-change unless they are merely thin adapters for already selected behavior.
-
-Where do maintainability decisions and run records live?
-
-Use `docs/install/maintainability-feedback.md` for selection and gate
-requirements and `manifests/maintainability-feedback.yml` for the family and
-asset boundary. Record selected mechanisms in the installed maintainability
-policy and each run on its approved durable work surface. Do not create a
-second debt backlog.
-
-Where do final report and handoff fields come from?
-
-Use `docs/installer.md` plus the selected capability checklist. Durable current
-state belongs in `docs/harness/README.md`; the proposal and handoff preserve
-change history without becoming competing profiles.
 
 ## Wording Check
 

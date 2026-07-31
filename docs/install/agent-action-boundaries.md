@@ -87,14 +87,9 @@ prevention.
 ## Proposal
 
 Use the Harness Fit Proposal contract and include only this one Agent Action
-Boundaries change. In addition to the common fields in `docs/installer.md`,
-record one compact row for every exact selected boundary:
-
-| Boundary | Why now | Event | Mode | Mechanism | Files | Validation | Friction risk | Known limits | Revisit or removal signal |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-|  |  |  | observe / guide / block / verify |  |  |  |  |  |  |
-
-Also make explicit:
+Boundaries change. Complete its Selected Agent Action Boundaries subsection with
+one row for every exact selected boundary. Apply these capability-specific
+decision rules:
 
 - current Bounded Work prerequisite evidence and relevant Known Limits,
 - exact discovery scope and operator decisions,
@@ -158,7 +153,7 @@ claim in `docs/harness/README.md`, confirm dependency closure, and complete the
 durable proposal or handoff. On failed or incomplete validation, leave the
 Current Harness Profile unchanged.
 
-In addition to the canonical handoff fields in `docs/installer.md`, record:
+In addition to the template's Installation And Validation Record, record:
 
 - selected boundary rows realized or already satisfied,
 - validation evidence for each changed boundary and its safe path,

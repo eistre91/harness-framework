@@ -11,31 +11,16 @@ package.
 
 ## Purpose
 
-Multi-Work Coordination applies when execution, coordination, validation, or
-harness improvement spans multiple work units that contribute to one larger
-outcome. That can include separately progressing agents, owners, issues,
-implementation slices, or validation passes, as well as unattended runners,
-structured protocols, eval suites, tracker adapters, and coordination rules.
-
-The goal is not to maximize autonomy. The goal is to let larger work survive
-fresh contexts, repeated attempts, independent validation, and human-required
-checkpoints without losing intent or state. Human ownership of strategy,
-product meaning, architecture direction, priority, trade-offs, and acceptable
-risk remains unchanged.
-
-One work unit may still span multiple sessions, contexts, or attempts. That is
-a Bounded Work realization, not Multi-Work Coordination. This capability begins
-when multiple work units must preserve their relationships and contribute to a
-larger outcome.
+Use the Capability Map for the outcome, boundary, and selection guidance. This
+sketch starts from that definition and explores candidate phase artifacts,
+checkpoints, context boundaries, mechanisms, and open operating questions.
 
 ## Candidate Work Model
 
-`docs/framework.md` owns the framework meanings of Initiative and Source Work
-Item. The Capability Map owns Work Unit. This sketch uses those terms without
-redefining them and adds one provisional coordination term:
-
-- Attempt: one bounded execution pass against a work unit, with actor, status,
-  files touched, decisions, divergences, evidence, blockers, and next action.
+`docs/framework.md` owns shared work-model terminology. The Capability Map owns
+the capability definition and its use of Initiative. This sketch uses those
+terms without redefining them. The formal Session and Attempt model remains an
+open decision in `TODO.md`.
 
 The storage system is deliberately unspecified. Jira, GitHub Issues, Linear,
 repo files, PRs, or a dedicated coordination store can satisfy the contract if
@@ -67,20 +52,11 @@ Possible artifacts include:
 Keep these artifacts as small as possible while still allowing a fresh agent or
 human to continue without relying on chat history.
 
-## Validation Result Sketch
+## Validation Result Needs
 
-Coordinated work may eventually report one of:
-
-- Pass: the work satisfies the brief and no material residual risk is known.
-- Pass with risks: the work may be acceptable, but residual risk, incomplete
-  scope, uncertain acceptance, or trade-off debt requires explicit human
-  approval before closeout.
-- Fail: the work does not satisfy the brief, verification failed, review found
-  material issues, or acceptance evidence is insufficient.
-
-This schema is provisional. Future guidance may need separate states for
-blocked work, missing human decisions, unavailable environments, or validation
-that cannot be completed.
+A future validation contract must distinguish successful completion, retained
+risk requiring human judgment, and work that cannot close. Exact result and
+state names remain open in `TODO.md`.
 
 ## Human-Required Checkpoints
 
@@ -139,28 +115,6 @@ eventually justify:
 Adopt only the smallest mechanism that addresses a demonstrated coordination
 cost. Keep a component brief for each new harness part, and simplify or remove
 mechanisms that stop earning their maintenance cost.
-
-## Selection Signals
-
-Continue exploring this capability when:
-
-- work routinely decomposes into multiple separately progressing work units,
-- work spans many short-lived sessions, agents, issues, or owners,
-- humans repeatedly reconstruct larger-work state from chat, commits, or
-  scattered comments,
-- ordinary handoffs do not preserve dependencies, ownership, evidence, or next
-  action,
-- multiple agents need explicit research, implementation, review, or
-  integration responsibilities,
-- harness behavior itself needs coordinated regression testing.
-
-Defer additional machinery when:
-
-- one Bounded Work lifecycle remains sufficient,
-- a human is closely guiding most work,
-- work is small enough for one work unit,
-- a work brief and verification script solve the observed continuity need,
-- the proposed coordination surface would add more state or process than value.
 
 ## Open Questions
 

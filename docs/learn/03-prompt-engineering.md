@@ -2,9 +2,9 @@
 
 If you own the agent's trajectory, the prompt is the first place you shape it: by communicating the outcome and what should guide decisions along the way.
 
-Early prompt engineering often felt like an esoteric magical art. If you wanted an LLM to perform well, you had to find the right words and the right structure. The process was vague, imprecise, and iterative, and everyone seemed to have a special technique for making the model do exactly the right thing.
+Prompting can feel like an esoteric art: find the right words and structure, then iterate until the model behaves as intended.
 
-Capable reasoning models need much less of that choreography. Many techniques designed around the limitations of earlier models are no longer necessary. Many of them simply waste time and context, and some can even make results worse.
+Reasoning-capable models often need less of that choreography. Techniques designed to compensate for model limitations can waste time and context, or make results worse, when the selected model already handles the underlying reasoning well.
 
 Effective prompt engineering can be boiled down to two concepts: intent and priorities. Intent answers, "What should the agent accomplish?" Priorities answer, "What should guide its decisions along the way?" Together, they provide a framework for shaping prompts even as models and techniques change.
 
@@ -150,7 +150,7 @@ Treat the resulting prompt as a starting point. The agent can surface candidate 
 
 ### Guiding Reasoning
 
-Chain-of-thought prompting is an older technique that asks a model to reason through a problem step by step before answering. It can still help some models and tasks, but it is not a good default for models trained to reason internally. Prescribing a detailed reasoning path can constrain the model to a worse approach than it would find on its own.
+Explicit step-by-step reasoning prompts can help some model and task combinations, but they are not a reliable default. For reasoning models, prescribing a detailed reasoning path can constrain the model to a worse approach than it would find on its own.
 
 This doesn't mean leaving reasoning entirely unframed. If there are sources the agent must inspect, alternatives it should consider or checks it should perform before concluding, say so. Tell the agent what should inform its decision and what should validate its conclusion.
 

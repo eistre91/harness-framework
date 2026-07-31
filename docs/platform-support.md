@@ -127,13 +127,12 @@ Keep platform differences at the adapter edge:
 | Trust/settings | Project `.codex` config and changed non-managed hooks must be trusted | Project settings can be disabled or limited by managed policy |
 | Windows command | `commandWindows` or TOML `command_windows` can call the wrapper, but the checks command still needs POSIX shell support | Use explicit shell or a Windows wrapper only when `scripts/repo-checks.sh` can run |
 
-The shared hook behavior is portable across Codex and Claude Code, but the
-The Bounded Work checks command is `scripts/repo-checks.sh`. The provided declarations
-are POSIX-oriented examples and require an environment that can execute that
-script, such as POSIX shell, Git Bash, or WSL. On native Windows without that
-support, changing only `commandWindows`, `command_windows`, or the Claude
-settings command is not enough. Record an unsupported-runtime gap, or add a
-target-specific Windows check adapter with explicit approval.
+The Bounded Work checks command is `scripts/repo-checks.sh`. The provided
+declarations are POSIX-oriented examples and require an environment that can
+execute that script, such as POSIX shell, Git Bash, or WSL. On native Windows
+without that support, changing only `commandWindows`, `command_windows`, or the
+Claude settings command is not enough. Record an unsupported-runtime gap, or
+add a target-specific Windows check adapter with explicit approval.
 
 Validate the adapter before recording it as a current Bounded Work realization:
 
@@ -151,8 +150,9 @@ Validate the adapter before recording it as a current Bounded Work realization:
 ## Hook Pattern
 
 This is the routing summary. For the full platform-independent hook reference,
-including event flows, shared entrypoint shape, testing strategy, and security
-guidance, read `docs/hook-pattern.md` only when hook design is in current scope.
+including event flows, shared result and wrapper shape, testing strategy, and
+security guidance, read `docs/hook-pattern.md` only when hook design is in
+current scope.
 
 When multiple runtimes need the same hook behavior, use this shape:
 
@@ -162,46 +162,6 @@ platform hook config
   -> shared hook runner
   -> platform adapter maps result back to platform output
 ```
-
-The shared runner should receive a normalized input shape, for example:
-
-```json
-{
-  "platform": "codex",
-  "event": "PreToolUse",
-  "cwd": "/repo",
-  "tool_name": "Bash",
-  "tool_input": {},
-  "raw": {}
-}
-```
-
-The shared runner should return a small neutral result, for example:
-
-```json
-{
-  "status": "pass",
-  "message": ""
-}
-```
-
-Platform adapters own the unstable parts:
-
-- hook declaration syntax,
-- hook event names,
-- platform JSON input schema,
-- platform JSON or exit-code output schema,
-- path placeholders and environment variables,
-- trust or permission behavior.
-
-The shared runner owns the stable policy:
-
-- which repo checks command to run,
-- which paths or commands are sensitive,
-- what counts as pass, warn, or block,
-- whether an operation is safe for this specific hook event or tool call,
-  including whether a command can run concurrently in the current context,
-- how messages should be phrased for humans and agents.
 
 ## Skill Pattern
 

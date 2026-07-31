@@ -14,19 +14,19 @@ the ideas in this repo.
   by `agenticoding`.
   A course on AI-assisted software development, including methodology,
   workflow design, onboarding, planning, testing, reviewing, and debugging.
-  License observed on GitHub: MIT.
+  License observed: [MIT at `823036f`](https://github.com/agenticoding/agenticoding.github.io/blob/823036f09192e5dd3734307031de1db90c23822f/LICENSE), checked 2026-07-30.
 
 - [Skills For Real Engineers](https://github.com/mattpocock/skills)
   by Matt Pocock.
   A public collection of small, adaptable, composable agent skills for real
   engineering work.
-  License observed on GitHub: MIT.
+  License observed: [MIT at `2ab9580`](https://github.com/mattpocock/skills/blob/2ab958093e83e0ec752e6c1c5932da465bf23e0c/LICENSE), checked 2026-07-30.
 
 - [Learn Harness Engineering](https://github.com/walkinglabs/learn-harness-engineering)
   by `walkinglabs`.
   A project-based course on the environment, state management, verification,
   and control mechanisms that make AI coding agents work reliably.
-  License observed on GitHub: MIT.
+  License observed: [MIT at `e587e4c`](https://github.com/walkinglabs/learn-harness-engineering/blob/e587e4cce9cfe9b0523fd79d6e0152d4a1f1dfc3/LICENSE), checked 2026-07-30.
 
 ## Articles And Essays
 
@@ -48,7 +48,7 @@ the ideas in this repo.
   decomposition, structured handoffs, context resets, evaluator agents, and
   criteria-driven feedback.
 
-- [Getting AI to Work in Complex Codebases](https://github.com/humanlayer/advanced-context-engineering-for-coding-agents/blob/main/ace-fca.md)
+- [Getting AI to Work in Complex Codebases](https://github.com/humanlayer/advanced-context-engineering-for-coding-agents/blob/a2da7968c7d5cbc8a58e9c559f4d9eea6d460d6c/ace-fca.md)
   by HumanLayer.
   An essay on frequent intentional compaction for coding agents, including
   context quality, research-plan-implement workflows, separate contexts,
@@ -77,26 +77,10 @@ the ideas in this repo.
   exploration, managing complexity, small steps, experiments, and feedback.
 
 
-## Commercial Use Posture
+## Use And Attribution
 
-As of 2026-06-15, the three reference repositories above are listed on GitHub
-with MIT licenses. MIT-licensed material is generally usable in commercial
-software, including copying, modification, distribution, sublicensing, and sale,
-provided that copies or substantial portions of the licensed material include
-the applicable copyright notice and permission notice.
-
-This repository currently treats those projects as references and prior art. It
-does not vendor files from them, install files from them, copy article content,
-or intentionally copy substantial protected expression from them. The
-attribution above is therefore intended as transparent credit, not as a
-third-party notice bundle for vendored MIT code or copied article content.
-
-## Attribution Notes
-
-- This repo does not vendor or install files from these projects.
-- Similar terms may appear because the projects discuss overlapping public
-  practices around agent skills, verification, workflow design, and harness
-  engineering.
+- These projects are references and prior art; this repo does not vendor or
+  install their files.
 - External articles are cited for ideas and context. Do not copy article text,
   images, diagrams, or other protected expression into this repository unless
   the applicable permission and attribution requirements are understood and

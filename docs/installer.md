@@ -186,21 +186,11 @@ unchanged. Preserve the result, evidence, and next decision in the proposal or
 handoff. A Known Limit may narrow a demonstrated claim; it cannot replace
 evidence for one.
 
-Canonical handoff fields:
-
-- Profile Change and change type,
-- proposal and approval record,
-- files and behavior actually changed,
-- deviations and human decisions,
-- mechanical verification,
-- capability-outcome evidence and validation result,
-- Current Harness Profile decision and dependency-closure result,
-- selected scope, realizations, Known Limits, and revisit or removal signals,
-- deferrals,
-- context used,
-- out-of-scope observations, and
-- recommended next action: stop by default, revise the current change, or wait
-  for the human to select another change.
+Complete every applicable section of
+`templates/profile/docs/harness/fit-proposal.md`, including its Installation And
+Validation Record, Context Used, and Out-Of-Scope Observations. The selected
+checklist may require capability-specific decisions and evidence, but it should
+point to the template rather than define another field schema.
 
 For large target repos, use the Profile Change boundary as a natural context
 split. A fresh agent should be able to continue from the Current Harness

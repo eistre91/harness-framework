@@ -105,37 +105,16 @@ Wrapper scripts should only:
 
 - resolve the repository root,
 - put the repository root on the language import path,
-- call the shared entrypoint with stable arguments such as event mode and
-  platform,
+- pass through common event fields and normalize platform-only differences,
+- call the shared evaluator or runner,
 - map the neutral shared result to the platform output schema.
 
-Example wrapper:
+A shared runner, when useful, should:
 
-```python
-#!/usr/bin/env python3
-from __future__ import annotations
-
-import sys
-from pathlib import Path
-
-ROOT = Path(__file__).resolve().parents[2]
-if str(ROOT) not in sys.path:
-    sys.path.insert(0, str(ROOT))
-
-if __name__ == "__main__":
-    from scripts.hooks.entrypoint import main
-
-    raise SystemExit(main(["pre-tool-use", "codex"]))
-```
-
-The shared entrypoint should:
-
-- read JSON from `stdin`,
-- ignore malformed or missing input by returning no decision,
-- dispatch by event mode,
-- extract only the fields needed by the shared policy,
-- convert the shared policy result into platform-compatible JSON,
-- exit `0` after emitting a decision or no output.
+- accept the smallest stable event input; it may parse a payload whose fields
+  have compatible meanings on every selected platform,
+- dispatch shared policy by event mode,
+- return a neutral result without printing platform output.
 
 The shared policy modules should:
 
@@ -146,58 +125,11 @@ The shared policy modules should:
 - be idempotent and race-tolerant when they write files, update state, or call
   external processes.
 
-## Shared Entrypoint Contract
+## Shared Result Contract
 
-A broad shared entrypoint can have this shape:
-
-```python
-from __future__ import annotations
-
-import os
-import sys
-
-from .common import load_payload, pre_tool_use_output, repo_root, session_start_output
-from .pre_tool_use import evaluate_pre_tool_use
-from .session_start import evaluate_session_start
-
-
-def main(argv: list[str] | None = None) -> int:
-    args = list(argv or sys.argv[1:])
-    if len(args) != 2:
-        return 0
-
-    mode, platform = args
-    payload = load_payload()
-    root = repo_root()
-
-    if mode == "session-start":
-        result = evaluate_session_start(root, env=os.environ, platform=platform)
-        if result.additional_context:
-            print(session_start_output(result.additional_context))
-        return 0
-
-    if mode == "pre-tool-use":
-        tool_name = str(payload.get("tool_name", "") or "")
-        tool_input = payload.get("tool_input")
-        if not isinstance(tool_input, dict):
-            tool_input = {}
-        result = evaluate_pre_tool_use(
-            root,
-            env=os.environ,
-            platform=platform,
-            tool_name=tool_name,
-            tool_input=tool_input,
-        )
-        if result.deny_reason:
-            print(pre_tool_use_output(result.deny_reason))
-        return 0
-
-    return 0
-```
-
-The `platform` argument may be unused at first. Keep it anyway. It gives the
-shared implementation an escape hatch for real platform differences without
-duplicating policy in wrappers.
+Shared runners and policy return a small result object rather than platform
+output JSON. Keep platform-only interpretation and all output mapping in the
+wrapper.
 
 Use a small result object instead of returning platform JSON from policy code:
 
@@ -229,21 +161,21 @@ For `SessionStart`, the flow should look like this:
 
 1. Platform starts or resumes a session.
 2. Platform runs its configured command hook.
-3. Wrapper imports the shared entrypoint.
-4. Entrypoint calls `evaluate_session_start(repo_root, env=...)`.
-5. Shared policy performs a fast setup or environment check.
-6. Shared policy returns either no context or an `additional_context` string.
-7. Entrypoint prints `hookSpecificOutput.additionalContext`.
+3. Wrapper normalizes the platform event and calls
+   `evaluate_session_start(repo_root, env=...)`.
+4. Shared policy performs a fast setup or environment check.
+5. Shared policy returns either no context or an `additional_context` string.
+6. Wrapper maps that result to the platform's context output.
 
 For `PreToolUse`, the flow should look like this:
 
 1. Platform prepares a supported tool call.
 2. Matcher selects the wrapper for that tool.
-3. Entrypoint reads `tool_name` and `tool_input` from `stdin`.
+3. Wrapper reads and normalizes `tool_name` and `tool_input`.
 4. Shared policy evaluates the operation.
 5. If allowed, the hook exits `0` with no output.
-6. If denied, the entrypoint prints JSON with `permissionDecision: "deny"` and
-   one actionable reason.
+6. If denied, the wrapper maps the neutral result to the platform's denial JSON
+   with one actionable reason.
 
 Important coverage note: a Claude `PreToolUse` matcher for `Read` does not have
 a direct Codex equivalent today. For portable enforcement, prefer checks on
@@ -381,24 +313,22 @@ Use this process when adding an event or rule:
 2. Confirm the event exists on each platform, or decide which platform should
    declare it.
 3. Add or update one shared evaluator in `scripts/hooks/`.
-4. Add output helpers only if the existing JSON response helpers do not cover
-   the event.
-5. Add or update the tiny wrappers for each platform.
-6. Add platform declaration entries with the narrowest practical matcher.
-7. Add unit tests for the shared evaluator and entrypoint dispatch.
-8. Manually smoke-test the hook in each platform if the change affects user
+4. Add or update each platform wrapper's input handling and output mapping.
+5. Add platform declaration entries with the narrowest practical matcher.
+6. Add unit tests for the shared evaluator and wrapper mapping.
+7. Manually smoke-test the hook in each platform if the change affects user
    workflow or enforcement.
 
-Do not copy policy code into `.claude/hooks/` and `.codex/hooks/`. If the new
-rule needs platform-specific handling, branch inside the shared evaluator on the
-explicit `platform` argument and leave a short comment explaining why.
+Do not copy policy code into `.claude/hooks/` and `.codex/hooks/`. Keep transport
+differences in wrappers. If the policy itself genuinely differs, expose that
+difference as an explicit neutral input or separate evaluator and document why.
 
 ## Testing Strategy
 
-Test the shared code directly:
+Test shared evaluators directly and platform transport through each wrapper:
 
-- `load_payload()` returns `{}` for empty, malformed, or non-object JSON.
-- Output helpers produce valid JSON with the expected hook event name.
+- Wrappers ignore empty, malformed, or non-object JSON safely.
+- Wrappers produce valid platform JSON for neutral shared results.
 - `SessionStart` policy returns setup context only when setup is missing or was
   changed.
 - `PreToolUse` policy denies only the intended tool inputs.
@@ -453,13 +383,14 @@ When applying this pattern to another repository:
    subset actually in scope.
 2. Add one wrapper script per platform/event.
 3. Add a shared `scripts/hooks/` package.
-4. Implement shared payload loading and JSON output helpers.
-5. Implement one policy evaluator at a time.
-6. Keep wrappers platform-specific but behavior-free.
-7. Keep platform JSON declarative and behavior-free.
-8. Unit-test shared policy with platform-shaped payloads.
-9. Smoke-test each platform from the repository root and a subdirectory.
-10. Document the repository's hook policy and how to bypass or repair it, if any
+4. Implement one policy evaluator at a time against ordinary values or common
+   stable event fields.
+5. Keep platform-specific input and output handling in policy-free wrappers.
+6. Keep platform declaration files policy-free.
+7. Unit-test shared evaluators with neutral or common inputs and wrappers with
+   platform-shaped payloads.
+8. Smoke-test each platform from the repository root and a subdirectory.
+9. Document the repository's hook policy and how to bypass or repair it, if any
     bypass or repair path exists.
 
 The success criterion is that a reviewer can answer "what behavior changed?" by

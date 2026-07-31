@@ -12,7 +12,7 @@ try:
     import yaml
 except ImportError:
     print(
-        "PyYAML is required. Run 'uv sync' from the repository root.",
+        "PyYAML is required. Run 'uv sync --locked' from the repository root.",
         file=sys.stderr,
     )
     sys.exit(2)

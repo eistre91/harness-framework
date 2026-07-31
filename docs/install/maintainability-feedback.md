@@ -95,8 +95,8 @@ dashboards, synthetic probes, or claims of objective comprehension.
 ## Proposal
 
 Use the Harness Fit Proposal contract and include only this one Maintainability
-Feedback change. In addition to the common fields in `docs/installer.md`, make
-these decisions explicit:
+Feedback change. Complete its Selected Maintainability Feedback subsection and
+apply these capability-specific decision rules:
 
 - current Bounded Work prerequisite evidence and relevant Known Limits,
 - exact discovery scope and the evidence or approved experiment justifying it,
@@ -106,21 +106,8 @@ these decisions explicit:
 - feedback families intentionally deferred, and
 - context used.
 
-For every exact selected observation, record:
-
-- family and exact mechanism or measurement,
-- why now, beneficiary, and intended drift categories,
-- repo surface, observation scope, and observation window,
-- mechanism and evidence sources,
-- trigger or cadence,
-- operator or decision owner,
-- durable record destination,
-- expected runtime, cognitive cost, noise, and false-positive risk,
-- Known Limits,
-- supervised trial command or procedure, and
-- revisit or removal signal.
-
-Use compact per-observation sections rather than an unreadably wide table.
+Use one compact subsection per exact selected observation as the template
+requires.
 Persist and present the exact proposal, then wait for human approval before
 editing target-repo files. Approval does not authorize findings repair,
 external issue creation, new gates, or another capability.
@@ -203,7 +190,7 @@ claim in `docs/harness/README.md`, confirm dependency closure, and complete the
 durable proposal or handoff. On failed or incomplete validation, leave the
 Current Harness Profile unchanged.
 
-In addition to the canonical handoff fields in `docs/installer.md`, record:
+In addition to the template's Installation And Validation Record, record:
 
 - each exact observation and approved proposal details,
 - policy, coordinator, specialist, tool, and existing-surface handling,

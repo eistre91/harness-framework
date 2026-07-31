@@ -280,8 +280,8 @@ should be intentional. An operator should explicitly point an agent at
 `docs/harness/README.md` or a specific harness document when the task is to
 modify the harness itself.
 
-The repo entrypoint should state that ordinary work routes through the
-canonical work source, installed skills, project docs, and local code.
+The repo entrypoint should state that ordinary work routes through the current
+request or agreed brief, installed skills, project docs, and local code.
 
 The escalation ladder for harness-doc over-reading is:
 
@@ -295,7 +295,6 @@ The escalation ladder for harness-doc over-reading is:
 
 `AGENTS.md` is the repo operating entrypoint. It should answer:
 
-- where work comes from,
 - where the Agent Work Brief skill/template bundle lives,
 - how to verify work,
 - where project context lives,
@@ -342,74 +341,13 @@ explicitly routes them there.
 
 The Agent Work Brief is the central artifact of the starter harness.
 
-It is the local executable form of work. It can be produced from a tracker
-ticket, issue, PRD, chat request, or planning conversation. The external work
-source can remain the team source of truth, while the brief gives agents a
-stable shape to work from.
+It is the executable shape of one bounded work unit. A tracker item, issue, PRD,
+chat request, or planning conversation may remain the durable source while the
+brief distills the accepted scope, context, constraints, decisions, and evidence
+needed for implementation and review.
 
-The brief should capture only the implementation and review context that
-matters:
-
-- what to build,
-- what not to build,
-- what boundary or interface is changing,
-- what context to read,
-- what trade-offs have been accepted,
-- what human-required checkpoints exist,
-- what evidence will prove the task is complete.
-
-For most Bounded Work, the Agent Work Brief is the minimal plan. It is not a
-planning transcript. The planning agent should distill context into accepted
-decisions, constraints, source-of-truth references, and acceptance evidence.
-
-The canonical template lives at
-`skills/core/harness-work-brief/work-brief-template.md`. Do not maintain a
-second copy here.
-
-Use tiers to describe work shape, not estimated size or ambient risk. Shape
-includes ambiguity, boundaries, affected areas, sequencing, migration, and
-context or coordination needs. Ambient risk can strengthen planning,
-verification, review, or checkpoints independently of tier; it adds no score,
-required field, or taxonomy.
-
-- Tiny: contained bug fix, docs tweak, prompt copy change, or test-only
-  cleanup. It may only need source, problem/outcome, context, verification, and done
-  criteria.
-- Standard: behavior change inside an existing pattern or interface. It should
-  include problem/outcome, non-goals, context, verification, and done criteria.
-- Complex: boundary/interface change, cross-area work, multi-session work,
-  sequencing, migration/backcompat concern, or product/design ambiguity. It
-  should include interface notes, accepted decisions, trade-offs, and
-  acceptance examples when relevant.
-
-Add the boundary/interface section when a task introduces, changes, or depends
-on a public behavior, module interface, API, CLI, integration,
-configuration/schema contract, schedule, job, file format, or other consumed
-surface.
-
-Add progress/divergence notes when work spans more than one session or departs
-from the original expectation. If the brief was drafted in a temporary local
-file, copy durable status, evidence, blockers, and accepted plan changes back
-to the canonical work source before handoff.
-
-Add human-required checkpoints when a human must clarify intent, approve a
-plan, approve an interface, accept residual risk, or evaluate acceptance before
-the work should move forward. Use checkpoints deliberately; too many gates
-create decision fatigue, while too few allow semantic drift and hidden risk.
-
-During planning, surface bounded choices:
-
-```text
-Recommended approach:
-Alternative A:
-Alternative B:
-Trade-off:
-Decision needed:
-Default if human delegates the choice:
-```
-
-The planning agent should help the human make decisions, not bury the human in
-undifferentiated options.
+The `harness-work-brief` skill owns source and fallback policy, shaping
+procedure, work tiers, and the canonical template.
 
 ## Interface Thinking
 
@@ -525,37 +463,13 @@ effect.
 
 ## Review
 
-A minimal review skill should be findings-led. It should prioritize:
+Mechanical verification shows that defined checks pass. Review makes judgment
+inspectable: whether the result fits the brief, respects boundaries, follows
+project patterns, and provides credible evidence. It can also return latent
+product, architecture, priority, or risk decisions to human ownership.
 
-- bugs,
-- missed requirements,
-- untested behavior,
-- over-engineering,
-- unnecessary dependencies,
-- misuse of existing project patterns,
-- unclear boundaries,
-- interfaces that are too broad or too narrow,
-- abstractions that are premature,
-- implementation that exceeds or misses the brief.
-
-Independent review means review in a fresh context by an agent that did not
-implement the change. Prefer it for standard or complex work when practical;
-self-review remains allowed but is lower-confidence, not a waiver protocol or a
-new gate.
-
-Review depth is proportional. Tiny work checks outcome, diff, obvious
-regressions, evidence, and scope. Standard work also checks requirements,
-design fit, boundaries, tests, security implications, and project conventions.
-Complex or elevated-risk work also checks broader consumers and dependencies,
-challenged premises, negative or migration cases, and relevant cross-boundary
-effects.
-
-Review is where many inferential checks belong. The harness should not force
-every engineering principle into implementation instructions. Some standards
-are better applied after the agent has produced a concrete change. Review
-should also surface latent product, architecture, domain, priority, or risk
-decisions that were not explicit in the brief and should return those decisions
-to human ownership.
+The `harness-review` skill owns findings format, independence guidance, and
+scaled review depth.
 
 ## Resteering
 
@@ -576,67 +490,15 @@ tolerance, with residual risks made visible to the humans who own them.
 
 ## Maintainability Lifecycle
 
-Maintainability should start as a selected, human-invoked or manually scheduled
-sensor, not a gate on every change. Its purpose is to observe accumulated drift
-and turn operator-approved findings into bounded improvement work.
+Maintainability Feedback observes accumulated or cross-work drift and feeds
+operator triage. It starts from a selected sensor or bounded experiment, not as
+a gate on every change. A mechanism that guides, verifies, or blocks a
+particular action belongs to Agent Action Boundaries instead.
 
-The lightweight cycle is:
-
-```text
-authorize a run
-  -> select the highest-value approved exact sensor
-  -> observe and gather evidence
-  -> classify findings
-  -> leave a durable maintainability record
-  -> review dispositions with the operator
-  -> shape approved bounded follow-up work
-  -> stop
-```
-
-The debt categories are:
-
-```text
-Technical debt:
-  code structure, duplication, missing tests, unsafe abstractions,
-  overly complex implementation
-
-Harness debt:
-  instructions, hooks, scripts, skills, or workflows that no longer help
-
-Cognitive debt:
-  humans and agents no longer share a clear model of what the system does
-
-Semantic debt:
-  docs, tickets, decisions, or requirements no longer match reality
-```
-
-Use the Maintainability Feedback outcome and selection guidance in
-`docs/capability-map.md`, family menu in
-`manifests/maintainability-feedback.yml`, and checklist in
-`docs/install/maintainability-feedback.md` to decide whether target-repo
-evidence or an approved bounded experiment justifies an exact observation
-mechanism. The resulting profile claim is limited to its selected, validated
-scope.
-
-The portable `harness-maintainability` skill coordinates selected repo tools,
-human checks, and specialist skills. Sensor-specific procedures remain in the
-repo-owned mechanism or specialist; `harness-documentation-audit` is the first
-portable specialist. Normal runs are findings-only and do not repair product
-code or documentation, reconfigure tools, create external issues, or turn
-observations into gates without separate explicit delegation.
-
-Every run leaves its evidence and operator dispositions on the durable work
-surface that authorized it or another approved persistent surface. Reuse an
-issue, ticket, Agent Work Brief, audit record, review record, or existing
-engineering-health system rather than require a centralized ledger or second
-backlog. A chat result or gitignored local draft alone is not durable enough.
-
-Existing deterministic tools, review, runtime evidence, work records, and
-operator experience may all provide signal. Treat their output as evidence for
-inspection and disposition, not automatic proof that refactoring or other
-repair is needed. Classify the mechanism as Maintainability Feedback when its
-purpose is broader health observation and later triage; a use that guides,
-verifies, or blocks a particular action belongs to Agent Action Boundaries.
+The Capability Map owns the outcome and boundary; the manifest and checklist
+own selection and installation; the installed policy owns selected sensors and
+the run-record contract; approved durable work surfaces own their records; and
+`harness-maintainability` owns run sequencing and findings-first presentation.
 
 ## Harness Governance
 

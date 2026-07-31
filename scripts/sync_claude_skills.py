@@ -708,7 +708,7 @@ def _discover_managed_sources(
                 "invalid canonical skills root",
                 agent_root,
                 "expected a directory",
-                "ask the human operator to restore the .agents/skills directory.",
+                "Restore the .agents/skills directory.",
             )
         ]
 
@@ -726,7 +726,7 @@ def _discover_managed_sources(
                     "unreadable canonical skill",
                     agent_path,
                     str(exc),
-                    "ask the human operator to make the canonical skill readable.",
+                    "Make the canonical skill readable.",
                 )
             )
             continue
@@ -755,7 +755,7 @@ def _discover_managed_sources(
                     "invalid managed canonical skill",
                     agent_path,
                     str(exc),
-                    "ask the human operator to repair the canonical skill before syncing.",
+                    "Repair the canonical skill before syncing.",
                 )
             )
             continue
@@ -800,7 +800,7 @@ def _add_planned_write(
                     "destination is not a file",
                     path,
                     "the planned mirror path is occupied by a directory or special file",
-                    "ask the human operator to resolve the destination conflict.",
+                    "Resolve the destination conflict.",
                 )
             )
             return
@@ -813,7 +813,7 @@ def _add_planned_write(
                     "unreadable destination",
                     path,
                     str(exc),
-                    "ask the human operator to make the destination readable.",
+                    "Make the destination readable.",
                 )
             )
             return
@@ -829,7 +829,7 @@ def _add_planned_write(
                     "destination parent is not a directory",
                     parent,
                     "a parent path blocks the planned mirror",
-                    "ask the human operator to resolve the destination conflict.",
+                    "Resolve the destination conflict.",
                 )
             )
             return
@@ -866,7 +866,7 @@ def _process_managed_skill(
                 "managed mirror directory conflict",
                 claude_dir,
                 "the Claude skill directory path is occupied by a file",
-                "ask the human operator to resolve the destination conflict.",
+                "Resolve the destination conflict.",
             )
         )
         return
@@ -880,7 +880,7 @@ def _process_managed_skill(
                     "invalid managed Claude mirror",
                     claude_path,
                     "the mirror entrypoint is not a regular file",
-                    "ask the human operator to repair the Claude mirror.",
+                    "Repair the Claude mirror.",
                 )
             )
         else:
@@ -901,7 +901,7 @@ def _process_managed_skill(
                         "invalid managed Claude mirror",
                         claude_path,
                         str(exc),
-                        "ask the human operator to repair or consciously recreate the Claude frontmatter.",
+                        "Repair or consciously recreate the Claude frontmatter.",
                     )
                 )
     else:
@@ -920,7 +920,7 @@ def _process_managed_skill(
                     "invalid managed canonical skill",
                     skill.agent_path,
                     str(exc),
-                    "ask the human operator to repair the canonical skill before syncing.",
+                    "Repair the canonical skill before syncing.",
                 )
             )
 
@@ -946,7 +946,7 @@ def _process_managed_skill(
                 "managed Claude support file has no canonical source",
                 extra_path,
                 "the file is outside the canonical .agents skill",
-                "ask the human operator whether to remove it or restore the canonical support file.",
+                "Decide whether to remove it or restore the canonical support file.",
             )
         )
 
@@ -960,7 +960,7 @@ def _process_managed_skill(
                     "unreadable canonical support file",
                     agent_support_path,
                     str(exc),
-                    "ask the human operator to make the canonical support file readable.",
+                    "Make the canonical support file readable.",
                 )
             )
             continue
@@ -999,7 +999,7 @@ def build_sync_plan(root: Path) -> SyncPlan:
                 "managed Claude mirror has no canonical source",
                 claude_path,
                 "the mirror carries generated-sync provenance but no marked .agents skill exists",
-                "ask the human operator whether to remove the mirror or restore and mark its canonical .agents source.",
+                "Decide whether to remove the mirror or restore and mark its canonical .agents source.",
             )
         )
 
