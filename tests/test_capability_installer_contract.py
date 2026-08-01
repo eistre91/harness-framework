@@ -60,6 +60,15 @@ def test_installer_owns_one_profile_change_workflow() -> None:
         assert phrase in installer
 
 
+def test_temporary_fit_proposal_preserves_complete_durable_record() -> None:
+    proposal = " ".join(
+        read(ROOT / "templates/profile/docs/harness/fit-proposal.md").split()
+    )
+
+    assert "copy every applicable completed section" in proposal
+    assert "approved durable handoff before discarding this artifact" in proposal
+
+
 def test_conceptual_docs_do_not_compete_with_installer_sources() -> None:
     installer_sources = [ROOT / "docs/installer.md"]
     installer_sources.extend(path for path, _ in CHECKLISTS.values())

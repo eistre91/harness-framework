@@ -19,9 +19,9 @@ Update the profile only when validation demonstrates the selected outcome in
 the approved scope. On failed or incomplete validation, leave the profile
 unchanged and preserve the result here or in the linked handoff.
 
-If Record mode is temporary, copy the completed Installation And Validation
-Record, Context Used, and Out-Of-Scope Observations into the approved durable
-handoff before discarding this artifact.
+If Record mode is temporary, copy every applicable completed section into the
+approved durable handoff before discarding this artifact. Apply the
+durable-record path rule above when transferring the content.
 
 ## Proposal Identity
 
