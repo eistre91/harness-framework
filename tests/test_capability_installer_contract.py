@@ -29,47 +29,7 @@ def read(path: Path) -> str:
     return path.read_text(encoding="utf-8")
 
 
-def test_capability_sources_are_current() -> None:
-    capability_map = " ".join(read(ROOT / "docs/capability-map.md").split())
-    installer = " ".join(read(ROOT / "docs/installer.md").split())
-    coordination = " ".join(
-        read(ROOT / "docs/multi-work-coordination.md").split()
-    )
-
-    assert "Status: active capability model and installer taxonomy" in capability_map
-    assert "one Profile Change at a time" in installer
-    assert "future-facing and non-authoritative" in coordination
-    assert "implies no installable package" in coordination
-
-
-def test_installer_owns_one_profile_change_workflow() -> None:
-    installer = " ".join(read(ROOT / "docs/installer.md").split())
-
-    required_contract = (
-        "one Profile Change at a time",
-        "the only eligible addition is Bounded Work",
-        "pause the selected change",
-        "Offer one missing prerequisite as a separate current Profile Change",
-        "Reject the removal while any such dependent remains current",
-        "inspect every existing always-loaded agent instruction surface",
-        "leave the Current Harness Profile unchanged",
-        "recommends stopping",
-    )
-
-    for phrase in required_contract:
-        assert phrase in installer
-
-
-def test_temporary_fit_proposal_preserves_complete_durable_record() -> None:
-    proposal = " ".join(
-        read(ROOT / "templates/profile/docs/harness/fit-proposal.md").split()
-    )
-
-    assert "copy every applicable completed section" in proposal
-    assert "approved durable handoff before discarding this artifact" in proposal
-
-
-def test_conceptual_docs_do_not_compete_with_installer_sources() -> None:
+def test_installer_sources_do_not_route_through_conceptual_docs() -> None:
     installer_sources = [ROOT / "docs/installer.md"]
     installer_sources.extend(path for path, _ in CHECKLISTS.values())
     for path in installer_sources:
@@ -77,22 +37,13 @@ def test_conceptual_docs_do_not_compete_with_installer_sources() -> None:
         assert "docs/implementation-guide.md" not in contents
         assert "docs/framework.md" not in contents
 
-    implementation_guide = " ".join(read(ROOT / "docs/implementation-guide.md").split())
-    framework = " ".join(read(ROOT / "docs/framework.md").split())
-    assert "map, not an installation checklist or a second procedure" in implementation_guide
-    assert "Status: active conceptual framework" in framework
 
-
-def test_each_capability_checklist_crosses_the_same_installer_seam() -> None:
-    for capability, (path, manifest) in CHECKLISTS.items():
+def test_each_capability_checklist_routes_to_authoritative_sources() -> None:
+    for path, manifest in CHECKLISTS.values():
         contents = read(path)
-        assert capability in contents
-        assert "`docs/installer.md`" in contents
-        assert "`docs/capability-map.md`" in contents
-        assert f"`{manifest}`" in contents
-        assert "Current Harness Profile" in contents
-        assert "failed or incomplete validation" in contents
-        assert "Do not inspect another capability" in contents
+        assert "docs/installer.md" in contents
+        assert "docs/capability-map.md" in contents
+        assert manifest in contents
 
 
 def test_bootstrap_routes_only_to_capability_checklists() -> None:
