@@ -1,6 +1,9 @@
 # Foundations
 
-Complete Matt Pocock's free [LLM Fundamentals](https://www.aihero.dev/llm-fundamentals) course before continuing. This page is a readiness check, not a substitute for the course.
+Matt Pocock's free [LLM Fundamentals](https://www.aihero.dev/llm-fundamentals)
+course is the recommended preparation when these concepts are unfamiliar. This
+page is a readiness check so this course can focus on human-agent systems and
+harness engineering rather than repeat that material.
 
 You are ready for the next lesson when you can explain messages and instruction roles, tokens and reasoning tokens, context windows, tools, workflows, and agents in your own words.
 
