@@ -92,9 +92,9 @@ For a managed skill:
 Apply repairs missing or stale managed mirrors, but never deletes files.
 Orphaned generated mirrors, extra managed support files, malformed frontmatter,
 and other human-decision conditions block the complete plan. The command
-reports the exact paths and instructs an agent to ask its human operator
-whether to remove the file or restore the canonical source. No files are
-changed until every managed-plan validation succeeds.
+reports the exact paths, labels the resolution as a human decision, and states
+the decision required. No files are changed until every managed-plan validation
+succeeds.
 
 Existing target repositories migrate explicitly: add the marker to each
 canonical `.agents` skill the maintainer chooses, run `--check`, review the
@@ -242,16 +242,12 @@ Minimal project settings shape:
 
 Claude Code passes one JSON object on stdin to command hooks. The shared fields
 include `session_id`, `cwd`, and `hook_event_name`; `Stop` also includes
-`stop_hook_active`. The standard wrapper leaves payload interpretation to the
-shared runner, which uses `stop_hook_active` to avoid recursive Stop blocking
-while still reporting check failures, then maps the neutral result to Claude
-Code Stop output.
+`stop_hook_active`. The standard wrapper passes the payload to the shared runner
+and maps its neutral result to Claude Code Stop output.
 
-The standard Claude Code wrapper exits `0` with no output when
-`scripts/repo-checks.sh` passes. Keep that script quiet on pass; Stop hook
-output should be limited to actionable failures, missing setup, or next steps.
-When the command fails on an ordinary Stop event, the wrapper exits `0` with
-Stop JSON:
+The shared pass, failure, and recursive-Stop behavior is defined in
+`docs/platform-support.md`. For an ordinary blocking result, the Claude Code
+wrapper exits `0` with Stop JSON:
 
 ```json
 {
@@ -261,11 +257,7 @@ Stop JSON:
 ```
 
 For Claude Code `Stop`, `decision: "block"` makes Claude continue instead of
-ending the turn. Do not make `scripts/repo-checks.sh` emit Claude hook JSON;
-keep all Claude output mapping in the hook adapter.
-
-When Claude Code sends `stop_hook_active: true`, the standard wrapper still
-runs `scripts/repo-checks.sh`, but maps failures to non-blocking JSON:
+ending the turn. A non-blocking report maps to:
 
 ```json
 {
@@ -273,8 +265,8 @@ runs `scripts/repo-checks.sh`, but maps failures to non-blocking JSON:
 }
 ```
 
-That reports the actionable check output without starting another Stop-hook
-continuation loop.
+Do not make `scripts/repo-checks.sh` emit Claude hook JSON; keep Claude output
+mapping in the wrapper.
 
 Project `.claude/settings.json` is team-shared. Personal settings can disable
 or override hooks, and managed settings can restrict project hooks entirely.

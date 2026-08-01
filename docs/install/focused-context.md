@@ -80,7 +80,7 @@ remain unchanged.
 ## Proposal
 
 Use the Harness Fit Proposal contract and include only this one Focused Context
-change. In addition to the common fields in `docs/installer.md`, make these
+change. Complete its applicable sections and make these capability-specific
 decisions explicit:
 
 - current Bounded Work prerequisite evidence and relevant Known Limits,
@@ -143,7 +143,7 @@ Focused Context outcome. Check:
   realizations, evidence, Known Limits, and revisit or removal signals.
 - The report lists context used.
 
-For representative communication evidence, record the chosen purpose, selected
+For representative routing evidence, record the chosen purpose, selected
 area brief, deep references opened or skipped, and every missing or stale route.
 If no representative task exists, record that validation was limited to an
 installed-surface walkthrough and narrow the claim accordingly.
@@ -155,7 +155,7 @@ On passed validation, add, update, or remove only the Focused Context claim in
 proposal or handoff. On failed or incomplete validation, leave the Current
 Harness Profile unchanged.
 
-In addition to the canonical handoff fields in `docs/installer.md`, record:
+In addition to the template's Installation And Validation Record, record:
 
 - router installation or existing-router handling,
 - selected area-brief location, briefs, and routes,

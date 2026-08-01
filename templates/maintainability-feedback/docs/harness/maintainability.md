@@ -6,9 +6,10 @@ approved maintainability sensors.
 Use when: a concrete recurring or high-cost signal, or an approved bounded
 experiment, justifies observing accumulated drift across work or sessions.
 
-This policy records only the observation mechanisms this repo selected.
-Framework family definitions belong to the Maintainability Feedback manifest
-and installer checklist, not here.
+This policy owns the observation mechanisms selected for this repo and the
+contract for recording their runs. Framework sources used to select them belong
+in the Current Harness Profile or installation record, not in this operating
+policy.
 
 ## Operating Boundary
 
@@ -30,7 +31,7 @@ inventing values.
 
 ### <Sensor name>
 
-- Family: <approved family ID from `manifests/maintainability-feedback.yml`>
+- Family: <selected family name or ID; locally recoverable provenance when useful>
 - Why now and beneficiary: <current evidence, risk, or bounded experiment; who
   is better off and how>
 - Intended debt categories: <one likely primary category and any possible

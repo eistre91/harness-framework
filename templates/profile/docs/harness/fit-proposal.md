@@ -1,10 +1,13 @@
 # Harness Fit Proposal
 
-This file proposes and records one Profile Change against the current Harness
-Profile. It is durable repo documentation when the repo chooses this separate
-record instead of embedding the final decision in another durable harness
-document. Do not record machine-local paths or temporary installation-session
-proposal paths here.
+This template proposes and records one Profile Change against the current
+Harness Profile. Use it for the temporary pre-edit proposal required by the
+installer. It may remain a session artifact or become durable repo documentation
+when the repo chooses a separate record instead of embedding the final decision
+in another durable harness document.
+
+Do not carry machine-local paths or temporary installation-session proposal
+paths into a durable record.
 
 Keep exactly one addition, removal, or realization change in this proposal.
 The exact approved proposal authorizes only the files and behavior named here.
@@ -16,6 +19,10 @@ Update the profile only when validation demonstrates the selected outcome in
 the approved scope. On failed or incomplete validation, leave the profile
 unchanged and preserve the result here or in the linked handoff.
 
+If Record mode is temporary, copy every applicable completed section into the
+approved durable handoff before discarding this artifact. Apply the
+durable-record path rule above when transferring the content.
+
 ## Proposal Identity
 
 - Profile Change:
@@ -24,7 +31,8 @@ unchanged and preserve the result here or in the linked handoff.
 - Current Harness Profile owner: `docs/harness/README.md`
 - Proposal status: draft / awaiting approval / approved / implemented /
   validation passed / closed without profile update
-- Durable record path:
+- Record mode: temporary approval artifact / durable repo record
+- Durable record path, when applicable:
 
 ## Why Now
 
@@ -257,6 +265,7 @@ not a second Current Harness Profile.
 - Validation result: passed / failed / incomplete
 - Known limits demonstrated by validation:
 - Current Harness Profile decision: updated / unchanged
+- Dependency closure after the change:
 - Profile update and exact evidence location:
 - Human decisions:
 - Handoff or related record:

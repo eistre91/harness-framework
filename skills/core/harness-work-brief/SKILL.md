@@ -169,8 +169,16 @@ checkpoints are clear.
 
 ## Work Source
 
-Do not leave work brief durability implicit. Use the canonical location named in
-the repo entrypoint or current request.
+Do not leave work brief durability implicit. Adapt this section during
+installation so the repo-specific policy is explicit:
+
+- Primary work source: <Jira / GitHub Issues / human-provided brief / other>.
+- Canonical work source and brief location: <ticket or comment / repo file / PR
+  description / chat for tiny work>.
+- Working access: <MCP server / API / CLI / browser workflow / other>.
+- Allowed local fallback: <none / gitignored path>.
+- Fallback commit policy: <never commit / other explicit policy>.
+- Lifecycle, status, and handoff destination: <canonical location>.
 
 If the canonical source is external, such as Jira, GitHub Issues, or Linear, use
 it when the current agent session has working read/write access through an MCP

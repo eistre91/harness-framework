@@ -90,24 +90,13 @@ human-approved scope routes to an optional pull-in.
 
 ## Repo-Specific Adaptation
 
-Every installation should adapt:
+Adapt only the selected assets. For each one, use the adaptation points in its
+manifest and the approved Profile Change rather than applying a universal
+installation checklist.
 
-- work source,
-- canonical Agent Work Brief location,
-- local work brief fallback and commit policy,
-- repo checks commands,
-- project context paths,
-- Focused Context task-intent routes and project-area brief paths,
-- sensitive file patterns,
-- project-specific skill guidance under `.agents/skills`, using
-  self-explaining harness names such as `harness-review` unless adapting to an
-  existing convention,
-- Claude Code skill mirrors under `.claude/skills` when installed, marking
-  selected canonical skills and syncing portable frontmatter, bodies, and
-  support files from `.agents/skills` while preserving Claude-specific fields,
-- existing platform skill or command conflicts,
-- adapter choice,
-- acceptance evidence standards.
+Typical seams include repo paths, commands, work surfaces, existing
+conventions or conflicts, runtime mappings, and acceptance evidence or Known
+Limits. The manifests own the exact list for each asset.
 
 If the target repo uses multiple agentic coding tools, every adapter should
 preserve the same verification, safety, and reporting expectations unless a

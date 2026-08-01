@@ -1,11 +1,19 @@
 # Foundations
 
-This lesson distills the key ideas from Matt Pocock's free [LLM Fundamentals](https://www.aihero.dev/llm-fundamentals) course. These are the concepts you should understand before continuing.
+Matt Pocock's free [LLM Fundamentals](https://www.aihero.dev/llm-fundamentals)
+course is the recommended preparation when these concepts are unfamiliar. This
+page is a readiness check so this course can focus on human-agent systems and
+harness engineering rather than repeat that material.
+
+You are ready for the next lesson when you can explain messages and instruction roles, tokens and reasoning tokens, context windows, tools, workflows, and agents in your own words.
 
 ## Messages, System Prompts, and Reasoning Tokens
 
-- System prompt instructions are weighed more strongly than user messages.
-- The difference between the system prompt, user messages and assistant messages.
+- System or developer instructions, user messages, and assistant messages have
+  different roles and priorities.
+- Higher-priority instructions constrain lower-priority messages.
+- Reasoning models may generate reasoning tokens that are not part of the
+  visible response.
 
 ## What Are Tokens?
 

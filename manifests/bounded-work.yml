@@ -10,13 +10,8 @@ assets:
     default_target: AGENTS.md
     required: true
     adapt:
-      - primary work source
-      - canonical work brief location
-      - temporary draft location
-      - lifecycle/status update location
       - project context path
       - installed harness skill names and platform-specific skill conflicts
-      - distinction between committed .agents/skills and gitignored .agent/ local drafts
   - id: repo-checks-script
     asset_type: installable
     source: templates/core/scripts/repo-checks.sh
@@ -57,10 +52,13 @@ assets:
         default_target: .agents/skills/harness-work-brief/work-brief-template.md
     required: true
     adapt:
-      - canonical brief location
+      - primary work source and canonical brief location
+      - working access to an external source when applicable
       - required acceptance evidence for the repo's work types
       - tracker references if useful
       - local fallback and commit policy
+      - lifecycle, status, and handoff destination
+      - stale-record mitigation when briefs are committed
       - project context paths
       - existing work-shaping skills or commands
   - id: work-brief-fallback-gitignore

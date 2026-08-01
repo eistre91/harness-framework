@@ -107,22 +107,9 @@ into a gate.
 
 ## Durable Run Record
 
-Follow the chosen work surface's conventions while recording at least:
-
-- run scope and observation window,
-- selected sensor family and exact sensor,
-- mechanisms and evidence sources used,
-- significant findings and evidence pointers,
-- primary and optional secondary debt categories,
-- concrete impact and affected surface,
-- known limits, uncertainty, and likely false positives,
-- operator disposition for every retained finding,
-- links to approved follow-up work, and
-- a clean result or unresolved gap when no actionable finding is retained.
-
-Do not require normalized finding identifiers, a centralized debt backlog,
-cross-run aggregation, or a framework-owned retention schema. Reuse the
-existing durable work system.
+Follow the selected maintainability policy and the conventions of its approved
+work surface. Write the durable record before claiming the run complete, and
+obtain an operator disposition for every retained finding.
 
 ## Findings-First Output
 

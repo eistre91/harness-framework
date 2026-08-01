@@ -671,7 +671,8 @@ def test_managed_orphan_mirror_requires_human_decision(tmp_path: Path) -> None:
 
     message = str(exc_info.value)
     assert "has no canonical source" in message
-    assert "ask the human operator" in message
+    assert "Human decision required" in message
+    assert "Decide whether to remove the mirror" in message
     assert claude_skill.read_bytes() == before
 
 
@@ -877,7 +878,7 @@ def test_malformed_existing_mirror_requires_human_repair(tmp_path: Path) -> None
     claude_skill.write_text("---\nname: broken\n", encoding="utf-8")
     before = claude_skill.read_bytes()
 
-    with pytest.raises(SyncValidationError, match="repair or consciously recreate"):
+    with pytest.raises(SyncValidationError, match="Repair or consciously recreate"):
         sync_claude_skills(tmp_path, check=False)
 
     assert claude_skill.read_bytes() == before

@@ -127,6 +127,10 @@ Reach for deterministic tools like tests, type checkers, and scripts when a
 requirement can be checked or performed mechanically. Do not rely on an agent to
 remember, infer, or enforce when a tool could verify directly.
 
+Test documentation mechanically only when syntax or structure carries the
+contract, such as links, paths, schemas, or structured relationships. Do not use
+exact-phrase assertions to verify prose meaning; review meaning instead.
+
 A deterministic check should still earn its cost: keep it regularly used, acted
 on, and connected to real requirements, useful signals, or known failure modes.
 

@@ -157,15 +157,12 @@ Minimal JSON shape:
 Codex passes one JSON object on stdin to command hooks. The shared fields include
 `session_id`, `cwd`, and `hook_event_name`; `Stop` also includes fields such as
 `turn_id`, `stop_hook_active`, and `last_assistant_message`. The standard
-wrapper leaves payload interpretation to the shared runner, which uses
-`stop_hook_active` to avoid recursive Stop blocking while still reporting check
-failures, then maps the neutral result to Codex Stop output.
+wrapper passes the payload to the shared runner and maps its neutral result to
+Codex Stop output.
 
-The standard Codex wrapper exits `0` with no output when
-`scripts/repo-checks.sh` passes. Keep that script quiet on pass; Stop hook
-output should be limited to actionable failures, missing setup, or next steps.
-When the command fails on an ordinary Stop event, the wrapper exits `0` with
-Stop JSON:
+The shared pass, failure, and recursive-Stop behavior is defined in
+`docs/platform-support.md`. For an ordinary blocking result, the Codex wrapper
+exits `0` with Stop JSON:
 
 ```json
 {
@@ -175,11 +172,7 @@ Stop JSON:
 ```
 
 For Codex `Stop`, `decision: "block"` continues the session with the reason
-rather than ending the turn. Do not make `scripts/repo-checks.sh` emit platform
-hook JSON; keep all Codex output mapping in the hook adapter.
-
-When Codex sends `stop_hook_active: true`, the standard wrapper still runs
-`scripts/repo-checks.sh`, but maps failures to non-blocking JSON:
+rather than ending the turn. A non-blocking report maps to:
 
 ```json
 {
@@ -187,8 +180,8 @@ When Codex sends `stop_hook_active: true`, the standard wrapper still runs
 }
 ```
 
-That reports the actionable check output without starting another Stop-hook
-continuation loop.
+Do not make `scripts/repo-checks.sh` emit platform hook JSON; keep Codex output
+mapping in the wrapper.
 
 Project `.codex/` hooks load only after the project config layer is trusted.
 Changed non-managed hooks may need to be reviewed and trusted again before they

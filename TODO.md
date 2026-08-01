@@ -94,8 +94,8 @@ Provenance:
   continuity, harness assessment, verification workflow design, memory
   taxonomy, tool safety, context budgets, multi-agent coordination, lifecycle
   bootstrap, and scripted benchmark/report usage.
-- Reference URL:
-  `https://github.com/walkinglabs/learn-harness-engineering/tree/main/skills/harness-creator`
+- Observed source (2026-07-30):
+  `https://github.com/walkinglabs/learn-harness-engineering/tree/e587e4cce9cfe9b0523fd79d6e0152d4a1f1dfc3/skills/harness-creator`
 - The useful pattern is not the exact expected artifacts. Their evals assume
   `feature_list.json`, `progress.md`, `session-handoff.md`, and `init.sh`,
   while this framework centers repo fitting, Agent Work Briefs, and
@@ -292,7 +292,7 @@ Signal to revisit:
   missing, duplicated, or semantically different on another.
 - Platform adapter docs repeatedly need one-off patches for the same concepts.
 
-## Deferred: Primitive Phase Skills And Validation Schema
+## Deferred: Primitive Phase Skills
 
 The framework now names `research -> plan -> implement -> validate` as
 primitive agent work verbs, but only implementation, review, and work-brief
@@ -304,8 +304,8 @@ Provenance:
   frequent intentional compaction around research, plan, and implementation
   artifacts, with emphasis on context quality, separate contexts, subagent
   research, and human review of research and plans.
-- Reference URL:
-  `https://github.com/humanlayer/advanced-context-engineering-for-coding-agents/blob/main/ace-fca.md`
+- Observed source (2026-07-30):
+  `https://github.com/humanlayer/advanced-context-engineering-for-coding-agents/blob/a2da7968c7d5cbc8a58e9c559f4d9eea6d460d6c/ace-fca.md`
 
 Why deferred:
 
@@ -331,16 +331,13 @@ Potential future shape:
   evidence, uncertainty called out, rejected hypotheses, relevant files and
   entrypoints, risks, open questions, and the next decision or planning step the
   research is meant to support.
-- Refine the formal attempt model so each execution pass can record actor,
-  status, files touched, decisions, divergences, verification, acceptance
-  evidence, blockers, and next action.
-- Define a validation result schema, likely starting with `pass`,
-  `pass with risks`, and `fail`, while deciding whether `blocked` and
-  `needs human decision` are validation results, work-unit states, or both.
 - The existing Agent Work Brief template already represents human checkpoints.
   Cross-surface checkpoint ownership, write-back, mirroring, and synchronization
   across validation reports, tracker comments, PRs, or orchestration stores
   remain deferred.
+- Keep formal Session, Attempt, and result-state decisions in the dedicated
+  deferred entry below rather than defining them as part of a research or
+  validation skill.
 
 Signal to revisit:
 
@@ -421,40 +418,6 @@ Signal to revisit:
 - Maintainers avoid or slow agent-assisted work because they cannot preserve
   enough understanding of the system being changed.
 
-## Deferred: Entrypoint Compatibility Audit
-
-Installing agents should eventually push back more explicitly when an existing
-repo setup conflicts with the harness philosophy instead of only adding the
-selected harness assets.
-
-Example signals:
-
-- `AGENTS.md` is hundreds of lines long and no longer functions as a universal
-  repo bootloader.
-- Always-loaded instructions include product strategy, historical notes,
-  one-off standards, or phase-specific workflow that belongs in skills, scripts,
-  project docs, hooks, or review guidance.
-- Multiple platform entrypoints duplicate or contradict shared behavior.
-- Ordinary implementation agents are routed to harness-maintenance docs,
-  project-intent docs, stale planning records, or broad doc trees by default.
-
-Potential future shape:
-
-- An installer checklist or skill that audits existing agent entrypoints before
-  fitting the harness.
-- Findings that recommend split, merge, defer, leave-alone, or human decision
-  handling for conflicting instructions.
-- A communication audit that reports what every agent truly needs to know
-  versus what should be reached only by planning, implementation, review,
-  diagnosis, or harness-maintenance phases.
-
-Signal to revisit:
-
-- Installed repos repeatedly keep oversized or contradictory `AGENTS.md` files.
-- Agents read too much always-loaded context before ordinary implementation.
-- Harness installs succeed structurally but preserve routing patterns that
-  undermine focused context.
-
 ## Deferred: Structural Harness Validator
 
 The framework may eventually include a validator that gives objective evidence
@@ -471,8 +434,8 @@ Provenance:
   instructions mention startup/verification/state, verification scripts fail
   fast, and progress or handoff files mention blockers, evidence, and next
   steps.
-- Reference URL:
-  `https://github.com/walkinglabs/learn-harness-engineering/tree/main/skills/harness-creator/scripts`
+- Observed source (2026-07-30):
+  `https://github.com/walkinglabs/learn-harness-engineering/tree/e587e4cce9cfe9b0523fd79d6e0152d4a1f1dfc3/skills/harness-creator/scripts`
 
 Why deferred:
 
@@ -561,8 +524,8 @@ Provenance:
   understanding, worker prompts are self-contained, ownership boundaries are
   explicit, forked children do not recursively fork, and integration/review
   gates happen before claiming completion.
-- Reference URL:
-  `https://github.com/walkinglabs/learn-harness-engineering/blob/main/skills/harness-creator/references/multi-agent-pattern.md`
+- Observed source (2026-07-30):
+  `https://github.com/walkinglabs/learn-harness-engineering/blob/e587e4cce9cfe9b0523fd79d6e0152d4a1f1dfc3/skills/harness-creator/references/multi-agent-pattern.md`
 
 Why deferred:
 
@@ -574,15 +537,10 @@ Why deferred:
 
 Potential future shape:
 
-- Refine the Multi-Work Coordination sketch for coordinator-led work: research,
-  synthesis, implementation slices, integration, independent review, and
-  closeout.
-- Require explicit ownership boundaries by file, module, interface, or issue.
-- Require self-contained worker prompts that include the relevant synthesized
-  context rather than vague references to prior findings.
-- Define integration gates: canonical verification, acceptance evidence,
-  review findings, and state updates before work is considered complete.
-- Treat reviewer agents as independent contexts when practical.
+- Use `docs/multi-work-coordination.md` to explore candidate roles, ownership,
+  integration, and review mechanisms. This entry records the provenance,
+  reasons for deferral, and signals that would justify deciding whether any
+  portable multi-agent guidance is needed.
 
 Signal to revisit:
 
@@ -621,6 +579,9 @@ Potential future shape:
   blockers, and next action.
 - Decide how attempts relate to Agent Work Brief status, PR history, review
   findings, and long-horizon PRD/issue state.
+- Decide how validation outcomes relate to Work Unit, Session, and Attempt
+  state, including retained risk, blockers, and required human decisions,
+  without choosing state names before the operating model is proven.
 - Keep temporary local handoff files optional unless the target repo chooses
   repo-local work artifacts as the durable store.
 

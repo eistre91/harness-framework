@@ -85,10 +85,11 @@ selects it. Potential Agent Action Boundaries remain out-of-scope observations.
 
 Inspect every always-loaded agent instruction surface in selected repo scope,
 including root and nested agent files and tool-specific pointer files. Confirm
-that the resulting entrypoint:
+that the resulting entrypoint and installed routes:
 
-- names the current work source, brief location, verification command, and
-  phase-specific skills,
+- point agents to the verification command and phase-specific skills,
+- let a fresh agent recover the current work source and brief from the request,
+  agreed brief, or work-brief workflow,
 - does not silently broaden delegated outcome or file authority,
 - does not require broad project or harness docs for ordinary work,
 - does not present stale or conflicting work and completion rules, and
@@ -101,7 +102,7 @@ following the selected lifecycle leaves validation incomplete.
 ## Proposal
 
 Use the Harness Fit Proposal contract and include only this one Bounded Work
-change. In addition to the common fields in `docs/installer.md`, make these
+change. Complete its applicable sections and make these capability-specific
 decisions explicit:
 
 - current Bounded Work claim or `No installed Harness Profile`,
@@ -137,10 +138,9 @@ authorize deleting unrelated repo-owned mechanisms.
 Validation passes only when representative evidence supports the selected
 Bounded Work outcome. Check:
 
-- The installed entrypoint is concise and tells a fresh agent where work comes
-  from, where briefs live, how to verify, which phase-specific guidance exists,
-  where project context starts if any, and where harness maintenance records
-  live.
+- The installed entrypoint is concise and routes a fresh agent to verification,
+  phase-specific guidance, project context if any, and harness-maintenance
+  records when explicitly needed.
 - The entrypoint compatibility audit found no unresolved always-loaded
   instruction that undermines the selected work lifecycle or authority.
 - `scripts/repo-checks.sh` exists and its demonstrated commands and omissions
@@ -158,9 +158,9 @@ Bounded Work outcome. Check:
   automation, an approved existing equivalent, or an explicit unsupported
   Known Limit.
 - Any local fallback brief directory introduced by the change is gitignored.
-- A representative fresh-agent walkthrough can recover intent and boundaries,
-  use the relevant guidance, run verification, and produce a reviewable
-  completion decision without hidden chat history.
+- A representative fresh-agent walkthrough can recover the current work source,
+  brief, intent, and boundaries, use the relevant guidance, run verification,
+  and produce a reviewable completion decision without hidden chat history.
 - The resulting Current Harness Profile claim can name selected scope,
   realizations, evidence, Known Limits, and revisit or removal signals without
   relying on an installation label or universal completion claim.
@@ -180,14 +180,14 @@ On passed validation, add or update the Bounded Work claim in
 proposal or handoff. On failed or incomplete validation, leave the Current
 Harness Profile unchanged.
 
-In addition to the canonical handoff fields in `docs/installer.md`, record:
+In addition to the template's Installation And Validation Record, record:
 
 - source framework version or commit, or `unknown` with a reason,
 - repo-checks command, result, selected test/lint/type-check commands, and
   omissions or waivers,
 - Stop adapter paths, commands, and results for each selected runtime,
 - work-brief lifecycle and progress/divergence location,
-- representative communication evidence,
+- representative fresh-agent walkthrough evidence,
 - entrypoint compatibility audit result,
 - Known Limits that narrow the claim, and
 - recommended next action: stop by default or revise this Bounded Work change.
