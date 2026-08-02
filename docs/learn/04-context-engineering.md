@@ -1,3 +1,22 @@
+# Context Engineering: Steering a Trajectory
+
+After you understand how to talk to LLMs, you next to figure out how to steer them over time. Prompt engineering is about the moment to moment interactions you're having with them.
+
+Context engineering is about iteratively guiding an agent to your desired outcome.
+
+It's about becoming aware
+
+
+
+
+
+# Writing Notes
+
+
+I'm not currently sure if context engineering == "trajectory engineering".
+
+Prompt engineering is the beat to beat interactions.
+Context engineering is about the accumulation of those beat to beat interactions to engineer direction towards an outcome. It feels like it's about steering and thus trajectory but I'm not sure that it is.
 
 
 - Model performance degrades the more that's in a context window.
@@ -5,8 +24,6 @@
   - This leads to worse reasoning, increased likelihood of hallucinations, less alignment (did it reach the outcome I wanted), missed requirements.
   - Models can improve but these are fundamental constraints of the current architecture for LLMs.
   - One of the primary skills in using agents effectively is context engineering.
-
-### Notes
 
 
 Reflection
