@@ -1,5 +1,11 @@
 # Unincorporated Thoughts
 
+For each lesson, what outcome or essential thing do I want the reader to leave with?
+
+Am I following the "tell them what you're going to tell them, tell them, tell them what you told them structure"? Does it fit here?
+
+Do I need or want to restate the "why" the intent with what's the goal? Or is that a different way of framing it? That's what I'm often doing in practice which is saying this is the what, what not to do, and the goal.
+
 Note, just because an LLM can produce an output doesn't always mean that it should. This is a topic for us to return to later, but sometimes in software engineering, we learn something in producing an output and that learning is itself required for the continued success of the project.
 
 Later cover chained workflows that interweave agents, measurements and deterministic checks. One agent might generate or find candidates while another critiques, ranks or narrows them. Agent evaluation can be a useful filter, but it should not be mistaken for final judgment or independent evidence.
